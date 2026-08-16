@@ -16,7 +16,7 @@ test('learning mode is pathway-only and removes course layers', async ({ page })
   await expect(page.locator('#studentCourseBar')).toHaveCount(0);
   await expect(page.locator('#studentCourseQuiz')).toHaveCount(0);
   await expect(page.locator('#studentCourseChallenge')).toHaveCount(0);
-  await expect(page.locator('#studentCourseHome')).toContainText('通路学习版');
+  await expect(page.locator('#studentCourseHome')).toContainText('学习路径');
   await expect(page.locator('#studentCourseHome')).not.toContainText('系统学习');
   await expect(page.locator('#studentCourseHome')).not.toContainText('课后自测');
 

@@ -7502,6 +7502,15 @@
     }
     body.student-mode .student-primer-collapse[open] summary { margin-bottom: 6px; }
     body.student-mode .student-primer-collapse .student-primer-story { border-top: 0; }
+    /* 主线步骤导航（最后生效，防主题块覆盖） */
+    .student-map-step-nav { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; }
+    .student-map-step-nav button { min-height: 30px; padding: 0 10px; border: 1px solid #c3d6d2; border-radius: 8px; color: #2f5b68; background: #fff; font-size: 11px; cursor: pointer; }
+    .student-map-step-nav button:hover,
+    .student-map-step-nav button:focus-visible { border-color: #2f9eb5; outline: none; }
+    @media (max-width: 760px) {
+      .student-map-step-nav { margin-left: 0; }
+      .student-map-step-nav button { font-size: 10px; padding: 0 8px; }
+    }
   </style>
 </head>
 <body class="student-mode cover-visible">
@@ -7586,11 +7595,11 @@
         <div class="student-inner">
           <div class="student-head">
             <div>
-              <div class="student-eyebrow">零基础互动通路 · 5 个专题</div>
+              <div class="student-eyebrow">学习路径 · 5 个专题</div>
               <h1>从能量开始，读懂细胞代谢</h1>
               <p>不需要先背通路。选择一个专题，再沿着可点击的主线把糖、脂、蛋白质与核苷酸串起来。</p>
             </div>
-            <div class="student-status"><span>正在学习</span><strong id="studentPathStatus">丙酮酸脱氢酶复合体</strong><span id="studentPathScope">线粒体基质 · 5 个关键节点</span></div>
+            <div class="student-status"><span>当前通路</span><strong id="studentPathStatus">丙酮酸脱氢酶复合体</strong><span id="studentPathScope">线粒体基质 · 5 个关键节点</span></div>
           </div>
           <div class="student-layout">
             <aside class="lesson-catalog" aria-label="学习通路目录">
@@ -7610,7 +7619,7 @@
             </aside>
             <section class="flow-panel" id="flowPanel" aria-live="polite">
               <section class="student-course-home" id="studentCourseHome" aria-labelledby="studentCourseHomeTitle">
-                <div class="student-course-home-eyebrow">通路学习版 · 先看总逻辑</div>
+                <div class="student-course-home-eyebrow">学习路径 · 先看总逻辑</div>
                 <h2 id="studentCourseHomeTitle">细胞代谢，其实先抓住一条主线就够了</h2>
                 <p class="student-course-home-lead">营养物质被拆成共同的碳骨架和高能电子，生物氧化再把电子能量保存成 ATP。其余专题，都是在回答“原料从哪来、最后往哪去”。</p>
                 <div class="student-course-chain" aria-label="细胞代谢核心逻辑">
@@ -7711,7 +7720,7 @@
                   </div>
                   <details class="student-primer-collapse" id="studentPrimerCollapse">
                     <summary>三步故事 · 基础信息</summary>
-                  <div class="student-primer-story" id="studentPrimerStory" aria-label="本课三步故事"></div>
+                  <div class="student-primer-story" id="studentPrimerStory" aria-label="通路三步故事"></div>
                   <figure class="student-primer-figure" id="studentPrimerTeachingFigure" hidden>
                     <img id="studentPrimerTeachingImage" src="" alt="" loading="lazy" decoding="async">
                     <figcaption id="studentPrimerTeachingCaption"></figcaption>
@@ -7787,6 +7796,10 @@
                      <strong id="studentMapCurrent">从入口开始</strong>
                      <span class="student-map-reading-arrow" aria-hidden="true">→</span>
                      <span class="student-map-reading-next" id="studentMapNext">下一节点</span>
+                   </div>
+                   <div class="student-map-step-nav" role="group" aria-label="主线步骤导航">
+                     <button id="studentMapStepPrev" type="button" aria-label="上一步">← 上一步</button>
+                     <button id="studentMapStepNext" type="button" aria-label="下一步">下一步 →</button>
                    </div>
                    <button class="student-reaction-toggle" id="studentReactionToggle" type="button" aria-expanded="false" aria-controls="studentReactionIndex"><span aria-hidden="true">≡</span>反应索引</button>
                    <span class="student-map-legend" aria-label="反应方向与线路类型图例"><span class="student-map-direction-key"><b aria-hidden="true">→</b>单向</span><span class="student-map-direction-key"><b aria-hidden="true">⇌</b>可逆</span><i class="main"></i>主链 <i class="branch"></i>支路 <i class="transport"></i>跨区室</span>
@@ -8156,6 +8169,8 @@
       const studentMapZoomValue = document.getElementById('studentMapZoomValue');
       const studentMapCurrent = document.getElementById('studentMapCurrent');
       const studentMapNext = document.getElementById('studentMapNext');
+      const studentMapStepPrev = document.getElementById('studentMapStepPrev');
+      const studentMapStepNext = document.getElementById('studentMapStepNext');
       const studentDestinationPanel = document.getElementById('studentDestinationPanel');
       const studentDestinationTitle = document.getElementById('studentDestinationTitle');
       const studentDestinationCount = document.getElementById('studentDestinationCount');
@@ -10462,7 +10477,7 @@
         const topic = studentTopicForPathway(pathwayId);
         return {
           topic: topic?.label || pathway.group || '核心代谢',
-          lesson: '核心课程 · 先建立方向感',
+          lesson: '通路导读 · 先建立方向感',
           title: `${pathway.name || '这条通路'}在解决什么问题？`,
           question: pathway.summary || '先认识这条路线的入口、出口和位置，再进入反应细节。',
           goal: '找到入口、出口和它接入的下一条路线',
@@ -12816,7 +12831,7 @@
         const topicPathways = studentTopicPathwayIds(topicId);
         const lessonNumber = topicPathways.indexOf(pathwayId) + 1;
         if (studentCourseBack) studentCourseBack.textContent = `← 返回${topic?.label || '专题'}通路`;
-        flowKicker.textContent = `${topic?.label || beginnerLesson.topic || pathway.group || '代谢'} · 通路 ${lessonNumber > 0 ? lessonNumber : 1}`;
+        flowKicker.textContent = `首页 / ${topic?.label || beginnerLesson.topic || pathway.group || '代谢'} / ${pathway.name}`;
         flowTitle.textContent = pathway.name;
         flowTitle.style.setProperty('--tone', tone);
         flowCompartment.textContent = pathway.compartment || '区室待核对';
@@ -14057,6 +14072,12 @@
       document.getElementById('upstreamBtn').addEventListener('click', () => { if (!selected || selectedType !== 'entity') return; const upstream = reactions.filter(r => r.to === selected.id).map(r => entityById[r.from]); if (upstream[0]) { openEntity(upstream[0]); focusEntity(upstream[0]); } });
       learnBtn.addEventListener('click', () => setStudentMode(!document.body.classList.contains('student-mode')));
       enterLearningBtn.addEventListener('click', enterLearningFromCover);
+      studentMapStepPrev?.addEventListener('click', () => {
+        if (activeStudentPathway) setStudentReadingStep(activeStudentPathway, activeStudentStepIndex - 1);
+      });
+      studentMapStepNext?.addEventListener('click', () => {
+        if (activeStudentPathway) setStudentReadingStep(activeStudentPathway, activeStudentStepIndex + 1);
+      });
       studentCourseStart?.addEventListener('click', () => renderStudentTopic('biooxidation', { scroll: true }));
       studentTopicHomeBack?.addEventListener('click', () => showStudentCourseHome({ scroll: true }));
       studentCourseBack?.addEventListener('click', () => {
