@@ -176,6 +176,19 @@ npm test            通过
 - 实测：专家总览可见路径 51 条；聚焦 TCA 后可见路径从 51 → **9 条**，显著减少 SVG 渲染/样式计算量。
 - 验证：`npm run test:data` 全绿；`npm run test:ui` 67/67 全绿。
 
+### 第 16 轮：P3-4 CSS 同选择器合并（08-16 结构性收敛第四步）
+
+- 新增 `tools/scan-css-duplicates.js`，扫描 2417 条 CSS 规则，发现 297 组同媒体上下文重复选择器。
+- 进一步筛出 9 条“前规则被后规则完全覆盖”的安全冗余并删除：
+  - 移动端专家地图 `.pathbar` / `.path-filters` / `.path-filter`
+  - `.student-head h1` 的 `font-size:31px`
+  - `.student-inner` 的 `width:min(1380px,100%)`
+  - `.student-map-legend i.transport` 的 `background:#7d6db0`
+  - `.student-primer-story-step strong/p` 的 `font-size`
+  - `.student-section-label` 的 `font-size:9px`
+- 其余重复是不同主题块的顺序覆盖，保留现状。
+- 验证：`npm run test:data` 全绿；`npm run test:ui` 67/67 全绿。
+
 ---
 
 ## 3. 关键架构决策与约束（必须遵守）
