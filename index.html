@@ -7511,6 +7511,72 @@
       .student-map-step-nav { margin-left: 0; }
       .student-map-step-nav button { font-size: 10px; padding: 0 8px; }
     }
+
+    /* ===== 学习模式视觉统一（最后生效，防主题块覆盖） ===== */
+    body.student-mode {
+      --student-paper: #f6f9fc;
+      --student-ink: #1d3851;
+      --student-muted: #5a7184;
+      --student-rule: #d9e4ec;
+      --student-coral: #d8745f;
+      --student-olive: #6f8f6f;
+      --student-indigo: #6c64a4;
+      --atlas-ink: #1d3851;
+      --atlas-line: #d9e4ec;
+      --atlas-blue: #2f9eb5;
+      --atlas-muted: #5a7184;
+    }
+    body.student-mode .student-workspace {
+      background: var(--student-paper);
+      color: var(--student-ink);
+    }
+    body.student-mode .student-inner { max-width: 1200px; }
+    /* 统一到玻璃质感：大圆角 + 半透明白 + 背景模糊 + 柔和阴影 */
+    body.student-mode .flow-panel,
+    body.student-mode .student-course-home,
+    body.student-mode .student-topic-panel,
+    body.student-mode .student-pathway-panel,
+    body.student-mode .student-primer,
+    body.student-mode .student-topic-learning {
+      background: rgba(255, 255, 255, .82);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, .9);
+      border-radius: 28px;
+      box-shadow: 0 18px 45px rgba(25, 80, 119, .08);
+    }
+    body.student-mode .lesson-catalog {
+      background: rgba(255, 255, 255, .82);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, .9);
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(25, 80, 119, .06);
+    }
+    body.student-mode .student-topic-learning-head h3,
+    body.student-mode .student-course-home h2,
+    body.student-mode .flow-heading h2 {
+      font-family: inherit;
+    }
+    body.student-mode .lesson-card,
+    body.student-mode .student-topic-lesson {
+      border-radius: 12px;
+    }
+    body.student-mode .student-map-toolbar,
+    body.student-mode .student-map-conventions {
+      background: rgba(242, 247, 250, .9);
+      border: 1px solid var(--student-rule);
+      border-radius: 16px;
+    }
+    body.student-mode .student-map-stage {
+      border: 1px solid var(--student-rule);
+      border-radius: 24px;
+    }
+    body.student-mode .student-course-start,
+    body.student-mode .student-topic-start,
+    body.student-mode .student-lesson-start {
+      border-radius: 14px;
+    }
   </style>
 </head>
 <body class="student-mode cover-visible">
