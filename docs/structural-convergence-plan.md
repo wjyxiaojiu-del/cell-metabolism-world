@@ -1,6 +1,6 @@
 # 第二阶段结构性收敛计划（准备阶段）
 
-> 状态：2026-08-16 P3-1 SVG 工厂合并已完成；P3-2 ~ P3-4 待执行。
+> 状态：2026-08-16 P3-1、P3-2 已完成；P3-3 ~ P3-4 待执行。
 > 前置：Git 基线已建立（commit `9542973`）；大资产已外移；截图基线已生成。
 
 ## 目标
@@ -32,10 +32,12 @@
 - [x] 保持现有属性/文本行为不变；155 处调用已迁移。
 - [x] 验证：`test:data` + `test:ui` 67/67 全绿。
 
-### P3-2 贝塞尔路径生成器收敛（中风险）
-- 抽取公共 `curveBetween` / `curveThrough` / 圆角折线工具。
-- 让 `studentMapEdgePath`、`studentMapBranchPath`、`studentMapLoopPath`、`studentDestinationPath` 共用同一几何内核。
-- 特别保护循环线契约：`r=22`、`arrowGap=13`、marker 尺寸 12。
+### P3-2 贝塞尔路径生成器收敛（中风险）✅ 已完成
+- [x] 抽取公共 `roundedCornerPath` / `cubicPath`，并保留 `curveBetween` / `curveThrough`。
+- [x] `studentMapEdgePath`、`studentMapBranchPath`、`studentMapBranchInputPath`、`studentMapLoopPath` 统一走 `roundedCornerPath`。
+- [x] `studentDestinationPath`、`studentDestinationMobilePath`、`studentDestinationBranchPath` 统一走 `cubicPath`。
+- [x] 循环线契约保持：`r=22`、`arrowGap=13`、marker 尺寸 12。
+- [x] 验证：`test:data` + `test:ui` 67/67 全绿。
 
 ### P3-3 缩放系统收敛（中风险）
 - 先为三套缩放行为建立“输入 → viewBox/scale”纯函数。

@@ -9252,6 +9252,47 @@
         return `${curveBetween(a, middle)} ${secondLeg}`;
       }
 
+      function roundedCornerPath(points, radius = 0) {
+        if (!points.length) return '';
+        const r = Math.max(0, radius);
+        let d = `M ${points[0].x} ${points[0].y}`;
+        for (let i = 0; i < points.length - 1; i += 1) {
+          const current = points[i];
+          const next = points[i + 1];
+          if (i === points.length - 2 || r <= 0) {
+            d += ` L ${next.x} ${next.y}`;
+            continue;
+          }
+          const after = points[i + 2];
+          const v1x = next.x - current.x;
+          const v1y = next.y - current.y;
+          const v2x = after.x - next.x;
+          const v2y = after.y - next.y;
+          const len1 = Math.max(1, Math.hypot(v1x, v1y));
+          const len2 = Math.max(1, Math.hypot(v2x, v2y));
+          const u1x = v1x / len1;
+          const u1y = v1y / len1;
+          const u2x = v2x / len2;
+          const u2y = v2y / len2;
+          if (Math.abs(u1x * u2x + u1y * u2y) > .9999) {
+            d += ` L ${next.x} ${next.y}`;
+            continue;
+          }
+          const r1 = Math.min(r, len1 / 2);
+          const r2 = Math.min(r, len2 / 2);
+          const inX = next.x - u1x * r1;
+          const inY = next.y - u1y * r1;
+          const outX = next.x + u2x * r2;
+          const outY = next.y + u2y * r2;
+          d += ` L ${inX} ${inY} Q ${next.x} ${next.y} ${outX} ${outY}`;
+        }
+        return d;
+      }
+
+      function cubicPath(start, control1, control2, end) {
+        return `M ${start.x} ${start.y} C ${control1.x} ${control1.y}, ${control2.x} ${control2.y}, ${end.x} ${end.y}`;
+      }
+
       function expertRouteBend(routeKey, a, b) {
         const dx = b.x - a.x, dy = b.y - a.y;
         const length = Math.max(1, Math.hypot(dx, dy));
@@ -11677,13 +11718,18 @@
         const direction = b.x >= a.x ? 1 : -1;
         const startX = a.x + direction * (width / 2);
         const endX = b.x - direction * (width / 2);
-        if (Math.abs(a.y - b.y) < 5) return `M ${startX} ${a.y} H ${endX}`;
+        if (Math.abs(a.y - b.y) < 5) return roundedCornerPath([{ x: startX, y: a.y }, { x: endX, y: a.y }]);
         const directionY = b.y >= a.y ? 1 : -1;
         const startY = a.y + directionY * (height / 2);
         const endY = b.y - directionY * (height / 2);
-        if (Math.abs(a.x - b.x) < 5) return `M ${a.x} ${startY} V ${endY}`;
+        if (Math.abs(a.x - b.x) < 5) return roundedCornerPath([{ x: a.x, y: startY }, { x: a.x, y: endY }]);
         const laneY = (startY + endY) / 2;
-        return `M ${a.x} ${startY} V ${laneY} H ${b.x} V ${endY}`;
+        return roundedCornerPath([
+          { x: a.x, y: startY },
+          { x: a.x, y: laneY },
+          { x: b.x, y: laneY },
+          { x: b.x, y: endY }
+        ]);
       }
 
       function studentMapBranchPath(source, target, laneY, targetHalfHeight = 22, obstacles = []) {
@@ -11704,25 +11750,46 @@
             laneX = pool.reduce((best, x) => (Math.abs(x - source.x) < Math.abs(best - source.x) ? x : best), pool[0]);
           }
         }
-        return `M ${source.x} ${source.y} V ${Math.min(source.y + 14, laneY)} H ${laneX} V ${laneY} H ${target.x} V ${targetY}`;
+        const firstLaneY = Math.min(source.y + 14, laneY);
+        return roundedCornerPath([
+          { x: source.x, y: source.y },
+          { x: source.x, y: firstLaneY },
+          { x: laneX, y: firstLaneY },
+          { x: laneX, y: laneY },
+          { x: target.x, y: laneY },
+          { x: target.x, y: targetY }
+        ]);
       }
 
       function studentMapBranchInputPath(target, source, laneY, targetHalfHeight = 22, sourceHalfHeight = 34) {
-        return `M ${target.x} ${target.y - targetHalfHeight} V ${laneY} H ${source.x} V ${source.y + sourceHalfHeight}`;
+        return roundedCornerPath([
+          { x: target.x, y: target.y - targetHalfHeight },
+          { x: target.x, y: laneY },
+          { x: source.x, y: laneY },
+          { x: source.x, y: source.y + sourceHalfHeight }
+        ]);
       }
 
       function studentMapLoopPath(first, last, nodeWidth, nodeHeight, twoRows, mainBandY, mainBandHeight) {
-        const r = 22; // 弯折圆角半径
-        const arrowGap = 13; // 终点留白，让箭头完整露在节点外
+        const r = 22; // 弯折圆角半径（契约值，勿改）
+        const arrowGap = 13; // 终点留白，让箭头完整露在节点外（契约值，勿改）
         if (twoRows) {
           const laneX = 42;
-          const sy = Math.sign(first.y - last.y);
           const endX = first.x - nodeWidth / 2 - arrowGap;
-          return `M ${last.x - nodeWidth / 2} ${last.y} H ${laneX + r} Q ${laneX} ${last.y} ${laneX} ${last.y + sy * r} V ${first.y - sy * r} Q ${laneX} ${first.y} ${laneX + r} ${first.y} H ${endX}`;
+          return roundedCornerPath([
+            { x: last.x - nodeWidth / 2, y: last.y },
+            { x: laneX, y: last.y },
+            { x: laneX, y: first.y },
+            { x: endX, y: first.y }
+          ], r);
         }
         const laneY = mainBandY + mainBandHeight + 17;
-        const sx = Math.sign(first.x - last.x);
-        return `M ${last.x} ${last.y + nodeHeight / 2} V ${laneY - r} Q ${last.x} ${laneY} ${last.x + sx * r} ${laneY} H ${first.x - sx * r} Q ${first.x} ${laneY} ${first.x} ${laneY - r} V ${first.y + nodeHeight / 2 - arrowGap}`;
+        return roundedCornerPath([
+          { x: last.x, y: last.y + nodeHeight / 2 },
+          { x: last.x, y: laneY },
+          { x: first.x, y: laneY },
+          { x: first.x, y: first.y + nodeHeight / 2 - arrowGap }
+        ], r);
       }
 
       function studentMapMarker(edge) {
@@ -11929,7 +11996,12 @@
         const endY = target.y;
         const span = Math.max(120, Math.abs(endX - startX));
         const bend = Math.max(78, Math.min(230, span * .42));
-        return `M ${startX} ${startY} C ${startX + direction * bend} ${startY}, ${endX - direction * bend} ${endY}, ${endX} ${endY}`;
+        return cubicPath(
+          { x: startX, y: startY },
+          { x: startX + direction * bend, y: startY },
+          { x: endX - direction * bend, y: endY },
+          { x: endX, y: endY }
+        );
       }
 
       function studentDestinationMobilePath(source, target, index, count, sourceWidth = 280, sourceHeight = 58, targetHalfWidth = 140) {
@@ -11939,7 +12011,12 @@
         const endX = target.x - targetHalfWidth;
         const endY = target.y;
         const curveY = startY + (endY - startY) * .56;
-        return `M ${startX} ${startY} C ${startX} ${startY + 34}, ${endX + 84} ${curveY}, ${endX} ${endY}`;
+        return cubicPath(
+          { x: startX, y: startY },
+          { x: startX, y: startY + 34 },
+          { x: endX + 84, y: curveY },
+          { x: endX, y: endY }
+        );
       }
 
       function studentDestinationBranchPath(target, side, railX, targetHalfWidth = 100) {
@@ -11947,7 +12024,12 @@
         const endX = target.x - direction * targetHalfWidth;
         const span = Math.max(46, Math.abs(endX - railX));
         const bend = Math.min(82, span * .56);
-        return `M ${railX} ${target.y} C ${railX + direction * bend} ${target.y}, ${endX - direction * bend * .42} ${target.y}, ${endX} ${target.y}`;
+        return cubicPath(
+          { x: railX, y: target.y },
+          { x: railX + direction * bend, y: target.y },
+          { x: endX - direction * bend * .42, y: target.y },
+          { x: endX, y: target.y }
+        );
       }
 
       function renderStudentSceneLinks(entity, currentPathwayId, options = {}) {

@@ -139,6 +139,15 @@ npm test            通过
 - 验证：内联 JS 语法检查通过；`npm run test:data` 全绿；`npm run test:ui` 67/67 全绿。
 - 截图基线脚本补充禁用 CSS 动画，但多次运行 hash 仍受 JS 动画/时序影响，已记录到计划文档，视觉回归以 UI 测试 + 人工抽查为主。
 
+### 第 12 轮：P3-2 贝塞尔路径生成器收敛（08-16 结构性收敛第二步）
+
+- 新增公共几何内核：`roundedCornerPath(points, radius)` 与 `cubicPath(start, c1, c2, end)`。
+- 学生地图路径生成器统一迁移：
+  - `studentMapEdgePath` / `studentMapBranchPath` / `studentMapBranchInputPath` / `studentMapLoopPath` → `roundedCornerPath`
+  - `studentDestinationPath` / `studentDestinationMobilePath` / `studentDestinationBranchPath` → `cubicPath`
+- 循环线契约保持：`r=22`、`arrowGap=13`、marker 尺寸 12。
+- 验证：内联 JS 语法检查通过；`npm run test:data` 全绿；`npm run test:ui` 67/67 全绿。
+
 ---
 
 ## 3. 关键架构决策与约束（必须遵守）
