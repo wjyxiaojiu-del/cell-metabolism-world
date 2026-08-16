@@ -8,6 +8,7 @@
     "assets:optimize": "python tools/optimize-assets.py --write",
     "assets:check": "node tools/check-assets.js",
     "stats": "node tools/generate-stats.js --write",
+    "baseline": "node tools/capture-baseline.js",
     "test:data": "node tools/validate.js && node tools/selftest.js && node tools/layout.js && node tools/compile.js --check && node tools/check-cross-consistency.js && node tools/check-student-steps.js && node tools/check-student-notes.js && node tools/check-course-data.js && node tools/check-expert-layout.js && node tools/check-assets.js && node tools/review-helper.js --check && node tools/generate-stats.js --check",
     "test:ui": "playwright test",
     "test": "npm run test:data && npm run test:ui"

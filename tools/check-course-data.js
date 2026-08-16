@@ -42,6 +42,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 const resolver = require('../student-step-resolver.js');
+const { CORE_STUDY_MODULES, ROUTE_GROUPS } = require('../shared/contracts.js');
 
 const ROOT = path.join(__dirname, '..');
 // 默认校验项目根 course-data.js；可用环境变量 COURSE_DATA_FILE 指向其他副本（CI/预检用）
@@ -51,24 +52,9 @@ const COURSE_DATA_FILE = process.env.COURSE_DATA_FILE
 const COURSE_ENGINE_FILE = path.join(ROOT, 'tools', 'archive', 'course-system', 'course-engine.js');
 const INDEX_HTML_FILE = path.join(ROOT, 'index.html');
 
-// coreStudyModules 5×21 映射（权威源：index.html coreStudyModules，约 L8365-8374；
-// 设计文档 subagent_03_model.md §2.6 同表）。21 通路 = 现有 21 条核心课程路线。
-const CORE_STUDY_MODULES = {
-  biooxidation: ['pdh', 'tca', 'malate_aspartate', 'glycerol_phosphate', 'etc', 'oxphos'],
-  carbohydrate: ['glycolysis', 'gluconeogenesis', 'glycogenesis', 'glycogenolysis', 'ppp'],
-  lipid: ['fa_synthesis', 'carnitine', 'beta_oxidation', 'ketone'],
-  amino: ['transamination', 'urea', 'aa_carbon'],
-  nucleotide: ['purine', 'pyrimidine', 'nucleotide_degradation']
-};
-
+// coreStudyModules 5×21 映射与 routeGroups 统一来自 shared/contracts.js。
 const QUIZ_KINDS = new Set(['single', 'truefalse', 'fill', 'multiple', 'order', 'match']);
 const CHALLENGE_MODES = new Set(['blank', 'hide', 'recall']);
-
-// 与 tools/check-student-steps.js / tools/generate-stats.js 同款 routeGroups
-const ROUTE_GROUPS = {
-  glycolysis: 'glycolysis', pdh: 'pdh', tca: 'tca', etc: 'etc', oxphos: 'etc',
-  malate_aspartate: 'transport', glycerol_phosphate: 'transport', atp_transport: 'transport'
-};
 
 const errors = [];
 const warnings = [];

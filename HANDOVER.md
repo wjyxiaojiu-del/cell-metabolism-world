@@ -122,6 +122,15 @@ npm test            通过
 - **配套修复**：`tools/expert-map-geometry.js` 的 glycerol_phosphate 膜侧合同加入 `泛醇@线粒体内膜`；`applyView` 增加 viewBox 非正宽高兜底，避免移动端偶发负高度 console error。
 - **验证**：`npm run test:data` + `npm run test:ui` 全绿。
 
+### 第 10 轮：Git 基线 + 结构性收敛准备（08-16 审核后）
+
+- **Git 基线**：`git init` + 完善 `.gitignore` + 新增 `.gitattributes`（强制 LF）+ 首次提交 `9542973`。
+- **大资产外移**：`cell-metabolism-assets/archive/` 与 `source-*` 移至 `D:/wangjunyi/Documents/cell Metabolism world-assets-backup/`，项目内只保留运行时 `optimized/`。
+- **共享契约**：新增 `shared/contracts.js`，并把 21 核心清单、34 扩展清单、`routeGroups`、测试契约（marker 12、primer 字号、糖酵解 10 步、21 options）从工具与测试中抽出复用。
+- **截图基线**：新增 `tools/capture-baseline.js` + `docs/baseline-manifest.json`；8 个关键视口/页面截图生成到 `output/baseline/`（git-ignored）。
+- **计划文档**：新增 `docs/structural-convergence-plan.md`，列出 SVG 工厂、贝塞尔路径、缩放系统、CSS 合并四步执行顺序与风险。
+- **验证**：工具层改动后 `npm run test:data` 全绿；UI 未改逻辑，后续重构再跑全量 `test:ui`。
+
 ---
 
 ## 3. 关键架构决策与约束（必须遵守）

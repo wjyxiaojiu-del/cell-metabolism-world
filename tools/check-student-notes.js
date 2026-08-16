@@ -4,6 +4,7 @@ const path = require('path');
 const vm = require('vm');
 
 const root = path.join(__dirname, '..');
+const { CORE_STUDY_PATHWAY_IDS: corePathways } = require('../shared/contracts.js');
 function loadWindowScript(file) {
   const sandbox = { window: {} };
   vm.runInNewContext(fs.readFileSync(path.join(root, file), 'utf8'), sandbox);
@@ -16,10 +17,6 @@ const pageSource = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const generatedFallbackEnabled = /function\s+studentGeneratedReactionNote\s*\(/.test(pageSource);
 const generatedStatusVisible = /自动整理 · 待人工精讲/.test(pageSource);
 const representationConventionVisible = /不应重复计算为额外一步/.test(pageSource);
-const corePathways = ['glycolysis', 'gluconeogenesis', 'glycogenesis', 'glycogenolysis', 'ppp',
-  'pdh', 'tca', 'malate_aspartate', 'glycerol_phosphate', 'etc', 'oxphos',
-  'fa_synthesis', 'carnitine', 'beta_oxidation', 'ketone', 'transamination', 'urea',
-  'aa_carbon', 'purine', 'pyrimidine', 'nucleotide_degradation'];
 const groupsFor = reaction => Array.isArray(reaction.group) ? reaction.group : [reaction.group];
 const keyFor = (pathwayId, reaction) => `${pathwayId}|${reaction.from}>${reaction.to}`;
 const validKeys = new Set(data.reactions.flatMap(reaction => groupsFor(reaction).map(pathwayId => keyFor(pathwayId, reaction))));

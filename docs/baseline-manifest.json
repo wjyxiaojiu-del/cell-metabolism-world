@@ -1,0 +1,70 @@
+{
+  "generatedAt": "2026-08-16T09:19:02.639Z",
+  "baseUrl": "http://127.0.0.1:8000",
+  "scenarios": [
+    {
+      "name": "cover-desktop",
+      "file": "output/baseline/cover-desktop.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "19b69459ffc60808935d1fe727c7ee30c96bc35bc8a8a4ee77ddaebb5d6dc68a",
+      "pageErrors": []
+    },
+    {
+      "name": "cover-mobile",
+      "file": "output/baseline/cover-mobile.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "e5eb45643fa044c7545b0a3f3cbb3fa68631f8c47403bdd36284a3b3db60b694",
+      "pageErrors": []
+    },
+    {
+      "name": "student-home-desktop",
+      "file": "output/baseline/student-home-desktop.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "7beee63b176e2a920756cf499eb283ed449a71aab80be8856b8d9fe6d3abb0d9",
+      "pageErrors": []
+    },
+    {
+      "name": "student-glycolysis-desktop",
+      "file": "output/baseline/student-glycolysis-desktop.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "fb8a9cf73f43151151957452c91f236ca26411ded5c496d1d0f9bb0ba4b0fd5b",
+      "pageErrors": []
+    },
+    {
+      "name": "student-glycolysis-mobile",
+      "file": "output/baseline/student-glycolysis-mobile.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "8a1c3dd27a83a2d0a94261cec4ad8ca8ce93fd60264b888c92f0041b493fb8db",
+      "pageErrors": []
+    },
+    {
+      "name": "expert-overview-desktop",
+      "file": "output/baseline/expert-overview-desktop.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "3b7c0ee0dd7ef49294e7e56cd29e89190a24e3319fdfb1e9d54f3247ab2042f3",
+      "pageErrors": []
+    },
+    {
+      "name": "expert-tca-desktop",
+      "file": "output/baseline/expert-tca-desktop.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "feba66b8fe04688f378e40ac4f488557d209532944bcdfd891b0d1aa1e96cd75",
+      "pageErrors": []
+    },
+    {
+      "name": "scene-mitochondria-desktop",
+      "file": "output/baseline/scene-mitochondria-desktop.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "79da35f197b456d651af7d4248745ced574d56a44f8cee2a35f2871d75269ad6",
+      "pageErrors": []
+    }
+  ]
+}

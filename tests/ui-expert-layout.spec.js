@@ -1,12 +1,5 @@
 const { test, expect, appUrl } = require('./helpers.js');
-
-const CORE_PATHWAYS = [
-  'pdh', 'tca', 'malate_aspartate', 'glycerol_phosphate', 'etc', 'oxphos',
-  'glycolysis', 'gluconeogenesis', 'glycogenesis', 'glycogenolysis', 'ppp',
-  'fa_synthesis', 'carnitine', 'beta_oxidation', 'ketone',
-  'transamination', 'urea', 'aa_carbon',
-  'purine', 'pyrimidine', 'nucleotide_degradation'
-];
+const { CORE_STUDY_PATHWAY_IDS: CORE_PATHWAYS } = require('../shared/contracts.js');
 
 async function focusExpertPathway(page, pathwayId, { waitForView = false } = {}) {
   // Pathway chips live in a horizontally clipped teaching dock. Trigger the
@@ -51,7 +44,7 @@ test('all 21 focused expert pathways render visible routes and matching arrows',
   await page.getByRole('button', { name: /进入学习模式/ }).click();
   await page.getByRole('button', { name: '专家地图', exact: true }).click();
   await expect(page.locator('.path-filter[data-path="all"]')).toHaveCount(1);
-  await expect(page.locator('.path-filter:not([data-path="all"])')).toHaveCount(21);
+  await expect(page.locator('.path-filter:not([data-path="all"])')).toHaveCount(CORE_PATHWAYS.length);
   await expect(page.locator('#enzymeLayer .enzyme.reaction-module')).toHaveCount(12);
 
   for (const pathwayId of CORE_PATHWAYS) {

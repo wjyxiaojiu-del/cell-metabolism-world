@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 const resolver = require('../student-step-resolver.js');
+const { ROUTE_GROUPS: routeGroups } = require('../shared/contracts.js');
 
 const ROOT = path.join(__dirname, '..');
 const context = { window: {} };
@@ -11,10 +12,6 @@ vm.runInNewContext(fs.readFileSync(path.join(ROOT, 'data-compiled.js'), 'utf8'),
 
 const atlas = context.window.METABOLIC_ATLAS_DATA;
 const compiled = context.window.METABOLIC_COMPILED;
-const routeGroups = {
-  glycolysis: 'glycolysis', pdh: 'pdh', tca: 'tca', etc: 'etc', oxphos: 'etc',
-  malate_aspartate: 'transport', glycerol_phosphate: 'transport', atp_transport: 'transport'
-};
 const resolverOptions = {
   pathways: atlas.pathways,
   entities: compiled.entities,

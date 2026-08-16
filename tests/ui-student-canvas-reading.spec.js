@@ -1,4 +1,5 @@
 const { test, expect, appUrl } = require('./helpers.js');
+const { TEST_CONTRACTS } = require('../shared/contracts.js');
 
 test('student canvas keeps current and next step in sync', async ({ page }) => {
   const pageErrors = [];
@@ -12,7 +13,7 @@ test('student canvas keeps current and next step in sync', async ({ page }) => {
   });
 
   const mainNodes = page.locator('#studentMapNodes .student-map-node[data-step-index]');
-  await expect(mainNodes).toHaveCount(10);
+  await expect(mainNodes).toHaveCount(TEST_CONTRACTS.glycolysisMainSteps);
   await expect(mainNodes.nth(4)).toContainText('甘油醛-3-磷酸');
   await expect(page.locator('#flowSteps .flow-step').nth(4)).toContainText('甘油醛-3-磷酸');
   await expect(page.locator('#studentMapNodes .student-map-node.is-current')).toHaveCount(1);
@@ -194,7 +195,7 @@ test('PDH lesson centers the E1 E2 E3 relay instead of membrane transport', asyn
   await expect(page.locator('#studentPdhMechanism')).toContainText('羟乙基-TPP → 乙酰-硫辛酰胺');
   await expect(page.locator('#studentPdhMechanism')).toContainText('辅酶 A（CoA-SH）→ 乙酰辅酶 A');
   await expect(page.locator('#studentPdhMechanism')).toContainText('NAD⁺ → NADH + H⁺');
-  await expect(page.locator('#student-arrow')).toHaveAttribute('markerWidth', '12');
+  await expect(page.locator('#student-arrow')).toHaveAttribute('markerWidth', String(TEST_CONTRACTS.studentArrowMarkerWidth));
   const mainStrokeWidth = await page.locator('#studentMapEdges .student-map-edge').first().evaluate(edge => parseFloat(getComputedStyle(edge).strokeWidth));
   expect(mainStrokeWidth).toBeGreaterThanOrEqual(3);
   await page.locator('.student-map-stage').screenshot({ path: 'output/playwright/student-pdh-mechanism-map.png' });

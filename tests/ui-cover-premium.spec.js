@@ -1,4 +1,5 @@
 const { test, expect, appUrl } = require('./helpers.js');
+const { CORE_STUDY_PATHWAY_IDS, TEST_CONTRACTS } = require('../shared/contracts.js');
 
 const URL = appUrl('premium-cell-cover-1');
 
@@ -59,7 +60,7 @@ test('premium cell cover has a layered scientific entry and smooth handoff', asy
   await expect(page.locator('#cellCover')).toBeHidden({ timeout: 1500 });
   await expect(page.locator('#studentWorkspace')).toBeVisible();
   await expect(page.locator('#lessonCards .lesson-card')).toHaveCount(0);
-  await expect(page.locator('#studentPathwaySelect option')).toHaveCount(21);
+  await expect(page.locator('#studentPathwaySelect option')).toHaveCount(TEST_CONTRACTS.studentPathwaySelectOptions);
   await expect(page.locator('#studentTopics .student-topic-card')).toHaveCount(5);
   await expect(page.locator('#studentCourseHome')).toBeVisible();
   await expect(page.locator('#studentCourseHome .student-course-topic')).toHaveCount(5);
@@ -69,13 +70,7 @@ test('premium cell cover has a layered scientific entry and smooth handoff', asy
     visibleLessons: document.querySelectorAll('#lessonCards .lesson-card').length,
     topics: [...document.querySelectorAll('#studentTopics .student-topic-card')].map(card => card.dataset.topic)
   }));
-  expect([...visibleScope.pathways].sort()).toEqual([
-    'pdh', 'tca', 'malate_aspartate', 'glycerol_phosphate', 'etc', 'oxphos',
-    'glycolysis', 'gluconeogenesis', 'glycogenesis', 'glycogenolysis', 'ppp',
-    'fa_synthesis', 'carnitine', 'beta_oxidation', 'ketone',
-    'transamination', 'urea', 'aa_carbon',
-    'purine', 'pyrimidine', 'nucleotide_degradation'
-  ].sort());
+  expect([...visibleScope.pathways].sort()).toEqual([...CORE_STUDY_PATHWAY_IDS].sort());
   expect(visibleScope.visibleLessons).toBe(0);
   expect(visibleScope.topics).toEqual(['biooxidation', 'carbohydrate', 'lipid', 'amino', 'nucleotide']);
   expect(errors.consoleErrors).toEqual([]);

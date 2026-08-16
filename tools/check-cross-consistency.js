@@ -3,18 +3,11 @@
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const { OMITTED_EXTENDED_PATHWAYS } = require('../shared/contracts.js');
 
 const ROOT = path.join(__dirname, '..');
 const context = { window: {} };
-const TOPIC_OMISSION_ALLOWLIST = new Set([
-  'starch', 'fructose', 'galactose', 'uronic', 'polyol', 'pyruvate_fates',
-  'glyoxylate', 'atp_transport', 'transport', 'lipoprotein', 'fa_elongation',
-  'vlcfa', 'tag', 'phospholipid', 'sphingolipid', 'cholesterol', 'steroid_bile',
-  'glutamate_glutamine', 'bcaa', 'aromatic_aa', 'serine_glycine',
-  'methionine_cysteine', 'aa_biosynthesis', 'nitrogen', 'sulfur', 'salvage',
-  'folate', 'heme', 'glutathione', 'glycosylation', 'lysosomal', 'autophagy',
-  'membrane_transport', 'plasmalogen'
-]);
+const TOPIC_OMISSION_ALLOWLIST = new Set(OMITTED_EXTENDED_PATHWAYS);
 
 function extractObjectLiteral(source, declaration) {
   const declarationIndex = source.indexOf(declaration);

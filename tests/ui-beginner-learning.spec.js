@@ -1,4 +1,5 @@
 const { test, expect, appUrl } = require('./helpers.js');
+const { TEST_CONTRACTS } = require('../shared/contracts.js');
 
 async function enterLearning(page) {
   await page.goto(appUrl('beginner-learning-1'), { waitUntil: 'networkidle' });
@@ -127,9 +128,9 @@ test('beginner sees a concept primer before the detailed pathway map', async ({ 
     storyDetail: parseFloat(getComputedStyle(element.querySelector('.student-primer-story-step p')).fontSize),
     factValue: parseFloat(getComputedStyle(element.querySelector('.student-primer-facts dd')).fontSize)
   }));
-  expect(primerTypeScale.storyHeading).toBeGreaterThanOrEqual(19);
-  expect(primerTypeScale.storyDetail).toBeGreaterThanOrEqual(16);
-  expect(primerTypeScale.factValue).toBeGreaterThanOrEqual(16);
+  expect(primerTypeScale.storyHeading).toBeGreaterThanOrEqual(TEST_CONTRACTS.primerFont.storyStrongMinPx);
+  expect(primerTypeScale.storyDetail).toBeGreaterThanOrEqual(TEST_CONTRACTS.primerFont.storyPMinPx);
+  expect(primerTypeScale.factValue).toBeGreaterThanOrEqual(TEST_CONTRACTS.primerFont.factsDDMinPx);
   await primer.screenshot({ path: 'output/playwright/beginner-compact-primer.png' });
 
   const primerComesFirst = await page.evaluate(() => {

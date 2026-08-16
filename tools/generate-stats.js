@@ -5,6 +5,7 @@ const path = require('path');
 const vm = require('vm');
 const { readTsv } = require('./tsv.js');
 const stepResolver = require('../student-step-resolver.js');
+const { ROUTE_GROUPS: routeGroups } = require('../shared/contracts.js');
 
 const ROOT = path.join(__dirname, '..');
 const OUTPUT = path.join(ROOT, 'STATS.md');
@@ -18,10 +19,6 @@ vm.runInNewContext(sceneDataSource, context);
 vm.runInNewContext(fs.readFileSync(compiledFile, 'utf8'), context);
 const compiled = context.window.METABOLIC_COMPILED;
 const atlas = context.window.METABOLIC_ATLAS_DATA;
-const routeGroups = {
-  glycolysis: 'glycolysis', pdh: 'pdh', tca: 'tca', etc: 'etc', oxphos: 'etc',
-  malate_aspartate: 'transport', glycerol_phosphate: 'transport', atp_transport: 'transport'
-};
 const stepAudit = stepResolver.auditPathways({
   pathways: atlas.pathways,
   entities: compiled.entities,
