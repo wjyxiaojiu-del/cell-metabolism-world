@@ -1,0 +1,7 @@
+#	通路: 丙酮酸脱氢酶复合体	Pyruvate dehydrogenase
+#	默认区室: 线粒体基质
+#	来源: PDF PDH 区与用户补充
+#	本文件由 tools/export-svg-reactions.js 从已人工核对的 SVG 层生成。
+#	跨区室时在名称后加 @区室 覆盖默认值。反应式留空表示无辅因子参与。
+底物	产物	酶	可逆	反应式	审校	备注
+丙酮酸	乙酰辅酶 A	丙酮酸脱氢酶复合体	否	丙酮酸 + CoA-SH + NAD⁺ → 乙酰-CoA + CO₂ + NADH + H⁺	已核对	分叉：反应式含多个产物

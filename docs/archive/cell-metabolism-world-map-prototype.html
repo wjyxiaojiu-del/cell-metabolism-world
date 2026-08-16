@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>细胞代谢世界地图 · HTML 概念原型</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #e9fff5;
+      --muted: #a9c8bb;
+      --glass: rgba(7, 28, 30, .67);
+      --glass-border: rgba(198, 255, 226, .2);
+      --gold: #ffd76a;
+      --cyan: #7ce8d7;
+      --orange: #ff9b5c;
+      --violet: #c9a2ff;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+    body {
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 50% 45%, #183b3c 0, #0a2529 44%, #06171c 72%, #030b0e 100%);
+    }
+
+    #app { position: relative; width: 100%; height: 100%; }
+    #viewport { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+    #viewport.dragging { cursor: grabbing; }
+
+    .topbar {
+      position: fixed;
+      z-index: 20;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(760px, calc(100vw - 40px));
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px 10px 16px;
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      background: var(--glass);
+      box-shadow: 0 16px 45px rgba(0, 0, 0, .23);
+      backdrop-filter: blur(18px) saturate(130%);
+    }
+
+    .brand { font-size: 14px; font-weight: 750; white-space: nowrap; letter-spacing: .04em; }
+    .search-wrap { position: relative; flex: 1; }
+    .search-wrap::before { content: "⌕"; position: absolute; left: 12px; top: 7px; color: var(--muted); }
+    #search {
+      width: 100%; height: 34px; padding: 0 38px;
+      border: 1px solid rgba(207, 255, 230, .13); border-radius: 13px;
+      outline: none; color: var(--ink); background: rgba(222, 255, 238, .07);
+    }
+    #search::placeholder { color: #8caea1; }
+    .top-action {
+      height: 34px; padding: 0 12px; border: 0; border-radius: 12px;
+      color: #173a31; background: linear-gradient(135deg, #d7ffe5, #88e0bb);
+      font-weight: 700; cursor: pointer;
+    }
+
+    .crumb {
+      position: fixed; z-index: 18; top: 86px; left: 24px;
+      padding: 9px 12px; border: 1px solid var(--glass-border); border-radius: 13px;
+      background: var(--glass); backdrop-filter: blur(14px); color: #c6e5d8; font-size: 12px;
+    }
+
+    .tools {
+      position: fixed; z-index: 18; right: 22px; top: 50%; transform: translateY(-50%);
+      display: grid; gap: 8px; opacity: .35; transition: opacity .25s ease;
+    }
+    .tools:hover { opacity: 1; }
+    .tools button {
+      width: 42px; height: 42px; border: 1px solid var(--glass-border); border-radius: 13px;
+      color: var(--ink); background: var(--glass); backdrop-filter: blur(14px); cursor: pointer; font-size: 17px;
+    }
+
+    .zoom-hint {
+      position: fixed; z-index: 18; left: 24px; bottom: 22px;
+      padding: 9px 12px; border: 1px solid var(--glass-border); border-radius: 13px;
+      background: var(--glass); color: #a7c9bb; font-size: 11px; backdrop-filter: blur(14px);
+    }
+
+    #detailCard {
+      position: fixed; z-index: 30; width: 288px; display: none;
+      padding: 16px; border: 1px solid rgba(255, 223, 126, .5); border-radius: 18px;
+      color: #18362f; background: rgba(255, 252, 236, .96);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .3); backdrop-filter: blur(18px);
+    }
+    #detailCard.open { display: block; animation: cardIn .2s ease-out; }
+    @keyframes cardIn { from { opacity: 0; transform: translateY(6px) scale(.98); } }
+    #detailCard .eyebrow { color: #927323; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
+    #detailCard h2 { margin: 5px 0 2px; font-size: 20px; }
+    #detailCard .latin { color: #60756d; font-size: 11px; }
+    #detailCard p { margin: 11px 0; color: #3f554e; line-height: 1.65; font-size: 12px; }
+    #detailCard .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+    #detailCard .chips span { padding: 5px 7px; border-radius: 8px; background: #e9f3e8; color: #476052; font-size: 10px; }
+    #detailCard .actions { display: flex; gap: 7px; margin-top: 13px; }
+    #detailCard button { border: 0; border-radius: 9px; padding: 8px 10px; cursor: pointer; font-size: 11px; }
+    #detailCard .primary { color: white; background: #2d6d58; }
+    #detailCard .secondary { color: #355b4d; background: #e1eee7; }
+
+    .cell-outline { filter: url(#cellShadow); }
+    .cell-inner { filter: url(#softDepth); }
+    .organelle { cursor: pointer; transition: opacity .2s ease, filter .2s ease; }
+    .organelle:hover { filter: brightness(1.14) saturate(1.05); }
+    .org-label { fill: rgba(235, 255, 244, .86); font-weight: 700; font-size: 18px; text-anchor: middle; pointer-events: none; paint-order: stroke; stroke: rgba(7, 36, 34, .6); stroke-width: 4px; }
+    .org-sub { fill: rgba(217, 247, 233, .7); font-size: 12px; text-anchor: middle; pointer-events: none; }
+
+    .metabolic-path {
+      fill: none; stroke-linecap: round; stroke-linejoin: round;
+      stroke-width: 5; opacity: .68; transition: opacity .25s, stroke-width .25s, filter .25s;
+    }
+    .path-glycolysis { stroke: #ffd45d; stroke-dasharray: 1 14; }
+    .path-pdh { stroke: #ff9d65; stroke-dasharray: 3 12; }
+    .path-tca { stroke: #ffad5e; stroke-dasharray: 2 12; }
+    .path-etc { stroke: #75e1ee; stroke-dasharray: 2 11; }
+    .path-transport { stroke: #c2a6ff; stroke-dasharray: 7 12; }
+    .path-side { stroke: #91d09d; stroke-dasharray: 2 13; }
+    .metabolic-path.active { opacity: 1; stroke-width: 9; filter: url(#routeGlow); }
+    .metabolic-path.dim { opacity: .09; }
+
+    .node { cursor: pointer; transition: opacity .22s ease, transform .22s ease; transform-box: fill-box; transform-origin: center; }
+    .node .halo { fill: rgba(255, 229, 110, .15); stroke: rgba(255, 232, 120, .34); stroke-width: 1; }
+    .node .core { fill: #fffdf3; stroke: #ffd568; stroke-width: 4; filter: url(#nodeGlow); }
+    .node:hover, .node.active { transform: scale(1.22); }
+    .node.active .halo { fill: rgba(255, 223, 100, .44); stroke-width: 4; }
+    .node.dim { opacity: .13; }
+    .node-text { fill: #f1fff8; font-size: 13px; font-weight: 650; pointer-events: none; paint-order: stroke; stroke: rgba(5, 28, 26, .86); stroke-width: 5px; opacity: 0; transition: opacity .25s; }
+
+    .enzyme { cursor: pointer; opacity: 0; transition: opacity .25s, transform .2s; transform-box: fill-box; transform-origin: center; }
+    .enzyme rect { fill: rgba(255, 224, 126, .92); stroke: rgba(112, 81, 15, .55); stroke-width: 1; }
+    .enzyme text { fill: #5c4714; font-size: 11px; font-weight: 750; text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
+    .enzyme:hover, .enzyme.active { transform: translateY(-2px) scale(1.06); filter: url(#smallGlow); opacity: 1; }
+    .enzyme.dim { opacity: .08 !important; }
+
+    body.detail-1 .node-text { opacity: .82; }
+    body.detail-2 .enzyme { opacity: .94; }
+    body.detail-2 .metabolic-path { stroke-width: 4; }
+
+    .path-title { fill: rgba(255,255,255,.55); font-size: 15px; font-weight: 800; letter-spacing: .11em; opacity: .65; }
+    body.detail-2 .path-title { opacity: .25; }
+
+    .fade-edge { pointer-events: none; position: fixed; inset: 0; z-index: 12; box-shadow: inset 0 0 120px rgba(0, 7, 10, .68); }
+
+    @media (max-width: 720px) {
+      .brand { display: none; }
+      .topbar { top: 12px; width: calc(100vw - 24px); }
+      .crumb { top: 70px; left: 12px; }
+      .tools { right: 10px; }
+      .zoom-hint { left: 12px; bottom: 12px; }
+      #detailCard { width: min(288px, calc(100vw - 24px)); }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <svg id="viewport" viewBox="0 0 1600 900" aria-label="交互式细胞代谢地图概念原型">
+      <defs>
+        <radialGradient id="cellFill" cx="44%" cy="38%" r="66%">
+          <stop offset="0%" stop-color="#d8f1d9" stop-opacity=".95"/>
+          <stop offset="45%" stop-color="#80bfa6" stop-opacity=".88"/>
+          <stop offset="82%" stop-color="#2e766f" stop-opacity=".9"/>
+          <stop offset="100%" stop-color="#155154" stop-opacity=".97"/>
+        </radialGradient>
+        <radialGradient id="nucleusFill" cx="34%" cy="29%" r="74%">
+          <stop offset="0%" stop-color="#e7b8e3"/><stop offset="48%" stop-color="#a45a9e"/><stop offset="100%" stop-color="#503b73"/>
+        </radialGradient>
+        <linearGradient id="mitoFill" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffc47a"/><stop offset=".5" stop-color="#df7c57"/><stop offset="1" stop-color="#934449"/>
+        </linearGradient>
+        <linearGradient id="erFill" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#8ee1db"/><stop offset="1" stop-color="#348e9a"/>
+        </linearGradient>
+        <linearGradient id="golgiFill" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#d9b16b"/><stop offset="1" stop-color="#917142"/>
+        </linearGradient>
+        <pattern id="cytoplasmDots" width="34" height="34" patternUnits="userSpaceOnUse">
+          <circle cx="4" cy="7" r="1.3" fill="#e7fff1" opacity=".18"/><circle cx="25" cy="21" r="1" fill="#e7fff1" opacity=".12"/>
+        </pattern>
+        <filter id="cellShadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="22" stdDeviation="28" flood-color="#000" flood-opacity=".42"/>
+        </filter>
+        <filter id="softDepth" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="0" dy="9" stdDeviation="9" flood-color="#123d38" flood-opacity=".42"/>
+        </filter>
+        <filter id="routeGlow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="nodeGlow" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="smallGlow" x="-30%" y="-50%" width="160%" height="200%"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#ffe287" flood-opacity=".8"/></filter>
+        <clipPath id="cellClip"><path d="M208,451 C177,255 317,105 548,74 C768,44 1012,85 1266,210 C1440,296 1491,492 1367,659 C1248,817 1016,855 778,825 C532,794 267,725 208,451 Z"/></clipPath>
+      </defs>
+
+      <g id="mapLayer">
+        <ellipse cx="800" cy="816" rx="520" ry="54" fill="#02090b" opacity=".35"/>
+        <path class="cell-outline" d="M208,451 C177,255 317,105 548,74 C768,44 1012,85 1266,210 C1440,296 1491,492 1367,659 C1248,817 1016,855 778,825 C532,794 267,725 208,451 Z" fill="url(#cellFill)" stroke="#a7dbc0" stroke-width="7"/>
+        <path d="M224,450 C198,272 328,124 553,94 C765,66 1002,104 1248,224 C1413,305 1459,484 1348,642 C1237,795 1014,828 782,801 C541,772 285,705 224,450 Z" fill="url(#cytoplasmDots)" stroke="rgba(222,255,232,.35)" stroke-width="2"/>
+
+        <g clip-path="url(#cellClip)">
+          <g class="organelle cell-inner" data-org="细胞核">
+            <ellipse cx="760" cy="411" rx="218" ry="177" fill="url(#nucleusFill)" stroke="#edc6e8" stroke-width="7"/>
+            <ellipse cx="760" cy="411" rx="196" ry="155" fill="none" stroke="#704a86" stroke-width="3" stroke-dasharray="8 16" opacity=".8"/>
+            <circle cx="713" cy="379" r="55" fill="#e7c0e3" opacity=".45"/><circle cx="811" cy="454" r="34" fill="#522f6a" opacity=".45"/>
+            <text class="org-label" x="760" y="407">细胞核</text><text class="org-sub" x="760" y="430">遗传信息与转录</text>
+          </g>
+
+          <g class="organelle cell-inner" data-org="粗面内质网">
+            <path d="M485 285 C550 226 649 217 704 254 C643 278 585 308 525 355 C472 395 426 424 374 396 C421 363 453 328 485 285 Z" fill="url(#erFill)" stroke="#baf4e9" stroke-width="5"/>
+            <path d="M443 307 C508 270 578 251 649 257 M410 342 C486 304 568 284 641 288 M391 376 C478 342 550 316 612 316" fill="none" stroke="#236d79" stroke-width="7" stroke-linecap="round" opacity=".8"/>
+            <g fill="#d8fff1"><circle cx="469" cy="286" r="4"/><circle cx="526" cy="264" r="4"/><circle cx="579" cy="248" r="4"/><circle cx="437" cy="332" r="4"/><circle cx="507" cy="305" r="4"/><circle cx="563" cy="286" r="4"/></g>
+            <text class="org-label" x="490" y="375">粗面内质网</text>
+          </g>
+
+          <g class="organelle cell-inner" data-org="高尔基体">
+            <path d="M421 499 C474 458 551 452 606 482" fill="none" stroke="#f2d28c" stroke-width="17" stroke-linecap="round"/>
+            <path d="M409 526 C478 483 564 482 625 513" fill="none" stroke="#d9aa59" stroke-width="16" stroke-linecap="round"/>
+            <path d="M417 555 C487 514 568 520 620 548" fill="none" stroke="#b88446" stroke-width="15" stroke-linecap="round"/>
+            <circle cx="390" cy="490" r="12" fill="#f1d49a"/><circle cx="640" cy="526" r="15" fill="#c69752"/><circle cx="397" cy="573" r="9" fill="#b88446"/>
+            <text class="org-label" x="515" y="600">高尔基体</text>
+          </g>
+
+          <g class="organelle cell-inner" data-org="线粒体" transform="translate(1025 300) rotate(16)">
+            <rect x="-149" y="-72" width="298" height="144" rx="72" fill="url(#mitoFill)" stroke="#ffd39b" stroke-width="7"/>
+            <path d="M-116 -23 C-76 -60 -35 49 4 6 C45 -40 78 50 119 9" fill="none" stroke="#7c3e48" stroke-width="13" stroke-linecap="round" opacity=".86"/>
+            <path d="M-113 24 C-73 -11 -44 57 -3 24 C39 -9 76 56 111 29" fill="none" stroke="#7c3e48" stroke-width="10" stroke-linecap="round" opacity=".68"/>
+            <text class="org-label" x="0" y="4">线粒体</text>
+          </g>
+
+          <g class="organelle cell-inner" data-org="线粒体" transform="translate(1051 647) rotate(-12)">
+            <rect x="-132" y="-62" width="264" height="124" rx="62" fill="url(#mitoFill)" stroke="#ffd39b" stroke-width="7"/>
+            <path d="M-103 -16 C-65 -53 -35 41 1 5 C42 -34 72 42 104 7 M-101 25 C-66 -5 -34 51 0 24 C37 -6 69 51 99 28" fill="none" stroke="#7c3e48" stroke-width="11" stroke-linecap="round" opacity=".8"/>
+            <text class="org-label" x="0" y="5">线粒体</text>
+          </g>
+
+          <g class="organelle cell-inner" data-org="线粒体" transform="translate(355 676) rotate(12)">
+            <rect x="-115" y="-54" width="230" height="108" rx="54" fill="url(#mitoFill)" stroke="#ffd39b" stroke-width="6"/>
+            <path d="M-88 -10 C-57 -42 -26 34 4 4 C35 -27 61 36 87 5 M-84 26 C-52 -2 -25 42 3 22 C33 1 56 43 82 25" fill="none" stroke="#7c3e48" stroke-width="10" stroke-linecap="round" opacity=".78"/>
+          </g>
+
+          <g class="organelle cell-inner" data-org="溶酶体">
+            <circle cx="1231" cy="501" r="62" fill="#815bb0" stroke="#d5baf1" stroke-width="6"/><circle cx="1214" cy="480" r="17" fill="#c9a8ea" opacity=".55"/>
+            <text class="org-label" x="1231" y="507">溶酶体</text>
+          </g>
+
+          <g class="organelle cell-inner" data-org="过氧化物酶体">
+            <circle cx="1280" cy="386" r="45" fill="#5b9e67" stroke="#b9e0a9" stroke-width="6"/><path d="M1258 386 L1302 386 M1280 364 L1280 408" stroke="#d8f4c9" stroke-width="5" opacity=".7"/>
+          </g>
+
+          <g id="routes">
+            <text class="path-title" x="300" y="170">糖酵解 · GLYCOLYSIS</text>
+            <path id="gly1" class="metabolic-path path-glycolysis" data-group="glycolysis" d="M302 205 C370 211 404 235 452 276 C500 316 541 357 590 398"/>
+            <path id="gly2" class="metabolic-path path-glycolysis" data-group="glycolysis" d="M590 398 C621 420 640 448 659 493 C673 526 709 553 755 568"/>
+            <path id="pdh" class="metabolic-path path-pdh" data-group="pdh" d="M755 568 C830 566 886 523 918 456 C944 402 971 373 1014 350"/>
+            <path id="tca" class="metabolic-path path-tca" data-group="tca" d="M1015 350 C1092 310 1173 343 1188 405 C1203 466 1154 511 1093 520 C1025 531 966 490 970 426 C973 385 990 363 1015 350 Z"/>
+            <path id="etc" class="metabolic-path path-etc" data-group="etc" d="M914 603 C966 578 1032 575 1089 594 C1142 612 1179 642 1217 685"/>
+            <path id="transport1" class="metabolic-path path-transport" data-group="transport" d="M592 398 C706 327 818 290 932 306"/>
+            <path id="side1" class="metabolic-path path-side" data-group="side" d="M425 617 C485 577 557 570 632 593 C698 613 738 652 786 697"/>
+            <path id="side2" class="metabolic-path path-side" data-group="side" d="M287 408 C352 427 390 468 421 515"/>
+          </g>
+
+          <g id="nodes">
+            <g class="node" data-name="葡萄糖" data-latin="Glucose" data-kind="代谢物" data-group="glycolysis" data-info="糖酵解的主要起始物质，在细胞质中逐步转化为丙酮酸。" transform="translate(302 205)"><circle class="halo" r="18"/><circle class="core" r="8"/><text class="node-text" x="14" y="-13">葡萄糖</text></g>
+            <g class="node" data-name="葡萄糖-6-磷酸" data-latin="Glucose-6-phosphate" data-kind="代谢物" data-group="glycolysis" data-info="葡萄糖磷酸化后的产物，是多条糖代谢通路的分支点。" transform="translate(374 218)"><circle class="halo" r="17"/><circle class="core" r="7"/><text class="node-text" x="13" y="-11">G6P</text></g>
+            <g class="node" data-name="果糖-6-磷酸" data-latin="Fructose-6-phosphate" data-kind="代谢物" data-group="glycolysis" data-info="糖酵解早期的重要中间产物。" transform="translate(432 258)"><circle class="halo" r="16"/><circle class="core" r="7"/><text class="node-text" x="12" y="-10">F6P</text></g>
+            <g class="node" data-name="果糖-1,6-二磷酸" data-latin="Fructose-1,6-bisphosphate" data-kind="代谢物" data-group="glycolysis" data-info="由磷酸果糖激酶催化生成，是糖酵解的重要承诺步骤。" transform="translate(494 312)"><circle class="halo" r="17"/><circle class="core" r="7"/><text class="node-text" x="13" y="-11">F1,6BP</text></g>
+            <g class="node" data-name="3-磷酸甘油醛" data-latin="Glyceraldehyde-3-phosphate" data-kind="代谢物" data-group="glycolysis" data-info="进入糖酵解产能阶段的三碳中间产物。" transform="translate(548 365)"><circle class="halo" r="16"/><circle class="core" r="7"/><text class="node-text" x="12" y="-10">G3P</text></g>
+            <g class="node" data-name="磷酸烯醇式丙酮酸" data-latin="Phosphoenolpyruvate" data-kind="代谢物" data-group="glycolysis" data-info="高能磷酸化合物，生成丙酮酸时驱动底物水平磷酸化。" transform="translate(632 455)"><circle class="halo" r="17"/><circle class="core" r="7"/><text class="node-text" x="12" y="-10">PEP</text></g>
+            <g class="node" data-name="丙酮酸" data-latin="Pyruvate" data-kind="代谢物" data-group="glycolysis pdh" data-info="连接糖酵解、乳酸代谢和线粒体氧化的重要枢纽。" transform="translate(755 568)"><circle class="halo" r="22"/><circle class="core" r="10"/><text class="node-text" x="16" y="-15">丙酮酸</text></g>
+            <g class="node" data-name="乙酰辅酶A" data-latin="Acetyl-CoA" data-kind="代谢物" data-group="pdh tca" data-info="进入三羧酸循环的核心二碳供体，也是多条合成代谢通路的枢纽。" transform="translate(1015 350)"><circle class="halo" r="22"/><circle class="core" r="10"/><text class="node-text" x="15" y="-15">乙酰CoA</text></g>
+            <g class="node" data-name="柠檬酸" data-latin="Citrate" data-kind="代谢物" data-group="tca" data-info="乙酰辅酶A与草酰乙酸缩合后的产物，是三羧酸循环的起始中间体。" transform="translate(1098 328)"><circle class="halo" r="18"/><circle class="core" r="8"/><text class="node-text" x="14" y="-12">柠檬酸</text></g>
+            <g class="node" data-name="异柠檬酸" data-latin="Isocitrate" data-kind="代谢物" data-group="tca" data-info="柠檬酸异构化后的产物，随后发生氧化脱羧。" transform="translate(1174 375)"><circle class="halo" r="17"/><circle class="core" r="7"/><text class="node-text" x="12" y="-10">异柠檬酸</text></g>
+            <g class="node" data-name="α-酮戊二酸" data-latin="Alpha-ketoglutarate" data-kind="代谢物" data-group="tca" data-info="三羧酸循环与氨基酸代谢之间的重要连接点。" transform="translate(1179 455)"><circle class="halo" r="17"/><circle class="core" r="7"/><text class="node-text" x="12" y="-10">α-KG</text></g>
+            <g class="node" data-name="琥珀酰辅酶A" data-latin="Succinyl-CoA" data-kind="代谢物" data-group="tca" data-info="高能硫酯中间体，可驱动底物水平磷酸化。" transform="translate(1119 511)"><circle class="halo" r="17"/><circle class="core" r="7"/><text class="node-text" x="12" y="-10">琥珀酰CoA</text></g>
+            <g class="node" data-name="苹果酸" data-latin="Malate" data-kind="代谢物" data-group="tca" data-info="被氧化生成草酰乙酸并产生 NADH。" transform="translate(986 477)"><circle class="halo" r="17"/><circle class="core" r="7"/><text class="node-text" x="12" y="-10">苹果酸</text></g>
+            <g class="node" data-name="草酰乙酸" data-latin="Oxaloacetate" data-kind="代谢物" data-group="tca" data-info="与乙酰辅酶A缩合形成柠檬酸，使三羧酸循环重新开始。" transform="translate(976 395)"><circle class="halo" r="18"/><circle class="core" r="8"/><text class="node-text" x="14" y="-12">草酰乙酸</text></g>
+            <g class="node" data-name="NADH" data-latin="Reduced nicotinamide adenine dinucleotide" data-kind="能量载体" data-group="tca etc" data-info="携带高能电子进入呼吸链，驱动质子泵和 ATP 合成。" transform="translate(914 603)"><circle class="halo" r="19"/><circle class="core" r="9"/><text class="node-text" x="14" y="-12">NADH</text></g>
+            <g class="node" data-name="辅酶Q" data-latin="Coenzyme Q" data-kind="电子载体" data-group="etc" data-info="在线粒体内膜中移动，连接复合体 I、II 与复合体 III。" transform="translate(1027 584)"><circle class="halo" r="17"/><circle class="core" r="7"/><text class="node-text" x="12" y="-10">CoQ</text></g>
+            <g class="node" data-name="细胞色素c" data-latin="Cytochrome c" data-kind="电子载体" data-group="etc" data-info="在复合体 III 与复合体 IV 之间传递电子。" transform="translate(1119 610)"><circle class="halo" r="17"/><circle class="core" r="7"/><text class="node-text" x="12" y="-10">Cyt c</text></g>
+            <g class="node" data-name="ATP" data-latin="Adenosine triphosphate" data-kind="能量分子" data-group="etc" data-info="细胞最常用的能量货币，由 ATP 合酶利用质子梯度生成。" transform="translate(1217 685)"><circle class="halo" r="22"/><circle class="core" r="10"/><text class="node-text" x="16" y="-15">ATP</text></g>
+          </g>
+
+          <g id="enzymes">
+            <g class="enzyme" data-name="己糖激酶" data-latin="Hexokinase" data-kind="酶" data-group="glycolysis" data-info="催化葡萄糖磷酸化，消耗 ATP，使葡萄糖被保留在细胞内。" transform="translate(343 185)"><rect x="-34" y="-13" width="68" height="26" rx="10"/><text y="1">己糖激酶</text></g>
+            <g class="enzyme" data-name="磷酸果糖激酶-1" data-latin="PFK-1" data-kind="限速酶" data-group="glycolysis" data-info="糖酵解最重要的调节酶之一，受 ATP、AMP 和柠檬酸等调节。" transform="translate(475 273)"><rect x="-48" y="-13" width="96" height="26" rx="10"/><text y="1">磷酸果糖激酶</text></g>
+            <g class="enzyme" data-name="丙酮酸激酶" data-latin="Pyruvate kinase" data-kind="酶" data-group="glycolysis" data-info="催化 PEP 生成丙酮酸并产生 ATP，是不可逆反应。" transform="translate(677 500)"><rect x="-40" y="-13" width="80" height="26" rx="10"/><text y="1">丙酮酸激酶</text></g>
+            <g class="enzyme" data-name="丙酮酸脱氢酶复合体" data-latin="Pyruvate dehydrogenase complex" data-kind="酶复合体" data-group="pdh" data-info="将丙酮酸转化为乙酰辅酶A，并生成 NADH 和 CO₂。" transform="translate(862 521)"><rect x="-57" y="-13" width="114" height="26" rx="10"/><text y="1">丙酮酸脱氢酶复合体</text></g>
+            <g class="enzyme" data-name="柠檬酸合酶" data-latin="Citrate synthase" data-kind="酶" data-group="tca" data-info="催化乙酰辅酶A与草酰乙酸缩合生成柠檬酸。" transform="translate(1041 326)"><rect x="-40" y="-13" width="80" height="26" rx="10"/><text y="1">柠檬酸合酶</text></g>
+            <g class="enzyme" data-name="异柠檬酸脱氢酶" data-latin="Isocitrate dehydrogenase" data-kind="调节酶" data-group="tca" data-info="催化异柠檬酸氧化脱羧，是三羧酸循环的重要调节位点。" transform="translate(1203 416)"><rect x="-50" y="-13" width="100" height="26" rx="10"/><text y="1">异柠檬酸脱氢酶</text></g>
+            <g class="enzyme" data-name="复合体 I" data-latin="NADH dehydrogenase" data-kind="酶复合体" data-group="etc" data-info="接受 NADH 的电子并将质子泵入膜间隙。" transform="translate(961 574)"><rect x="-30" y="-13" width="60" height="26" rx="10"/><text y="1">复合体 I</text></g>
+            <g class="enzyme" data-name="ATP 合酶" data-latin="ATP synthase" data-kind="酶复合体" data-group="etc" data-info="利用质子顺电化学梯度回流所释放的能量合成 ATP。" transform="translate(1189 648)"><rect x="-35" y="-13" width="70" height="26" rx="10"/><text y="1">ATP 合酶</text></g>
+          </g>
+        </g>
+
+        <text x="800" y="854" fill="rgba(221,255,235,.48)" text-anchor="middle" font-size="13" letter-spacing=".18em">完整细胞 · 缩放进入细胞器 · 点击节点追踪代谢关系</text>
+      </g>
+    </svg>
+
+    <div class="topbar">
+      <div class="brand">细胞代谢世界地图</div>
+      <div class="search-wrap"><input id="search" placeholder="搜索：丙酮酸、柠檬酸合酶、ATP…"></div>
+      <button class="top-action" id="learnBtn">开始学习</button>
+    </div>
+    <div class="crumb" id="crumb">完整细胞 · 全景</div>
+    <div class="tools">
+      <button id="zoomIn" title="放大">＋</button>
+      <button id="zoomOut" title="缩小">−</button>
+      <button id="reset" title="回到完整细胞">◎</button>
+    </div>
+    <div class="zoom-hint">滚轮缩放 · 拖动画布 · 点击节点或酶</div>
+    <div id="detailCard">
+      <div class="eyebrow" id="cardKind">代谢物</div>
+      <h2 id="cardName">丙酮酸</h2>
+      <div class="latin" id="cardLatin">Pyruvate</div>
+      <div class="chips" id="cardChips"><span>糖酵解</span><span>细胞质</span></div>
+      <p id="cardInfo"></p>
+      <div class="actions"><button class="primary" id="focusBtn">聚焦关联线路</button><button class="secondary" id="closeCard">关闭</button></div>
+    </div>
+    <div class="fade-edge"></div>
+  </div>
+
+  <script>
+    const svg = document.getElementById('viewport');
+    const card = document.getElementById('detailCard');
+    const crumb = document.getElementById('crumb');
+    const base = { x: 0, y: 0, w: 1600, h: 900 };
+    let view = { ...base };
+    let drag = null;
+    let selected = null;
+
+    const applyView = () => {
+      svg.setAttribute('viewBox', `${view.x} ${view.y} ${view.w} ${view.h}`);
+      const scale = base.w / view.w;
+      document.body.classList.toggle('detail-1', scale >= 1.35);
+      document.body.classList.toggle('detail-2', scale >= 1.9);
+      crumb.textContent = scale < 1.3 ? '完整细胞 · 全景' : scale < 2 ? '完整细胞 › 细胞器与通路' : '完整细胞 › 反应网络 › 酶与调节';
+    };
+
+    function zoomAt(factor, clientX = innerWidth / 2, clientY = innerHeight / 2) {
+      const pt = svg.createSVGPoint(); pt.x = clientX; pt.y = clientY;
+      const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+      const nw = Math.max(500, Math.min(1900, view.w * factor));
+      const nh = nw * 900 / 1600;
+      const rx = (p.x - view.x) / view.w, ry = (p.y - view.y) / view.h;
+      view.x = p.x - rx * nw; view.y = p.y - ry * nh; view.w = nw; view.h = nh;
+      applyView();
+    }
+
+    svg.addEventListener('wheel', e => { e.preventDefault(); zoomAt(e.deltaY > 0 ? 1.12 : .88, e.clientX, e.clientY); }, { passive: false });
+    svg.addEventListener('pointerdown', e => {
+      if (e.target.closest('.node, .enzyme, .organelle')) return;
+      drag = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y };
+      svg.setPointerCapture(e.pointerId); svg.classList.add('dragging'); closeCard();
+    });
+    svg.addEventListener('pointermove', e => {
+      if (!drag) return;
+      const sx = view.w / svg.clientWidth, sy = view.h / svg.clientHeight;
+      view.x = drag.vx - (e.clientX - drag.x) * sx; view.y = drag.vy - (e.clientY - drag.y) * sy; applyView();
+    });
+    svg.addEventListener('pointerup', () => { drag = null; svg.classList.remove('dragging'); });
+
+    document.getElementById('zoomIn').onclick = () => zoomAt(.78);
+    document.getElementById('zoomOut').onclick = () => zoomAt(1.25);
+    document.getElementById('reset').onclick = () => { view = { ...base }; applyView(); clearHighlight(); closeCard(); };
+    document.getElementById('closeCard').onclick = closeCard;
+
+    function groupsOf(el) { return (el.dataset.group || '').trim().split(/\s+/).filter(Boolean); }
+    function clearHighlight() {
+      document.querySelectorAll('.active,.dim').forEach(el => el.classList.remove('active','dim'));
+      selected = null;
+    }
+    function highlight(el) {
+      clearHighlight(); selected = el;
+      const groups = groupsOf(el);
+      document.querySelectorAll('.metabolic-path,.node,.enzyme').forEach(item => {
+        const linked = groupsOf(item).some(g => groups.includes(g));
+        item.classList.add(linked ? 'active' : 'dim');
+      });
+      el.classList.add('active');
+    }
+    function openCard(el, evt) {
+      highlight(el);
+      document.getElementById('cardKind').textContent = el.dataset.kind || '知识节点';
+      document.getElementById('cardName').textContent = el.dataset.name || '节点';
+      document.getElementById('cardLatin').textContent = el.dataset.latin || '';
+      document.getElementById('cardInfo').textContent = el.dataset.info || '点击可查看与该对象相关的物质、反应、酶和调节关系。';
+      const chips = document.getElementById('cardChips'); chips.innerHTML = '';
+      groupsOf(el).forEach(g => { const s = document.createElement('span'); s.textContent = ({glycolysis:'糖酵解',pdh:'丙酮酸氧化',tca:'三羧酸循环',etc:'氧化磷酸化',transport:'跨区运输',side:'关联通路'})[g] || g; chips.appendChild(s); });
+      card.classList.add('open');
+      const margin = 14, w = 288, h = 245;
+      card.style.left = `${Math.min(innerWidth - w - margin, Math.max(margin, evt.clientX + 18))}px`;
+      card.style.top = `${Math.min(innerHeight - h - margin, Math.max(84, evt.clientY - 45))}px`;
+    }
+    function closeCard() { card.classList.remove('open'); }
+
+    document.querySelectorAll('.node,.enzyme').forEach(el => el.addEventListener('click', e => { e.stopPropagation(); openCard(el, e); }));
+    document.querySelectorAll('.organelle').forEach(el => el.addEventListener('click', e => {
+      e.stopPropagation(); const box = el.getBBox(); const targetW = Math.max(520, box.width * 3.3); const targetH = targetW * 900 / 1600;
+      view = { x: box.x + box.width/2 - targetW/2, y: box.y + box.height/2 - targetH/2, w: targetW, h: targetH }; applyView();
+      crumb.textContent = `完整细胞 › ${el.dataset.org}`;
+    }));
+
+    const search = document.getElementById('search');
+    search.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      const q = search.value.trim().toLowerCase(); if (!q) return;
+      const target = [...document.querySelectorAll('.node,.enzyme')].find(el => `${el.dataset.name} ${el.dataset.latin}`.toLowerCase().includes(q));
+      if (!target) { search.animate([{transform:'translateX(0)'},{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:260}); return; }
+      const box = target.getBBox(); const targetW = 650, targetH = targetW * 900/1600;
+      view = { x: box.x + box.width/2 - targetW/2, y: box.y + box.height/2 - targetH/2, w: targetW, h: targetH }; applyView();
+      const r = target.getBoundingClientRect(); openCard(target, { clientX: r.left + r.width/2, clientY: r.top + r.height/2 });
+    });
+
+    document.getElementById('focusBtn').onclick = () => {
+      if (!selected) return; const box = selected.getBBox(); const targetW = 590, targetH = targetW*900/1600;
+      view = { x: box.x + box.width/2-targetW/2, y: box.y + box.height/2-targetH/2, w: targetW, h: targetH }; applyView(); closeCard();
+    };
+    document.getElementById('learnBtn').onclick = () => {
+      const glucose = document.querySelector('[data-name="葡萄糖"]'); const b = glucose.getBBox();
+      view = { x: b.x-120, y: b.y-100, w: 720, h: 405 }; applyView();
+      const r = glucose.getBoundingClientRect(); openCard(glucose,{clientX:r.left+20,clientY:r.top+20});
+    };
+
+    applyView();
+  </script>
+</body>
+</html>

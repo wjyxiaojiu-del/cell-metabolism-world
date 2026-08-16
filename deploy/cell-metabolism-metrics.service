@@ -1,0 +1,17 @@
+[Unit]
+Description=Cell Metabolism World metrics
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/cell.xiaojiu.pw/current
+ExecStart=/usr/bin/node /var/www/cell.xiaojiu.pw/current/tools/metrics-server.js
+Environment=METRICS_PORT=18765
+Environment=METRICS_FILE=/var/lib/cell-metabolism/metrics.json
+Restart=always
+RestartSec=2
+User=nginx
+Group=nginx
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,2675 @@
+[
+ {
+  "key": "磷酸烯醇式丙酮酸@cytosol",
+  "name": "磷酸烯醇式丙酮酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 779,
+  "y": 625,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "2-磷酸甘油酸@cytosol",
+  "name": "2-磷酸甘油酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 738,
+  "y": 640,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "核酮糖-5-磷酸@cytosol",
+  "name": "核酮糖-5-磷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 693,
+  "y": 386,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "6-磷酸葡萄糖酸@cytosol",
+  "name": "6-磷酸葡萄糖酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 592,
+  "y": 445,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "6-磷酸葡萄糖酸内酯@cytosol",
+  "name": "6-磷酸葡萄糖酸内酯",
+  "comp": "cytosol",
+  "side": "",
+  "x": 591,
+  "y": 525,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "木酮糖-5-磷酸@cytosol",
+  "name": "木酮糖-5-磷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 558,
+  "y": 544,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "葡萄糖醛酸@cytosol",
+  "name": "葡萄糖醛酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 591,
+  "y": 562,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "UDP-葡萄糖醛酸@cytosol",
+  "name": "UDP-葡萄糖醛酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 591,
+  "y": 602,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "去分支糖原@cytosol",
+  "name": "去分支糖原",
+  "comp": "cytosol",
+  "side": "",
+  "x": 700,
+  "y": 654,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "极限糊精@cytosol",
+  "name": "极限糊精",
+  "comp": "cytosol",
+  "side": "",
+  "x": 658,
+  "y": 710,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "糖原@cytosol",
+  "name": "糖原",
+  "comp": "cytosol",
+  "side": "",
+  "x": 709,
+  "y": 616,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "线性糖原@cytosol",
+  "name": "线性糖原",
+  "comp": "cytosol",
+  "side": "",
+  "x": 768,
+  "y": 666,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "糖原素引物@cytosol",
+  "name": "糖原素引物",
+  "comp": "cytosol",
+  "side": "",
+  "x": 805,
+  "y": 657,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "UDP-葡萄糖@cytosol",
+  "name": "UDP-葡萄糖",
+  "comp": "cytosol",
+  "side": "",
+  "x": 856,
+  "y": 601,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "葡萄糖-1-磷酸@cytosol",
+  "name": "葡萄糖-1-磷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 884,
+  "y": 573,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "葡萄糖-6-磷酸@cytosol",
+  "name": "葡萄糖-6-磷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 560,
+  "y": 504,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "果糖-6-磷酸@cytosol",
+  "name": "果糖-6-磷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 627,
+  "y": 503,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "果糖-1,6-二磷酸@cytosol",
+  "name": "果糖-1,6-二磷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 624,
+  "y": 546,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "甘油-3-磷酸@cytosol",
+  "name": "甘油-3-磷酸",
+  "comp": "cytosol",
+  "side": "胞质侧",
+  "x": 870,
+  "y": 634,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "磷酸二羟丙酮@cytosol",
+  "name": "磷酸二羟丙酮",
+  "comp": "cytosol",
+  "side": "",
+  "x": 748,
+  "y": 565,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "甘油醛-3-磷酸@cytosol",
+  "name": "甘油醛-3-磷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 729,
+  "y": 678,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "1,3-二磷酸甘油酸@cytosol",
+  "name": "1,3-二磷酸甘油酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 625,
+  "y": 735,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "3-磷酸甘油酸@cytosol",
+  "name": "3-磷酸甘油酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 666,
+  "y": 674,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "氨基酸@cytosol",
+  "name": "氨基酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 760,
+  "y": 425,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "丙酮酸@cytosol",
+  "name": "丙酮酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 727,
+  "y": 526,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "丙氨酸@cytosol",
+  "name": "丙氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 741,
+  "y": 371,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "乳酸@cytosol",
+  "name": "乳酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 627,
+  "y": 465,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "草酰乙酸@cytosol",
+  "name": "草酰乙酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 833,
+  "y": 632,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "天冬氨酸@cytosol",
+  "name": "天冬氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 938,
+  "y": 675,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "精氨酸代琥珀酸@cytosol",
+  "name": "精氨酸代琥珀酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 776,
+  "y": 391,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "精氨酸@cytosol",
+  "name": "精氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 626,
+  "y": 386,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "鸟氨酸@cytosol",
+  "name": "鸟氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 727,
+  "y": 319,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "尿素@cytosol",
+  "name": "尿素",
+  "comp": "cytosol",
+  "side": "",
+  "x": 562,
+  "y": 381,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "延胡索酸@cytosol",
+  "name": "延胡索酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 657,
+  "y": 486,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "苹果酸@cytosol",
+  "name": "苹果酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 834,
+  "y": 684,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "α-酮戊二酸@cytosol",
+  "name": "α-酮戊二酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 560,
+  "y": 465,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "谷氨酸@cytosol",
+  "name": "谷氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 659,
+  "y": 445,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "谷氨酰胺@cytosol",
+  "name": "谷氨酰胺",
+  "comp": "cytosol",
+  "side": "",
+  "x": 672,
+  "y": 331,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "氨甲酰磷酸@cytosol",
+  "name": "氨甲酰磷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 624,
+  "y": 347,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "氨甲酰天冬氨酸@cytosol",
+  "name": "氨甲酰天冬氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 705,
+  "y": 351,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "二氢乳清酸@cytosol",
+  "name": "二氢乳清酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 660,
+  "y": 367,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "乳清酸@cytosol",
+  "name": "乳清酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 694,
+  "y": 427,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "UMP@cytosol",
+  "name": "UMP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 626,
+  "y": 425,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "UTP@cytosol",
+  "name": "UTP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 691,
+  "y": 508,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "CTP@cytosol",
+  "name": "CTP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 795,
+  "y": 444,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "NH₄⁺@cytosol",
+  "name": "NH₄⁺",
+  "comp": "cytosol",
+  "side": "",
+  "x": 848,
+  "y": 414,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "γ-谷氨酰半胱氨酸@cytosol",
+  "name": "γ-谷氨酰半胱氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 593,
+  "y": 485,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "GSH@cytosol",
+  "name": "GSH",
+  "comp": "cytosol",
+  "side": "",
+  "x": 626,
+  "y": 579,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "GSSG@cytosol",
+  "name": "GSSG",
+  "comp": "cytosol",
+  "side": "",
+  "x": 666,
+  "y": 632,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "脯氨酸@cytosol",
+  "name": "脯氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 631,
+  "y": 622,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "乙酰辅酶 A@cytosol",
+  "name": "乙酰辅酶 A",
+  "comp": "cytosol",
+  "side": "",
+  "x": 627,
+  "y": 656,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "丙二酰-CoA@cytosol",
+  "name": "丙二酰-CoA",
+  "comp": "cytosol",
+  "side": "",
+  "x": 532,
+  "y": 655,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "棕榈酸@cytosol",
+  "name": "棕榈酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 591,
+  "y": 717,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "琥珀酰辅酶 A@cytosol",
+  "name": "琥珀酰辅酶 A",
+  "comp": "cytosol",
+  "side": "",
+  "x": 590,
+  "y": 676,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "α-酮酸@cytosol",
+  "name": "α-酮酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 623,
+  "y": 697,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "丝氨酸@cytosol",
+  "name": "丝氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 597,
+  "y": 638,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "苯丙氨酸@cytosol",
+  "name": "苯丙氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 557,
+  "y": 698,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "酪氨酸@cytosol",
+  "name": "酪氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 725,
+  "y": 720,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "多巴@cytosol",
+  "name": "多巴",
+  "comp": "cytosol",
+  "side": "",
+  "x": 706,
+  "y": 768,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "儿茶酚胺@cytosol",
+  "name": "儿茶酚胺",
+  "comp": "cytosol",
+  "side": "",
+  "x": 745,
+  "y": 773,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "苯丙酮酸@cytosol",
+  "name": "苯丙酮酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 689,
+  "y": 734,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "乙酰乙酸@cytosol",
+  "name": "乙酰乙酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 658,
+  "y": 755,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "ATP@cytosol",
+  "name": "ATP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 803,
+  "y": 732,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "ADP@cytosol",
+  "name": "ADP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 693,
+  "y": 694,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "无机磷酸@cytosol",
+  "name": "无机磷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 759,
+  "y": 703,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "隔离膜@cytosol",
+  "name": "隔离膜",
+  "comp": "cytosol",
+  "side": "",
+  "x": 592,
+  "y": 407,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "自噬体@cytosol",
+  "name": "自噬体",
+  "comp": "cytosol",
+  "side": "",
+  "x": 660,
+  "y": 565,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "单糖@cytosol",
+  "name": "单糖",
+  "comp": "cytosol",
+  "side": "",
+  "x": 711,
+  "y": 579,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "脂肪酸@cytosol",
+  "name": "脂肪酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 747,
+  "y": 606,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "脂酰-CoA@cytosol",
+  "name": "脂酰-CoA",
+  "comp": "cytosol",
+  "side": "",
+  "x": 875,
+  "y": 497,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "柠檬酸@cytosol",
+  "name": "柠檬酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 694,
+  "y": 544,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "NADPH@cytosol",
+  "name": "NADPH",
+  "comp": "cytosol",
+  "side": "",
+  "x": 676,
+  "y": 597,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "叶酸@cytosol",
+  "name": "叶酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 794,
+  "y": 484,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "THF@cytosol",
+  "name": "THF",
+  "comp": "cytosol",
+  "side": "",
+  "x": 659,
+  "y": 406,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "5,10-亚甲基-THF@cytosol",
+  "name": "5,10-亚甲基-THF",
+  "comp": "cytosol",
+  "side": "",
+  "x": 809,
+  "y": 370,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "10-甲酰-THF@cytosol",
+  "name": "10-甲酰-THF",
+  "comp": "cytosol",
+  "side": "",
+  "x": 837,
+  "y": 338,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "5-甲基-THF@cytosol",
+  "name": "5-甲基-THF",
+  "comp": "cytosol",
+  "side": "",
+  "x": 871,
+  "y": 322,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "蛋氨酸@cytosol",
+  "name": "蛋氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 798,
+  "y": 335,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "嘌呤@cytosol",
+  "name": "嘌呤",
+  "comp": "cytosol",
+  "side": "",
+  "x": 910,
+  "y": 331,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "果糖@cytosol",
+  "name": "果糖",
+  "comp": "cytosol",
+  "side": "",
+  "x": 920,
+  "y": 403,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "果糖-1-磷酸@cytosol",
+  "name": "果糖-1-磷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 956,
+  "y": 413,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "甘油醛@cytosol",
+  "name": "甘油醛",
+  "comp": "cytosol",
+  "side": "",
+  "x": 882,
+  "y": 359,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "半乳糖@cytosol",
+  "name": "半乳糖",
+  "comp": "cytosol",
+  "side": "",
+  "x": 973,
+  "y": 356,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "半乳糖-1-磷酸@cytosol",
+  "name": "半乳糖-1-磷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 1020,
+  "y": 413,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "UDP-半乳糖@cytosol",
+  "name": "UDP-半乳糖",
+  "comp": "cytosol",
+  "side": "",
+  "x": 1039,
+  "y": 487,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "葡萄糖@cytosol",
+  "name": "葡萄糖",
+  "comp": "cytosol",
+  "side": "",
+  "x": 560,
+  "y": 427,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "甘油@cytosol",
+  "name": "甘油",
+  "comp": "cytosol",
+  "side": "",
+  "x": 728,
+  "y": 485,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "H₂O₂@cytosol",
+  "name": "H₂O₂",
+  "comp": "cytosol",
+  "side": "",
+  "x": 833,
+  "y": 487,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "H₂O@cytosol",
+  "name": "H₂O",
+  "comp": "cytosol",
+  "side": "",
+  "x": 933,
+  "y": 444,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "脂质过氧化物@cytosol",
+  "name": "脂质过氧化物",
+  "comp": "cytosol",
+  "side": "",
+  "x": 977,
+  "y": 446,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "脂质醇@cytosol",
+  "name": "脂质醇",
+  "comp": "cytosol",
+  "side": "",
+  "x": 990,
+  "y": 391,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "NADH@cytosol",
+  "name": "NADH",
+  "comp": "cytosol",
+  "side": "",
+  "x": 955,
+  "y": 601,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "卟胆原@cytosol",
+  "name": "卟胆原",
+  "comp": "cytosol",
+  "side": "",
+  "x": 661,
+  "y": 522,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "尿卟啉原 III@cytosol",
+  "name": "尿卟啉原 III",
+  "comp": "cytosol",
+  "side": "",
+  "x": 695,
+  "y": 463,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "胆绿素@cytosol",
+  "name": "胆绿素",
+  "comp": "cytosol",
+  "side": "",
+  "x": 808,
+  "y": 410,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "胆红素@cytosol",
+  "name": "胆红素",
+  "comp": "cytosol",
+  "side": "",
+  "x": 776,
+  "y": 542,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "胆固醇@cytosol",
+  "name": "胆固醇",
+  "comp": "cytosol",
+  "side": "",
+  "x": 761,
+  "y": 506,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "核苷@cytosol",
+  "name": "核苷",
+  "comp": "cytosol",
+  "side": "",
+  "x": 808,
+  "y": 519,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "钠离子@cytosol",
+  "name": "钠离子",
+  "comp": "cytosol",
+  "side": "",
+  "x": 765,
+  "y": 315,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "SAM@cytosol",
+  "name": "SAM",
+  "comp": "cytosol",
+  "side": "",
+  "x": 727,
+  "y": 407,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "SAH@cytosol",
+  "name": "SAH",
+  "comp": "cytosol",
+  "side": "",
+  "x": 724,
+  "y": 448,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "同型半胱氨酸@cytosol",
+  "name": "同型半胱氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 759,
+  "y": 469,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "胱硫醚@cytosol",
+  "name": "胱硫醚",
+  "comp": "cytosol",
+  "side": "",
+  "x": 848,
+  "y": 524,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "半胱氨酸@cytosol",
+  "name": "半胱氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 883,
+  "y": 535,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "硝酸盐@cytosol",
+  "name": "硝酸盐",
+  "comp": "cytosol",
+  "side": "",
+  "x": 911,
+  "y": 507,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "亚硝酸盐@cytosol",
+  "name": "亚硝酸盐",
+  "comp": "cytosol",
+  "side": "",
+  "x": 868,
+  "y": 460,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "核酸@cytosol",
+  "name": "核酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 830,
+  "y": 450,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "核苷酸@cytosol",
+  "name": "核苷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 847,
+  "y": 376,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "碱基@cytosol",
+  "name": "碱基",
+  "comp": "cytosol",
+  "side": "",
+  "x": 881,
+  "y": 398,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "次黄嘌呤@cytosol",
+  "name": "次黄嘌呤",
+  "comp": "cytosol",
+  "side": "",
+  "x": 896,
+  "y": 432,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "尿酸@cytosol",
+  "name": "尿酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 905,
+  "y": 472,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "鸟嘌呤@cytosol",
+  "name": "鸟嘌呤",
+  "comp": "cytosol",
+  "side": "",
+  "x": 940,
+  "y": 482,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "尿嘧啶@cytosol",
+  "name": "尿嘧啶",
+  "comp": "cytosol",
+  "side": "",
+  "x": 979,
+  "y": 484,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "β-丙氨酸@cytosol",
+  "name": "β-丙氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 1012,
+  "y": 460,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "胸腺嘧啶@cytosol",
+  "name": "胸腺嘧啶",
+  "comp": "cytosol",
+  "side": "",
+  "x": 998,
+  "y": 546,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "β-氨基异丁酸@cytosol",
+  "name": "β-氨基异丁酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 1014,
+  "y": 616,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "山梨醇@cytosol",
+  "name": "山梨醇",
+  "comp": "cytosol",
+  "side": "",
+  "x": 949,
+  "y": 519,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "核糖-5-磷酸@cytosol",
+  "name": "核糖-5-磷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 987,
+  "y": 583,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "景天庚酮糖-7-磷酸@cytosol",
+  "name": "景天庚酮糖-7-磷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 869,
+  "y": 674,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "赤藓糖-4-磷酸@cytosol",
+  "name": "赤藓糖-4-磷酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 897,
+  "y": 740,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "PRPP@cytosol",
+  "name": "PRPP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 966,
+  "y": 701,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "5-磷酸核糖胺@cytosol",
+  "name": "5-磷酸核糖胺",
+  "comp": "cytosol",
+  "side": "",
+  "x": 794,
+  "y": 771,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "GAR@cytosol",
+  "name": "GAR",
+  "comp": "cytosol",
+  "side": "",
+  "x": 765,
+  "y": 741,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "AICAR@cytosol",
+  "name": "AICAR",
+  "comp": "cytosol",
+  "side": "",
+  "x": 872,
+  "y": 711,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "IMP@cytosol",
+  "name": "IMP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 840,
+  "y": 737,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "AMP@cytosol",
+  "name": "AMP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 905,
+  "y": 656,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "GMP@cytosol",
+  "name": "GMP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 795,
+  "y": 695,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "GTP@cytosol",
+  "name": "GTP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 781,
+  "y": 586,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "UDP@cytosol",
+  "name": "UDP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 810,
+  "y": 559,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "dUDP@cytosol",
+  "name": "dUDP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 816,
+  "y": 595,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "dTMP@cytosol",
+  "name": "dTMP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 920,
+  "y": 547,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "腺嘌呤@cytosol",
+  "name": "腺嘌呤",
+  "comp": "cytosol",
+  "side": "",
+  "x": 845,
+  "y": 561,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "腺苷@cytosol",
+  "name": "腺苷",
+  "comp": "cytosol",
+  "side": "",
+  "x": 957,
+  "y": 559,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "胞苷@cytosol",
+  "name": "胞苷",
+  "comp": "cytosol",
+  "side": "",
+  "x": 937,
+  "y": 637,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "CMP@cytosol",
+  "name": "CMP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 903,
+  "y": 620,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "NMP@cytosol",
+  "name": "NMP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 832,
+  "y": 773,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "NDP@cytosol",
+  "name": "NDP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 871,
+  "y": 768,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "NTP@cytosol",
+  "name": "NTP",
+  "comp": "cytosol",
+  "side": "",
+  "x": 954,
+  "y": 738,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "3-磷酸羟基丙酮酸@cytosol",
+  "name": "3-磷酸羟基丙酮酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 904,
+  "y": 697,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "磷酸丝氨酸@cytosol",
+  "name": "磷酸丝氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 971,
+  "y": 655,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "甘氨酸@cytosol",
+  "name": "甘氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 920,
+  "y": 582,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "瓜氨酸@cytosol",
+  "name": "瓜氨酸",
+  "comp": "cytosol",
+  "side": "",
+  "x": 1007,
+  "y": 509,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "内吞货物@endosome",
+  "name": "内吞货物",
+  "comp": "endosome",
+  "side": "",
+  "x": 1270,
+  "y": 649,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "酸化内体货物@endosome",
+  "name": "酸化内体货物",
+  "comp": "endosome",
+  "side": "",
+  "x": 1319,
+  "y": 692,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "LDL@endosome",
+  "name": "LDL",
+  "comp": "endosome",
+  "side": "",
+  "x": 1377,
+  "y": 739,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "葡萄糖-6-磷酸@er-lumen",
+  "name": "葡萄糖-6-磷酸",
+  "comp": "er-lumen",
+  "side": "",
+  "x": 1203,
+  "y": 480,
+  "rule": "膜带"
+ },
+ {
+  "key": "葡萄糖@er-lumen",
+  "name": "葡萄糖",
+  "comp": "er-lumen",
+  "side": "",
+  "x": 1284,
+  "y": 480,
+  "rule": "膜带"
+ },
+ {
+  "key": "UDP-葡萄糖@er-lumen",
+  "name": "UDP-葡萄糖",
+  "comp": "er-lumen",
+  "side": "",
+  "x": 1366,
+  "y": 480,
+  "rule": "膜带"
+ },
+ {
+  "key": "UDP-葡萄糖醛酸@er-lumen",
+  "name": "UDP-葡萄糖醛酸",
+  "comp": "er-lumen",
+  "side": "",
+  "x": 1447,
+  "y": 480,
+  "rule": "膜带"
+ },
+ {
+  "key": "VLDL@extracellular",
+  "name": "VLDL",
+  "comp": "extracellular",
+  "side": "",
+  "x": 499,
+  "y": 38,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "IDL@extracellular",
+  "name": "IDL",
+  "comp": "extracellular",
+  "side": "",
+  "x": 373,
+  "y": 50,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "LDL@extracellular",
+  "name": "LDL",
+  "comp": "extracellular",
+  "side": "",
+  "x": 413,
+  "y": 89,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "糖基化蛋白@extracellular",
+  "name": "糖基化蛋白",
+  "comp": "extracellular",
+  "side": "",
+  "x": 462,
+  "y": 71,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "乳糜微粒@extracellular",
+  "name": "乳糜微粒",
+  "comp": "extracellular",
+  "side": "",
+  "x": 545,
+  "y": 86,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "残粒@extracellular",
+  "name": "残粒",
+  "comp": "extracellular",
+  "side": "",
+  "x": 612,
+  "y": 84,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "HDL@extracellular",
+  "name": "HDL",
+  "comp": "extracellular",
+  "side": "",
+  "x": 684,
+  "y": 93,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "胆固醇酯@extracellular",
+  "name": "胆固醇酯",
+  "comp": "extracellular",
+  "side": "",
+  "x": 755,
+  "y": 102,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "葡萄糖@extracellular",
+  "name": "葡萄糖",
+  "comp": "extracellular",
+  "side": "",
+  "x": 827,
+  "y": 111,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "氨基酸@extracellular",
+  "name": "氨基酸",
+  "comp": "extracellular",
+  "side": "",
+  "x": 899,
+  "y": 120,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "脂肪酸@extracellular",
+  "name": "脂肪酸",
+  "comp": "extracellular",
+  "side": "",
+  "x": 970,
+  "y": 129,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "乳酸@extracellular",
+  "name": "乳酸",
+  "comp": "extracellular",
+  "side": "",
+  "x": 1042,
+  "y": 138,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "无机磷酸@extracellular",
+  "name": "无机磷酸",
+  "comp": "extracellular",
+  "side": "",
+  "x": 1096,
+  "y": 145,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "钠离子@extracellular",
+  "name": "钠离子",
+  "comp": "extracellular",
+  "side": "",
+  "x": 1150,
+  "y": 149,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "苹果酸@glyoxysome",
+  "name": "苹果酸",
+  "comp": "glyoxysome",
+  "side": "",
+  "x": 220,
+  "y": 377,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "草酰乙酸@glyoxysome",
+  "name": "草酰乙酸",
+  "comp": "glyoxysome",
+  "side": "",
+  "x": 143,
+  "y": 416,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "柠檬酸@glyoxysome",
+  "name": "柠檬酸",
+  "comp": "glyoxysome",
+  "side": "",
+  "x": 183,
+  "y": 467,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "异柠檬酸@glyoxysome",
+  "name": "异柠檬酸",
+  "comp": "glyoxysome",
+  "side": "",
+  "x": 261,
+  "y": 480,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "乙醛酸@glyoxysome",
+  "name": "乙醛酸",
+  "comp": "glyoxysome",
+  "side": "",
+  "x": 271,
+  "y": 416,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "乙酰辅酶 A@glyoxysome",
+  "name": "乙酰辅酶 A",
+  "comp": "glyoxysome",
+  "side": "",
+  "x": 188,
+  "y": 409,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "琥珀酸@glyoxysome",
+  "name": "琥珀酸",
+  "comp": "glyoxysome",
+  "side": "",
+  "x": 231,
+  "y": 445,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "糖基化蛋白@golgi",
+  "name": "糖基化蛋白",
+  "comp": "golgi",
+  "side": "",
+  "x": 1097,
+  "y": 732,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "鞘磷脂@golgi",
+  "name": "鞘磷脂",
+  "comp": "golgi",
+  "side": "",
+  "x": 1185,
+  "y": 809,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "糖鞘脂@golgi",
+  "name": "糖鞘脂",
+  "comp": "golgi",
+  "side": "",
+  "x": 1289,
+  "y": 892,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "自噬溶酶体@lysosome",
+  "name": "自噬溶酶体",
+  "comp": "lysosome",
+  "side": "",
+  "x": 1368,
+  "y": 699,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "溶酶体货物@lysosome",
+  "name": "溶酶体货物",
+  "comp": "lysosome",
+  "side": "",
+  "x": 1487,
+  "y": 799,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "脂酰肉碱@mito-ims",
+  "name": "脂酰肉碱",
+  "comp": "mito-ims",
+  "side": "",
+  "x": 296,
+  "y": 885,
+  "rule": "膜带"
+ },
+ {
+  "key": "细胞色素 c@mito-ims",
+  "name": "细胞色素 c",
+  "comp": "mito-ims",
+  "side": "膜间隙侧",
+  "x": 419,
+  "y": 850,
+  "rule": "膜带"
+ },
+ {
+  "key": "膜间隙 H⁺@mito-ims",
+  "name": "膜间隙 H⁺",
+  "comp": "mito-ims",
+  "side": "膜间隙侧",
+  "x": 541,
+  "y": 850,
+  "rule": "膜带"
+ },
+ {
+  "key": "丙酮酸@mito-ims",
+  "name": "丙酮酸",
+  "comp": "mito-ims",
+  "side": "",
+  "x": 664,
+  "y": 885,
+  "rule": "膜带"
+ },
+ {
+  "key": "复合体 I@mito-inner-membrane",
+  "name": "复合体 I",
+  "comp": "mito-inner-membrane",
+  "side": "两侧",
+  "x": 318,
+  "y": 885,
+  "rule": "膜带"
+ },
+ {
+  "key": "泛醇@mito-inner-membrane",
+  "name": "泛醇",
+  "comp": "mito-inner-membrane",
+  "side": "",
+  "x": 354,
+  "y": 885,
+  "rule": "膜带"
+ },
+ {
+  "key": "复合体 III@mito-inner-membrane",
+  "name": "复合体 III",
+  "comp": "mito-inner-membrane",
+  "side": "两侧",
+  "x": 390,
+  "y": 885,
+  "rule": "膜带"
+ },
+ {
+  "key": "复合体 II@mito-inner-membrane",
+  "name": "复合体 II",
+  "comp": "mito-inner-membrane",
+  "side": "基质侧",
+  "x": 426,
+  "y": 915,
+  "rule": "膜带"
+ },
+ {
+  "key": "辅酶 Q@mito-inner-membrane",
+  "name": "辅酶 Q",
+  "comp": "mito-inner-membrane",
+  "side": "",
+  "x": 462,
+  "y": 885,
+  "rule": "膜带"
+ },
+ {
+  "key": "复合体 IV@mito-inner-membrane",
+  "name": "复合体 IV",
+  "comp": "mito-inner-membrane",
+  "side": "两侧",
+  "x": 498,
+  "y": 885,
+  "rule": "膜带"
+ },
+ {
+  "key": "质子动力势@mito-inner-membrane",
+  "name": "质子动力势",
+  "comp": "mito-inner-membrane",
+  "side": "两侧",
+  "x": 534,
+  "y": 885,
+  "rule": "膜带"
+ },
+ {
+  "key": "ATP 合酶@mito-inner-membrane",
+  "name": "ATP 合酶",
+  "comp": "mito-inner-membrane",
+  "side": "两侧",
+  "x": 570,
+  "y": 885,
+  "rule": "膜带"
+ },
+ {
+  "key": "胆固醇@mito-inner-membrane",
+  "name": "胆固醇",
+  "comp": "mito-inner-membrane",
+  "side": "",
+  "x": 606,
+  "y": 885,
+  "rule": "膜带"
+ },
+ {
+  "key": "孕烯醇酮@mito-inner-membrane",
+  "name": "孕烯醇酮",
+  "comp": "mito-inner-membrane",
+  "side": "",
+  "x": 642,
+  "y": 885,
+  "rule": "膜带"
+ },
+ {
+  "key": "草酰乙酸@mito-matrix",
+  "name": "草酰乙酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 513,
+  "y": 817,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "苹果酸@mito-matrix",
+  "name": "苹果酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 558,
+  "y": 854,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "延胡索酸@mito-matrix",
+  "name": "延胡索酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 580,
+  "y": 911,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "琥珀酸@mito-matrix",
+  "name": "琥珀酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 495,
+  "y": 938,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "琥珀酰辅酶 A@mito-matrix",
+  "name": "琥珀酰辅酶 A",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 439,
+  "y": 920,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "α-酮戊二酸@mito-matrix",
+  "name": "α-酮戊二酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 378,
+  "y": 928,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "异柠檬酸@mito-matrix",
+  "name": "异柠檬酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 365,
+  "y": 878,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "柠檬酸@mito-matrix",
+  "name": "柠檬酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 455,
+  "y": 820,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "脂酰肉碱@mito-matrix",
+  "name": "脂酰肉碱",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 425,
+  "y": 820,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "脂酰-CoA@mito-matrix",
+  "name": "脂酰-CoA",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 356,
+  "y": 836,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "烯酰-CoA@mito-matrix",
+  "name": "烯酰-CoA",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 381,
+  "y": 853,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "β-羟脂酰-CoA@mito-matrix",
+  "name": "β-羟脂酰-CoA",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 396,
+  "y": 827,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "β-酮脂酰-CoA@mito-matrix",
+  "name": "β-酮脂酰-CoA",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 464,
+  "y": 892,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "乙酰辅酶 A@mito-matrix",
+  "name": "乙酰辅酶 A",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 532,
+  "y": 840,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "乙酰乙酰辅酶 A@mito-matrix",
+  "name": "乙酰乙酰辅酶 A",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 466,
+  "y": 863,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "HMG-CoA@mito-matrix",
+  "name": "HMG-CoA",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 532,
+  "y": 894,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "乙酰乙酸@mito-matrix",
+  "name": "乙酰乙酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 551,
+  "y": 917,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "β-羟丁酸@mito-matrix",
+  "name": "β-羟丁酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 518,
+  "y": 867,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "ATP@mito-matrix",
+  "name": "ATP",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 610,
+  "y": 931,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "ADP@mito-matrix",
+  "name": "ADP",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 580,
+  "y": 941,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "无机磷酸@mito-matrix",
+  "name": "无机磷酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 636,
+  "y": 917,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "BCAA@mito-matrix",
+  "name": "BCAA",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 411,
+  "y": 853,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "支链α-酮酸@mito-matrix",
+  "name": "支链α-酮酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 396,
+  "y": 879,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "支链酰-CoA@mito-matrix",
+  "name": "支链酰-CoA",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 480,
+  "y": 837,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "亮氨酸@mito-matrix",
+  "name": "亮氨酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 521,
+  "y": 922,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "异亮氨酸@mito-matrix",
+  "name": "异亮氨酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 469,
+  "y": 923,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "NADH@mito-matrix",
+  "name": "NADH",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 601,
+  "y": 867,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "氧@mito-matrix",
+  "name": "氧",
+  "comp": "mito-matrix",
+  "side": "基质侧",
+  "x": 645,
+  "y": 863,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "水@mito-matrix",
+  "name": "水",
+  "comp": "mito-matrix",
+  "side": "基质侧",
+  "x": 654,
+  "y": 892,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "丙酮酸@mito-matrix",
+  "name": "丙酮酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 556,
+  "y": 823,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "甘氨酸@mito-matrix",
+  "name": "甘氨酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 440,
+  "y": 846,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "ALA@mito-matrix",
+  "name": "ALA",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 419,
+  "y": 898,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "原卟啉 IX@mito-matrix",
+  "name": "原卟啉 IX",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 439,
+  "y": 876,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "血红素@mito-matrix",
+  "name": "血红素",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 491,
+  "y": 878,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "天冬氨酸@mito-matrix",
+  "name": "天冬氨酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 584,
+  "y": 835,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "谷氨酸@mito-matrix",
+  "name": "谷氨酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 409,
+  "y": 927,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "NH₄⁺@mito-matrix",
+  "name": "NH₄⁺",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 494,
+  "y": 908,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "氨甲酰磷酸@mito-matrix",
+  "name": "氨甲酰磷酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 561,
+  "y": 888,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "瓜氨酸@mito-matrix",
+  "name": "瓜氨酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 551,
+  "y": 947,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "鸟氨酸@mito-matrix",
+  "name": "鸟氨酸",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 469,
+  "y": 954,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "缩短脂酰-CoA@mito-matrix",
+  "name": "缩短脂酰-CoA",
+  "comp": "mito-matrix",
+  "side": "",
+  "x": 521,
+  "y": 952,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "VLCFA-CoA@peroxisome",
+  "name": "VLCFA-CoA",
+  "comp": "peroxisome",
+  "side": "",
+  "x": 1407,
+  "y": 497,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "烯酰-CoA@peroxisome",
+  "name": "烯酰-CoA",
+  "comp": "peroxisome",
+  "side": "",
+  "x": 1342,
+  "y": 523,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "β-羟脂酰-CoA@peroxisome",
+  "name": "β-羟脂酰-CoA",
+  "comp": "peroxisome",
+  "side": "",
+  "x": 1329,
+  "y": 559,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "β-酮脂酰-CoA@peroxisome",
+  "name": "β-酮脂酰-CoA",
+  "comp": "peroxisome",
+  "side": "",
+  "x": 1388,
+  "y": 535,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "缩短脂酰-CoA@peroxisome",
+  "name": "缩短脂酰-CoA",
+  "comp": "peroxisome",
+  "side": "",
+  "x": 1371,
+  "y": 502,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "磷酸二羟丙酮@peroxisome",
+  "name": "磷酸二羟丙酮",
+  "comp": "peroxisome",
+  "side": "",
+  "x": 1372,
+  "y": 567,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "脂酰-DHAP@peroxisome",
+  "name": "脂酰-DHAP",
+  "comp": "peroxisome",
+  "side": "",
+  "x": 1404,
+  "y": 594,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "烷基-DHAP@peroxisome",
+  "name": "烷基-DHAP",
+  "comp": "peroxisome",
+  "side": "",
+  "x": 1468,
+  "y": 561,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "烷基甘油-3-磷酸@peroxisome",
+  "name": "烷基甘油-3-磷酸",
+  "comp": "peroxisome",
+  "side": "",
+  "x": 1435,
+  "y": 575,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "H₂O₂@peroxisome",
+  "name": "H₂O₂",
+  "comp": "peroxisome",
+  "side": "",
+  "x": 1435,
+  "y": 613,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "水@peroxisome",
+  "name": "水",
+  "comp": "peroxisome",
+  "side": "",
+  "x": 1471,
+  "y": 597,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "胆固醇@plasma-membrane",
+  "name": "胆固醇",
+  "comp": "plasma-membrane",
+  "side": "",
+  "x": 800,
+  "y": 1038,
+  "rule": "膜带单节点边缘"
+ },
+ {
+  "key": "淀粉@plastid",
+  "name": "淀粉",
+  "comp": "plastid",
+  "side": "",
+  "x": 243,
+  "y": 206,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "葡萄糖-1-磷酸@plastid",
+  "name": "葡萄糖-1-磷酸",
+  "comp": "plastid",
+  "side": "",
+  "x": 166,
+  "y": 308,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "ADP-葡萄糖@plastid",
+  "name": "ADP-葡萄糖",
+  "comp": "plastid",
+  "side": "",
+  "x": 284,
+  "y": 269,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "硫酸盐@plastid",
+  "name": "硫酸盐",
+  "comp": "plastid",
+  "side": "",
+  "x": 197,
+  "y": 177,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "APS@plastid",
+  "name": "APS",
+  "comp": "plastid",
+  "side": "",
+  "x": 127,
+  "y": 246,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "亚硫酸盐@plastid",
+  "name": "亚硫酸盐",
+  "comp": "plastid",
+  "side": "",
+  "x": 165,
+  "y": 264,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "硫化物@plastid",
+  "name": "硫化物",
+  "comp": "plastid",
+  "side": "",
+  "x": 154,
+  "y": 179,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "半胱氨酸@plastid",
+  "name": "半胱氨酸",
+  "comp": "plastid",
+  "side": "",
+  "x": 163,
+  "y": 221,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "PAPS@plastid",
+  "name": "PAPS",
+  "comp": "plastid",
+  "side": "",
+  "x": 245,
+  "y": 292,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "亚硝酸盐@plastid",
+  "name": "亚硝酸盐",
+  "comp": "plastid",
+  "side": "",
+  "x": 209,
+  "y": 271,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "NH₄⁺@plastid",
+  "name": "NH₄⁺",
+  "comp": "plastid",
+  "side": "",
+  "x": 205,
+  "y": 228,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "谷氨酰胺@plastid",
+  "name": "谷氨酰胺",
+  "comp": "plastid",
+  "side": "",
+  "x": 284,
+  "y": 313,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "谷氨酸@plastid",
+  "name": "谷氨酸",
+  "comp": "plastid",
+  "side": "",
+  "x": 246,
+  "y": 249,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "α-酮戊二酸@plastid",
+  "name": "α-酮戊二酸",
+  "comp": "plastid",
+  "side": "",
+  "x": 205,
+  "y": 325,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "麦芽糖@plastid",
+  "name": "麦芽糖",
+  "comp": "plastid",
+  "side": "",
+  "x": 247,
+  "y": 336,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "葡萄糖@plastid",
+  "name": "葡萄糖",
+  "comp": "plastid",
+  "side": "",
+  "x": 323,
+  "y": 295,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "UDP-葡萄糖@rough-er",
+  "name": "UDP-葡萄糖",
+  "comp": "rough-er",
+  "side": "",
+  "x": 1216,
+  "y": 415,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "糖基化蛋白@rough-er",
+  "name": "糖基化蛋白",
+  "comp": "rough-er",
+  "side": "",
+  "x": 1279,
+  "y": 511,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "甘油-3-磷酸@smooth-er",
+  "name": "甘油-3-磷酸",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1415,
+  "y": 392,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "溶血磷脂酸@smooth-er",
+  "name": "溶血磷脂酸",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1376,
+  "y": 397,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "磷脂酸@smooth-er",
+  "name": "磷脂酸",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1314,
+  "y": 440,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "DAG@smooth-er",
+  "name": "DAG",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1300,
+  "y": 498,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "TAG@smooth-er",
+  "name": "TAG",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1303,
+  "y": 531,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "脂肪酸@smooth-er",
+  "name": "脂肪酸",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1314,
+  "y": 559,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "甘油@smooth-er",
+  "name": "甘油",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1330,
+  "y": 496,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "磷脂酰胆碱@smooth-er",
+  "name": "磷脂酰胆碱",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1304,
+  "y": 468,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "磷脂酰乙醇胺@smooth-er",
+  "name": "磷脂酰乙醇胺",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1344,
+  "y": 441,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "CDP-DAG@smooth-er",
+  "name": "CDP-DAG",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1372,
+  "y": 431,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "磷脂酰肌醇@smooth-er",
+  "name": "磷脂酰肌醇",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1399,
+  "y": 417,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "乙酰辅酶 A@smooth-er",
+  "name": "乙酰辅酶 A",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1403,
+  "y": 450,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "乙酰乙酰辅酶 A@smooth-er",
+  "name": "乙酰乙酰辅酶 A",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1438,
+  "y": 469,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "HMG-CoA@smooth-er",
+  "name": "HMG-CoA",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1431,
+  "y": 440,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "甲羟戊酸@smooth-er",
+  "name": "甲羟戊酸",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1374,
+  "y": 461,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "异戊烯焦磷酸@smooth-er",
+  "name": "异戊烯焦磷酸",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1350,
+  "y": 411,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "鲨烯@smooth-er",
+  "name": "鲨烯",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1334,
+  "y": 525,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "胆固醇@smooth-er",
+  "name": "胆固醇",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1394,
+  "y": 507,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "棕榈酰-CoA@smooth-er",
+  "name": "棕榈酰-CoA",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1369,
+  "y": 490,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "硬脂酰-CoA@smooth-er",
+  "name": "硬脂酰-CoA",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1346,
+  "y": 470,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "油酰-CoA@smooth-er",
+  "name": "油酰-CoA",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1388,
+  "y": 537,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "多不饱和脂肪酸-CoA@smooth-er",
+  "name": "多不饱和脂肪酸-CoA",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1405,
+  "y": 562,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "胆红素@smooth-er",
+  "name": "胆红素",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1420,
+  "y": 494,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "结合胆红素@smooth-er",
+  "name": "结合胆红素",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1429,
+  "y": 525,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "磷脂酰丝氨酸@smooth-er",
+  "name": "磷脂酰丝氨酸",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1364,
+  "y": 520,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "磷脂酰甘油@smooth-er",
+  "name": "磷脂酰甘油",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1348,
+  "y": 589,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "心磷脂@smooth-er",
+  "name": "心磷脂",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1419,
+  "y": 590,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "烷基甘油-3-磷酸@smooth-er",
+  "name": "烷基甘油-3-磷酸",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1450,
+  "y": 497,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "质醚磷脂@smooth-er",
+  "name": "质醚磷脂",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1480,
+  "y": 490,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "丝氨酸@smooth-er",
+  "name": "丝氨酸",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1434,
+  "y": 555,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "3-酮鞘氨醇@smooth-er",
+  "name": "3-酮鞘氨醇",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1448,
+  "y": 581,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "二氢鞘氨醇@smooth-er",
+  "name": "二氢鞘氨醇",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1386,
+  "y": 586,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "二氢神经酰胺@smooth-er",
+  "name": "二氢神经酰胺",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1369,
+  "y": 610,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "神经酰胺@smooth-er",
+  "name": "神经酰胺",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1365,
+  "y": 564,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "类固醇激素@smooth-er",
+  "name": "类固醇激素",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1399,
+  "y": 612,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "胆汁酸@smooth-er",
+  "name": "胆汁酸",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1463,
+  "y": 548,
+  "rule": "区室安全布局"
+ },
+ {
+  "key": "维生素D@smooth-er",
+  "name": "维生素D",
+  "comp": "smooth-er",
+  "side": "",
+  "x": 1470,
+  "y": 519,
+  "rule": "区室安全布局"
+ }
+]

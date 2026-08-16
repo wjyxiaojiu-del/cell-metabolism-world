@@ -1,0 +1,12 @@
+# Normalize text files to LF in the repository and working tree.
+# The project explicitly requires UTF-8 no BOM + LF (see HANDOVER.md §3.1).
+* text=auto eol=lf
+
+# Binary assets must never be normalized.
+*.png binary
+*.webp binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.gz binary
+*.zip binary

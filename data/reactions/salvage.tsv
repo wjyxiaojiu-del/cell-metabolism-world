@@ -1,0 +1,11 @@
+#	通路: 核苷酸补救合成	Nucleotide salvage
+#	默认区室: 细胞质
+#	来源: PDF 核苷酸代谢区
+底物	产物	酶	可逆	反应式	审校	备注
+腺嘌呤	AMP	腺嘌呤磷酸核糖转移酶	否	腺嘌呤 + PRPP → AMP + PPi	已终审	嘌呤碱基补救
+次黄嘌呤	IMP	次黄嘌呤-鸟嘌呤磷酸核糖转移酶 HGPRT	否	次黄嘌呤 + PRPP → IMP + PPi	已终审	嘌呤碱基补救
+鸟嘌呤	GMP	次黄嘌呤-鸟嘌呤磷酸核糖转移酶 HGPRT	否	鸟嘌呤 + PRPP → GMP + PPi	已终审	嘌呤碱基补救
+腺苷	AMP	腺苷激酶	否	腺苷 + ATP → AMP + ADP	已终审	核苷补救
+胞苷	CMP	胞苷激酶	否	胞苷 + ATP → CMP + ADP	已终审	嘧啶核苷补救
+NMP	NDP	核苷酸激酶	是	NMP + ATP ⇌ NDP + ADP	已终审	进入 NTP 池；NMP/NDP 为概念池节点
+NDP	NTP	核苷二磷酸激酶	是	NDP + ATP ⇌ NTP + ADP	已终审	核苷酸池扩增；NTP 为概念池节点

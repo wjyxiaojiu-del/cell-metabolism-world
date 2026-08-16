@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Test artifacts (regenerated on every run)
+test-results/
+output/
+.playwright-cli/
+
+# Large source assets — moved outside the repo for runtime-only deployment.
+# Runtime uses only cell-metabolism-assets/optimized/.
+cell-metabolism-assets/archive/
+cell-metabolism-assets/source-*/
+cell-metabolism-assets/references/
+
+# Historical backups and staging bundles (keep on disk, not in git)
+delivery/backups/
+delivery/staging/
+
+# Agent/workspace local state
+.superpowers/
+
+# Historical large screenshot evidence (keep on disk, not in git)
+docs/archive/screenshots-2026-08/
+
+# Logs
+*.log
+
+# OS / editor noise
+Thumbs.db
+.DS_Store

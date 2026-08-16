@@ -1,0 +1,8 @@
+#	通路: 氧化磷酸化	Oxidative phosphorylation
+#	默认区室: 线粒体内膜
+#	来源: PDF 氧化磷酸化区
+底物	产物	酶	可逆	反应式	审校	备注
+膜间隙 H⁺@线粒体膜间隙	ATP@线粒体基质	ATP 合酶	否	ADP基质 + Pi基质 + H⁺膜间隙 → ATP基质 + H₂O + H⁺基质	已终审	质子动力势驱动 ATP 合成
+ADP@线粒体基质	ATP@线粒体基质	ATP 合酶	否	ADP基质 + Pi基质 + H⁺膜间隙 → ATP基质 + H₂O + H⁺基质	已终审	主表示边；辅因子在反应式中
+ATP@线粒体基质	ATP@细胞质	腺嘌呤核苷酸转位酶 ANT	是	ATP基质 + ADP胞质 ⇌ ATP胞质 + ADP基质	已终审	与跨膜转运通路共享
+ADP@细胞质	ADP@线粒体基质	腺嘌呤核苷酸转位酶 ANT	是	ATP基质 + ADP胞质 ⇌ ATP胞质 + ADP基质	已终审	与跨膜转运通路共享
