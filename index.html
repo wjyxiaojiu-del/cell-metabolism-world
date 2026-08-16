@@ -10075,12 +10075,14 @@
           route.setAttribute('aria-hidden', String(!available));
         });
         document.querySelectorAll('#enzymeLayer .enzyme').forEach(enzyme => {
+          enzyme.style.display = focused && !enzyme.classList.contains('pathway-active') ? 'none' : '';
           const available = detailsVisible && enzyme.classList.contains('pathway-active')
             && !enzyme.classList.contains('classification-enzyme');
           enzyme.tabIndex = available ? 0 : -1;
           enzyme.setAttribute('aria-hidden', String(!available));
         });
         document.querySelectorAll('#entityLayer .entity').forEach(entity => {
+          entity.style.display = focused && !entity.classList.contains('pathway-active') ? 'none' : '';
           const linked = focused && entity.classList.contains('pathway-active');
           const teachingDetail = entity.classList.contains('pathway-teaching-detail');
           const available = focused && linked && (!teachingDetail || detailsVisible);

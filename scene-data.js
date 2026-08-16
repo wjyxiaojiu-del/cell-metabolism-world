@@ -110,7 +110,7 @@ window.METABOLIC_ATLAS_DATA = (() => {
       views: [['复合体细节', 'cell-metabolism-assets/optimized/26-etc-complexes-detailed.webp'], ['膜蛋白', 'cell-metabolism-assets/optimized/19-inner-membrane-proteins.webp'], ['空白内膜', 'cell-metabolism-assets/optimized/06-mitochondrial-inner-membrane-empty.webp']],
       hotspots: [
         { pathway: 'etc', x: 38, y: 43 }, { pathway: 'oxphos', x: 73, y: 45 }, { pathway: 'malate_aspartate', x: 22, y: 70 }, { pathway: 'glycerol_phosphate', x: 38, y: 74 },
-        { pathway: 'atp_transport', x: 77, y: 72 }, { pathway: 'carnitine', x: 56, y: 77 }, { pathway: 'pyrimidine', x: 89, y: 27 }, { label: '返回基质', x: 50, y: 22, target: 'mitochondria-matrix', tone: '#d36f43' }
+        { pathway: 'atp_transport', x: 77, y: 72 }, { pathway: 'carnitine', x: 56, y: 77 }, { pathway: 'pyrimidine', x: 89, y: 27 }, { pathway: 'transport', x: 64, y: 55 }, { label: '返回基质', x: 50, y: 22, target: 'mitochondria-matrix', tone: '#d36f43' }
       ]
     },
     'nucleus-er': {

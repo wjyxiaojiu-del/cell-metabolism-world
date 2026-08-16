@@ -39,7 +39,7 @@
 | 氨基酸 | 3 | `transamination` `urea` `aa_carbon` |
 | 核苷酸 | 3 | `purine` `pyrimidine` `nucleotide_degradation` |
 
-> 更正历史口径：脂代谢核心是 `ketone`（非 `fa_elongation`）、核苷酸核心是 `nucleotide_degradation`（非 `salvage`）。扩展通路共 34 条，其中 33 条有场景热点（仅 `transport` 合并文件无热点，UI 不可达，见 §4）。
+> 更正历史口径：脂代谢核心是 `ketone`（非 `fa_elongation`）、核苷酸核心是 `nucleotide_degradation`（非 `salvage`）。扩展通路共 34 条，2026-08-16 起均已补场景热点（含 `transport`）。
 
 ### 1.4 测试门禁（2026-08-16 15:40 最后一轮，全绿）
 
@@ -189,6 +189,15 @@ npm test            通过
 - 其余重复是不同主题块的顺序覆盖，保留现状。
 - 验证：`npm run test:data` 全绿；`npm run test:ui` 67/67 全绿。
 
+### 第 17 轮：快速三项——transport 可达 + 实体/酶裁剪 + axe/性能测试（08-16）
+
+- **transport 可达性**：`scene-data.js` 的 `mitochondria-inner-membrane` 场景补 `transport` 热点；README/HANDOVER 口径同步为 55 个通路均可从场景热点进入。
+- **实体/酶聚焦裁剪**：`syncExpertInteractiveStates` 在聚焦通路时对非 `pathway-active` 的 `.entity` / `.enzyme` 设置 `display:none`，与路径裁剪一致。
+- **axe 可访问性冒烟**：新增 `tests/ui-accessibility.spec.js`（4 用例）；允许已知 `color-contrast` / `region`，拦截新增 critical/serious。
+- **性能预算测试**：新增 `tests/ui-performance.spec.js`；总资源 <15MB、index <1MB、data-compiled <1.5MB、优化图片 <12MB。
+- 新增依赖：`@axe-core/playwright`。
+- 验证：`npm run test:data` 全绿；`npm run test:ui` **72/72 全绿**。
+
 ---
 
 ## 3. 关键架构决策与约束（必须遵守）
@@ -264,7 +273,7 @@ npm test            通过
 
 ### 4.2 口径与文案同步（2026-08-16 已完成）
 
-- **README「55 个场景导航入口」口径**：已改为「20 个场景 / 55 个通路入口，其中 54 个可导航，`transport` 为无场景热点的合并文件」。
+- **README「55 个场景导航入口」口径**：已改为「20 个场景 / 55 个通路入口，均可从场景热点进入」；`transport` 已补线粒体内膜场景热点。
 - **导读顶部「第 N 课」文案**：`renderStudentPrimer` 已改为输出「通路导读 · 通路名」，不再暴露课程体系口径。
 - **页面状态栏「20 个场景层」**：已核实与 `scene-data.js` 的 20 个场景条目一致；静态兜底数字已同步为当前节点/通路数。
 - HANDOVER.md / README.md 的统计数字已按本次实测与 `STATS.md` 重写。
