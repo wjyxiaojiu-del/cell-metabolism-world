@@ -9169,7 +9169,7 @@
         reactionModules.push(module);
         moduleReactions.forEach(reaction => reactionModuleByReactionId.set(reaction.id, module));
       });
-      const expertSvgNamespace = 'http://www.w3.org/2000/svg';
+      const SVG_NS = 'http://www.w3.org/2000/svg';
       const warnedMissingReactionEndpoints = new Set();
       const reactionModuleGeometry = new Map();
       const expertGlobalRouteGeometry = new Map();
@@ -9189,8 +9189,8 @@
         return { point, x: point.x + 12, y: point.y - 7, anchor: 'start' };
       }
 
-      function expertSvgElement(tag, attributes = {}, textValue = '') {
-        const element = document.createElementNS(expertSvgNamespace, tag);
+      function svgElement(tag, attributes = {}, textValue = '') {
+        const element = document.createElementNS(SVG_NS, tag);
         Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, String(value)));
         if (textValue) element.textContent = textValue;
         return element;
@@ -9199,7 +9199,7 @@
       function expertRouteMarker(pathwayId, tone) {
         const markerId = `arrow-route-${pathwayId}`;
         if (document.getElementById(markerId)) return markerId;
-        const marker = expertSvgElement('marker', {
+        const marker = svgElement('marker', {
           id: markerId,
           viewBox: '0 0 10 10',
           refX: 8,
@@ -9209,7 +9209,7 @@
           markerUnits: 'userSpaceOnUse',
           orient: 'auto-start-reverse'
         });
-        marker.appendChild(expertSvgElement('path', {
+        marker.appendChild(svgElement('path', {
           d: 'M 1.2 1.2 L 8 5 L 1.2 8.8',
           fill: 'none',
           stroke: tone,
@@ -9388,14 +9388,14 @@
       function buildOrganelles() {
         const layer = document.getElementById('organelleLayer');
         organelles.forEach(o => {
-          const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          const g = document.createElementNS(SVG_NS, 'g');
           g.classList.add('organelle'); g.dataset.id = o.id; g.dataset.name = o.name;
           g.setAttribute('role', 'button'); g.setAttribute('aria-label', `${o.name}：单击查看，双击进入场景`); g.tabIndex = 0;
-          g.appendChild(expertSvgElement('title', {}, `${o.name} · 单击查看说明 · 双击进入场景`));
-          const hit = expertSvgElement('ellipse', { class: 'organelle-hit', cx: o.x, cy: o.y, rx: o.rx, ry: o.ry });
-          const labelHit = expertSvgElement('rect', { class: 'organelle-label-hit', x: o.x - o.rx + 10, y: o.y - o.ry + 7, width: 230, height: 50, rx: 10 });
-          const label = expertSvgElement('text', { class: 'org-label', x: o.x - o.rx + 22, y: o.y - o.ry + 28 }, o.name);
-          const sub = expertSvgElement('text', { class: 'micro-label', x: o.x - o.rx + 22, y: o.y - o.ry + 46 }, o.sub);
+          g.appendChild(svgElement('title', {}, `${o.name} · 单击查看说明 · 双击进入场景`));
+          const hit = svgElement('ellipse', { class: 'organelle-hit', cx: o.x, cy: o.y, rx: o.rx, ry: o.ry });
+          const labelHit = svgElement('rect', { class: 'organelle-label-hit', x: o.x - o.rx + 10, y: o.y - o.ry + 7, width: 230, height: 50, rx: 10 });
+          const label = svgElement('text', { class: 'org-label', x: o.x - o.rx + 22, y: o.y - o.ry + 28 }, o.name);
+          const sub = svgElement('text', { class: 'micro-label', x: o.x - o.rx + 22, y: o.y - o.ry + 46 }, o.sub);
           g.append(hit, labelHit, label, sub);
           g.addEventListener('click', event => { event.stopPropagation(); focusOrganelles(o, false); });
           g.addEventListener('dblclick', event => { event.preventDefault(); event.stopPropagation(); o.sceneId ? openScene(o.sceneId) : focusOrganelles(o, true); });
@@ -9413,7 +9413,7 @@
           ['内膜', 790, 708],
           ['线粒体基质', 680, 816]
         ].forEach(([label, x, y]) => {
-          const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          const text = document.createElementNS(SVG_NS, 'text');
           text.classList.add('compartment-tag');
           text.textContent = label; text.setAttribute('x', x); text.setAttribute('y', y);
           layer.appendChild(text);
@@ -9433,13 +9433,13 @@
         const layer = document.getElementById('compartmentGuideLayer');
         const guide = expertMapGuides.mitochondrialInnerMembrane;
         if (!layer || !guide?.zones) return;
-        const group = expertSvgElement('g', {
+        const group = svgElement('g', {
           class: 'expert-compartment-guide',
           'data-guide': guide.id,
           'data-pathways': (expertMapGuides.pathwayIds || []).join(' '),
           'aria-hidden': 'true'
         });
-        group.appendChild(expertSvgElement('rect', {
+        group.appendChild(svgElement('rect', {
           class: 'expert-guide-surface',
           x: guide.x,
           y: guide.y,
@@ -9449,7 +9449,7 @@
         }));
         ['cytosol', 'ims', 'matrix'].forEach(zoneName => {
           const zone = guide.zones[zoneName];
-          group.appendChild(expertSvgElement('rect', {
+          group.appendChild(svgElement('rect', {
             class: `expert-guide-zone expert-guide-zone-${zoneName}`,
             x: zone.x1,
             y: zone.y1,
@@ -9460,7 +9460,7 @@
         });
         ['outerMembrane', 'membrane'].forEach(zoneName => {
           const zone = guide.zones[zoneName];
-          group.appendChild(expertSvgElement('rect', {
+          group.appendChild(svgElement('rect', {
             class: 'expert-guide-membrane',
             x: zone.x1,
             y: zone.y1,
@@ -9470,11 +9470,11 @@
           }));
         });
         group.append(
-          expertSvgElement('text', { class: 'expert-guide-title', x: guide.x + 24, y: guide.y + 25 }, guide.title),
-          expertSvgElement('text', { class: 'expert-guide-note', x: guide.x + guide.width - 24, y: guide.y + 24, 'text-anchor': 'end' }, '按膜两侧表达，不对应某一条具体嵴')
+          svgElement('text', { class: 'expert-guide-title', x: guide.x + 24, y: guide.y + 25 }, guide.title),
+          svgElement('text', { class: 'expert-guide-note', x: guide.x + guide.width - 24, y: guide.y + 24, 'text-anchor': 'end' }, '按膜两侧表达，不对应某一条具体嵴')
         );
         Object.entries(guide.zones).forEach(([, zone]) => {
-          group.appendChild(expertSvgElement('text', {
+          group.appendChild(svgElement('text', {
             class: 'expert-guide-label',
             x: guide.x + 18,
             y: (zone.y1 + zone.y2) / 2 + 4,
@@ -9489,33 +9489,33 @@
         const layer = document.getElementById('compartmentGuideLayer');
         const guide = expertMapGuides.nitrogenCompartment;
         if (!layer || !guide?.zones) return;
-        const group = expertSvgElement('g', {
+        const group = svgElement('g', {
           class: 'expert-compartment-guide expert-compartment-guide-nitrogen',
           'data-guide': guide.id,
           'data-pathways': (expertMapGuides.nitrogenPathwayIds || []).join(' '),
           'aria-hidden': 'true'
         });
-        group.appendChild(expertSvgElement('rect', {
+        group.appendChild(svgElement('rect', {
           class: 'expert-guide-surface', x: guide.x, y: guide.y,
           width: guide.width, height: guide.height, rx: 26
         }));
         ['cytosol', 'matrix'].forEach(zoneName => {
           const zone = guide.zones[zoneName];
-          group.appendChild(expertSvgElement('rect', {
+          group.appendChild(svgElement('rect', {
             class: `expert-guide-zone expert-guide-zone-${zoneName}`,
             x: zone.x1, y: zone.y1, width: zone.x2 - zone.x1, height: zone.y2 - zone.y1, rx: 16
           }));
         });
         const membrane = guide.zones.membrane;
-        group.appendChild(expertSvgElement('rect', {
+        group.appendChild(svgElement('rect', {
           class: 'expert-guide-membrane', x: membrane.x1, y: membrane.y1,
           width: membrane.x2 - membrane.x1, height: membrane.y2 - membrane.y1, rx: 5
         }));
         group.append(
-          expertSvgElement('text', { class: 'expert-guide-title', x: guide.x + 24, y: guide.y + 25 }, guide.title),
-          expertSvgElement('text', { class: 'expert-guide-note', x: guide.x + guide.width - 24, y: guide.y + 24, 'text-anchor': 'end' }, '只保留实际参与的基质、内膜转运和细胞质循环')
+          svgElement('text', { class: 'expert-guide-title', x: guide.x + 24, y: guide.y + 25 }, guide.title),
+          svgElement('text', { class: 'expert-guide-note', x: guide.x + guide.width - 24, y: guide.y + 24, 'text-anchor': 'end' }, '只保留实际参与的基质、内膜转运和细胞质循环')
         );
-        Object.values(guide.zones).forEach(zone => group.appendChild(expertSvgElement('text', {
+        Object.values(guide.zones).forEach(zone => group.appendChild(svgElement('text', {
           class: 'expert-guide-label', x: guide.x + 18, y: (zone.y1 + zone.y2) / 2 + 4
         }, zone.label)));
         layer.appendChild(group);
@@ -9527,23 +9527,23 @@
         const guide = expertMapGuides.cytosolFocus;
         const zone = guide?.zones?.cytosol;
         if (!layer || !zone) return;
-        const group = expertSvgElement('g', {
+        const group = svgElement('g', {
           class: 'expert-compartment-guide expert-compartment-guide-cytosol-focus',
           'data-guide': guide.id,
           'data-pathways': (expertMapGuides.cytosolFocusPathwayIds || []).join(' '),
           'aria-hidden': 'true'
         });
         group.append(
-          expertSvgElement('rect', {
+          svgElement('rect', {
             class: 'expert-guide-surface', x: guide.x, y: guide.y,
             width: guide.width, height: guide.height, rx: 26
           }),
-          expertSvgElement('rect', {
+          svgElement('rect', {
             class: 'expert-guide-zone expert-guide-zone-cytosol', x: zone.x1, y: zone.y1,
             width: zone.x2 - zone.x1, height: zone.y2 - zone.y1, rx: 18
           }),
-          expertSvgElement('text', { class: 'expert-guide-title', x: guide.x + 30, y: guide.y + 34 }, guide.title),
-          expertSvgElement('text', { class: 'expert-guide-label', x: zone.x1 + 18, y: zone.y1 + 28 }, zone.label)
+          svgElement('text', { class: 'expert-guide-title', x: guide.x + 30, y: guide.y + 34 }, guide.title),
+          svgElement('text', { class: 'expert-guide-label', x: zone.x1 + 18, y: zone.y1 + 28 }, zone.label)
         );
         layer.appendChild(group);
       }
@@ -9552,10 +9552,10 @@
         const layer = document.getElementById('compartmentGuideLayer');
         if (!layer) return;
         const addTextGroup = (pathwayId, labels) => {
-          const group = expertSvgElement('g', {
+          const group = svgElement('g', {
             class: 'expert-pathway-annotation', 'data-pathways': pathwayId, 'aria-hidden': 'true'
           });
-          labels.forEach(([text, x, y]) => group.appendChild(expertSvgElement('text', {
+          labels.forEach(([text, x, y]) => group.appendChild(svgElement('text', {
             class: 'expert-context-label', x, y
           }, text)));
           layer.appendChild(group);
@@ -9579,25 +9579,25 @@
         const dhap = glucoPoint('磷酸二羟丙酮');
         const f16bp = glucoPoint('果糖-1,6-二磷酸');
         if (dhap && f16bp) {
-          const group = expertSvgElement('g', {
+          const group = svgElement('g', {
             class: 'expert-pathway-annotation', 'data-pathways': 'gluconeogenesis', 'aria-hidden': 'true'
           });
           group.append(
-            expertSvgElement('path', { class: 'expert-context-link expert-substrate-leg', d: curveBetween(dhap, f16bp) }),
-            expertSvgElement('text', { class: 'expert-guide-note', x: 1030, y: 475, 'text-anchor': 'middle' }, 'DHAP 与 G3P 汇聚到同一醛缩酶反应')
+            svgElement('path', { class: 'expert-context-link expert-substrate-leg', d: curveBetween(dhap, f16bp) }),
+            svgElement('text', { class: 'expert-guide-note', x: 1030, y: 475, 'text-anchor': 'middle' }, 'DHAP 与 G3P 汇聚到同一醛缩酶反应')
           );
           layer.appendChild(group);
         }
 
         // 分类边只保留主图中的一组点线；不再叠加第二组同端点虚线。
         {
-          const group = expertSvgElement('g', {
+          const group = svgElement('g', {
             class: 'expert-pathway-annotation', 'data-pathways': 'nucleotide_degradation', 'aria-hidden': 'true'
           });
           group.append(
-            expertSvgElement('text', { class: 'expert-context-label', x: 820, y: 245 }, '嘌呤碱基分支'),
-            expertSvgElement('text', { class: 'expert-context-label', x: 760, y: 485 }, '嘧啶碱基分支'),
-            expertSvgElement('text', { class: 'expert-guide-note', x: 700, y: 390, 'text-anchor': 'middle' }, '点线表示分类展开，不可点击为单一化学反应')
+            svgElement('text', { class: 'expert-context-label', x: 820, y: 245 }, '嘌呤碱基分支'),
+            svgElement('text', { class: 'expert-context-label', x: 760, y: 485 }, '嘧啶碱基分支'),
+            svgElement('text', { class: 'expert-guide-note', x: 700, y: 390, 'text-anchor': 'middle' }, '点线表示分类展开，不可点击为单一化学反应')
           );
           layer.appendChild(group);
         }
@@ -9608,13 +9608,13 @@
         const layer = document.getElementById('compartmentGuideLayer');
         const guide = expertMapGuides.endoplasmicReticulumMembrane;
         if (!layer || !guide?.zones) return;
-        const group = expertSvgElement('g', {
+        const group = svgElement('g', {
           class: 'expert-compartment-guide expert-compartment-guide-er',
           'data-guide': guide.id,
           'data-pathways': (expertMapGuides.erPathwayIds || []).join(' '),
           'aria-hidden': 'true'
         });
-        group.appendChild(expertSvgElement('rect', {
+        group.appendChild(svgElement('rect', {
           class: 'expert-guide-surface',
           x: guide.x,
           y: guide.y,
@@ -9624,7 +9624,7 @@
         }));
         ['cytosol', 'lumen'].forEach(zoneName => {
           const zone = guide.zones[zoneName];
-          group.appendChild(expertSvgElement('rect', {
+          group.appendChild(svgElement('rect', {
             class: `expert-guide-zone expert-guide-zone-${zoneName}`,
             x: zone.x1,
             y: zone.y1,
@@ -9634,7 +9634,7 @@
           }));
         });
         const membrane = guide.zones.membrane;
-        group.appendChild(expertSvgElement('rect', {
+        group.appendChild(svgElement('rect', {
           class: 'expert-guide-membrane',
           x: membrane.x1,
           y: membrane.y1,
@@ -9643,11 +9643,11 @@
           rx: 8
         }));
         group.append(
-          expertSvgElement('text', { class: 'expert-guide-title', x: guide.x + 24, y: guide.y + 27 }, guide.title),
-          expertSvgElement('text', { class: 'expert-guide-note', x: guide.x + guide.width - 24, y: guide.y + 25, 'text-anchor': 'end' }, '跨膜步骤按两侧表达')
+          svgElement('text', { class: 'expert-guide-title', x: guide.x + 24, y: guide.y + 27 }, guide.title),
+          svgElement('text', { class: 'expert-guide-note', x: guide.x + guide.width - 24, y: guide.y + 25, 'text-anchor': 'end' }, '跨膜步骤按两侧表达')
         );
         Object.values(guide.zones).forEach(zone => {
-          group.appendChild(expertSvgElement('text', {
+          group.appendChild(svgElement('text', {
             class: 'expert-guide-label',
             x: guide.x + 18,
             y: (zone.y1 + zone.y2) / 2 + 4
@@ -9661,13 +9661,13 @@
         const layer = document.getElementById('compartmentGuideLayer');
         const guide = expertMapGuides.gluconeogenesisCrossCompartment;
         if (!layer || !guide?.zones) return;
-        const group = expertSvgElement('g', {
+        const group = svgElement('g', {
           class: 'expert-compartment-guide expert-compartment-guide-gluconeogenesis',
           'data-guide': guide.id,
           'data-pathways': (expertMapGuides.gluconeogenesisPathwayIds || []).join(' '),
           'aria-hidden': 'true'
         });
-        group.appendChild(expertSvgElement('rect', {
+        group.appendChild(svgElement('rect', {
           class: 'expert-guide-surface',
           x: guide.x,
           y: guide.y,
@@ -9678,7 +9678,7 @@
         ['cytosol', 'ims', 'matrix', 'erLumen'].forEach(zoneName => {
           const zone = guide.zones[zoneName];
           const visualZone = zoneName === 'erLumen' ? 'lumen' : zoneName;
-          group.appendChild(expertSvgElement('rect', {
+          group.appendChild(svgElement('rect', {
             class: `expert-guide-zone expert-guide-zone-${visualZone}`,
             x: zone.x1,
             y: zone.y1,
@@ -9689,7 +9689,7 @@
         });
         ['membrane', 'erMembrane'].forEach(zoneName => {
           const zone = guide.zones[zoneName];
-          group.appendChild(expertSvgElement('rect', {
+          group.appendChild(svgElement('rect', {
             class: 'expert-guide-membrane',
             x: zone.x1,
             y: zone.y1,
@@ -9699,14 +9699,14 @@
           }));
         });
         group.append(
-          expertSvgElement('text', { class: 'expert-guide-title', x: guide.x + 24, y: guide.y + 27 }, guide.title),
-          expertSvgElement('text', { class: 'expert-guide-note', x: guide.x + guide.width - 24, y: guide.y + 25, 'text-anchor': 'end' }, '先经线粒体绕行，再回到细胞质并进入内质网'),
-          expertSvgElement('text', { class: 'expert-guide-label', x: guide.zones.cytosol.x2 - 12, y: guide.zones.cytosol.y1 + 18, 'text-anchor': 'end' }, guide.zones.cytosol.label),
-          expertSvgElement('text', { class: 'expert-guide-label', x: guide.zones.ims.x2 - 10, y: guide.zones.ims.y1 + 18, 'text-anchor': 'end' }, guide.zones.ims.label),
-          expertSvgElement('text', { class: 'expert-guide-label', x: guide.zones.membrane.x2 - 10, y: guide.zones.membrane.y2 - 2, 'text-anchor': 'end' }, guide.zones.membrane.label),
-          expertSvgElement('text', { class: 'expert-guide-label', x: guide.zones.matrix.x2 - 10, y: guide.zones.matrix.y1 + 18, 'text-anchor': 'end' }, guide.zones.matrix.label),
-          expertSvgElement('text', { class: 'expert-guide-label', x: guide.zones.erMembrane.x2 - 10, y: guide.zones.erMembrane.y2 - 3, 'text-anchor': 'end' }, guide.zones.erMembrane.label),
-          expertSvgElement('text', { class: 'expert-guide-label', x: guide.zones.erLumen.x2 - 10, y: guide.zones.erLumen.y1 + 18, 'text-anchor': 'end' }, guide.zones.erLumen.label)
+          svgElement('text', { class: 'expert-guide-title', x: guide.x + 24, y: guide.y + 27 }, guide.title),
+          svgElement('text', { class: 'expert-guide-note', x: guide.x + guide.width - 24, y: guide.y + 25, 'text-anchor': 'end' }, '先经线粒体绕行，再回到细胞质并进入内质网'),
+          svgElement('text', { class: 'expert-guide-label', x: guide.zones.cytosol.x2 - 12, y: guide.zones.cytosol.y1 + 18, 'text-anchor': 'end' }, guide.zones.cytosol.label),
+          svgElement('text', { class: 'expert-guide-label', x: guide.zones.ims.x2 - 10, y: guide.zones.ims.y1 + 18, 'text-anchor': 'end' }, guide.zones.ims.label),
+          svgElement('text', { class: 'expert-guide-label', x: guide.zones.membrane.x2 - 10, y: guide.zones.membrane.y2 - 2, 'text-anchor': 'end' }, guide.zones.membrane.label),
+          svgElement('text', { class: 'expert-guide-label', x: guide.zones.matrix.x2 - 10, y: guide.zones.matrix.y1 + 18, 'text-anchor': 'end' }, guide.zones.matrix.label),
+          svgElement('text', { class: 'expert-guide-label', x: guide.zones.erMembrane.x2 - 10, y: guide.zones.erMembrane.y2 - 3, 'text-anchor': 'end' }, guide.zones.erMembrane.label),
+          svgElement('text', { class: 'expert-guide-label', x: guide.zones.erLumen.x2 - 10, y: guide.zones.erLumen.y1 + 18, 'text-anchor': 'end' }, guide.zones.erLumen.label)
         );
         layer.appendChild(group);
         updateExpertCompartmentGuide();
@@ -9764,7 +9764,7 @@
           const isExplanatory = Boolean(r.detail) || presentation.teachingDetail || presentation.conceptualClassification;
           const groupData = routeGroups.join(' ');
           const d = geometry?.d || curveBetween(a, b);
-          const aura = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          const aura = document.createElementNS(SVG_NS, 'path');
           aura.classList.add('route-aura', `route-${visualGroup}`);
           if (!['glycolysis', 'pdh', 'tca', 'etc', 'transport'].includes(visualGroup)) aura.classList.add('route-overview-branch');
           if (visualGroup === 'side') aura.classList.add('route-secondary');
@@ -9778,7 +9778,7 @@
           aura.style.setProperty('--route-tone', routeTone);
           aura.setAttribute('d', d); aura.setAttribute('aria-hidden', 'true');
           layer.appendChild(aura);
-          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          const path = document.createElementNS(SVG_NS, 'path');
           path.classList.add('route', `route-${visualGroup}`); path.dataset.id = r.id; path.dataset.group = groupData;
           if (!['glycolysis', 'pdh', 'tca', 'etc', 'transport'].includes(visualGroup)) path.classList.add('route-overview-branch');
           if (reactionModule) path.dataset.moduleId = reactionModule.id;
@@ -9799,11 +9799,11 @@
             path.dataset.presentation = 'classification';
             path.setAttribute('aria-hidden', 'true');
             path.tabIndex = -1;
-            path.appendChild(expertSvgElement('title', {}, `${a.name} → ${b.name}：分类展开，不是单一化学反应`));
+            path.appendChild(svgElement('title', {}, `${a.name} → ${b.name}：分类展开，不是单一化学反应`));
           } else {
             path.setAttribute('role', 'button');
             path.setAttribute('aria-label', `${r.reversible ? '可逆反应' : '单向反应'}，${a.name} 到 ${b.name}：${r.equation}`); path.tabIndex = 0;
-            path.appendChild(expertSvgElement('title', {}, `${r.reversible ? '可逆' : '单向'} · ${r.equation || `${a.name} → ${b.name}`}`));
+            path.appendChild(svgElement('title', {}, `${r.reversible ? '可逆' : '单向'} · ${r.equation || `${a.name} → ${b.name}`}`));
             const enzymeId = reactionModule?.primary.id || r.id;
             const setEnzymePreview = visible => {
               const enzyme = reactionModule
@@ -9829,14 +9829,14 @@
           ['糖酵解', 410, 224, 'glycolysis'], ['丙酮酸氧化', 665, 755, 'pdh'], ['三羧酸循环', 318, 1032, 'tca'], ['氧化磷酸化', 585, 775, 'etc']
         ];
         labels.forEach(([text, x, y, group]) => {
-          const t = document.createElementNS('http://www.w3.org/2000/svg', 'text'); t.classList.add('route-title'); t.dataset.group = group; t.textContent = text; t.setAttribute('x', x); t.setAttribute('y', y); layer.appendChild(t);
+          const t = document.createElementNS(SVG_NS, 'text'); t.classList.add('route-title'); t.dataset.group = group; t.textContent = text; t.setAttribute('x', x); t.setAttribute('y', y); layer.appendChild(t);
         });
       }
 
       function buildEntities() {
         const layer = document.getElementById('entityLayer');
         entities.forEach(e => {
-          const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          const g = document.createElementNS(SVG_NS, 'g');
           g.classList.add('entity'); if (e.primary) g.classList.add('primary'); g.dataset.id = e.id; g.dataset.group = e.group.join(' '); g.style.setProperty('--tone', pathwayMeta[e.group[0]]?.tone || '#2f9eb5');
           const coreGroups = ['glycolysis', 'pdh', 'tca', 'etc', 'transport'];
           if (!groupsFor(e).some(group => coreGroups.includes(routeGroupForPathway(group, atlas.pathways[group]) || group))) g.classList.add('entity-secondary');
@@ -9851,11 +9851,11 @@
           const haloRadius = e.primary ? 8.5 : 6.5;
           const coreRadius = e.primary ? 4.1 : 3.2;
           g.append(
-            expertSvgElement('circle', { class: 'hit-target', cx: point.x, cy: point.y, r: 14 }),
-            expertSvgElement('circle', { class: 'halo', cx: point.x, cy: point.y, r: haloRadius }),
-            expertSvgElement('circle', { class: 'core', cx: point.x, cy: point.y, r: coreRadius }),
-            expertSvgElement('text', { class: 'entity-label', x: visual.x, y: visual.y, 'text-anchor': visual.anchor }, e.label),
-            expertSvgElement('text', { class: 'entity-formula', x: visual.x, y: visual.y + 15, 'text-anchor': visual.anchor }, formula)
+            svgElement('circle', { class: 'hit-target', cx: point.x, cy: point.y, r: 14 }),
+            svgElement('circle', { class: 'halo', cx: point.x, cy: point.y, r: haloRadius }),
+            svgElement('circle', { class: 'core', cx: point.x, cy: point.y, r: coreRadius }),
+            svgElement('text', { class: 'entity-label', x: visual.x, y: visual.y, 'text-anchor': visual.anchor }, e.label),
+            svgElement('text', { class: 'entity-formula', x: visual.x, y: visual.y + 15, 'text-anchor': visual.anchor }, formula)
           );
           g.addEventListener('click', event => { event.stopPropagation(); openEntity(e, event); });
           g.addEventListener('dblclick', event => { event.preventDefault(); event.stopPropagation(); focusEntity(e); });
@@ -9877,7 +9877,7 @@
           const geometry = reactionModule ? reactionModuleGeometry.get(reactionModule.id) : routeGeometry.get(r.id);
           const labelPoint = expertEnzymeLabelPoint(r, geometry, a, b);
           const { x, y } = labelPoint;
-          const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          const g = document.createElementNS(SVG_NS, 'g');
           g.classList.add('enzyme'); g.dataset.id = r.id; g.dataset.group = routeGroups.join(' ');
           if (/酶系|代谢酶系/.test(r.enzyme)) g.classList.add('generic-enzyme');
           if (reactionModule) {
@@ -9904,8 +9904,8 @@
           const textAttrs = { x, y: y + 1 };
           if (compact) textAttrs.style = 'font-size:7px';
           g.append(
-            expertSvgElement('rect', { x: x - labelWidth / 2, y: y - 11, width: labelWidth, height: 22, rx: 8 }),
-            expertSvgElement('text', textAttrs, short)
+            svgElement('rect', { x: x - labelWidth / 2, y: y - 11, width: labelWidth, height: 22, rx: 8 }),
+            svgElement('text', textAttrs, short)
           );
           g.addEventListener('click', event => { event.stopPropagation(); openReaction(r, event); });
           g.addEventListener('keydown', event => {
@@ -10774,7 +10774,7 @@
         studentTopicMinimapEdges.innerHTML = '';
         studentTopicMinimapNodes.innerHTML = '';
         studentTopicEdges.querySelectorAll('.student-topic-network-edge').forEach(source => {
-          const edge = studentSvgElement('path', {
+          const edge = svgElement('path', {
             d: source.getAttribute('d'),
             class: `student-topic-minimap-edge${source.classList.contains('is-primary-route') ? ' is-primary-route' : ''}`,
             style: source.getAttribute('style') || ''
@@ -10786,7 +10786,7 @@
         });
         positions.forEach((point, key) => {
           const shared = (nodeInfo.get(key)?.pathways?.size || 0) > 1;
-          studentTopicMinimapNodes.appendChild(studentSvgElement('circle', {
+          studentTopicMinimapNodes.appendChild(svgElement('circle', {
             cx: point.x,
             cy: point.y,
             r: shared ? 12 : 8,
@@ -10933,10 +10933,10 @@
         hideStudentTopicNodeContext(false);
         hideStudentTopicRouteContext(false);
 
-        studentTopicBands.appendChild(studentSvgElement('rect', {
+        studentTopicBands.appendChild(svgElement('rect', {
           x: 52, y: primaryY - 58, width: mapWidth - 104, height: 116, rx: 26, class: 'student-topic-core-band'
         }));
-        studentTopicBands.appendChild(studentSvgElement('text', {
+        studentTopicBands.appendChild(svgElement('text', {
           x: 76, y: primaryY - 72, class: 'student-topic-core-label'
         }, `核心骨架 · ${orderedRecords[0].pathway.name}`));
 
@@ -10963,7 +10963,7 @@
             const from = positions.get(step.key);
             const to = positions.get(nextStep.key);
             if (!from || !to) return;
-            const edge = studentSvgElement('path', {
+            const edge = svgElement('path', {
               d: networkCurve(from, to, routeIndex),
               class: `student-topic-network-edge${record === orderedRecords[0] ? ' is-primary-route' : ''}`,
               style: `--route-tone:${record.tone}`
@@ -11075,20 +11075,20 @@
           const shared = routeIds.length > 1;
           const tone = shared ? '#d99a29' : (info.tones[0] || topic.tone);
           const displayLabel = readableReactionEquation(info.label);
-          const node = studentSvgElement('g', { class: `student-topic-node student-topic-network-node${shared ? ' shared' : ''}`, style: `--topic-tone:${tone}` });
+          const node = svgElement('g', { class: `student-topic-node student-topic-network-node${shared ? ' shared' : ''}`, style: `--topic-tone:${tone}` });
           node.dataset.pathways = routeIds.join(' ');
           node.dataset.nodeKey = key;
           node.setAttribute('role', 'button');
           node.tabIndex = 0;
           node.setAttribute('aria-label', shared ? `${displayLabel}，连接${routeIds.length}条通路，点击选择` : `${displayLabel}，点击进入${atlas.pathways[routeIds[0]]?.name || '通路'}`);
-          node.appendChild(studentSvgElement('title', {}, shared ? `${displayLabel}：${routeIds.map(pathwayId => atlas.pathways[pathwayId]?.name).filter(Boolean).join('、')}` : displayLabel));
-          node.appendChild(studentSvgElement('rect', { x: point.x - nodeWidth / 2, y: point.y - nodeHeight / 2, width: nodeWidth, height: nodeHeight }));
-          node.appendChild(studentSvgElement('circle', { cx: point.x - nodeWidth / 2 + 18, cy: point.y, r: 5, class: 'topic-network-dot' }));
-          node.appendChild(studentSvgElement('text', { x: point.x + 7, y: point.y - 3, class: 'topic-name' }, studentMapLabel(displayLabel, 12)));
-          node.appendChild(studentSvgElement('text', { x: point.x + 7, y: point.y + 16, class: 'topic-meta' }, shared ? `${routeIds.length} 条通路共享` : studentMapLabel(atlas.pathways[routeIds[0]]?.compartment || '多区室', 15)));
+          node.appendChild(svgElement('title', {}, shared ? `${displayLabel}：${routeIds.map(pathwayId => atlas.pathways[pathwayId]?.name).filter(Boolean).join('、')}` : displayLabel));
+          node.appendChild(svgElement('rect', { x: point.x - nodeWidth / 2, y: point.y - nodeHeight / 2, width: nodeWidth, height: nodeHeight }));
+          node.appendChild(svgElement('circle', { cx: point.x - nodeWidth / 2 + 18, cy: point.y, r: 5, class: 'topic-network-dot' }));
+          node.appendChild(svgElement('text', { x: point.x + 7, y: point.y - 3, class: 'topic-name' }, studentMapLabel(displayLabel, 12)));
+          node.appendChild(svgElement('text', { x: point.x + 7, y: point.y + 16, class: 'topic-meta' }, shared ? `${routeIds.length} 条通路共享` : studentMapLabel(atlas.pathways[routeIds[0]]?.compartment || '多区室', 15)));
           if (shared) {
-            node.appendChild(studentSvgElement('circle', { cx: point.x + nodeWidth / 2 - 12, cy: point.y - nodeHeight / 2 + 12, r: 10, class: 'topic-shared-badge' }));
-            node.appendChild(studentSvgElement('text', { x: point.x + nodeWidth / 2 - 12, y: point.y - nodeHeight / 2 + 15, class: 'topic-shared-count' }, String(routeIds.length)));
+            node.appendChild(svgElement('circle', { cx: point.x + nodeWidth / 2 - 12, cy: point.y - nodeHeight / 2 + 12, r: 10, class: 'topic-shared-badge' }));
+            node.appendChild(svgElement('text', { x: point.x + nodeWidth / 2 - 12, y: point.y - nodeHeight / 2 + 15, class: 'topic-shared-count' }, String(routeIds.length)));
           }
           node.addEventListener('mouseenter', () => applyNetworkNodeFocus(key));
           node.addEventListener('mouseleave', () => { if (studentTopicNodeContext.hidden) restoreStudentTopicRouteFocus(); });
@@ -11131,26 +11131,26 @@
         });
 
         if (externalLinks.length) {
-          studentTopicBands.appendChild(studentSvgElement('rect', { x: 52, y: externalTop, width: mapWidth - 104, height: 100, class: 'student-topic-external-band' }));
-          studentTopicBands.appendChild(studentSvgElement('text', { x: 76, y: externalTop + 24, class: 'student-topic-external-label' }, '跨专题出口（简化显示）'));
-          studentTopicNodes.appendChild(studentSvgElement('circle', { cx: mapWidth / 2, cy: externalTop + 32, r: 7, class: 'student-topic-external-hub' }));
-          studentTopicNodes.appendChild(studentSvgElement('text', { x: mapWidth / 2, y: externalTop + 18, class: 'student-topic-external-hub-label' }, '共享代谢池'));
+          studentTopicBands.appendChild(svgElement('rect', { x: 52, y: externalTop, width: mapWidth - 104, height: 100, class: 'student-topic-external-band' }));
+          studentTopicBands.appendChild(svgElement('text', { x: 76, y: externalTop + 24, class: 'student-topic-external-label' }, '跨专题出口（简化显示）'));
+          studentTopicNodes.appendChild(svgElement('circle', { cx: mapWidth / 2, cy: externalTop + 32, r: 7, class: 'student-topic-external-hub' }));
+          studentTopicNodes.appendChild(svgElement('text', { x: mapWidth / 2, y: externalTop + 18, class: 'student-topic-external-hub-label' }, '共享代谢池'));
           const externalGap = Math.min(270, (mapWidth - 340) / Math.max(1, externalLinks.length - 1));
           const externalStartX = (mapWidth - externalGap * (externalLinks.length - 1)) / 2;
           externalLinks.forEach((link, index) => {
             const point = { x: externalStartX + index * externalGap, y: externalTop + 65 };
-            studentTopicEdges.appendChild(studentSvgElement('path', {
+            studentTopicEdges.appendChild(svgElement('path', {
               d: `M ${mapWidth / 2} ${externalTop + 32} C ${mapWidth / 2} ${externalTop + 49} ${point.x} ${externalTop + 49} ${point.x} ${point.y - 27}`,
               class: 'student-topic-external-edge'
             }));
-            const node = studentSvgElement('g', { class: 'student-topic-external-node', style: `--topic-tone:${link.topic.tone}` });
+            const node = svgElement('g', { class: 'student-topic-external-node', style: `--topic-tone:${link.topic.tone}` });
             node.dataset.topic = link.topicId;
             node.setAttribute('role', 'button');
             node.tabIndex = 0;
             node.setAttribute('aria-label', `进入${link.topic.label}专题`);
-            node.appendChild(studentSvgElement('rect', { x: point.x - 105, y: point.y - 27, width: 210, height: 54 }));
-            node.appendChild(studentSvgElement('text', { x: point.x, y: point.y - 3, class: 'topic-external-name' }, link.topic.label));
-            node.appendChild(studentSvgElement('text', { x: point.x, y: point.y + 15, class: 'topic-external-meta' }, `${link.sharedCount} 个共享交点`));
+            node.appendChild(svgElement('rect', { x: point.x - 105, y: point.y - 27, width: 210, height: 54 }));
+            node.appendChild(svgElement('text', { x: point.x, y: point.y - 3, class: 'topic-external-name' }, link.topic.label));
+            node.appendChild(svgElement('text', { x: point.x, y: point.y + 15, class: 'topic-external-meta' }, `${link.sharedCount} 个共享交点`));
             const openExternalTopic = () => renderStudentTopic(link.topicId, { openAtlas: true });
             node.addEventListener('click', event => { event.stopPropagation(); openExternalTopic(); });
             node.addEventListener('keydown', event => {
@@ -11241,7 +11241,7 @@
 
         records.forEach(record => {
           const y = laneStartY + record.laneIndex * laneHeight;
-          studentTopicBands.appendChild(studentSvgElement('rect', {
+          studentTopicBands.appendChild(svgElement('rect', {
             x: 22, y: y - 50, width: mapWidth - 44, height: 100, class: 'student-topic-band'
           }));
           const pinnedLane = document.createElement('button');
@@ -11278,7 +11278,7 @@
             const from = pointFor(step);
             const to = pointFor(nextStep);
             if (from.x === to.x && from.y === to.y) return;
-            studentTopicEdges.appendChild(studentSvgElement('path', {
+            studentTopicEdges.appendChild(svgElement('path', {
               d: routeCurve(from, to), class: 'student-topic-edge', style: `--route-tone:${record.tone}`
             }));
           });
@@ -11299,7 +11299,7 @@
             const targetX = target.x + nodeWidth / 2;
             const sourceChannelY = source.y + nodeHeight / 2 + 14;
             const targetChannelY = target.y - nodeHeight / 2 - 14;
-            const edge = studentSvgElement('path', {
+            const edge = svgElement('path', {
               d: `M ${sourceX} ${source.y} H ${sourceX + 18} V ${sourceChannelY} H ${railX} V ${targetChannelY} H ${targetX + 18} V ${target.y} H ${targetX}`,
               class: 'student-topic-bridge-edge',
               'aria-hidden': 'true'
@@ -11321,14 +11321,14 @@
         records.forEach(record => {
           const laneY = laneStartY + record.laneIndex * laneHeight;
           const reactionCount = studentReactionsFor(record.pathwayId).length;
-          const lane = studentSvgElement('g', { class: 'student-topic-lane-title', style: `--topic-tone:${record.tone}` });
+          const lane = svgElement('g', { class: 'student-topic-lane-title', style: `--topic-tone:${record.tone}` });
           lane.dataset.pathway = record.pathwayId;
           lane.setAttribute('role', 'button');
           lane.tabIndex = 0;
           lane.setAttribute('aria-label', `进入${record.pathway.name}通路`);
-          lane.appendChild(studentSvgElement('rect', { x: 42, y: laneY - 27, width: 218, height: 54 }));
-          lane.appendChild(studentSvgElement('text', { x: 62, y: laneY - 4, class: 'topic-lane-name' }, studentMapLabel(record.pathway.name, 17)));
-          lane.appendChild(studentSvgElement('text', { x: 62, y: laneY + 15, class: 'topic-lane-meta' }, `${reactionCount} 个反应 · ${studentMapLabel(record.pathway.compartment || '多区室', 13)}`));
+          lane.appendChild(svgElement('rect', { x: 42, y: laneY - 27, width: 218, height: 54 }));
+          lane.appendChild(svgElement('text', { x: 62, y: laneY - 4, class: 'topic-lane-name' }, studentMapLabel(record.pathway.name, 17)));
+          lane.appendChild(svgElement('text', { x: 62, y: laneY + 15, class: 'topic-lane-meta' }, `${reactionCount} 个反应 · ${studentMapLabel(record.pathway.compartment || '多区室', 13)}`));
           const openTopicPathway = () => renderStudentPathway(record.pathwayId);
           lane.addEventListener('click', event => { event.stopPropagation(); openTopicPathway(); });
           lane.addEventListener('keydown', event => {
@@ -11344,27 +11344,27 @@
             const owner = record;
             const point = pointFor(step);
             const connectedPathwayCount = shared ? new Set(occurrencesByKey.get(step.key).map(item => item.pathwayId)).size : 1;
-            const node = studentSvgElement('g', { class: `student-topic-node${shared ? ' shared' : ''}`, style: `--topic-tone:${owner.tone}` });
+            const node = svgElement('g', { class: `student-topic-node${shared ? ' shared' : ''}`, style: `--topic-tone:${owner.tone}` });
             node.dataset.pathway = owner.pathwayId;
             if (shared) node.dataset.sharedKey = step.key;
             node.setAttribute('role', 'button');
             node.tabIndex = 0;
             node.setAttribute('aria-label', shared ? `${step.label}，连接${connectedPathwayCount}条专题通路` : `${step.label}，${owner.pathway.name}`);
-            node.appendChild(studentSvgElement('title', {}, shared ? `${step.label}：还出现在 ${connectedPathwayCount - 1} 条通路中；悬停查看关联` : `${owner.pathway.name}第 ${step.stepIndex + 1} 步`));
-            node.appendChild(studentSvgElement('rect', {
+            node.appendChild(svgElement('title', {}, shared ? `${step.label}：还出现在 ${connectedPathwayCount - 1} 条通路中；悬停查看关联` : `${owner.pathway.name}第 ${step.stepIndex + 1} 步`));
+            node.appendChild(svgElement('rect', {
               x: point.x - nodeWidth / 2, y: point.y - nodeHeight / 2, width: nodeWidth, height: nodeHeight
             }));
-            node.appendChild(studentSvgElement('rect', {
+            node.appendChild(svgElement('rect', {
               x: point.x - nodeWidth / 2 + 8, y: point.y - 10, width: 22, height: 20, rx: 10, class: 'topic-step-badge'
             }));
-            node.appendChild(studentSvgElement('text', {
+            node.appendChild(svgElement('text', {
               x: point.x - nodeWidth / 2 + 19, y: point.y + 3, class: 'topic-step-number'
             }, String(step.stepIndex + 1).padStart(2, '0')));
-            node.appendChild(studentSvgElement('text', { x: point.x + 9, y: point.y - 3, class: 'topic-name' }, studentMapLabel(step.label, 16)));
-            node.appendChild(studentSvgElement('text', { x: point.x + 9, y: point.y + 15, class: 'topic-meta' }, shared ? `${connectedPathwayCount} 条通路共享` : owner.pathway.compartment || '多区室'));
+            node.appendChild(svgElement('text', { x: point.x + 9, y: point.y - 3, class: 'topic-name' }, studentMapLabel(step.label, 16)));
+            node.appendChild(svgElement('text', { x: point.x + 9, y: point.y + 15, class: 'topic-meta' }, shared ? `${connectedPathwayCount} 条通路共享` : owner.pathway.compartment || '多区室'));
             if (shared) {
-              node.appendChild(studentSvgElement('circle', { cx: point.x + nodeWidth / 2 - 11, cy: point.y - nodeHeight / 2 + 11, r: 9, class: 'topic-shared-badge' }));
-              node.appendChild(studentSvgElement('text', { x: point.x + nodeWidth / 2 - 11, y: point.y - nodeHeight / 2 + 14, class: 'topic-shared-count' }, String(connectedPathwayCount)));
+              node.appendChild(svgElement('circle', { cx: point.x + nodeWidth / 2 - 11, cy: point.y - nodeHeight / 2 + 11, r: 9, class: 'topic-shared-badge' }));
+              node.appendChild(svgElement('text', { x: point.x + nodeWidth / 2 - 11, y: point.y - nodeHeight / 2 + 14, class: 'topic-shared-count' }, String(connectedPathwayCount)));
             }
             const openOwnerPathway = () => renderStudentPathway(owner.pathwayId);
             if (shared) {
@@ -11385,33 +11385,33 @@
         });
 
         if (externalLinks.length) {
-          studentTopicBands.appendChild(studentSvgElement('rect', {
+          studentTopicBands.appendChild(svgElement('rect', {
             x: 22, y: externalTop, width: mapWidth - 44, height: 100, class: 'student-topic-external-band'
           }));
-          studentTopicBands.appendChild(studentSvgElement('text', { x: 46, y: externalTop + 24, class: 'student-topic-external-label' }, '专题外代谢（已收拢）'));
-          studentTopicNodes.appendChild(studentSvgElement('circle', {
+          studentTopicBands.appendChild(svgElement('text', { x: 46, y: externalTop + 24, class: 'student-topic-external-label' }, '专题外代谢（已收拢）'));
+          studentTopicNodes.appendChild(svgElement('circle', {
             cx: mapWidth / 2, cy: externalTop + 32, r: 7, class: 'student-topic-external-hub'
           }));
-          studentTopicNodes.appendChild(studentSvgElement('text', {
+          studentTopicNodes.appendChild(svgElement('text', {
             x: mapWidth / 2, y: externalTop + 18, class: 'student-topic-external-hub-label'
           }, '专题共享池'));
           const externalGap = Math.min(270, (mapWidth - 320) / Math.max(1, externalLinks.length - 1));
           const externalStartX = (mapWidth - externalGap * (externalLinks.length - 1)) / 2;
           externalLinks.forEach((link, index) => {
             const point = { x: externalStartX + index * externalGap, y: externalTop + 62 };
-            const edge = studentSvgElement('path', {
+            const edge = svgElement('path', {
               d: `M ${mapWidth / 2} ${externalTop + 32} C ${mapWidth / 2} ${externalTop + 48} ${point.x} ${externalTop + 48} ${point.x} ${point.y - 27}`,
               class: 'student-topic-external-edge'
             });
             studentTopicEdges.appendChild(edge);
-            const node = studentSvgElement('g', { class: 'student-topic-external-node', style: `--topic-tone:${link.topic.tone}` });
+            const node = svgElement('g', { class: 'student-topic-external-node', style: `--topic-tone:${link.topic.tone}` });
             node.dataset.topic = link.topicId;
             node.setAttribute('role', 'button');
             node.tabIndex = 0;
             node.setAttribute('aria-label', `进入${link.topic.label}专题`);
-            node.appendChild(studentSvgElement('rect', { x: point.x - 105, y: point.y - 27, width: 210, height: 54 }));
-            node.appendChild(studentSvgElement('text', { x: point.x, y: point.y - 3, class: 'topic-external-name' }, link.topic.label));
-            node.appendChild(studentSvgElement('text', { x: point.x, y: point.y + 15, class: 'topic-external-meta' }, `${link.sharedCount} 个共享交点`));
+            node.appendChild(svgElement('rect', { x: point.x - 105, y: point.y - 27, width: 210, height: 54 }));
+            node.appendChild(svgElement('text', { x: point.x, y: point.y - 3, class: 'topic-external-name' }, link.topic.label));
+            node.appendChild(svgElement('text', { x: point.x, y: point.y + 15, class: 'topic-external-meta' }, `${link.sharedCount} 个共享交点`));
             const openExternalTopic = () => renderStudentTopic(link.topicId, { openAtlas: true });
             node.addEventListener('click', event => { event.stopPropagation(); openExternalTopic(); });
             node.addEventListener('keydown', event => {
@@ -11569,14 +11569,6 @@
         return `<span class="reaction-equation-lines" aria-label="${escapeStudentText(equation)}">${lines}</span>`;
       }
 
-      const studentSvgNs = 'http://www.w3.org/2000/svg';
-      function studentSvgElement(tag, attributes = {}, textValue = '') {
-        const element = document.createElementNS(studentSvgNs, tag);
-        Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, String(value)));
-        if (textValue) element.textContent = textValue;
-        return element;
-      }
-
       function studentMapLabel(value, maxLength = 12) {
         const text = readableReactionEquation(value || '节点');
         return text.length > maxLength ? `${text.slice(0, maxLength - 1)}…` : text;
@@ -11608,7 +11600,7 @@
         textElement.dataset.lines = String(lines.length);
         textElement.textContent = '';
         lines.forEach((line, index) => {
-          textElement.appendChild(studentSvgElement('tspan', {
+          textElement.appendChild(svgElement('tspan', {
             x: centerX,
             y: centerY + (lines.length === 3 ? [-11, 0, 11][index] : (index === 0 ? -7 : 8))
           }, line));
@@ -11627,7 +11619,7 @@
         const lines = [characters.slice(0, splitAt).join(''), characters.slice(splitAt).join('')].filter(Boolean);
         textElement.textContent = '';
         lines.forEach((line, index) => {
-          textElement.appendChild(studentSvgElement('tspan', {
+          textElement.appendChild(svgElement('tspan', {
             x: centerX,
             y: centerY + (index === 0 ? -2 : 12)
           }, line));
@@ -11752,13 +11744,13 @@
         if (!reversible || !showLabel) return;
         const length = edge.getTotalLength();
         const point = edge.getPointAtLength(length / 2);
-        const label = studentSvgElement('g', {
+        const label = svgElement('g', {
           class: 'student-map-direction-label',
           transform: `translate(${point.x} ${point.y + labelOffsetY})`,
           'aria-hidden': 'true'
         });
-        label.appendChild(studentSvgElement('rect', { x: -13, y: -9, width: 26, height: 18, rx: 9 }));
-        label.appendChild(studentSvgElement('text', { x: 0, y: 0 }, '⇌'));
+        label.appendChild(svgElement('rect', { x: -13, y: -9, width: 26, height: 18, rx: 9 }));
+        label.appendChild(svgElement('text', { x: 0, y: 0 }, '⇌'));
         studentMapEdges.appendChild(label);
       }
 
@@ -11914,9 +11906,9 @@
         const badgeY = point.y - height / 2 + 12;
         node.classList.add('scene-portal');
         node.dataset.sceneLinks = String(sceneCount);
-        node.appendChild(studentSvgElement('circle', { cx: badgeX, cy: badgeY, r: 10, class: 'node-scene-badge' }));
-        node.appendChild(studentSvgElement('text', { x: badgeX, y: badgeY + 3, class: 'node-scene-count' }, sceneCount > 9 ? '9+' : String(sceneCount)));
-        node.appendChild(studentSvgElement('title', {}, `关联 ${sceneCount} 个其他代谢场景`));
+        node.appendChild(svgElement('circle', { cx: badgeX, cy: badgeY, r: 10, class: 'node-scene-badge' }));
+        node.appendChild(svgElement('text', { x: badgeX, y: badgeY + 3, class: 'node-scene-count' }, sceneCount > 9 ? '9+' : String(sceneCount)));
+        node.appendChild(svgElement('title', {}, `关联 ${sceneCount} 个其他代谢场景`));
         const currentLabel = node.getAttribute('aria-label') || entity.name;
         node.setAttribute('aria-label', `${currentLabel}，关联 ${sceneCount} 个其他代谢场景`);
       }
@@ -12020,14 +12012,14 @@
 
         studentMapNodes.querySelectorAll('.student-map-node').forEach(node => node.classList.toggle('route-source', node.dataset.entityId === entity.id));
 
-        const sourceNode = studentSvgElement('g', { class: 'student-destination-node source', style: `--route-tone:${studentPathwayMeta(currentPathwayId).tone}` });
-        sourceNode.appendChild(studentSvgElement('rect', { x: sourcePoint.x - sourceWidth / 2, y: sourcePoint.y - sourceHeight / 2, width: sourceWidth, height: sourceHeight }));
-        sourceNode.appendChild(studentSvgElement('text', { x: sourcePoint.x, y: sourcePoint.y - 2, class: 'destination-name' }, studentMapLabel(atlas.pathways[currentPathwayId]?.name || '当前场景', 16)));
-        sourceNode.appendChild(studentSvgElement('text', { x: sourcePoint.x, y: sourcePoint.y + 17, class: 'destination-meta' }, studentMapLabel(`${entity.name} · ${entity.compartment || '区室待核对'}`, compact ? 30 : 22)));
+        const sourceNode = svgElement('g', { class: 'student-destination-node source', style: `--route-tone:${studentPathwayMeta(currentPathwayId).tone}` });
+        sourceNode.appendChild(svgElement('rect', { x: sourcePoint.x - sourceWidth / 2, y: sourcePoint.y - sourceHeight / 2, width: sourceWidth, height: sourceHeight }));
+        sourceNode.appendChild(svgElement('text', { x: sourcePoint.x, y: sourcePoint.y - 2, class: 'destination-name' }, studentMapLabel(atlas.pathways[currentPathwayId]?.name || '当前场景', 16)));
+        sourceNode.appendChild(svgElement('text', { x: sourcePoint.x, y: sourcePoint.y + 17, class: 'destination-meta' }, studentMapLabel(`${entity.name} · ${entity.compartment || '区室待核对'}`, compact ? 30 : 22)));
         studentDestinationNodes.appendChild(sourceNode);
 
         if (!sceneLinks.length) {
-          studentDestinationNodes.appendChild(studentSvgElement('text', { x: compact ? 180 : 700, y: compact ? 132 : sourcePoint.y + 4, class: 'student-destination-empty' }, '当前物质仅连接本场景'));
+          studentDestinationNodes.appendChild(svgElement('text', { x: compact ? 180 : 700, y: compact ? 132 : sourcePoint.y + 4, class: 'student-destination-empty' }, '当前物质仅连接本场景'));
           focusSceneTarget();
           return;
         }
@@ -12053,13 +12045,13 @@
               const groupOffset = groups.length <= 1 ? 0 : (groupIndex - (groups.length - 1) / 2) * 15;
               group.entries.forEach(entry => { destinationLayout.get(entry.sceneLink.pathwayId).railX = railX; });
               if (maxY - minY > 2) {
-                studentDestinationEdges.appendChild(studentSvgElement('path', {
+                studentDestinationEdges.appendChild(svgElement('path', {
                   d: `M ${railX} ${minY} C ${railX} ${minY + (maxY - minY) * .32}, ${railX} ${minY + (maxY - minY) * .68}, ${railX} ${maxY}`,
                   class: `student-destination-bundle rail ${group.flow.type}`,
                   'aria-hidden': 'true'
                 }));
               }
-              studentDestinationEdges.appendChild(studentSvgElement('path', {
+              studentDestinationEdges.appendChild(svgElement('path', {
                 d: studentDestinationPath(sourcePoint, { x: railX, y: centerY }, side, sourceWidth / 2, 0, groupOffset),
                 class: `student-destination-bundle trunk ${group.flow.type}`,
                 'aria-hidden': 'true'
@@ -12079,7 +12071,7 @@
             : (bundled && !sceneLink.transport
                 ? studentDestinationBranchPath(point, layout.side, layout.railX, 100)
                 : studentDestinationPath(sourcePoint, point, layout.side, sourceWidth / 2, 100, layout.sourceOffset));
-          const edge = studentSvgElement('path', {
+          const edge = svgElement('path', {
             d: pathData,
             class: `student-destination-edge ${flow.type}${sceneLink.transport ? ' transport' : ''}`,
             'data-flow': flow.type,
@@ -12088,20 +12080,20 @@
           });
           const marker = `url(#student-destination-arrow-${flow.type})`;
           edge.setAttribute('marker-end', marker);
-          edge.appendChild(studentSvgElement('title', {}, `${flow.label}${sceneLink.transport ? ' · 跨区室' : ''}`));
+          edge.appendChild(svgElement('title', {}, `${flow.label}${sceneLink.transport ? ' · 跨区室' : ''}`));
           studentDestinationEdges.appendChild(edge);
 
           const tone = studentPathwayMeta(sceneLink.pathwayId).tone;
-          const node = studentSvgElement('g', { class: 'student-destination-node', style: `--route-tone:${tone}` });
+          const node = svgElement('g', { class: 'student-destination-node', style: `--route-tone:${tone}` });
           node.dataset.entityId = sceneLink.entity.id;
           node.dataset.pathway = sceneLink.pathwayId;
           node.setAttribute('role', 'button');
           node.tabIndex = 0;
           const sceneContext = [flow.label, sceneLink.transport ? '跨区室' : '', sceneLink.pathway.group, sceneLink.entity.compartment || sceneLink.pathway.compartment].filter(Boolean).join(' · ');
           node.setAttribute('aria-label', `进入${sceneLink.pathway.name}场景，${sceneContext}，并定位${entity.name}`);
-          node.appendChild(studentSvgElement('rect', { x: point.x - (compact ? 140 : 100), y: point.y - 30, width: compact ? 280 : 200, height: 60 }));
-          node.appendChild(studentSvgElement('text', { x: point.x, y: point.y - 1, class: 'destination-name' }, studentMapLabel(sceneLink.pathway.name, 17)));
-          node.appendChild(studentSvgElement('text', { x: point.x, y: point.y + 17, class: 'destination-meta' }, studentMapLabel(sceneContext || '区室待核对', compact ? 34 : 24)));
+          node.appendChild(svgElement('rect', { x: point.x - (compact ? 140 : 100), y: point.y - 30, width: compact ? 280 : 200, height: 60 }));
+          node.appendChild(svgElement('text', { x: point.x, y: point.y - 1, class: 'destination-name' }, studentMapLabel(sceneLink.pathway.name, 17)));
+          node.appendChild(svgElement('text', { x: point.x, y: point.y + 17, class: 'destination-meta' }, studentMapLabel(sceneContext || '区室待核对', compact ? 34 : 24)));
           const followSceneLink = () => {
             renderStudentPathway(sceneLink.pathwayId, {
               anchorEntity: sceneLink.entity,
@@ -12173,16 +12165,16 @@
       }
 
       function appendPdhMechanismIllustration(layer) {
-        const group = studentSvgElement('g', { id: 'studentPdhMechanism', class: 'student-pdh-mechanism', 'aria-label': '丙酮酸脱氢酶复合体催化循环示意图' });
-        const appendText = (x, y, value, className, anchor = 'middle') => group.appendChild(studentSvgElement('text', { x, y, class: className, 'text-anchor': anchor }, value));
+        const group = svgElement('g', { id: 'studentPdhMechanism', class: 'student-pdh-mechanism', 'aria-label': '丙酮酸脱氢酶复合体催化循环示意图' });
+        const appendText = (x, y, value, className, anchor = 'middle') => group.appendChild(svgElement('text', { x, y, class: className, 'text-anchor': anchor }, value));
         const appendComplex = ({ x, y, title, formulas, states, arm }) => {
           appendText(x, y - 88, title, 'mechanism-title');
           formulas.forEach((formula, index) => appendText(x, y - 66 + index * 17, formula, 'mechanism-formula'));
-          group.appendChild(studentSvgElement('circle', { cx: x - 68, cy: y + 12, r: 37, class: 'mechanism-complex' }));
-          group.appendChild(studentSvgElement('rect', { x: x - 31, y: y - 24, width: 82, height: 72, rx: 18, class: 'mechanism-core' }));
-          group.appendChild(studentSvgElement('rect', { x: x + 50, y: y - 24, width: 70, height: 72, rx: 15, class: 'mechanism-complex' }));
-          group.appendChild(studentSvgElement('path', { d: `M ${x + 9} ${y - 8} Q ${x + arm[0]} ${y + arm[1]} ${x + arm[2]} ${y + arm[3]}`, class: 'mechanism-arm' }));
-          group.appendChild(studentSvgElement('circle', { cx: x + arm[2], cy: y + arm[3], r: 7, class: 'mechanism-arm-tip' }));
+          group.appendChild(svgElement('circle', { cx: x - 68, cy: y + 12, r: 37, class: 'mechanism-complex' }));
+          group.appendChild(svgElement('rect', { x: x - 31, y: y - 24, width: 82, height: 72, rx: 18, class: 'mechanism-core' }));
+          group.appendChild(svgElement('rect', { x: x + 50, y: y - 24, width: 70, height: 72, rx: 15, class: 'mechanism-complex' }));
+          group.appendChild(svgElement('path', { d: `M ${x + 9} ${y - 8} Q ${x + arm[0]} ${y + arm[1]} ${x + arm[2]} ${y + arm[3]}`, class: 'mechanism-arm' }));
+          group.appendChild(svgElement('circle', { cx: x + arm[2], cy: y + arm[3], r: 7, class: 'mechanism-arm-tip' }));
           appendText(x - 68, y + 9, 'E1', 'mechanism-enzyme-label');
           appendText(x + 10, y + 9, 'E2', 'mechanism-enzyme-label');
           appendText(x + 85, y + 9, 'E3', 'mechanism-enzyme-label');
@@ -12191,7 +12183,7 @@
           appendText(x + 85, y + 27, states[2], 'mechanism-cofactor-label');
         };
 
-        group.appendChild(studentSvgElement('rect', { x: 38, y: 218, width: 1024, height: 690, rx: 24, class: 'mechanism-plate' }));
+        group.appendChild(svgElement('rect', { x: 38, y: 218, width: 1024, height: 690, rx: 24, class: 'mechanism-plate' }));
         appendText(550, 250, '丙酮酸脱氢酶复合体的催化循环', 'mechanism-title');
         appendText(550, 274, '同一个复合体反复工作：脱羧 → 转移乙酰基 → 生成乙酰辅酶 A → 辅酶再生', 'mechanism-label');
         appendText(550, 297, '紫色摆臂是 E2 上的硫辛酰胺，它把中间产物送到不同活性位点', 'mechanism-label');
@@ -12203,14 +12195,14 @@
           'M 438 774 C 350 755 284 707 250 627',
           'M 248 498 C 267 452 330 412 434 407'
         ];
-        cyclePaths.forEach(path => group.appendChild(studentSvgElement('path', { d: path, class: 'mechanism-cycle', 'marker-end': 'url(#student-arrow)' })));
+        cyclePaths.forEach(path => group.appendChild(svgElement('path', { d: path, class: 'mechanism-cycle', 'marker-end': 'url(#student-arrow)' })));
 
         appendComplex({ x: 550, y: 445, title: '① E1 脱羧', formulas: ['丙酮酸（3 碳）→ 羟乙基-TPP + CO₂'], states: ['TPP', '氧化态硫辛酰胺', 'FAD'], arm: [-8, -48, -54, -66] });
         appendComplex({ x: 840, y: 575, title: '② E2 接过二碳单位', formulas: ['羟乙基-TPP → 乙酰-硫辛酰胺'], states: ['TPP', '乙酰-硫辛酰胺', 'FAD'], arm: [-35, -54, -78, -55] });
         appendComplex({ x: 550, y: 815, title: '③ E2 生成乙酰辅酶 A', formulas: ['辅酶 A（CoA-SH）→ 乙酰辅酶 A', '硫辛酰胺同时被还原'], states: ['TPP', '还原态硫辛酰胺', 'FAD'], arm: [16, 54, 60, 60] });
         appendComplex({ x: 260, y: 575, title: '④ E3 让辅酶恢复原状', formulas: ['FAD → FADH₂', 'NAD⁺ → NADH + H⁺'], states: ['TPP', '氧化态硫辛酰胺', 'FAD'], arm: [36, -52, 78, -54] });
 
-        group.appendChild(studentSvgElement('circle', { cx: 550, cy: 600, r: 91, class: 'mechanism-center' }));
+        group.appendChild(svgElement('circle', { cx: 550, cy: 600, r: 91, class: 'mechanism-center' }));
         appendText(550, 577, '核心动作', 'mechanism-title');
         appendText(550, 603, 'E2 的硫辛酰胺摆臂', 'mechanism-formula');
         appendText(550, 625, '搬运乙酰基并传递电子', 'mechanism-formula');
@@ -12234,8 +12226,8 @@
 
         const mainBandY = twoRows ? 35 : 42;
         const mainBandHeight = pathwayId === 'pdh' ? 865 : (focusedLesson ? 765 : (twoRows ? 330 : 210));
-        studentMapBands.appendChild(studentSvgElement('rect', { x: 25, y: mainBandY, width: 1050, height: mainBandHeight, class: 'student-map-band' }));
-        const mainBandLabel = studentSvgElement('text', { x: 48, y: mainBandY + 25, class: 'student-map-band-label' }, '主链');
+        studentMapBands.appendChild(svgElement('rect', { x: 25, y: mainBandY, width: 1050, height: mainBandHeight, class: 'student-map-band' }));
+        const mainBandLabel = svgElement('text', { x: 48, y: mainBandY + 25, class: 'student-map-band-label' }, '主链');
         studentMapBands.appendChild(mainBandLabel);
         if (pathwayId === 'pdh') appendPdhMechanismIllustration(studentMapBands);
 
@@ -12257,7 +12249,7 @@
           const current = stepRecords[index], next = stepRecords[index + 1];
           const reaction = studentMapReactionFor(pathwayId, current.entity?.id, next.entity?.id, index)
             || current.reaction || next.reaction;
-          const edge = studentSvgElement('path', { d: studentMapEdgePath(current.point, next.point, nodeWidth, nodeHeight), class: `student-map-edge${reaction?.group === 'transport' ? ' transport' : ''}` });
+          const edge = svgElement('path', { d: studentMapEdgePath(current.point, next.point, nodeWidth, nodeHeight), class: `student-map-edge${reaction?.group === 'transport' ? ' transport' : ''}` });
           edge.dataset.reaction = reaction?.id || '';
           edge.dataset.stepIndex = String(index);
           if (reaction) {
@@ -12274,7 +12266,7 @@
 
         if (/循环|cycle/i.test(pathway.name) && stepRecords.length > 2) {
           const first = stepRecords[0].point, last = stepRecords[stepRecords.length - 1].point;
-          const loop = studentSvgElement('path', { d: studentMapLoopPath(first, last, nodeWidth, nodeHeight, twoRows, mainBandY, mainBandHeight), class: 'student-map-edge cycle' });
+          const loop = svgElement('path', { d: studentMapLoopPath(first, last, nodeWidth, nodeHeight, twoRows, mainBandY, mainBandHeight), class: 'student-map-edge cycle' });
           loop.setAttribute('marker-end', 'url(#student-arrow)');
           const reaction = pathwayReactions[pathwayReactions.length - 1] || null;
           if (reaction) {
@@ -12326,8 +12318,8 @@
         if (!finalExtraIds.length) studentPathwayMap.setAttribute('viewBox', `0 0 1100 ${focusedLesson ? mapHeight : (twoRows ? 385 : 275)}`);
         if (finalExtraIds.length) {
           const branchBandY = twoRows ? 384 : 286;
-          studentMapBands.appendChild(studentSvgElement('rect', { x: 25, y: branchBandY, width: 1050, height: twoRows ? 130 : 138, class: 'student-map-band branch-band' }));
-          studentMapBands.appendChild(studentSvgElement('text', { x: 48, y: branchBandY + 24, class: 'student-map-band-label' }, '支路 / 共享中间体'));
+          studentMapBands.appendChild(svgElement('rect', { x: 25, y: branchBandY, width: 1050, height: twoRows ? 130 : 138, class: 'student-map-band branch-band' }));
+          studentMapBands.appendChild(svgElement('text', { x: 48, y: branchBandY + 24, class: 'student-map-band-label' }, '支路 / 共享中间体'));
           const branchNodeWidth = 130;
           const branchPoints = new Map(finalExtraIds.slice(0, 5).map((branchId, branchIndex) => [
             branchId, { x: 145 + branchIndex * 200, y: twoRows ? 470 : 394 }
@@ -12372,7 +12364,7 @@
               const branchPath = participantAnchor && anchorEntity.participantRole === 'substrate'
                 ? studentMapBranchInputPath(point, sourceCenter, laneY)
                 : studentMapBranchPath(sourceAnchor, point, laneY, 22, mainNodeRects);
-              const branchEdge = studentSvgElement('path', { d: branchPath, class: 'student-map-edge branch' });
+              const branchEdge = svgElement('path', { d: branchPath, class: 'student-map-edge branch' });
               branchEdge.dataset.reaction = sourceReaction?.id || '';
               if (sourceReaction) {
                 branchEdge.addEventListener('click', event => { event.stopPropagation(); renderStudentReactionDetail(sourceReaction, pathwayId, pathwayReactions.indexOf(sourceReaction)); });
@@ -12385,10 +12377,10 @@
             const entity = entityById[id];
             const sceneEntity = participantAnchor ? anchorEntity : entity;
             const branchNodeName = studentBeginnerNodeName(sceneEntity.label || sceneEntity.name);
-            const node = studentSvgElement('g', { class: 'student-map-node branch-node', style: `--tone:${tone}` });
+            const node = svgElement('g', { class: 'student-map-node branch-node', style: `--tone:${tone}` });
             node.dataset.entityId = id; node.setAttribute('role', 'button'); node.tabIndex = 0; node.setAttribute('aria-label', branchNodeName);
-            node.appendChild(studentSvgElement('rect', { x: point.x - branchNodeWidth / 2, y: point.y - 22, width: branchNodeWidth, height: 44 }));
-            const branchLabel = studentSvgElement('text', { x: point.x, y: point.y + 5, class: 'node-name' }, branchNodeName);
+            node.appendChild(svgElement('rect', { x: point.x - branchNodeWidth / 2, y: point.y - 22, width: branchNodeWidth, height: 44 }));
+            const branchLabel = svgElement('text', { x: point.x, y: point.y + 5, class: 'node-name' }, branchNodeName);
             node.appendChild(branchLabel);
             appendStudentSceneBadge(node, point, branchNodeWidth, 44, sceneEntity, pathwayId);
             const selectBranchNode = () => {
@@ -12406,13 +12398,13 @@
         stepRecords.forEach((record, index) => {
           const { step, entity, point } = record;
           const stepKindLabel = entity ? '代谢物节点' : (record.kind === 'enzyme' ? '酶 / 载体步骤' : '过程步骤');
-          const node = studentSvgElement('g', { class: 'student-map-node', style: `--tone:${tone}` });
+          const node = svgElement('g', { class: 'student-map-node', style: `--tone:${tone}` });
           node.dataset.entityId = entity?.id || ''; node.dataset.stepIndex = index; node.dataset.stepKind = record.kind;
-          node.appendChild(studentSvgElement('rect', { x: point.x - nodeWidth / 2, y: point.y - nodeHeight / 2, width: nodeWidth, height: nodeHeight }));
+          node.appendChild(svgElement('rect', { x: point.x - nodeWidth / 2, y: point.y - nodeHeight / 2, width: nodeWidth, height: nodeHeight }));
           const isFocusedLessonStep = Boolean(studentBeginnerLessons[pathwayId]?.focusSteps);
           const lessonStepLabel = isFocusedLessonStep ? step : studentBeginnerNodeName(entity?.name || step);
           node.setAttribute('aria-label', `${lessonStepLabel}，${stepKindLabel}`);
-          const nodeLabel = studentSvgElement('text', { x: point.x, y: point.y + 5, class: 'node-name' }, lessonStepLabel);
+          const nodeLabel = svgElement('text', { x: point.x, y: point.y + 5, class: 'node-name' }, lessonStepLabel);
           node.appendChild(nodeLabel);
           const focusStepNote = studentBeginnerLessons[pathwayId]?.focusStepNotes?.[index];
           const nextRecord = stepRecords[index + 1];
@@ -12437,7 +12429,7 @@
           fitStudentMapText(nodeLabel, nodeWidth - 18, 15.5, 10);
           const nodeLineCount = Number(nodeLabel.dataset.lines || 1);
           const compartmentOffset = nodeLineCount >= 3 ? 36 : (nodeLineCount === 2 ? 33 : (isFocusedLessonStep ? 32 : 26));
-          node.appendChild(studentSvgElement('text', { x: point.x, y: point.y + compartmentOffset, class: 'node-compartment' }, focusStepNote || entity?.compartment || stepKindLabel));
+          node.appendChild(svgElement('text', { x: point.x, y: point.y + compartmentOffset, class: 'node-compartment' }, focusStepNote || entity?.compartment || stepKindLabel));
           appendStudentSceneBadge(node, point, nodeWidth, nodeHeight, entity, pathwayId);
         });
       }

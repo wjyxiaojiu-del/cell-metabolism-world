@@ -131,6 +131,14 @@ npm test            通过
 - **计划文档**：新增 `docs/structural-convergence-plan.md`，列出 SVG 工厂、贝塞尔路径、缩放系统、CSS 合并四步执行顺序与风险。
 - **验证**：工具层改动后 `npm run test:data` 全绿；UI 未改逻辑，后续重构再跑全量 `test:ui`。
 
+### 第 11 轮：P3-1 SVG 工厂合并（08-16 结构性收敛第一步）
+
+- 将 `expertSvgElement` 与 `studentSvgElement` 合并为单一 `svgElement`，统一命名空间常量 `SVG_NS`。
+- 同步把专家/学生两套工厂的全部 155 处调用改为 `svgElement(...)`，并把直接 `document.createElementNS('http://www.w3.org/2000/svg', ...)` 改为 `document.createElementNS(SVG_NS, ...)`。
+- 行为保持逐字节等价：仍使用 `setAttribute` + `textContent`，无属性/文本语义变化。
+- 验证：内联 JS 语法检查通过；`npm run test:data` 全绿；`npm run test:ui` 67/67 全绿。
+- 截图基线脚本补充禁用 CSS 动画，但多次运行 hash 仍受 JS 动画/时序影响，已记录到计划文档，视觉回归以 UI 测试 + 人工抽查为主。
+
 ---
 
 ## 3. 关键架构决策与约束（必须遵守）

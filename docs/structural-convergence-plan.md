@@ -1,6 +1,6 @@
 # 第二阶段结构性收敛计划（准备阶段）
 
-> 状态：2026-08-16 完成准备，尚未开始执行高风险重构。
+> 状态：2026-08-16 P3-1 SVG 工厂合并已完成；P3-2 ~ P3-4 待执行。
 > 前置：Git 基线已建立（commit `9542973`）；大资产已外移；截图基线已生成。
 
 ## 目标
@@ -22,13 +22,15 @@
 - [x] 截图基线：`tools/capture-baseline.js` + `docs/baseline-manifest.json`
   - 图片输出在 `output/baseline/`（git-ignored）
   - 重新生成：先 `npm run preview`，再 `npm run baseline`
+  - **注意**：当前截图 hash 受 JS 动画/时序影响，多次运行不完全一致；视觉回归应以 UI 测试 + 人工抽查为主，精确像素对比需先让 capture 脚本完全确定性化。
 
 ## 执行顺序（每步必须跑 test:data + test:ui + 视觉抽查）
 
-### P3-1 SVG 工厂合并（低风险）
-- 合并 `expertSvgElement` 与 `studentSvgElement` 为单一 `svgElement`。
-- 统一命名空间常量。
-- 保持现有属性/文本行为不变。
+### P3-1 SVG 工厂合并（低风险）✅ 已完成
+- [x] 合并 `expertSvgElement` 与 `studentSvgElement` 为单一 `svgElement`。
+- [x] 统一命名空间常量 `SVG_NS`。
+- [x] 保持现有属性/文本行为不变；155 处调用已迁移。
+- [x] 验证：`test:data` + `test:ui` 67/67 全绿。
 
 ### P3-2 贝塞尔路径生成器收敛（中风险）
 - 抽取公共 `curveBetween` / `curveThrough` / 圆角折线工具。

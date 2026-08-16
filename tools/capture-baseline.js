@@ -57,7 +57,10 @@ async function main() {
     const page = await context.newPage();
     const pageErrors = [];
     page.on('pageerror', error => pageErrors.push(error.message));
+    // Make captures deterministic: disable CSS animations/transitions before load.
+    await page.addStyleTag({ content: '*, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }' });
     await page.goto(BASE + scenario.url, { waitUntil: 'networkidle', timeout: 20000 });
+    await page.evaluate(() => document.fonts ? document.fonts.ready : Promise.resolve());
 
     if (scenario.name.startsWith('student-')) {
       await enterLearning(page);
