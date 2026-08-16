@@ -49,6 +49,11 @@
   - 单通路图 `applyStudentMapZoom` → `zoomScrollOffset`
 - 验证：`test:data` + `test:ui` 67/67 全绿。
 
+### 性能优化：专家地图路径裁剪 ✅ 已完成
+- 专家地图聚焦单通路时，对非 `pathway-active` 的 `.route` / `.route-aura` 设置 `display:none`。
+- 可见路径从总览 51 条降到聚焦 TCA 的 9 条，减少 SVG 渲染与样式计算。
+- 验证：`test:data` + `test:ui` 67/67 全绿。
+
 ### P3-4 CSS 同选择器合并（高风险）
 - 用 `getComputedStyle` 全视口快照 + 截图基线回归。
 - 遵循 HANDOVER §3.4：新样式追加到 `</style>` 前，并加“最后生效”注释。

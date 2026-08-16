@@ -169,6 +169,13 @@ npm test            通过
   - `roundedCornerPath` 开头过滤连续重复点，消除零长度段。
 - 验证：TCA/尿素循环线路径已变为正确圆角且箭头方向正确；支路重复段消失；`npm run test:data` 全绿；`npm run test:ui` 67/67 全绿。
 
+### 第 15 轮：专家地图路径裁剪优化（08-16 卡顿优化）
+
+- 用户反馈“很卡顿”；定位到专家地图 `#routeLayer` 始终保留 680 条 path，聚焦单通路时仍全部参与样式计算。
+- 优化：`syncExpertInteractiveStates` 在聚焦单通路时对非 `pathway-active` 的 `.route` / `.route-aura` 设置 `display:none`，返回总览时恢复。
+- 实测：专家总览可见路径 51 条；聚焦 TCA 后可见路径从 51 → **9 条**，显著减少 SVG 渲染/样式计算量。
+- 验证：`npm run test:data` 全绿；`npm run test:ui` 67/67 全绿。
+
 ---
 
 ## 3. 关键架构决策与约束（必须遵守）

@@ -10093,10 +10093,12 @@
       function syncExpertInteractiveStates() {
         const focused = activePathway !== 'all';
         const detailsVisible = focused && document.body.classList.contains('expert-details-visible');
-        document.querySelectorAll('#routeLayer .route').forEach(route => {
+        document.querySelectorAll('#routeLayer .route, #routeLayer .route-aura').forEach(route => {
           const classification = route.classList.contains('route-classification');
           const teachingDetail = route.classList.contains('route-teaching-detail');
           const linked = focused && route.classList.contains('pathway-active');
+          // 聚焦单条通路时直接隐藏非当前通路的路径，减少 SVG 渲染与样式计算量。
+          route.style.display = focused && !route.classList.contains('pathway-active') ? 'none' : '';
           // 总览只承担“选择问题 / 通路”的入口职责；选中通路后，
           // 才把该通路的真实反应开放给键盘和读屏，避免一次暴露整张底层网络。
           const available = focused && !classification && linked && (!teachingDetail || detailsVisible);
