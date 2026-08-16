@@ -37,6 +37,7 @@
 - [x] `studentMapEdgePath`、`studentMapBranchPath`、`studentMapBranchInputPath`、`studentMapLoopPath` 统一走 `roundedCornerPath`。
 - [x] `studentDestinationPath`、`studentDestinationMobilePath`、`studentDestinationBranchPath` 统一走 `cubicPath`。
 - [x] 循环线契约保持：`r=22`、`arrowGap=13`、marker 尺寸 12。
+- [x] 人工检查后修复：循环线 `laneX` 动态避开箭头终点，`roundedCornerPath` 过滤重复点。
 - [x] 验证：`test:data` + `test:ui` 67/67 全绿。
 
 ### P3-3 缩放系统收敛（中风险）✅ 已完成（修订方案）

@@ -158,6 +158,17 @@ npm test            通过
   - 单通路图 `applyStudentMapZoom`
 - 验证：`npm run test:data` 全绿；`npm run test:ui` 67/67 全绿。
 
+### 第 14 轮：人工检查修复循环线/支路线（08-16）
+
+- 用户人工检查反馈“很卡顿、线条仍有很大问题”。
+- 定位到两处真实线条缺陷：
+  1. 循环线 `laneX=42` 但箭头终点 `endX=39`，导致最后一段向左走、箭头方向反了，且 `roundedCornerPath` 把圆角半径压成 1.5px。
+  2. `roundedCornerPath` 会保留重复点，产生零长度段（如尿素支路 `L 980 342 L 980 342`）。
+- 修复：
+  - `studentMapLoopPath` 的 `laneX` 改为按 `endX - r - 6` 动态计算（下限 8），保证圆角 `r=22` 完整、箭头向右进入节点。
+  - `roundedCornerPath` 开头过滤连续重复点，消除零长度段。
+- 验证：TCA/尿素循环线路径已变为正确圆角且箭头方向正确；支路重复段消失；`npm run test:data` 全绿；`npm run test:ui` 67/67 全绿。
+
 ---
 
 ## 3. 关键架构决策与约束（必须遵守）

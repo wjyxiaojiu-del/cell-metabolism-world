@@ -9265,17 +9265,18 @@
       }
 
       function roundedCornerPath(points, radius = 0) {
-        if (!points.length) return '';
+        const pts = points.filter((point, index) => index === 0 || point.x !== points[index - 1].x || point.y !== points[index - 1].y);
+        if (!pts.length) return '';
         const r = Math.max(0, radius);
-        let d = `M ${points[0].x} ${points[0].y}`;
-        for (let i = 0; i < points.length - 1; i += 1) {
-          const current = points[i];
-          const next = points[i + 1];
-          if (i === points.length - 2 || r <= 0) {
+        let d = `M ${pts[0].x} ${pts[0].y}`;
+        for (let i = 0; i < pts.length - 1; i += 1) {
+          const current = pts[i];
+          const next = pts[i + 1];
+          if (i === pts.length - 2 || r <= 0) {
             d += ` L ${next.x} ${next.y}`;
             continue;
           }
-          const after = points[i + 2];
+          const after = pts[i + 2];
           const v1x = next.x - current.x;
           const v1y = next.y - current.y;
           const v2x = after.x - next.x;
@@ -11786,8 +11787,9 @@
         const r = 22; // 弯折圆角半径（契约值，勿改）
         const arrowGap = 13; // 终点留白，让箭头完整露在节点外（契约值，勿改）
         if (twoRows) {
-          const laneX = 42;
           const endX = first.x - nodeWidth / 2 - arrowGap;
+          // 让左侧轨道离箭头终点足够远，保证圆角半径 r 完整、箭头方向向右进入节点。
+          const laneX = Math.max(8, Math.min(42, endX - r - 6));
           return roundedCornerPath([
             { x: last.x - nodeWidth / 2, y: last.y },
             { x: laneX, y: last.y },
