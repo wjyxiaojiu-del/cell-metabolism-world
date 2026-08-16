@@ -227,6 +227,15 @@ npm test            通过
 - 保留 microglow 契约：head 圆角 ≥30、panel ≥28、stage ≥24、head blur、stage radial-gradient 均由测试锁定。
 - 验证：学习/视觉相关 20 个用例通过；完整双门禁待跑。
 
+### 第 21 轮：线条观感优化（08-16）
+
+- 用户希望“线更好看”。追加末尾覆盖层优化：
+  - 学习主链：`stroke-width:3px` + 轻微光晕，当前步 4px 蓝色光晕，hover/active 更亮。
+  - 支路：更柔和的橄榄绿 + 5-6 虚线；跨区室：紫罗兰 + 8-6 虚线；循环线 3px。
+  - 专题图边：2.6px + 光晕，hover 3.4px。
+  - 专家地图边：统一 `stroke-linecap/linejoin: round`。
+- 验证：线条相关 24 个 UI 用例通过；完整双门禁待跑。
+
 ---
 
 ## 3. 关键架构决策与约束（必须遵守）
