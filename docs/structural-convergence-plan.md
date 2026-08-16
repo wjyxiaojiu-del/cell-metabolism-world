@@ -1,6 +1,6 @@
 # 第二阶段结构性收敛计划（准备阶段）
 
-> 状态：2026-08-16 P3-1、P3-2 已完成；P3-3 ~ P3-4 待执行。
+> 状态：2026-08-16 P3-1、P3-2、P3-3 已完成；P3-4 待执行。
 > 前置：Git 基线已建立（commit `9542973`）；大资产已外移；截图基线已生成。
 
 ## 目标
@@ -39,10 +39,14 @@
 - [x] 循环线契约保持：`r=22`、`arrowGap=13`、marker 尺寸 12。
 - [x] 验证：`test:data` + `test:ui` 67/67 全绿。
 
-### P3-3 缩放系统收敛（中风险）
-- 先为三套缩放行为建立“输入 → viewBox/scale”纯函数。
-- 再以单一 viewport controller 替换。
-- 用截图基线对比桌面/移动/平板。
+### P3-3 缩放系统收敛（中风险）✅ 已完成（修订方案）
+- 经用户确认：**不强行统一渲染机制**，专家地图保留 `viewBox`，学生图保留滚动/缩放。
+- 新增 `shared/viewport-core.js` 纯函数模块：`clampZoom`、`zoomScrollOffset`、`zoomScrollState`、`fitScrollZoom`、`zoomViewBoxAtPoint`、`clampViewBox`。
+- 三处缩放函数改为调用共享数学层：
+  - 专家地图 `applyView` / `zoomAt` → `clampViewBox` / `zoomViewBoxAtPoint`
+  - 专题图 `applyStudentTopicMapScale` / `fitStudentTopicMap` → `clampZoom` / `zoomScrollState` / `fitScrollZoom`
+  - 单通路图 `applyStudentMapZoom` → `zoomScrollOffset`
+- 验证：`test:data` + `test:ui` 67/67 全绿。
 
 ### P3-4 CSS 同选择器合并（高风险）
 - 用 `getComputedStyle` 全视口快照 + 截图基线回归。

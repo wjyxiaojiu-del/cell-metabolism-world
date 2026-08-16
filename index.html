@@ -8009,9 +8009,11 @@
   <script src="data-compiled.js?v=20260815-1"></script>
   <script src="student-step-resolver.js?v=20260815-1"></script>
   <script src="student-reaction-notes.js?v=20260815-1"></script>
+  <script src="shared/viewport-core.js?v=20260816-1"></script>
   <script>
       (() => {
       const app = document.getElementById('app');
+      const viewportCore = window.CMW_VIEWPORT_CORE;
       const svg = document.getElementById('viewport');
       const mapStage = document.getElementById('mapStage');
       const image = document.getElementById('cellImage');
@@ -8406,9 +8408,7 @@
         const baseWidth = Number(studentTopicMap.dataset.baseWidth || 0);
         const baseHeight = Number(studentTopicMap.dataset.baseHeight || 0);
         const previousZoom = studentTopicZoom || 1;
-        const centerX = (studentTopicStage.scrollLeft + studentTopicStage.clientWidth / 2) / previousZoom;
-        const centerY = (studentTopicStage.scrollTop + studentTopicStage.clientHeight / 2) / previousZoom;
-        studentTopicZoom = Math.min(studentTopicZoomBounds.max, Math.max(studentTopicZoomBounds.min, Math.round(nextZoom * 100) / 100));
+        studentTopicZoom = viewportCore.clampZoom(nextZoom, studentTopicZoomBounds.min, studentTopicZoomBounds.max);
         studentTopicStage.style.setProperty('--topic-map-zoom', String(studentTopicZoom));
         if (baseWidth && baseHeight) {
           studentTopicMap.style.minWidth = `${baseWidth * studentTopicZoom}px`;
@@ -8418,11 +8418,15 @@
             lane.style.top = `${Number(lane.dataset.baseTop || 0) * studentTopicZoom}px`;
           });
           if (preserveCenter) {
-            studentTopicStage.scrollTo({
-              left: Math.max(0, centerX * studentTopicZoom - studentTopicStage.clientWidth / 2),
-              top: Math.max(0, centerY * studentTopicZoom - studentTopicStage.clientHeight / 2),
-              behavior: 'auto'
+            const nextScroll = viewportCore.zoomScrollState({
+              zoom: previousZoom,
+              scrollLeft: studentTopicStage.scrollLeft,
+              scrollTop: studentTopicStage.scrollTop,
+              clientWidth: studentTopicStage.clientWidth,
+              clientHeight: studentTopicStage.clientHeight,
+              nextZoom: studentTopicZoom
             });
+            studentTopicStage.scrollTo({ left: nextScroll.scrollLeft, top: nextScroll.scrollTop, behavior: 'auto' });
           }
         }
         updateStudentTopicZoomControls();
@@ -8448,7 +8452,15 @@
         const baseWidth = Number(studentTopicMap.dataset.baseWidth || 0);
         const baseHeight = Number(studentTopicMap.dataset.baseHeight || 0);
         if (!baseWidth || !baseHeight) return;
-        const fitted = Math.min((studentTopicStage.clientWidth - 24) / baseWidth, (studentTopicStage.clientHeight - 24) / baseHeight, 1);
+        const fitted = viewportCore.fitScrollZoom({
+          baseWidth,
+          baseHeight,
+          clientWidth: studentTopicStage.clientWidth,
+          clientHeight: studentTopicStage.clientHeight,
+          paddingX: 24,
+          paddingY: 24,
+          maxZoom: 1
+        });
         applyStudentTopicMapScale(fitted, false);
         studentTopicStage.scrollTo({ left: 0, top: 0, behavior: studentTopicScrollBehavior() });
       };
@@ -11825,7 +11837,6 @@
         if (!studentPathwayMap || !studentMapStage) return;
         const nextZoom = Math.max(1, Math.min(1.6, Math.round(value * 20) / 20));
         const previousZoom = studentMapZoom;
-        const previousCenter = studentMapStage.scrollLeft + studentMapStage.clientWidth / 2;
         studentMapZoom = nextZoom;
         studentPathwayMap.style.width = `${Math.round(nextZoom * 100)}%`;
         studentPathwayMap.style.maxWidth = 'none';
@@ -11836,7 +11847,12 @@
           if (nextZoom === 1) {
             studentMapStage.scrollLeft = 0;
           } else if (center && previousZoom !== nextZoom) {
-            studentMapStage.scrollLeft = Math.max(0, previousCenter * (nextZoom / previousZoom) - studentMapStage.clientWidth / 2);
+            studentMapStage.scrollLeft = viewportCore.zoomScrollOffset({
+              scroll: studentMapStage.scrollLeft,
+              clientSize: studentMapStage.clientWidth,
+              nextZoom,
+              fromZoom: previousZoom
+            });
           }
         });
       }
@@ -12909,14 +12925,9 @@
       function applyView(options = {}) {
         if (!Number.isFinite(view.w) || view.w <= 0) view.w = base.w;
         if (!Number.isFinite(view.h) || view.h <= 0) view.h = base.h;
-        const maxX = base.w - view.w, maxY = base.h - view.h;
-        if (view.w >= base.w) {
-          view.x = Math.max(-110, Math.min(110, view.x));
-          view.y = Math.max(-90, Math.min(90, view.y));
-        } else {
-          view.x = Math.max(-40, Math.min(maxX + 40, view.x));
-          view.y = Math.max(-40, Math.min(maxY + 40, view.y));
-        }
+        const safeView = viewportCore.clampViewBox(view, base);
+        view.x = safeView.x;
+        view.y = safeView.y;
         const nextViewBox = `${view.x} ${view.y} ${view.w} ${view.h}`;
         if (svg.getAttribute('viewBox') !== nextViewBox) svg.setAttribute('viewBox', nextViewBox);
         if (options.lightweight) return;
@@ -13088,10 +13099,8 @@
         cancelViewAnimation();
         const point = svg.createSVGPoint(); point.x = clientX; point.y = clientY;
         const p = point.matrixTransform(svg.getScreenCTM().inverse());
-        const nw = Math.max(420, Math.min(1900, view.w * factor));
-        const nh = nw * .75;
-        const rx = (p.x - view.x) / view.w, ry = (p.y - view.y) / view.h;
-        view = { x: p.x - rx * nw, y: p.y - ry * nh, w: nw, h: nh }; applyView(options);
+        view = viewportCore.zoomViewBoxAtPoint(view, factor, p, { minW: 420, maxW: 1900, aspectRatio: .75 });
+        applyView(options);
       }
 
       function queueWheelZoom(event) {

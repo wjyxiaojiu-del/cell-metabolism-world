@@ -148,6 +148,16 @@ npm test            通过
 - 循环线契约保持：`r=22`、`arrowGap=13`、marker 尺寸 12。
 - 验证：内联 JS 语法检查通过；`npm run test:data` 全绿；`npm run test:ui` 67/67 全绿。
 
+### 第 13 轮：P3-3 缩放系统收敛（08-16 结构性收敛第三步，修订方案）
+
+- 用户指出“专家地图有待商榷”，确认不应强行统一渲染机制；专家地图保留 `viewBox`，学生图保留滚动/缩放。
+- 新增 `shared/viewport-core.js` 纯函数模块（`clampZoom`、`zoomScrollOffset`、`zoomScrollState`、`fitScrollZoom`、`zoomViewBoxAtPoint`、`clampViewBox`）。
+- 三处缩放函数改为调用共享数学层，DOM 写入方式不变：
+  - 专家地图 `applyView` / `zoomAt`
+  - 专题图 `applyStudentTopicMapScale` / `fitStudentTopicMap`
+  - 单通路图 `applyStudentMapZoom`
+- 验证：`npm run test:data` 全绿；`npm run test:ui` 67/67 全绿。
+
 ---
 
 ## 3. 关键架构决策与约束（必须遵守）
