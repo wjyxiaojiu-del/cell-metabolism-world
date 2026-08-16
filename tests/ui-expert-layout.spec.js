@@ -137,7 +137,7 @@ test('multi-participant reactions converge on one enzyme module', async ({ page 
   await page.getByRole('button', { name: '专家地图', exact: true }).click();
 
   for (const pathwayId of ['oxphos', 'urea', 'malate_aspartate', 'glycerol_phosphate']) {
-    await focusExpertPathway(page, pathwayId);
+    await focusExpertPathway(page, pathwayId, { waitForView: true });
     const modules = await page.locator('#enzymeLayer .enzyme.reaction-module.pathway-active').evaluateAll(nodes => nodes.map(node => ({
       id: node.dataset.moduleId,
       reactionCount: Number(node.dataset.reactionCount),

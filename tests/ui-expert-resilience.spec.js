@@ -5,7 +5,7 @@ test('expert map skips missing endpoints and treats labels as text', async ({ pa
   const warnings = [];
   page.on('pageerror', error => pageErrors.push(error.message));
   page.on('console', message => { if (message.type() === 'warning') warnings.push(message.text()); });
-  await page.route('**/data-compiled.js*', async route => {
+  await page.route('**/data-compiled-core.js*', async route => {
     const response = await route.fetch();
     const body = await response.text();
     await route.fulfill({

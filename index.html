@@ -91,7 +91,7 @@
     }
     #search:focus { border-color: rgba(41, 155, 181, .68); box-shadow: 0 0 0 4px rgba(84, 186, 198, .16); }
     #search::placeholder { color: #71909c; }
-    .search-hint { position: absolute; right: 11px; top: 10px; color: #7d9aa4; font-size: 10px; letter-spacing: .08em; }
+    .search-hint { position: absolute; right: 11px; top: 10px; color: #3f5f6a; font-size: 10px; letter-spacing: .08em; }
     .search-status {
       position: absolute; z-index: 12; top: calc(100% + 6px); left: 0; max-width: 100%;
       padding: 6px 9px; border: 1px solid #ddbcbc; border-radius: 6px;
@@ -2912,7 +2912,7 @@
       font-size: 16px;
       font-weight: 760;
     }
-    .brand small { margin-top: 2px; color: #667789; font-size: 10px; }
+    .brand small { margin-top: 2px; color: #3f5668; font-size: 10px; }
     .search { max-width: 620px; }
     .search::before { top: 8px; left: 14px; color: #577188; font-size: 18px; }
     #search {
@@ -2930,7 +2930,7 @@
       background: #fff;
       box-shadow: 0 0 0 3px rgba(0, 135, 235, .13);
     }
-    .search-hint { top: 13px; color: #71859a; }
+    .search-hint { top: 13px; color: #3f5f6a; }
     .btn {
       min-height: 38px;
       border: 1px solid #cdd9e6;
@@ -4627,14 +4627,14 @@
     .expert-overview-panel { display: none; position: fixed; z-index: 7; top: 190px; left: 50%; width: min(680px, calc(100vw - 420px)); transform: translateX(-50%); padding: 28px 34px 24px; border: 1px solid rgba(82,154,175,.24); border-radius: 24px; color: #17465a; background: rgba(247,252,253,.9); box-shadow: 0 22px 54px rgba(36,94,112,.12); backdrop-filter: blur(14px); }
     body.expert-map .expert-overview-panel { display: block; }
     body.scene-open .expert-overview-panel { display: none !important; }
-    .expert-overview-kicker { color: #2a8aa0; font: 800 10px/1.4 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .16em; }
+    .expert-overview-kicker { color: #1b6d80; font: 800 10px/1.4 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .16em; }
     .expert-overview-panel h1 { margin: 8px 0 7px; font-size: clamp(25px, 2.2vw, 34px); letter-spacing: -.03em; }
     .expert-overview-panel p { max-width: 560px; margin: 0; color: #587684; font-size: 13px; line-height: 1.7; }
     .expert-overview-axes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 20px; }
     .expert-overview-axes div { display: grid; gap: 3px; padding: 11px 13px; border: 1px solid rgba(82,154,175,.16); border-radius: 13px; background: rgba(255,255,255,.72); }
     .expert-overview-axes b { color: #236f84; font-size: 12px; }
-    .expert-overview-axes span { color: #6a8790; font-size: 10px; line-height: 1.45; }
-    .expert-overview-hint { margin-top: 16px; color: #7d969d; font-size: 10px; }
+    .expert-overview-axes span { color: #3f5f6a; font-size: 10px; line-height: 1.45; }
+    .expert-overview-hint { margin-top: 16px; color: #4a6b72; font-size: 10px; }
     body.expert-map.pathway-focus .expert-overview-panel, body.expert-map.entity-focus .expert-overview-panel, body.expert-map.reaction-focus .expert-overview-panel { opacity: 0; visibility: hidden; pointer-events: none; }
     /* 聚焦具体通路时，概览四角 HUD 不再抢占工作台的阅读层级。 */
     body.expert-map.pathway-focus .overview-hud {
@@ -4692,7 +4692,7 @@
     body.expert-map.pathway-focus #routeLayer > .route-aura.route-classification.pathway-active { opacity: 0 !important; pointer-events: none !important; }
     body.expert-map.pathway-focus .entity.pathway-active .entity-label { font-size: 12.5px; pointer-events: none !important; }
     body.expert-map.pathway-focus .entity.pathway-active .entity-formula { opacity: .48; font-size: 9px; }
-    .site-metrics { display: inline-flex; align-items: center; gap: 8px; padding: 0 8px; color: #6d8993; font-size: 10px; white-space: nowrap; }
+    .site-metrics { display: inline-flex; align-items: center; gap: 8px; padding: 0 8px; color: #3f5f6a; font-size: 10px; white-space: nowrap; }
     .site-metrics span { display: inline-flex; gap: 3px; align-items: baseline; }
     .site-metrics b { color: #2d7182; font-size: 11px; font-variant-numeric: tabular-nums; }
 @media (max-width: 760px){ .site-metrics { display: none; }
@@ -7360,7 +7360,7 @@
     .expert-overview-axes button:hover,
     .expert-overview-axes button:focus-visible { border-color: #2c91b0; outline: 3px solid rgba(255, 203, 72, .36); }
     .expert-overview-axes b { color: #1e6075; font-size: 12px; }
-    .expert-overview-axes span { color: #718791; font-size: 9px; line-height: 1.35; }
+    .expert-overview-axes span { color: #3f5f6a; font-size: 9px; line-height: 1.35; }
     .expert-overview-hint { margin-top: 9px; }
     body.expert-map.pathway-focus .expert-pathway-brief { border-radius: 8px; box-shadow: 0 10px 25px rgba(39, 91, 106, .08); }
     .expert-pathway-brief-grid div { border-radius: 5px; }
@@ -7924,10 +7924,10 @@
       <button class="topbar-reveal-button" id="topbarRevealButton" type="button" aria-label="固定展开顶部导航" aria-expanded="false">⌄ <span>导航</span></button>
     </div>
 
-    <div class="context" id="context"><b>细胞</b><span> › 全景</span></div>
-    <div class="status"><span class="dot"></span><span id="statusSummary">300 个节点 · 55 条通路 · 20 个场景层</span></div>
+    <nav class="context" id="context" aria-label="当前位置"><b>细胞</b><span> › 全景</span></nav>
+    <div class="status" role="region" aria-label="页面状态"><span class="dot"></span><span id="statusSummary">300 个节点 · 55 条通路 · 20 个场景层</span></div>
 
-    <div class="zoom-tools" role="toolbar" aria-label="地图缩放工具">
+    <div class="zoom-tools" role="region" aria-label="地图缩放工具">
       <button id="zoomIn" title="放大" aria-label="放大">＋</button>
       <button id="zoomOut" title="缩小" aria-label="缩小">−</button>
       <button id="resetBtn" title="回到完整细胞" aria-label="回到完整细胞">◎</button>
@@ -7971,11 +7971,11 @@
       </div>
     </section>
 
-    <a class="deerflow" href="https://deerflow.tech" target="_blank" rel="noreferrer" title="由 Deerflow 创建">由 Deerflow 创建</a>
+    <footer aria-label="页脚"><a class="deerflow" href="https://deerflow.tech" target="_blank" rel="noreferrer" title="由 Deerflow 创建">由 Deerflow 创建</a></footer>
   </div>
 
   <script src="scene-data.js?v=20260815-1"></script>
-  <script src="data-compiled.js?v=20260815-1"></script>
+  <script src="data-compiled-core.js?v=20260816-1"></script>
   <script src="student-step-resolver.js?v=20260815-1"></script>
   <script src="student-reaction-notes.js?v=20260815-1"></script>
   <script src="shared/viewport-core.js?v=20260816-1"></script>
@@ -7983,6 +7983,62 @@
       (() => {
       const app = document.getElementById('app');
       const viewportCore = window.CMW_VIEWPORT_CORE;
+      let extendedDataLoaded = false;
+      function mergeExtendedData() {
+        const ext = window.METABOLIC_COMPILED_EXT;
+        if (!ext || extendedDataLoaded) return;
+        const core = window.METABOLIC_COMPILED;
+        const coreEntityIds = new Set((core.entities || []).map(entity => entity.id));
+        const coreReactionIds = new Set((core.reactions || []).map(reaction => reaction.id));
+        const coreCatalogKeys = new Set((core.participantCatalog || []).map(entry => entry.key));
+        const addedEntities = (ext.entities || []).filter(entity => !coreEntityIds.has(entity.id));
+        const addedReactions = (ext.reactions || []).filter(reaction => !coreReactionIds.has(reaction.id));
+        core.entities.push(...addedEntities);
+        core.reactions.push(...addedReactions);
+        Object.assign(core.pathwayMeta || {}, ext.pathwayMeta || {});
+        Object.assign(core.expertPathwayLayouts || {}, ext.expertPathwayLayouts || {});
+        core.participantCatalog.push(...(ext.participantCatalog || []).filter(entry => !coreCatalogKeys.has(entry.key)));
+        // 同步更新运行时索引，否则 buildRoutes/buildEntities 会跳过扩展实体/反应。
+        for (const entity of addedEntities) entityById[entity.id] = entity;
+        for (const reaction of addedReactions) reactionById[reaction.id] = reaction;
+        extendedDataLoaded = true;
+      }
+      function preloadExtendedData() {
+        if (extendedDataLoaded || window.METABOLIC_COMPILED_EXT) {
+          mergeExtendedData();
+          return;
+        }
+        const script = document.createElement('script');
+        script.src = 'data-compiled-ext.js?v=20260816-1';
+        script.onload = mergeExtendedData;
+        script.onerror = () => console.warn('扩展通路数据加载失败，扩展通路暂不可用');
+        document.head.appendChild(script);
+      }
+      function loadExtendedDataSync() {
+        if (extendedDataLoaded || window.METABOLIC_COMPILED_EXT) {
+          mergeExtendedData();
+          return true;
+        }
+        try {
+          const request = new XMLHttpRequest();
+          request.open('GET', 'data-compiled-ext.js?v=20260816-1', false);
+          request.send();
+          if (request.status === 200) {
+            // 直接执行拆分文件，它会写入 window.METABOLIC_COMPILED_EXT。
+            (0, eval)(request.responseText);
+            mergeExtendedData();
+            return true;
+          }
+        } catch (error) {
+          console.warn('扩展通路数据同步加载失败', error);
+        }
+        return false;
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => setTimeout(preloadExtendedData, 0));
+      } else {
+        setTimeout(preloadExtendedData, 0);
+      }
       const svg = document.getElementById('viewport');
       const mapStage = document.getElementById('mapStage');
       const image = document.getElementById('cellImage');
@@ -10188,6 +10244,7 @@
 
       function ensureExpertMapBuilt() {
         if (expertMapBuilt) return;
+        loadExtendedDataSync();
         buildOrganelles();
         buildCompartmentTags();
         buildExpertCompartmentGuides();

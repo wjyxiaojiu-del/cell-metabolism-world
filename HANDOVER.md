@@ -198,6 +198,16 @@ npm test            通过
 - 新增依赖：`@axe-core/playwright`。
 - 验证：`npm run test:data` 全绿；`npm run test:ui` **72/72 全绿**。
 
+### 第 18 轮：axe 清零 + data-compiled 异步拆载（08-16）
+
+- **axe 修复**：修复专家概览轴按钮、kicker/hint、品牌版本、搜索提示、站点指标等颜色对比度；为 context/status/zoom-tools/deerflow 补 landmark。axe 冒烟测试从“允许已知项”收紧为“零违规”。
+- **data-compiled 异步拆载**：
+  - 新增 `tools/split-compiled.js`，把 `data-compiled.js` 拆为 `data-compiled-core.js`（21 核心：130 实体 / 168 反应）和 `data-compiled-ext.js`（34 扩展：170 实体 / 172 反应）。
+  - `index.html` 首屏只同步加载 core，页面就绪后异步预加载 ext 并合并；专家地图构建前用同步 XHR 兜底确保 ext 已合并。
+  - `compile.js` 已集成：正常编译时自动生成拆分文件。
+  - 更新 `ui-expert-resilience.spec.js` 拦截 `data-compiled-core.js`。
+- 验证：`npm run test:data` 全绿；`npm run test:ui` 72/72 全绿。
+
 ---
 
 ## 3. 关键架构决策与约束（必须遵守）

@@ -10,6 +10,7 @@ const {
   normalizeParticipantKey
 } = require('./reaction-participants.js');
 const { reactionIdentity } = require('./reaction-identity.js');
+const { writeSplitFiles } = require('./split-compiled.js');
 
 const ROOT = path.join(__dirname, '..');
 const DATA = path.join(ROOT, 'data');
@@ -371,6 +372,7 @@ if (CHECK) {
   }
 } else {
   fs.writeFileSync(outputPath, compiledOutput, 'utf8');
+  writeSplitFiles(ROOT);
 }
 
 console.log('=== 编译完成 ===');

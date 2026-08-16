@@ -62,15 +62,16 @@
 
 ## 后续可选增强
 
-### 已完成（2026-08-16 快速三项）
+### 已完成（2026-08-16）
 - [x] `transport` 通路 UI 可达：`scene-data.js` 在线粒体内膜场景补热点。
 - [x] 专家地图实体/酶聚焦裁剪：聚焦通路时非 `pathway-active` 的实体/酶 `display:none`。
-- [x] axe 可访问性冒烟：`tests/ui-accessibility.spec.js`（4 用例，允许已知 color-contrast/region）。
+- [x] axe 可访问性冒烟：`tests/ui-accessibility.spec.js`（4 用例，零违规）。
+- [x] 修复 axe `color-contrast` / `region`：调整专家概览、品牌、搜索提示、站点指标等颜色，并补 landmark。
 - [x] 性能预算测试：`tests/ui-performance.spec.js`（总资源 <15MB、index <1MB、data-compiled <1.5MB、图片 <12MB）。
+- [x] `data-compiled.js` 异步拆载：新增 `data-compiled-core.js` / `data-compiled-ext.js`，首屏只同步加载 core，页面就绪后异步预加载 ext 并合并；`tools/split-compiled.js` 负责生成，`compile.js` 已集成。
 
 ### 仍可做
-- 将 `data-compiled.js` 拆为“21 核心 + 34 扩展”异步加载（高风险，需等上述收敛稳定）。
-- 修复 axe 已知 `color-contrast` / `region` 违规，把允许清单逐步收紧。
+- 将 `data-compiled.js` 完全改为“首次进入扩展通路时才拉取 ext”的真懒加载（当前为预加载式）。
 - 将 `check-course-data.js` 从 `test:data` 中移除或改为归档检查开关。
 
 ## 回滚
