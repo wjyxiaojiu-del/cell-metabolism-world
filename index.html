@@ -12269,8 +12269,23 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         sceneHotspots.innerHTML = '';
         // 场景内只显示属于当前细胞器的通路入口，避免把细胞核/内质网标注带进线粒体。
         const hotspots = sceneHotspotsForView(scene, viewIndex).filter(hotspot => {
-          if (!hotspot.pathway) return true;
-          return atlas.pathways[hotspot.pathway]?.scene === currentSceneId;
+          if (!hotspot.pathway) {
+            if (currentSceneId === 'cell-atlas' || hotspot.target) return true;
+            const label = String(hotspot.label || '');
+            const foreignByScene = {
+              mitochondria: /细胞核|内质网|高尔基体|溶酶体|过氧化物酶体/,
+              'mitochondria-matrix': /细胞核|内质网|高尔基体|溶酶体|过氧化物酶体/,
+              'mitochondria-inner-membrane': /细胞核|内质网|高尔基体|溶酶体|过氧化物酶体/,
+              cytosol: /细胞核|内质网|高尔基体|溶酶体|过氧化物酶体/,
+              'nucleus-er': /线粒体|高尔基体|溶酶体|过氧化物酶体/,
+              golgi: /细胞核|线粒体|溶酶体|过氧化物酶体/,
+              'endosome-lysosome': /细胞核|线粒体|内质网|高尔基体/,
+              peroxisome: /细胞核|线粒体|内质网|高尔基体|溶酶体/
+            };
+            return !foreignByScene[currentSceneId]?.test(label);
+          }
+          if (atlas.pathways[hotspot.pathway]?.scene !== currentSceneId) return false;
+          return true;
         });
         const annotations = sceneAnnotationsForView(scene, viewIndex);
         renderSceneScope(scene, viewIndex, hotspots);
