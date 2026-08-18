@@ -2800,7 +2800,28 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
     body.expert-map #routeLayer > .route-aura.route-secondary { opacity: 0 !important; pointer-events: none !important; }
     body.expert-map.pathway-focus #routeLayer > .route.route-secondary.pathway-active { opacity: 1 !important; pointer-events: stroke !important; filter: none !important; }
     body.expert-map.pathway-focus #routeLayer > .route-aura.route-secondary.pathway-active { opacity: 0 !important; pointer-events: stroke !important; }
+    /* 总览收起跨通路/转运支路，避免不同颜色的线路在细胞器背景上互相穿插。 */
+    body.expert-map:not(.pathway-focus) #routeLayer > .route.route-overview-muted,
+    body.expert-map:not(.pathway-focus) #routeLayer > .route-aura.route-overview-muted {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      filter: none !important;
+    }
+    body.expert-map.pathway-focus #routeLayer > .route.route-overview-muted.pathway-active {
+      opacity: 1 !important;
+      pointer-events: stroke !important;
+      filter: none !important;
+    }
+    body.expert-map.pathway-focus #routeLayer > .route-aura.route-overview-muted.pathway-active {
+      opacity: 0 !important;
+      pointer-events: stroke !important;
+    }
     body.expert-map:not(.pathway-focus) #routeLayer > .route:not(.route-secondary) { opacity: .72 !important; }
+    /* 覆盖总览的核心线默认透明度：跨通路和转运线路保持收起。 */
+    body.expert-map:not(.pathway-focus) #routeLayer > .route.route-overview-muted {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
     body.expert-map:not(.pathway-focus):not(.entity-focus):not(.reaction-focus) #entityLayer > .entity.entity-secondary {
       opacity: 0 !important;
       visibility: hidden;
@@ -8752,10 +8773,14 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           const routeGroups = groupsFor(r);
           const visualGroup = routeGroups.map(group => routeGroupForPathway(group, atlas.pathways[group]) || group).find(group => ['glycolysis', 'pdh', 'tca', 'etc', 'transport'].includes(group)) || 'side';
           const groupData = routeGroups.join(' ');
+          // 总览只展示同一核心通路内的主干反应；跨通路与转运反应在聚焦后再展开。
+          // 这样不会牺牲机制数据或点击命中，只把视觉噪声从默认视图中收起来。
+          const overviewMuted = visualGroup === 'transport' || routeGroups.length > 1;
           const d = geometry?.d || curveBetween(a, b);
           const aura = document.createElementNS('http://www.w3.org/2000/svg', 'path');
           aura.classList.add('route-aura', `route-${visualGroup}`);
           if (visualGroup === 'side') aura.classList.add('route-secondary');
+          if (overviewMuted) aura.classList.add('route-overview-muted');
           if (r.detail) aura.classList.add('detail-route');
           aura.dataset.id = r.id; aura.dataset.group = groupData;
           aura.setAttribute('d', d); aura.setAttribute('aria-hidden', 'true');
@@ -8765,6 +8790,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           layer.appendChild(aura);
           const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
           path.classList.add('route', `route-${visualGroup}`); path.dataset.id = r.id; path.dataset.group = groupData;
+          if (overviewMuted) path.classList.add('route-overview-muted');
           path.classList.toggle('reversible', Boolean(r.reversible));
           path.dataset.direction = r.reversible ? 'reversible' : 'forward';
           if (visualGroup === 'side') path.classList.add('route-secondary');
