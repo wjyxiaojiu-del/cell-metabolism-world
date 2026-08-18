@@ -1357,9 +1357,10 @@
 
     /* 透明宽点击带只负责命中，不改变路线的视觉粗细。 */
     .route-aura {
-      fill: none; stroke: transparent; stroke-width: 18px; opacity: 0;
-      pointer-events: stroke; filter: none;
+      fill: none; stroke: transparent; stroke-width: 30px; opacity: 0;
+      pointer-events: stroke; filter: none; cursor: pointer;
     }
+    .route { pointer-events: stroke; cursor: pointer; }
     .route:hover, .route.active { stroke-width: var(--route-active-width); opacity: 1; filter: drop-shadow(0 0 1.5px rgba(255,255,255,.75)); }
     .route.active { opacity: 1; }
     .route.route-glycolysis { stroke-width: calc(var(--route-width) + .65px); opacity: min(1, calc(var(--route-opacity) + .05)); }
@@ -1384,7 +1385,7 @@
     body .entity.dim,
     body.zoom-mid .entity.detail-node.dim, body.zoom-detail .entity.detail-node.dim {
       opacity: .18 !important; filter: grayscale(.85) !important;
-      transition: opacity .45s cubic-bezier(.2,.7,.3,1), filter .45s cubic-bezier(.2,.7,.3,1) !important;
+      transition: opacity .22s cubic-bezier(.2,.7,.3,1), filter .22s cubic-bezier(.2,.7,.3,1) !important;
     }
     body .route.dim,
     body.zoom-mid .route.detail-route.dim, body.zoom-detail .route.detail-route.dim {
@@ -11657,7 +11658,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           y: (minY + maxY) / 2 - targetH * visibleCenterFraction,
           w: targetW,
           h: targetH
-        }, 420);
+        }, 280);
       }
 
       function focusEntity(e) {
