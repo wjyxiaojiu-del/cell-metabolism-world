@@ -129,6 +129,7 @@
     .expert-path-preview span { display: grid; gap: 3px; min-width: 0; }
     .expert-path-preview b { overflow: hidden; color: #244a62; font-size: 11px; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
     .expert-path-preview small { overflow: hidden; color: #6e8793; font-size: 9px; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
+    .path-focus-stats { display: block; margin-top: 4px; color: #3e7184; font-size: 9px; line-height: 1.35; white-space: nowrap; }
 
     .zoom-tools { top: 50%; right: 25px; transform: translateY(-50%); padding: 6px; border-radius: 15px; display: grid; gap: 5px; box-shadow: 0 12px 30px rgba(47, 105, 123, .12); }
     .zoom-tools button { width: 34px; height: 34px; border: 0; border-radius: 10px; color: #397287; background: rgba(231, 248, 248, .7); font-size: 20px; line-height: 1; }
@@ -7363,7 +7364,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
     <nav class="pathbar" aria-label="专家地图通路导航">
       <span class="pathbar-label"><strong>通路导航</strong><small>专家地图 · 通路索引</small></span>
       <div class="path-filters" id="pathFilters"></div>
-      <span class="path-note" id="pathNote"><span class="path-note-copy"><b>单击聚焦通路</b><small>双击进入细胞器<br>再点一次显示全部</small></span><span class="expert-path-preview" id="expertPathPreview" role="button" tabindex="0" aria-label="打开当前通路所在细胞器" hidden><img id="expertPathPreviewImage" alt=""><span><b id="expertPathPreviewTitle"></b><small id="expertPathPreviewCaption"></small></span></span></span>
+      <span class="path-note" id="pathNote"><span class="path-note-copy"><b>单击聚焦通路</b><small>双击进入细胞器<br>再点一次显示全部</small></span><span class="expert-path-preview" id="expertPathPreview" role="button" tabindex="0" aria-label="打开当前通路所在细胞器" hidden><img id="expertPathPreviewImage" alt=""><span><b id="expertPathPreviewTitle"></b><small id="expertPathPreviewCaption"></small><em class="path-focus-stats" id="pathFocusStats"></em></span></span></span>
     </nav>
 
     <dialog class="pathway-visual-dialog" id="pathwayVisualDialog" aria-labelledby="pathwayVisualDialogTitle">
@@ -7419,6 +7420,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       const expertPathPreviewImage = document.getElementById('expertPathPreviewImage');
       const expertPathPreviewTitle = document.getElementById('expertPathPreviewTitle');
       const expertPathPreviewCaption = document.getElementById('expertPathPreviewCaption');
+      const pathFocusStats = document.getElementById('pathFocusStats');
       const atlas = window.METABOLIC_ATLAS_DATA || { pathways: {}, scenes: {} };
       const sceneDeck = document.getElementById('sceneDeck');
       const sceneBackground = document.getElementById('sceneBackground');
@@ -8974,11 +8976,18 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           expertPathPreviewImage.alt = `${displayText(pathway.name)}结构视图`;
           expertPathPreviewTitle.textContent = displayText(pathway.name);
           expertPathPreviewCaption.textContent = `${displayText(label || scene.title || '结构图')} · 点击进入细胞器`;
+          const routeGroup = routeGroupForPathway(pathwayId, pathway) || pathwayId;
+          const pathwayReactions = reactions.filter(reaction => groupsFor(reaction).includes(pathwayId) || groupsFor(reaction).includes(routeGroup));
+          const pathwayEntityIds = new Set(pathwayReactions.flatMap(reaction => [reaction.from, reaction.to]));
+          const enzymeCount = pathwayReactions.filter(reaction => reaction.enzyme).length;
+          const irreversibleCount = pathwayReactions.filter(reaction => !reaction.reversible).length;
+          if (pathFocusStats) pathFocusStats.textContent = `${pathwayEntityIds.size} 个代谢物节点 · ${enzymeCount} 个酶节点 · ${irreversibleCount} 个单向步骤`;
           return;
         }
         expertPathPreview.hidden = true;
         if (pathNoteCopy) pathNoteCopy.hidden = false;
         expertPathPreviewImage.removeAttribute('src');
+        if (pathFocusStats) pathFocusStats.textContent = '';
       }
 
       function openExpertPathPreview() {
