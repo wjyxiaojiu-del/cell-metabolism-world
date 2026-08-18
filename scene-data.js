@@ -92,7 +92,8 @@ window.METABOLIC_ATLAS_DATA = (() => {
       views: [['独立结构', 'cell-metabolism-assets/optimized/18-mitochondrion-isolated.webp'], ['橙色总览', 'cell-metabolism-assets/optimized/03-mitochondrion-overview-orange.webp'], ['蓝色结构', 'cell-metabolism-assets/optimized/23-mitochondrion-blueprint.webp'], ['白色结构', 'cell-metabolism-assets/optimized/24-mitochondrion-blueprint-white.webp']],
       hotspots: [
         { label: '线粒体基质', x: 48, y: 55, target: 'mitochondria-matrix', tone: '#d67c47' }, { label: '线粒体内膜', x: 52, y: 26, target: 'mitochondria-inner-membrane', tone: '#309cb3' },
-        { pathway: 'pdh', x: 24, y: 46 }, { pathway: 'carnitine', x: 24, y: 72 }, { pathway: 'malate_aspartate', x: 72, y: 68 }, { pathway: 'glycerol_phosphate', x: 80, y: 42 },
+        { pathway: 'pdh', x: 24, y: 46 }, { pathway: 'tca', x: 45, y: 57 }, { pathway: 'beta_oxidation', x: 66, y: 48 }, { pathway: 'ketone', x: 76, y: 62 },
+        { pathway: 'carnitine', x: 24, y: 72 }, { pathway: 'malate_aspartate', x: 72, y: 68 }, { pathway: 'glycerol_phosphate', x: 80, y: 42 },
         { label: '返回细胞质接口', x: 13, y: 27, target: 'cytosol', tone: '#d99a34' }
       ]
     },

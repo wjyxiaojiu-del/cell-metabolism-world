@@ -8814,7 +8814,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
               return groupsFor(r).includes(id) || routeGroupForPathway(id, pathway) === routeGroup;
             });
             const pathway = pathwayId ? atlas.pathways[pathwayId] : null;
-            if (pathway?.scene) openScene(pathway.scene);
+            if (pathway?.scene) openScene(expertEntrySceneForPathway(pathway));
           });
           layer.appendChild(aura);
           const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -8845,7 +8845,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
               return groupsFor(r).includes(id) || routeGroupForPathway(id, pathway) === routeGroup;
             });
             const pathway = pathwayId ? atlas.pathways[pathwayId] : null;
-            if (pathway?.scene) openScene(pathway.scene);
+            if (pathway?.scene) openScene(expertEntrySceneForPathway(pathway));
           });
           path.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openReaction(r, event); } });
           layer.appendChild(path);
@@ -9056,13 +9056,20 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         if (pathFocusStats) pathFocusStats.textContent = '';
       }
 
+      function expertEntrySceneForPathway(pathway) {
+        const scene = pathway?.scene ? atlas.scenes[pathway.scene] : null;
+        // 线粒体基质/内膜的 SVG 通路先落在“线粒体总览”第二层，
+        // 避免从总览双击后直接跳过区室入口进入第三层。
+        return scene?.parent === 'mitochondria' ? scene.parent : pathway?.scene;
+      }
+
       function openExpertPathPreview() {
         if (!activePathway || activePathway === 'all') return;
         const pathwayId = activePathway;
         const pathway = atlas.pathways[pathwayId];
         if (!pathway?.scene) return;
         // 预览入口只进入细胞器第一层；第三层机制图由场景内的具体通路入口打开。
-        openScene(pathway.scene);
+        openScene(expertEntrySceneForPathway(pathway));
         openPathway(pathwayId, { openInspector: false });
       }
       expertPathPreview?.addEventListener('click', event => { event.stopPropagation(); openExpertPathPreview(); });
@@ -12021,7 +12028,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         if (routeGroup && pathwayMeta[routeGroup]) highlightFor([routeGroup], null);
         // 在细胞器场景内切换线路时，背景图也跟随当前通路同步，避免
         // 右侧详情已经换路、画面仍停留在上一条通路的错位感。
-        if (currentSceneId === pathway.scene) setScenePathwayVisual(pathwayId);
+        if (currentSceneId === expertEntrySceneForPathway(pathway)) setScenePathwayVisual(pathwayId);
         document.querySelectorAll('.scene-hotspot').forEach(node => node.classList.toggle('active', node.dataset.pathway === pathwayId));
         document.querySelectorAll('.scene-route-lane').forEach(node => node.classList.toggle('active', node.dataset.pathway === pathwayId));
         if (options.openInspector === false) return;
