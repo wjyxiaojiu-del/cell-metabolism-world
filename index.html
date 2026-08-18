@@ -8795,6 +8795,17 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           aura.addEventListener('mouseenter', () => document.querySelector(`.enzyme[data-id="${r.id}"]`)?.classList.add('preview'));
           aura.addEventListener('mouseleave', () => document.querySelector(`.enzyme[data-id="${r.id}"]`)?.classList.remove('preview'));
           aura.addEventListener('click', event => { event.stopPropagation(); openReaction(r, event); });
+          aura.addEventListener('dblclick', event => {
+            event.preventDefault(); event.stopPropagation();
+            const routeGroup = routeGroups.map(group => routeGroupForPathway(group, atlas.pathways[group]) || group)
+              .find(group => ['glycolysis', 'pdh', 'tca', 'etc', 'transport'].includes(group));
+            const pathwayId = coreStudyPathwayIds.find(id => {
+              const pathway = atlas.pathways[id];
+              return groupsFor(r).includes(id) || routeGroupForPathway(id, pathway) === routeGroup;
+            });
+            const pathway = pathwayId ? atlas.pathways[pathwayId] : null;
+            if (pathway?.scene) openScene(pathway.scene);
+          });
           layer.appendChild(aura);
           const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
           path.classList.add('route', `route-${visualGroup}`); path.dataset.id = r.id; path.dataset.group = groupData;
@@ -8815,6 +8826,17 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           path.addEventListener('focus', () => document.querySelector(`.enzyme[data-id="${r.id}"]`)?.classList.add('preview'));
           path.addEventListener('blur', () => document.querySelector(`.enzyme[data-id="${r.id}"]`)?.classList.remove('preview'));
           path.addEventListener('click', event => { event.stopPropagation(); openReaction(r, event); });
+          path.addEventListener('dblclick', event => {
+            event.preventDefault(); event.stopPropagation();
+            const routeGroup = routeGroups.map(group => routeGroupForPathway(group, atlas.pathways[group]) || group)
+              .find(group => ['glycolysis', 'pdh', 'tca', 'etc', 'transport'].includes(group));
+            const pathwayId = coreStudyPathwayIds.find(id => {
+              const pathway = atlas.pathways[id];
+              return groupsFor(r).includes(id) || routeGroupForPathway(id, pathway) === routeGroup;
+            });
+            const pathway = pathwayId ? atlas.pathways[pathwayId] : null;
+            if (pathway?.scene) openScene(pathway.scene);
+          });
           path.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openReaction(r, event); } });
           layer.appendChild(path);
         });
@@ -9030,8 +9052,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         const pathwayId = activePathway;
         const pathway = atlas.pathways[pathwayId];
         if (!pathway?.scene) return;
-        openScene(pathway.scene, { pathwayId });
-        // 进入后先让用户看清通路图与区室线路；点具体线路时再打开详情。
+        // 预览入口只进入细胞器第一层；第三层机制图由场景内的具体通路入口打开。
+        openScene(pathway.scene);
         openPathway(pathwayId, { openInspector: false });
       }
       expertPathPreview?.addEventListener('click', event => { event.stopPropagation(); openExpertPathPreview(); });
