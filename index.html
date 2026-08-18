@@ -407,6 +407,11 @@
       transform: scale(1.002); opacity: 1;
       transition: opacity .32s ease, transform .8s cubic-bezier(.2,.75,.2,1), filter .32s ease;
     }
+    .scene-expert-overlay { position: absolute; z-index: 5; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+    .scene-expert-overlay .overlay-route { fill: none; stroke: var(--overlay-tone, #2f9eb5); stroke-width: .55; stroke-linecap: round; stroke-linejoin: round; opacity: .92; filter: drop-shadow(0 0 1px rgba(255,255,255,.9)); }
+    .scene-expert-overlay .overlay-node { fill: #f8ffff; stroke: var(--overlay-tone, #2f9eb5); stroke-width: .65; }
+    .scene-expert-overlay .overlay-label { fill: #164f63; font-size: 2.2px; font-weight: 800; paint-order: stroke; stroke: rgba(255,255,255,.96); stroke-width: .8px; }
+    .scene-deck:not(.pathway-visual-active) .scene-expert-overlay { display: none; }
     .scene-deck.switching .scene-background { opacity: .18; transform: scale(1.025); filter: blur(4px); }
     .scene-vignette {
       position: absolute; inset: 0; pointer-events: none;
@@ -7056,6 +7061,9 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       <section class="scene-deck" id="sceneDeck" aria-hidden="true" inert>
         <img class="scene-background" id="sceneBackground" alt="" data-scene-visual-zoom tabindex="-1">
         <div class="scene-vignette"></div>
+        <svg class="scene-expert-overlay" id="sceneExpertOverlay" viewBox="0 0 100 100" aria-hidden="true">
+          <g id="sceneExpertOverlayLayer"></g>
+        </svg>
         <div class="scene-nav">
           <button class="scene-back" id="sceneBack">← 返回</button>
           <div class="scene-heading"><small id="sceneSubtitle">分层代谢地图</small><strong id="sceneTitle">细胞内部</strong></div>
@@ -7454,6 +7462,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       const atlas = window.METABOLIC_ATLAS_DATA || { pathways: {}, scenes: {} };
       const sceneDeck = document.getElementById('sceneDeck');
       const sceneBackground = document.getElementById('sceneBackground');
+      const sceneExpertOverlay = document.getElementById('sceneExpertOverlay');
+      const sceneExpertOverlayLayer = document.getElementById('sceneExpertOverlayLayer');
       const sceneTitle = document.getElementById('sceneTitle');
       const sceneSubtitle = document.getElementById('sceneSubtitle');
       const sceneDescription = document.getElementById('sceneDescription');
@@ -9004,14 +9014,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         nucleotide_degradation: '核苷酸降解与回收'
       };
       const expertPathwayVisualSources = {
-        // 第二层的每条核心通路都有自己的页面视觉；图片只负责该通路的局部机制，
-        // SVG 节点和线路仍由专家地图数据叠加，避免把不同通路混成一张总图。
-        pdh: 'cell-metabolism-assets/optimized/39-pdh-complex-mechanism.svg',
-        tca: 'cell-metabolism-assets/optimized/42-tca-textbook-overview.png',
-        glycolysis: 'cell-metabolism-assets/optimized/41-glycolysis-textbook-overview.png',
-        beta_oxidation: 'cell-metabolism-assets/optimized/40-fatty-acid-beta-oxidation-mechanism.svg',
-        etc: 'cell-metabolism-assets/optimized/27-etc-electron-transport-full.webp',
-        oxphos: 'cell-metabolism-assets/optimized/27-etc-electron-transport-full.webp'
+        // 第二层始终使用对应细胞器的完整解剖图；通路差异由下方 SVG 线路层表达。
       };
       const expertPathwayVisualOverrides = Object.fromEntries(
         coreStudyPathwayIds
@@ -12214,8 +12217,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
 
       function setScenePathwayVisual(pathwayId, immediate = false) {
         const scene = atlas.scenes[currentSceneId];
-        const visual = expertPathwayVisualOverrides[pathwayId];
-        if (!scene || !visual) return false;
+        if (!scene) return false;
+        const visual = expertPathwayVisualOverrides[pathwayId] || [scene.title || '细胞器通路', sceneViewEntry(scene, currentSceneView)[1]];
         sceneDeck.classList.add('pathway-visual-active');
         sceneBackground.tabIndex = 0;
         sceneBackground.setAttribute('role', 'button');
@@ -12225,7 +12228,41 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         });
         renderSceneHotspots(scene, currentSceneView, { pathwayId });
         loadSceneVisual(scene, visual[0], visual[1], immediate);
+        renderSceneExpertOverlay(pathwayId);
         return true;
+      }
+
+      function renderSceneExpertOverlay(pathwayId) {
+        if (!sceneExpertOverlayLayer) return;
+        sceneExpertOverlayLayer.replaceChildren();
+        const pathway = atlas.pathways[pathwayId];
+        if (!pathway) return;
+        const steps = (pathway.steps || []).filter(Boolean);
+        const presets = {
+          tca: [[50,28],[67,34],[75,50],[67,67],[50,74],[33,67],[25,50],[33,34]],
+          pdh: [[24,52],[40,46],[56,42],[72,50]],
+          beta_oxidation: [[22,50],[38,43],[54,50],[70,43],[82,50]],
+          glycolysis: [[22,28],[36,37],[50,46],[64,55],[78,64]],
+          etc: [[18,50],[36,50],[52,50],[68,50],[84,50]],
+          oxphos: [[18,63],[36,54],[52,46],[68,54],[84,63]]
+        };
+        const points = presets[pathwayId] || steps.map((_, i) => [18 + i * (64 / Math.max(1, steps.length - 1)), 50 + (i % 2 ? -10 : 10)]);
+        const tone = pathwayMeta[routeGroupForPathway(pathwayId, pathway) || pathwayId]?.tone || '#2f9eb5';
+        const svg = 'http://www.w3.org/2000/svg';
+        for (let i = 0; i < points.length - 1; i += 1) {
+          const line = document.createElementNS(svg, 'line');
+          line.classList.add('overlay-route'); line.style.setProperty('--overlay-tone', tone);
+          line.setAttribute('x1', points[i][0]); line.setAttribute('y1', points[i][1]); line.setAttribute('x2', points[i + 1][0]); line.setAttribute('y2', points[i + 1][1]);
+          sceneExpertOverlayLayer.appendChild(line);
+        }
+        if (pathwayId === 'tca' && points.length > 2) {
+          const close = document.createElementNS(svg, 'line'); close.classList.add('overlay-route'); close.style.setProperty('--overlay-tone', tone);
+          close.setAttribute('x1', points.at(-1)[0]); close.setAttribute('y1', points.at(-1)[1]); close.setAttribute('x2', points[0][0]); close.setAttribute('y2', points[0][1]); sceneExpertOverlayLayer.appendChild(close);
+        }
+        points.forEach((point, i) => {
+          const node = document.createElementNS(svg, 'circle'); node.classList.add('overlay-node'); node.style.setProperty('--overlay-tone', tone); node.setAttribute('cx', point[0]); node.setAttribute('cy', point[1]); node.setAttribute('r', '1.15'); sceneExpertOverlayLayer.appendChild(node);
+          if (steps[i]) { const label = document.createElementNS(svg, 'text'); label.classList.add('overlay-label'); label.setAttribute('x', point[0]); label.setAttribute('y', point[1] - 2.2); label.setAttribute('text-anchor', 'middle'); label.textContent = displayText(steps[i]); sceneExpertOverlayLayer.appendChild(label); }
+        });
       }
 
       function renderSceneHotspots(scene, viewIndex = 0, options = {}) {
