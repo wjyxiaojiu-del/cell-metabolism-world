@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">脂肪酸 β-氧化机制图</title>
+  <desc id="desc">长链脂肪酸先活化为脂酰辅酶A，经肉碱穿梭进入线粒体基质；β-氧化每轮经历脱氢、水合、再脱氢和硫解，生成乙酰辅酶A、NADH和FADH2。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffaf1"/><stop offset=".55" stop-color="#fff2d8"/><stop offset="1" stop-color="#f9e2b8"/></linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e39a3e"/><stop offset="1" stop-color="#b96b22"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8972bd"/><stop offset="1" stop-color="#5d4994"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#9a6a2b" flood-opacity=".16"/></filter>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto"><path d="M1 1L10 6 1 11" fill="none" stroke="#b8792f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <text x="90" y="72" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="27" font-weight="700" letter-spacing="5" fill="#765329">MITOCHONDRIAL MATRIX · 线粒体基质</text>
+  <text x="90" y="125" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="48" font-weight="800" fill="#432d19">脂肪酸 β-氧化</text>
+  <text x="90" y="164" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="21" fill="#765329">Fatty acid beta-oxidation · 每一轮切下两个碳并收集电子</text>
+
+  <rect x="66" y="205" width="1468" height="210" rx="30" fill="#fff" stroke="#e7c88f" stroke-width="3" filter="url(#shadow)"/>
+  <text x="102" y="248" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="22" font-weight="700" fill="#9a6a2b">进入氧化现场 · ACTIVATION &amp; CARNITINE SHUTTLE</text>
+  <g font-family="Arial,'Microsoft YaHei',sans-serif">
+    <rect x="104" y="277" width="270" height="92" rx="20" fill="url(#orange)"/><text x="239" y="312" text-anchor="middle" font-size="16" font-weight="700" fill="#ffe8bd">细胞质</text><text x="239" y="345" text-anchor="middle" font-size="25" font-weight="800" fill="#fff">脂肪酸 + CoA</text>
+    <path d="M390 323H470" stroke="#b8792f" stroke-width="5" marker-end="url(#arrow)"/><text x="430" y="300" text-anchor="middle" font-size="15" fill="#8d6129">ACSL · ATP→AMP+PPi</text>
+    <rect x="493" y="277" width="275" height="92" rx="20" fill="#d88467"/><text x="630" y="312" text-anchor="middle" font-size="16" font-weight="700" fill="#ffe6dc">外膜入口</text><text x="630" y="345" text-anchor="middle" font-size="24" font-weight="800" fill="#fff">脂酰-CoA → 脂酰肉碱</text>
+    <path d="M784 323H864" stroke="#b8792f" stroke-width="5" marker-end="url(#arrow)"/><text x="824" y="300" text-anchor="middle" font-size="15" fill="#8d6129">CPT1 · CACT</text>
+    <rect x="887" y="277" width="275" height="92" rx="20" fill="#c46d77"/><text x="1024" y="312" text-anchor="middle" font-size="16" font-weight="700" fill="#ffe6dc">内膜交换</text><text x="1024" y="345" text-anchor="middle" font-size="24" font-weight="800" fill="#fff">脂酰肉碱 → 基质</text>
+    <path d="M1178 323H1258" stroke="#b8792f" stroke-width="5" marker-end="url(#arrow)"/><text x="1218" y="300" text-anchor="middle" font-size="15" fill="#8d6129">CPT2 · CoA-SH</text>
+    <rect x="1281" y="277" width="205" height="92" rx="20" fill="url(#purple)"/><text x="1384" y="312" text-anchor="middle" font-size="16" font-weight="700" fill="#e8ddff">基质</text><text x="1384" y="345" text-anchor="middle" font-size="24" font-weight="800" fill="#fff">脂酰-CoA</text>
+  </g>
+
+  <rect x="66" y="455" width="1468" height="350" rx="30" fill="#fff" stroke="#e7c88f" stroke-width="3" filter="url(#shadow)"/>
+  <text x="102" y="500" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="22" font-weight="700" fill="#765329">β-氧化螺旋 · FOUR REPEATING STEPS</text>
+  <g font-family="Arial,'Microsoft YaHei',sans-serif">
+    <rect x="105" y="548" width="300" height="150" rx="22" fill="#6f5aa5"/><text x="135" y="586" font-size="17" font-weight="700" fill="#e8ddff">STEP 01 · 脱氢</text><text x="255" y="630" text-anchor="middle" font-size="27" font-weight="800" fill="#fff">脂酰-CoA → 烯酰-CoA</text><text x="255" y="668" text-anchor="middle" font-size="20" fill="#f4edff">FAD → FADH₂</text>
+    <path d="M425 623H485" stroke="#b8792f" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="505" y="548" width="300" height="150" rx="22" fill="#4e9a99"/><text x="535" y="586" font-size="17" font-weight="700" fill="#d9ffff">STEP 02 · 水合</text><text x="655" y="630" text-anchor="middle" font-size="27" font-weight="800" fill="#fff">烯酰-CoA → β-羟脂酰-CoA</text><text x="655" y="668" text-anchor="middle" font-size="20" fill="#e5ffff">+ H₂O</text>
+    <path d="M825 623H885" stroke="#b8792f" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="905" y="548" width="300" height="150" rx="22" fill="#3c8b9e"/><text x="935" y="586" font-size="17" font-weight="700" fill="#d7f7ff">STEP 03 · 再脱氢</text><text x="1055" y="630" text-anchor="middle" font-size="27" font-weight="800" fill="#fff">β-羟脂酰-CoA → β-酮脂酰-CoA</text><text x="1055" y="668" text-anchor="middle" font-size="20" fill="#e5ffff">NAD⁺ → NADH + H⁺</text>
+    <path d="M1225 623H1285" stroke="#b8792f" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="1305" y="548" width="185" height="150" rx="22" fill="#d17757"/><text x="1397" y="586" text-anchor="middle" font-size="17" font-weight="700" fill="#ffe4d8">STEP 04</text><text x="1397" y="624" text-anchor="middle" font-size="24" font-weight="800" fill="#fff">硫解</text><text x="1397" y="660" text-anchor="middle" font-size="19" fill="#fff">CoA-SH</text><text x="1397" y="686" text-anchor="middle" font-size="16" fill="#ffe4d8">切下 2C</text>
+  </g>
+  <rect x="105" y="735" width="1385" height="47" rx="23" fill="#fff4df" stroke="#edcf9c"/><text x="140" y="766" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="20" font-weight="700" fill="#573a21">每轮净产物</text><text x="350" y="766" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="22" font-weight="800" fill="#573a21">乙酰-CoA + FADH₂ + NADH + 缩短 2C 的脂酰-CoA</text>
+  <rect x="66" y="850" width="1468" height="82" rx="25" fill="#432d19"/><text x="102" y="885" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="18" fill="#f8dfb6">去向</text><text x="185" y="885" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="20" font-weight="700" fill="#fff">乙酰-CoA → TCA；NADH / FADH₂ → 呼吸链；螺旋重复，直到脂肪酸链被拆完</text><text x="185" y="913" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="17" fill="#e8c998">极长链脂肪酸先在过氧化物酶体缩短，再把缩短脂酰基交给线粒体</text>
+</svg>

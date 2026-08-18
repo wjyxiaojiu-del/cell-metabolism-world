@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">丙酮酸脱氢酶复合体机制图</title>
+  <desc id="desc">在线粒体基质中，E1 使用 TPP 将丙酮酸脱羧，E2 的硫辛酰胺摆臂转移乙酰基并生成乙酰辅酶 A，E3 通过 FAD 和 NAD+ 再氧化摆臂并生成 NADH。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fdff"/>
+      <stop offset=".55" stop-color="#eaf6fb"/>
+      <stop offset="1" stop-color="#d9edf7"/>
+    </linearGradient>
+    <linearGradient id="e1" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#2a8fb6"/>
+      <stop offset="1" stop-color="#166789"/>
+    </linearGradient>
+    <linearGradient id="e2" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#4aa7aa"/>
+      <stop offset="1" stop-color="#237878"/>
+    </linearGradient>
+    <linearGradient id="e3" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#5779ae"/>
+      <stop offset="1" stop-color="#304f87"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#2c6982" flood-opacity=".16"/>
+    </filter>
+    <marker id="arrowBlue" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M1 1l10 5-10 5z" fill="#2487aa"/>
+    </marker>
+    <marker id="arrowTeal" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M1 1l10 5-10 5z" fill="#388f8f"/>
+    </marker>
+    <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse">
+      <path d="M42 0H0V42" fill="none" stroke="#77aeca" stroke-width="1" opacity=".12"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <rect width="1600" height="1000" fill="url(#grid)"/>
+  <path d="M0 132C250 72 420 168 692 112s480-52 908 42V0H0z" fill="#fff" opacity=".7"/>
+
+  <g font-family="Noto Sans SC, Microsoft YaHei, sans-serif">
+    <text x="90" y="88" fill="#1d526b" font-size="25" font-weight="700" letter-spacing="5">MITOCHONDRIAL MATRIX · 线粒体基质</text>
+    <text x="90" y="148" fill="#123e58" font-size="50" font-weight="800">丙酮酸脱氢酶复合体</text>
+    <text x="92" y="190" fill="#5c7d8c" font-size="22">Pyruvate dehydrogenase complex · 把糖酵解的三碳产物接入三羧酸循环</text>
+
+    <g transform="translate(104 245)" filter="url(#shadow)">
+      <rect width="1392" height="470" rx="42" fill="#fff" stroke="#c6e1ec" stroke-width="3"/>
+
+      <g transform="translate(62 54)">
+        <rect width="340" height="284" rx="34" fill="url(#e1)"/>
+        <text x="30" y="54" fill="#bceaf7" font-size="21" font-weight="700" letter-spacing="3">STEP 01 · E1</text>
+        <text x="30" y="101" fill="#fff" font-size="31" font-weight="800">脱羧并接住二碳片段</text>
+        <text x="30" y="145" fill="#d9f3fb" font-size="20">丙酮酸脱氢酶 · TPP</text>
+        <line x1="30" y1="168" x2="310" y2="168" stroke="#bceaf7" opacity=".42"/>
+        <text x="30" y="208" fill="#fff" font-size="22" font-weight="700">丙酮酸（3C）</text>
+        <text x="30" y="244" fill="#d9f3fb" font-size="18">释放 CO₂，形成羟乙基-TPP</text>
+        <circle cx="288" cy="224" r="27" fill="#fff" opacity=".15"/>
+        <text x="288" y="231" fill="#fff" font-size="18" font-weight="800" text-anchor="middle">B1</text>
+      </g>
+
+      <g transform="translate(526 34)">
+        <rect width="340" height="324" rx="34" fill="url(#e2)"/>
+        <text x="30" y="54" fill="#c9f5ef" font-size="21" font-weight="700" letter-spacing="3">STEP 02 · E2</text>
+        <text x="30" y="101" fill="#fff" font-size="31" font-weight="800">摆臂转移乙酰基</text>
+        <text x="30" y="145" fill="#dcfaf6" font-size="20">二氢硫辛酰转乙酰酶</text>
+        <line x1="30" y1="168" x2="310" y2="168" stroke="#c9f5ef" opacity=".42"/>
+        <path d="M78 259C123 194 205 194 259 250" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-dasharray="2 16"/>
+        <circle cx="77" cy="260" r="21" fill="#e7fff9"/>
+        <circle cx="260" cy="250" r="21" fill="#e7fff9"/>
+        <text x="170" y="226" fill="#fff" font-size="19" font-weight="700" text-anchor="middle">硫辛酰胺摆臂</text>
+        <text x="170" y="293" fill="#dcfaf6" font-size="18" text-anchor="middle">CoA-SH 接走乙酰基</text>
+      </g>
+
+      <g transform="translate(990 54)">
+        <rect width="340" height="284" rx="34" fill="url(#e3)"/>
+        <text x="30" y="54" fill="#dbe6ff" font-size="21" font-weight="700" letter-spacing="3">STEP 03 · E3</text>
+        <text x="30" y="101" fill="#fff" font-size="31" font-weight="800">再氧化并收集电子</text>
+        <text x="30" y="145" fill="#e7edff" font-size="20">二氢硫辛酰脱氢酶</text>
+        <line x1="30" y1="168" x2="310" y2="168" stroke="#dbe6ff" opacity=".42"/>
+        <text x="30" y="211" fill="#fff" font-size="22" font-weight="700">FAD → FADH₂</text>
+        <text x="30" y="247" fill="#e7edff" font-size="18">NAD⁺ 接电子生成 NADH + H⁺</text>
+        <circle cx="286" cy="220" r="27" fill="#fff" opacity=".15"/>
+        <text x="286" y="227" fill="#fff" font-size="18" font-weight="800" text-anchor="middle">B2</text>
+      </g>
+
+      <path d="M405 190H505" fill="none" stroke="#2487aa" stroke-width="7" marker-end="url(#arrowBlue)"/>
+      <path d="M870 190H970" fill="none" stroke="#388f8f" stroke-width="7" marker-end="url(#arrowTeal)"/>
+      <text x="455" y="164" fill="#2487aa" font-size="17" font-weight="800" text-anchor="middle">2C 转交</text>
+      <text x="920" y="164" fill="#388f8f" font-size="17" font-weight="800" text-anchor="middle">电子回收</text>
+
+      <g transform="translate(76 385)">
+        <rect width="1240" height="52" rx="26" fill="#eef7fa" stroke="#d3e8ef"/>
+        <text x="30" y="34" fill="#4d7180" font-size="19">总反应</text>
+        <text x="136" y="34" fill="#153f56" font-size="21" font-weight="800">丙酮酸 + CoA-SH + NAD⁺</text>
+        <path d="M485 26H575" stroke="#2a8eab" stroke-width="4" marker-end="url(#arrowBlue)"/>
+        <text x="604" y="34" fill="#153f56" font-size="21" font-weight="800">乙酰辅酶 A + CO₂ + NADH + H⁺</text>
+      </g>
+    </g>
+
+    <g transform="translate(104 758)">
+      <rect width="820" height="155" rx="28" fill="#fff" stroke="#c9e1eb" stroke-width="2"/>
+      <text x="28" y="40" fill="#2a708b" font-size="18" font-weight="800" letter-spacing="2">五种辅酶 · FIVE COFACTORS</text>
+      <g transform="translate(28 63)" font-size="18">
+        <g><rect width="138" height="58" rx="16" fill="#e6f5fa"/><text x="69" y="25" fill="#1d5971" font-weight="800" text-anchor="middle">TPP</text><text x="69" y="46" fill="#678592" font-size="14" text-anchor="middle">维生素 B₁</text></g>
+        <g transform="translate(151)"><rect width="138" height="58" rx="16" fill="#e7f7f4"/><text x="69" y="25" fill="#2e6f6e" font-weight="800" text-anchor="middle">硫辛酰胺</text><text x="69" y="46" fill="#678592" font-size="14" text-anchor="middle">摆臂</text></g>
+        <g transform="translate(302)"><rect width="138" height="58" rx="16" fill="#f4f8e8"/><text x="69" y="25" fill="#5f7435" font-weight="800" text-anchor="middle">CoA</text><text x="69" y="46" fill="#678592" font-size="14" text-anchor="middle">维生素 B₅</text></g>
+        <g transform="translate(453)"><rect width="138" height="58" rx="16" fill="#eef0fb"/><text x="69" y="25" fill="#4d5f91" font-weight="800" text-anchor="middle">FAD</text><text x="69" y="46" fill="#678592" font-size="14" text-anchor="middle">维生素 B₂</text></g>
+        <g transform="translate(604)"><rect width="138" height="58" rx="16" fill="#f3edf9"/><text x="69" y="25" fill="#705989" font-weight="800" text-anchor="middle">NAD⁺</text><text x="69" y="46" fill="#678592" font-size="14" text-anchor="middle">维生素 B₃</text></g>
+      </g>
+    </g>
+
+    <g transform="translate(958 758)">
+      <rect width="538" height="155" rx="28" fill="#153f56"/>
+      <text x="28" y="42" fill="#bceaf7" font-size="18" font-weight="800" letter-spacing="2">调控开关 · REGULATION</text>
+      <text x="28" y="82" fill="#fff" font-size="21" font-weight="800">PDH 激酶磷酸化 → 关闭</text>
+      <text x="28" y="118" fill="#fff" font-size="21" font-weight="800">PDH 磷酸酶去磷酸化 → 开启</text>
+      <circle cx="472" cy="78" r="34" fill="#2d91ad"/>
+      <text x="472" y="86" fill="#fff" font-size="24" font-weight="900" text-anchor="middle">P</text>
+    </g>
+
+    <text x="104" y="965" fill="#6b8b98" font-size="17">碳流：丙酮酸 3C → 乙酰辅酶 A 2C + CO₂　·　电子流：还原硫辛酰胺 → FAD → NAD⁺</text>
+    <text x="1496" y="965" fill="#6b8b98" font-size="16" text-anchor="end">CELL METABOLISM ATLAS · PDH</text>
+  </g>
+</svg>

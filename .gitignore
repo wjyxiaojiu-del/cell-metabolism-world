@@ -1,0 +1,9 @@
+node_modules/
+test-results/
+output/
+.playwright-cli/
+.superpowers/
+tmp-pdh.png
+
+# 原始场景 PNG 约 335MB；运行时仅使用根目录优化封面与 optimized/ 下的 WebP/SVG。
+cell-metabolism-assets/*.png

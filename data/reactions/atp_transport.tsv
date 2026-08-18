@@ -1,0 +1,7 @@
+#	通路: ATP/ADP 与磷酸转运	Adenine nucleotide and phosphate transport
+#	默认区室: 线粒体内膜
+#	来源: PDF 氧化磷酸化区与用户补充
+底物	产物	酶	可逆	反应式	审校	备注
+ATP@线粒体基质	ATP@细胞质	腺嘌呤核苷酸转位酶 ANT	是	ATP基质 + ADP胞质 ⇌ ATP胞质 + ADP基质	已终审	ATP 输出；与跨膜转运通路共享
+ADP@细胞质	ADP@线粒体基质	腺嘌呤核苷酸转位酶 ANT	是	ATP基质 + ADP胞质 ⇌ ATP胞质 + ADP基质	已终审	ADP 输入；与跨膜转运通路共享
+无机磷酸@细胞质	无机磷酸@线粒体基质	线粒体磷酸载体	是	Pi胞质 + H⁺膜间隙 ⇌ Pi基质 + H⁺基质	已终审	Pi 输入；与跨膜转运通路共享
