@@ -9004,8 +9004,14 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         nucleotide_degradation: '核苷酸降解与回收'
       };
       const expertPathwayVisualSources = {
-        // 专家地图仍以生成的细胞器背景为主；机制图只在 PDH 入口保留为专属结构视图。
-        pdh: 'cell-metabolism-assets/optimized/39-pdh-complex-mechanism.svg'
+        // 第二层的每条核心通路都有自己的页面视觉；图片只负责该通路的局部机制，
+        // SVG 节点和线路仍由专家地图数据叠加，避免把不同通路混成一张总图。
+        pdh: 'cell-metabolism-assets/optimized/39-pdh-complex-mechanism.svg',
+        tca: 'cell-metabolism-assets/optimized/42-tca-textbook-overview.png',
+        glycolysis: 'cell-metabolism-assets/optimized/41-glycolysis-textbook-overview.png',
+        beta_oxidation: 'cell-metabolism-assets/optimized/40-fatty-acid-beta-oxidation-mechanism.svg',
+        etc: 'cell-metabolism-assets/optimized/27-etc-electron-transport-full.webp',
+        oxphos: 'cell-metabolism-assets/optimized/27-etc-electron-transport-full.webp'
       };
       const expertPathwayVisualOverrides = Object.fromEntries(
         coreStudyPathwayIds
