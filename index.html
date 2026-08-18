@@ -12267,7 +12267,11 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
 
       function renderSceneHotspots(scene, viewIndex = 0, options = {}) {
         sceneHotspots.innerHTML = '';
-        const hotspots = sceneHotspotsForView(scene, viewIndex);
+        // 场景内只显示属于当前细胞器的通路入口，避免把细胞核/内质网标注带进线粒体。
+        const hotspots = sceneHotspotsForView(scene, viewIndex).filter(hotspot => {
+          if (!hotspot.pathway) return true;
+          return atlas.pathways[hotspot.pathway]?.scene === currentSceneId;
+        });
         const annotations = sceneAnnotationsForView(scene, viewIndex);
         renderSceneScope(scene, viewIndex, hotspots);
         if (options.pathwayId) {
