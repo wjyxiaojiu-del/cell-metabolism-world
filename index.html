@@ -299,6 +299,14 @@
       visibility: visible;
       transition-delay: 0s;
     }
+    /* 专家地图直接叠加在真实细胞器解剖图上，不再插入“膜局部展开”示意框。 */
+    body.expert-map .expert-compartment-guide,
+    body.expert-map .expert-compartment-guide.active {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
     body.expert-map.pathway-focus .compartment-tag { opacity: 0 !important; }
     body.expert-map.pathway-focus #organelleLayer .org-label,
     body.expert-map.pathway-focus #organelleLayer .micro-label,
