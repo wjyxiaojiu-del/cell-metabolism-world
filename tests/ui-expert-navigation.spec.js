@@ -197,9 +197,9 @@ test('core route lanes keep the organelle image and switch the SVG pathway overl
   expect(laneState.count).toBe(7);
   expect(laneState.withThumb).toBe(7);
 
-  const oxphosLane = page.locator('#sceneRouteLanes .scene-route-lane[data-pathway="oxphos"]');
-  await oxphosLane.click();
-  await expect(oxphosLane).toHaveClass(/active/);
+  const tcaLane = page.locator('#sceneRouteLanes .scene-route-lane[data-pathway="tca"]');
+  await tcaLane.click();
+  await expect(tcaLane).toHaveClass(/active/);
   await expect(page.locator('#sceneBackground')).toHaveAttribute('src', /18-mitochondrion-isolated\.webp/);
   await expect(page.locator('#sceneExpertOverlayLayer > *')).not.toHaveCount(0);
   expect(errors.consoleErrors).toEqual([]);
