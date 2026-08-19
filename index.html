@@ -12262,8 +12262,30 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         rows.forEach(reaction => { addNode(reaction.from); addNode(reaction.to); });
         const cycle = pathwayId === 'tca';
         const points = [];
-        if (cycle) {
-          const cx = 50, cy = 51, rx = 31, ry = 28;
+        const sceneOverlayPreset = {
+          mitochondria: {
+            tca: { cx: 50, cy: 49, rx: 23, ry: 17 },
+            pdh: [[28, 49], [38, 43], [48, 46]],
+            beta_oxidation: [[59, 39], [67, 35], [75, 40], [68, 48]],
+            ketone: [[63, 61], [70, 57], [78, 61], [71, 68]]
+          },
+          'mitochondria-matrix': {
+            tca: { cx: 50, cy: 51, rx: 29, ry: 22 },
+            pdh: [[22, 52], [35, 47], [48, 50]],
+            beta_oxidation: [[58, 42], [67, 37], [76, 42], [67, 49]],
+            ketone: [[60, 64], [69, 59], [79, 64], [70, 70]]
+          },
+          'mitochondria-inner-membrane': {
+            etc: [[17, 50], [34, 50], [51, 50], [68, 50], [84, 50]],
+            oxphos: [[22, 63], [39, 55], [55, 46], [71, 55], [86, 63]]
+          }
+        };
+        const preset = sceneOverlayPreset[currentSceneId]?.[pathwayId];
+        if (Array.isArray(preset)) {
+          preset.forEach(point => points.push(point));
+        } else if (cycle) {
+          const ring = preset || { cx: 50, cy: 50, rx: 24, ry: 18 };
+          const { cx, cy, rx, ry } = ring;
           nodes.forEach((_, index) => {
             const angle = -Math.PI / 2 + (index / nodes.length) * Math.PI * 2;
             points[index] = [cx + Math.cos(angle) * rx, cy + Math.sin(angle) * ry];
