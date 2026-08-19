@@ -139,6 +139,18 @@ test('electron transport primer makes purpose, inputs, outputs, and location exp
   });
   await expect(page.locator('#studentPathwayMapVisual')).toBeVisible();
   await expect(page.locator('#studentPathwayMapVisual img')).toHaveAttribute('src', /41-glycolysis-textbook-overview\.png/);
+
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.locator('#studentPathwaySelect').evaluate(select => {
+    select.value = 'beta_oxidation';
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+  const betaPlate = page.locator('#studentPathwayMapVisual img');
+  await expect(page.locator('#studentPathwayMapVisual')).toBeVisible();
+  await expect(betaPlate).toHaveAttribute('src', /43-beta-oxidation-textbook-plate\.webp/);
+  await expect(betaPlate).not.toHaveAttribute('src', /40-fatty-acid-beta-oxidation-mechanism\.svg/);
+  await expect(page.locator('#studentPathwayMapVisualCaption')).toContainText('肉碱穿梭进入基质');
+  await betaPlate.screenshot({ path: 'output/playwright/beta-oxidation-textbook-plate.png' });
 });
 
 test('pathway overview restores structural images and expands opaque abbreviations', async ({ page }) => {
@@ -151,6 +163,10 @@ test('pathway overview restores structural images and expands opaque abbreviatio
   await selectPathway('fa_synthesis');
   await expect(page.locator('#studentPrimerVisualImage')).toHaveAttribute('src', /10-smooth-er-lipid-droplet\.webp/);
   await expect(page.locator('#studentPrimer')).toContainText('乙酰辅酶 A 羧化酶');
+  await expect(page.locator('#studentPathwayMapVisual')).toBeVisible();
+  await expect(page.locator('#studentPathwayMapScientificOverlayLayer .overlay-schematic-fa_synthesis')).toHaveCount(1);
+  await expect(page.locator('#studentPathwayMapVisualCaption')).toContainText('脂肪酸合酶');
+  await page.locator('#studentPathwayMapVisual').screenshot({ path: 'output/playwright/fa-synthesis-scientific-learning-map.png' });
 
   await selectPathway('carnitine');
   await expect(page.locator('#studentPrimer')).toContainText('肉碱棕榈酰转移酶 1');
@@ -170,9 +186,11 @@ test('pathway overview restores structural images and expands opaque abbreviatio
 
 test('every core pathway exposes a complete beginner primer', async ({ page }) => {
   await enterLearning(page);
-  const missing = await page.evaluate(() => {
+  const audit = await page.evaluate(() => {
     const select = document.querySelector('#studentPathwaySelect');
     const failures = [];
+    const visualFailures = [];
+    const staticPlateIds = new Set(['glycolysis', 'pdh', 'tca', 'beta_oxidation', 'etc', 'oxphos']);
     [...select.options].forEach(option => {
       select.value = option.value;
       select.dispatchEvent(new Event('change', { bubbles: true }));
@@ -182,8 +200,16 @@ test('every core pathway exposes a complete beginner primer', async ({ page }) =
       const visual = document.querySelector('#studentPrimerVisualImage');
       const visualReady = !document.querySelector('#studentPrimerVisual')?.hidden && Boolean(visual?.getAttribute('src')) && visual?.hasAttribute('data-visual-zoom');
       if (factValues.some(value => !value) || storyCount !== 3 || termCount !== 3 || !visualReady) failures.push(option.value);
+      const mapFigure = document.querySelector('#studentPathwayMapVisual');
+      const mapImage = document.querySelector('#studentPathwayMapVisualImage');
+      const overlay = document.querySelector('#studentPathwayMapScientificOverlay');
+      const overlayGroup = document.querySelector('#studentPathwayMapScientificOverlayLayer .overlay-schematic');
+      const hasScientificMap = !mapFigure?.hidden && Boolean(mapImage?.getAttribute('src'))
+        && (staticPlateIds.has(option.value) || (!overlay?.hidden && overlayGroup));
+      if (!hasScientificMap) visualFailures.push(option.value);
     });
-    return failures;
+    return { failures, visualFailures };
   });
-  expect(missing).toEqual([]);
+  expect(audit.failures).toEqual([]);
+  expect(audit.visualFailures).toEqual([]);
 });
