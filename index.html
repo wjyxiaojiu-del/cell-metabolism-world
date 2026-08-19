@@ -12250,31 +12250,45 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         sceneExpertOverlayLayer.replaceChildren();
         const pathway = atlas.pathways[pathwayId];
         if (!pathway) return;
-        const steps = (pathway.steps || []).filter(Boolean);
-        const presets = {
-          tca: [[50,28],[67,34],[75,50],[67,67],[50,74],[33,67],[25,50],[33,34]],
-          pdh: [[24,52],[40,46],[56,42],[72,50]],
-          beta_oxidation: [[22,50],[38,43],[54,50],[70,43],[82,50]],
-          glycolysis: [[22,28],[36,37],[50,46],[64,55],[78,64]],
-          etc: [[18,50],[36,50],[52,50],[68,50],[84,50]],
-          oxphos: [[18,63],[36,54],[52,46],[68,54],[84,63]]
+        // 线路必须来自真实反应数据，而不是按通路名称画一条装饰性折线。
+        const rows = reactions.filter(reaction => groupsFor(reaction).includes(pathwayId) && entityById[reaction.from] && entityById[reaction.to]);
+        if (!rows.length) return;
+        const nodes = [];
+        const nodeIndex = new Map();
+        const addNode = id => {
+          if (!nodeIndex.has(id)) { nodeIndex.set(id, nodes.length); nodes.push(id); }
+          return nodeIndex.get(id);
         };
-        const points = presets[pathwayId] || steps.map((_, i) => [18 + i * (64 / Math.max(1, steps.length - 1)), 50 + (i % 2 ? -10 : 10)]);
+        rows.forEach(reaction => { addNode(reaction.from); addNode(reaction.to); });
+        const cycle = pathwayId === 'tca';
+        const points = [];
+        if (cycle) {
+          const cx = 50, cy = 51, rx = 31, ry = 28;
+          nodes.forEach((_, index) => {
+            const angle = -Math.PI / 2 + (index / nodes.length) * Math.PI * 2;
+            points[index] = [cx + Math.cos(angle) * rx, cy + Math.sin(angle) * ry];
+          });
+        } else {
+          const cols = Math.min(7, Math.max(3, nodes.length));
+          const rowsCount = Math.ceil(nodes.length / cols);
+          nodes.forEach((_, index) => {
+            const row = Math.floor(index / cols), col = index % cols;
+            points[index] = [14 + (col / Math.max(1, cols - 1)) * 72, 43 + (row - (rowsCount - 1) / 2) * 18];
+          });
+        }
         const tone = pathwayMeta[routeGroupForPathway(pathwayId, pathway) || pathwayId]?.tone || '#2f9eb5';
         const svg = 'http://www.w3.org/2000/svg';
-        for (let i = 0; i < points.length - 1; i += 1) {
-          const line = document.createElementNS(svg, 'line');
-          line.classList.add('overlay-route'); line.style.setProperty('--overlay-tone', tone);
-          line.setAttribute('x1', points[i][0]); line.setAttribute('y1', points[i][1]); line.setAttribute('x2', points[i + 1][0]); line.setAttribute('y2', points[i + 1][1]);
-          sceneExpertOverlayLayer.appendChild(line);
-        }
-        if (pathwayId === 'tca' && points.length > 2) {
-          const close = document.createElementNS(svg, 'line'); close.classList.add('overlay-route'); close.style.setProperty('--overlay-tone', tone);
-          close.setAttribute('x1', points.at(-1)[0]); close.setAttribute('y1', points.at(-1)[1]); close.setAttribute('x2', points[0][0]); close.setAttribute('y2', points[0][1]); sceneExpertOverlayLayer.appendChild(close);
-        }
-        points.forEach((point, i) => {
+        const defs = document.createElementNS(svg, 'defs');
+        const marker = document.createElementNS(svg, 'marker'); marker.setAttribute('id', 'scene-overlay-arrow'); marker.setAttribute('viewBox', '0 0 10 10'); marker.setAttribute('refX', '8'); marker.setAttribute('refY', '5'); marker.setAttribute('markerWidth', '4'); marker.setAttribute('markerHeight', '4'); marker.setAttribute('orient', 'auto-start-reverse');
+        const arrow = document.createElementNS(svg, 'path'); arrow.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z'); arrow.style.fill = tone; marker.appendChild(arrow); defs.appendChild(marker); sceneExpertOverlayLayer.appendChild(defs);
+        rows.forEach(reaction => {
+          const a = points[nodeIndex.get(reaction.from)], b = points[nodeIndex.get(reaction.to)];
+          const path = document.createElementNS(svg, 'path'); path.classList.add('overlay-route'); path.style.setProperty('--overlay-tone', tone); path.setAttribute('d', `M ${a[0]} ${a[1]} L ${b[0]} ${b[1]}`); path.setAttribute('marker-end', 'url(#scene-overlay-arrow)'); if (reaction.reversible) path.setAttribute('marker-start', 'url(#scene-overlay-arrow)'); sceneExpertOverlayLayer.appendChild(path);
+        });
+        nodes.forEach((nodeId, i) => {
+          const point = points[i];
           const node = document.createElementNS(svg, 'circle'); node.classList.add('overlay-node'); node.style.setProperty('--overlay-tone', tone); node.setAttribute('cx', point[0]); node.setAttribute('cy', point[1]); node.setAttribute('r', '1.15'); sceneExpertOverlayLayer.appendChild(node);
-          if (steps[i]) { const label = document.createElementNS(svg, 'text'); label.classList.add('overlay-label'); label.setAttribute('x', point[0]); label.setAttribute('y', point[1] - 2.2); label.setAttribute('text-anchor', 'middle'); label.textContent = displayText(steps[i]); sceneExpertOverlayLayer.appendChild(label); }
+          const label = document.createElementNS(svg, 'text'); label.classList.add('overlay-label'); label.setAttribute('x', point[0]); label.setAttribute('y', point[1] - 2.2); label.setAttribute('text-anchor', 'middle'); label.textContent = displayText(entityById[nodeId]?.name || nodeId); sceneExpertOverlayLayer.appendChild(label);
         });
       }
 
