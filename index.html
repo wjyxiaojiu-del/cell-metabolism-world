@@ -9032,9 +9032,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         const pathway = atlas.pathways[pathwayId];
         const scene = pathway?.scene ? atlas.scenes[pathway.scene] : null;
         const view = scene?.views?.[0] || null;
-        const override = expertPathwayVisualOverrides[pathwayId] || null;
-        const source = override?.[1] || (Array.isArray(view) ? view[1] : view?.src);
-        const label = override?.[0] || (Array.isArray(view) ? view[0] : view?.label);
+        const source = Array.isArray(view) ? view[1] : view?.src;
+        const label = Array.isArray(view) ? view[0] : view?.label;
         if (pathway && scene && source && pathwayId !== 'all') {
           expertPathPreview.hidden = false;
           if (pathNoteCopy) pathNoteCopy.hidden = true;
@@ -9061,6 +9060,12 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         // 线粒体基质/内膜的 SVG 通路先落在“线粒体总览”第二层，
         // 避免从总览双击后直接跳过区室入口进入第三层。
         return scene?.parent === 'mitochondria' ? scene.parent : pathway?.scene;
+      }
+
+      function pathwayBelongsToScene(pathwayId, sceneId) {
+        const pathway = atlas.pathways[pathwayId];
+        if (!pathway || !sceneId) return false;
+        return expertEntrySceneForPathway(pathway) === sceneId || pathway.scene === sceneId;
       }
 
       function openExpertPathPreview() {
@@ -12225,11 +12230,12 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       function setScenePathwayVisual(pathwayId, immediate = false) {
         const scene = atlas.scenes[currentSceneId];
         if (!scene) return false;
-        const visual = expertPathwayVisualOverrides[pathwayId] || [scene.title || '细胞器通路', sceneViewEntry(scene, currentSceneView)[1]];
+        const sceneView = sceneViewEntry(scene, currentSceneView);
+        const visual = [sceneView.label || scene.title || '细胞器通路', sceneView.src];
         sceneDeck.classList.add('pathway-visual-active');
         sceneBackground.tabIndex = 0;
         sceneBackground.setAttribute('role', 'button');
-        sceneBackground.setAttribute('aria-label', `放大查看${visual[0]}`);
+        sceneBackground.setAttribute('aria-label', `查看${atlas.pathways[pathwayId]?.name || visual[0]}在${scene.title}中的位置`);
         sceneViews.querySelectorAll('.scene-view').forEach(button => {
           button.classList.toggle('active', button.dataset.pathwayView === pathwayId);
         });
@@ -12291,8 +12297,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             };
             return !foreignByScene[currentSceneId]?.test(label);
           }
-          if (atlas.pathways[hotspot.pathway]?.scene !== currentSceneId) return false;
-          return true;
+          return pathwayBelongsToScene(hotspot.pathway, currentSceneId);
         });
         const annotations = sceneAnnotationsForView(scene, viewIndex);
         renderSceneScope(scene, viewIndex, hotspots);
