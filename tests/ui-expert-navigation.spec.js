@@ -155,7 +155,7 @@ test('all 21 core expert pathways expose a loadable visual entry', async ({ page
   expect(errors.pageErrors).toEqual([]);
 });
 
-test('expert pathway preview enters its organelle and shows local route lanes', async ({ page }) => {
+test('expert pathway preview enters its organelle and draws the pathway over the anatomy image', async ({ page }) => {
   const errors = watchRuntimeErrors(page);
   await page.setViewportSize({ width: 1280, height: 900 });
   await enterExpertMap(page);
@@ -163,22 +163,19 @@ test('expert pathway preview enters its organelle and shows local route lanes', 
   const pathway = page.locator('.path-filter[data-path="pdh"]');
   await pathway.click();
   await expect(page.locator('#expertPathPreview')).toBeVisible();
-  await expect(page.locator('#expertPathPreviewImage')).toHaveAttribute('src', /39-pdh-complex-mechanism\.svg/);
+  await expect(page.locator('#expertPathPreviewImage')).toHaveAttribute('src', /25-mitochondrial-matrix-detailed\.webp/);
   const selectedOverflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
   expect(selectedOverflow).toBeLessThanOrEqual(1);
   await page.locator('#expertPathPreview').click();
   await expect(page.locator('body')).toHaveClass(/scene-open/);
-  await expect(page.locator('#sceneTitle')).toHaveText('线粒体基质代谢');
-  await expect(page.locator('#sceneBackground')).toHaveAttribute('src', /39-pdh-complex-mechanism\.svg/);
-  await expect(page.locator('.scene-pathway-view')).toHaveClass(/active/);
+  await expect(page.locator('#sceneTitle')).toHaveText('线粒体总览');
+  await expect(page.locator('#sceneBackground')).toHaveAttribute('src', /18-mitochondrion-isolated\.webp/);
   await expect(page.locator('#sceneDeck')).toHaveClass(/pathway-visual-active/);
   await expect(page.locator('#sceneAnnotationCount')).toHaveText('机制图模式');
   await expect(page.locator('#sceneHotspots')).toBeEmpty();
-  await page.locator('.scene-pathway-view').click();
-  await expect(page.locator('#pathwayVisualDialog')).toBeVisible();
-  await page.locator('#pathwayVisualDialogClose').click();
-  await expect(page.locator('#sceneRouteLanes .scene-route-lane')).toHaveCount(6);
-  await expect(page.locator('#sceneRouteLaneCount')).toHaveText('6 条');
+  await expect(page.locator('#sceneExpertOverlayLayer > *')).not.toHaveCount(0);
+  await expect(page.locator('#sceneRouteLanes .scene-route-lane')).toHaveCount(7);
+  await expect(page.locator('#sceneRouteLaneCount')).toHaveText('7 条');
   await page.locator('#sceneRouteLanes .scene-route-lane').first().click();
   await expect(page.locator('#inspectorName')).toHaveText('丙酮酸脱氢酶复合体');
   await expect(page.locator('#sceneRouteLanes .scene-route-lane').first()).toHaveClass(/active/);
@@ -186,7 +183,7 @@ test('expert pathway preview enters its organelle and shows local route lanes', 
   expect(errors.pageErrors).toEqual([]);
 });
 
-test('core route lanes expose pathway visuals and switch the scene image with the selected lane', async ({ page }) => {
+test('core route lanes keep the organelle image and switch the SVG pathway overlay', async ({ page }) => {
   const errors = watchRuntimeErrors(page);
   await page.setViewportSize({ width: 1280, height: 900 });
   await enterExpertMap(page);
@@ -197,13 +194,14 @@ test('core route lanes expose pathway visuals and switch the scene image with th
     count: nodes.length,
     withThumb: nodes.filter(node => node.querySelector('.scene-route-lane-thumb')?.getAttribute('src')).length
   }));
-  expect(laneState.count).toBe(6);
-  expect(laneState.withThumb).toBe(6);
+  expect(laneState.count).toBe(7);
+  expect(laneState.withThumb).toBe(7);
 
   const oxphosLane = page.locator('#sceneRouteLanes .scene-route-lane[data-pathway="oxphos"]');
   await oxphosLane.click();
   await expect(oxphosLane).toHaveClass(/active/);
-  await expect(page.locator('#sceneBackground')).toHaveAttribute('src', /27-etc-electron-transport-full\.webp/);
+  await expect(page.locator('#sceneBackground')).toHaveAttribute('src', /18-mitochondrion-isolated\.webp/);
+  await expect(page.locator('#sceneExpertOverlayLayer > *')).not.toHaveCount(0);
   expect(errors.consoleErrors).toEqual([]);
   expect(errors.pageErrors).toEqual([]);
 });
@@ -242,7 +240,7 @@ test('expert pathway navigation remains usable on mobile', async ({ page }) => {
   await target.click();
   await expect(target).toHaveClass(/active/);
   await expect(page.locator('#expertPathPreview')).toBeVisible();
-  await expect(page.locator('#expertPathPreviewImage')).toHaveAttribute('src', /39-pdh-complex-mechanism\.svg/);
+  await expect(page.locator('#expertPathPreviewImage')).toHaveAttribute('src', /25-mitochondrial-matrix-detailed\.webp/);
   await page.locator('#expertPathPreview').click();
   await expect(page.locator('body')).toHaveClass(/scene-open/);
   await expect(page.locator('#inspector')).not.toHaveClass(/open/);
