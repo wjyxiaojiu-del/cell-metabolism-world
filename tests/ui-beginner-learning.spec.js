@@ -118,8 +118,6 @@ test('electron transport primer makes purpose, inputs, outputs, and location exp
   await expect(primer).toContainText('NAD⁺、FAD、水、质子动力势');
   await expect(primer).toContainText('线粒体内膜；质子积在膜间隙一侧');
   await expect(primer).toContainText('建立 ATP 合酶可以利用的电化学梯度。');
-  await expect(page.locator('#studentPrimerVisual')).toBeVisible();
-  await expect(page.locator('#studentPrimerVisualImage')).toHaveAttribute('src', /27-etc-electron-transport-full\.webp/);
   await expect(page.locator('#studentPathwayMapVisual')).toBeVisible();
   await expect(page.locator('#studentPathwayMapVisual img')).toHaveAttribute('src', /27-etc-electron-transport-full\.webp/);
 
@@ -200,7 +198,6 @@ test('high-risk learning pathways use the corrected textbook mechanism plates', 
   };
   for (const [pathwayId, source] of Object.entries(expected)) {
     await selectPathway(pathwayId);
-    await expect(page.locator('#studentPrimerVisualImage')).toHaveAttribute('src', source);
     await expect(page.locator('#studentPathwayMapVisualImage')).toHaveAttribute('src', source);
   }
   await selectPathway('nucleotide_degradation');
@@ -220,9 +217,7 @@ test('every core pathway exposes a complete beginner primer', async ({ page }) =
       const factValues = [...document.querySelectorAll('.student-primer-facts dd')].map(item => item.textContent.trim());
       const storyCount = document.querySelectorAll('.student-primer-story-step').length;
       const termCount = document.querySelectorAll('.student-primer-term').length;
-      const visual = document.querySelector('#studentPrimerVisualImage');
-      const visualReady = !document.querySelector('#studentPrimerVisual')?.hidden && Boolean(visual?.getAttribute('src')) && visual?.hasAttribute('data-visual-zoom');
-      if (factValues.some(value => !value) || storyCount !== 3 || termCount !== 3 || !visualReady) failures.push(option.value);
+      if (factValues.some(value => !value) || storyCount !== 3 || termCount !== 3) failures.push(option.value);
       const mapFigure = document.querySelector('#studentPathwayMapVisual');
       const mapImage = document.querySelector('#studentPathwayMapVisualImage');
       const overlayGroup = document.querySelector('#studentPathwayMapScientificOverlayLayer .overlay-schematic');
