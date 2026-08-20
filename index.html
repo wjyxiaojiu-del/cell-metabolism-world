@@ -9200,8 +9200,9 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             : Object.entries(atlas.pathways).find(([id, pathway]) => routeGroupForPathway(id, pathway) === pathwayId);
           if (!match) return;
           event.preventDefault();
-          openScene(match[1].scene, { pathwayId: match[0] });
-          openPathway(match[0]);
+          // 双击只负责把用户带到通路所属的区室层；第 4 层机制图必须
+          // 通过该区室中的明确入口打开，避免无提示地跳过第 3 层。
+          openScene(match[1].scene, { preservePathway: true });
         });
       }
 
@@ -9295,7 +9296,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       function pathwayBelongsToScene(pathwayId, sceneId) {
         const pathway = atlas.pathways[pathwayId];
         if (!pathway || !sceneId) return false;
-        return expertEntrySceneForPathway(pathway) === sceneId || pathway.scene === sceneId;
+        // 严格按四级结构归属：父级只负责进入子区室，不能直接承载子区室通路。
+        return pathway.scene === sceneId;
       }
 
       function openExpertPathPreview() {
@@ -12415,6 +12417,15 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         const pathwayIds = [...new Set(hotspots
           .filter(hotspot => hotspot.pathway && coreStudyPathwaySet.has(hotspot.pathway) && atlas.pathways[hotspot.pathway])
           .map(hotspot => hotspot.pathway))];
+        // 父级仍可列出子区室的“入口卡”，但卡片只进入第 3 层，
+        // 不直接打开第 4 层机制图。
+        const childEntryIds = coreStudyPathwayIds.filter(pathwayId => {
+          const pathway = atlas.pathways[pathwayId];
+          const child = pathway?.scene ? atlas.scenes[pathway.scene] : null;
+          return child?.parent === scene.id
+            && (scene.hotspots || []).some(hotspot => hotspot.pathway === pathwayId);
+        });
+        childEntryIds.forEach(pathwayId => { if (!pathwayIds.includes(pathwayId)) pathwayIds.push(pathwayId); });
         if (sceneRouteLaneCount) sceneRouteLaneCount.textContent = `${pathwayIds.length} 条`;
         if (!pathwayIds.length) {
           const empty = document.createElement('div');
@@ -12431,7 +12442,13 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           lane.type = 'button'; lane.className = 'scene-route-lane'; lane.style.setProperty('--tone', tone);
           lane.dataset.pathway = pathwayId;
           lane.setAttribute('aria-label', `查看${pathway.name}线路`);
-          lane.addEventListener('click', event => { event.stopPropagation(); openPathway(pathwayId); });
+          const childScene = atlas.scenes[pathway.scene];
+          const entersChild = childScene?.parent === scene.id;
+          lane.addEventListener('click', event => {
+            event.stopPropagation();
+            if (entersChild) openScene(childScene.id, { preservePathway: true });
+            else openPathway(pathwayId);
+          });
 
           const head = document.createElement('span'); head.className = 'scene-route-lane-head';
           const visual = expertPathwayVisualOverrides[pathwayId];
@@ -12457,7 +12474,9 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             line.appendChild(node);
           });
           const caption = document.createElement('small'); caption.className = 'scene-route-caption';
-          caption.textContent = `${displayText(pathway.compartment || scene.title || '')} · 点击查看通路详情`;
+          caption.textContent = entersChild
+            ? `${displayText(childScene.title)} · 进入第 3 层区室`
+            : `${displayText(pathway.compartment || scene.title || '')} · 点击查看通路详情`;
           lane.append(head, line, caption);
           sceneRouteLanes.appendChild(lane);
         });
@@ -13453,6 +13472,21 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             .filter(pathwayId => !existingPathways.has(pathwayId))
             .map((pathwayId, index) => ({ pathway: pathwayId, label: atlas.pathways[pathwayId].name, x: 28 + index * 16, y: 82, tone: pathwayMeta[pathwayId]?.tone })));
         }
+        // 第 2 层只给当前选中通路提供一个“进入所属第 3 层”的导航点，
+        // 不把基质/内膜通路直接铺到线粒体总览上。
+        if (!options.pathwayId && currentSceneId !== 'cell-atlas' && activePathway && activePathway !== 'all') {
+          const selected = atlas.pathways[activePathway];
+          const child = selected?.scene ? atlas.scenes[selected.scene] : null;
+          if (child?.parent === currentSceneId && !hotspots.some(hotspot => hotspot.target === child.id)) {
+            hotspots = hotspots.concat({
+              label: `进入${child.title}`,
+              target: child.id,
+              x: 52,
+              y: 20,
+              tone: child.tone || scene.tone
+            });
+          }
+        }
         // 有些跨区室通路的底图入口只标了子结构目标（例如核—ER、内体—溶酶体）。
         // 在真正承载该通路的区室层补出一个明确入口，避免用户只能点进子结构却找不到通路。
         if (!options.pathwayId && !['cell-atlas', 'mitochondria'].includes(currentSceneId)) {
@@ -13583,6 +13617,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         scene.id = sceneId;
         sceneDeck.dataset.scene = sceneId;
         sceneDeck.dataset.sceneDepth = scene.parent && atlas.scenes[scene.parent]?.parent ? 'subcompartment' : 'organelle';
+        sceneDeck.dataset.sceneLevel = scene.subtitle?.match(/^第\s*(\d)\s*层/)?.[1] || (scene.parent ? '2' : '1');
         // 子区室默认只展示通路入口点；结构讲解点由用户按需打开。
         setSceneAnnotationsVisible(sceneDeck.dataset.sceneDepth !== 'subcompartment');
         sceneDeck.style.setProperty('--scene-tone', scene.tone || '#338ca3');
