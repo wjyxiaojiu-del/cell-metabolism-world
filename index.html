@@ -705,6 +705,8 @@
     body.expert-map .pathbar > * { min-height: 0; }
     body.expert-map .path-filters { min-height: 0; height: 100px; }
     body.expert-map .path-note { min-width: 0; min-height: 0; overflow: hidden; }
+    /* 专家首页以整张细胞地图为主角，辅助说明卡片不再占据四周空间。 */
+    body.expert-map .overview-hud { display: none !important; }
     body.expert-map .pathbar::before {
       content: "";
       position: absolute;
