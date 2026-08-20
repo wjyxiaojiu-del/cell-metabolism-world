@@ -495,6 +495,7 @@
     .overlay-schematic .schematic-matrix { fill: rgba(222,245,231,.64); }
     .overlay-schematic .schematic-membrane { fill: rgba(115,194,151,.48); stroke: rgba(36,110,85,.65); stroke-width: .5; }
     .overlay-schematic .schematic-label { fill: #173b47; font: 700 2.35px "Noto Serif SC", serif; paint-order: stroke; stroke: rgba(255,255,255,.88); stroke-width: .72px; }
+    .overlay-schematic .schematic-node-label { fill: #173b47; font: 800 2.05px "Noto Sans SC", sans-serif; paint-order: stroke; stroke: rgba(255,255,255,.94); stroke-width: .68px; }
     .overlay-schematic .schematic-node {
       fill: color-mix(in srgb, var(--schematic-tone, #367c70) 14%, #fff);
       stroke: var(--schematic-tone, #367c70); stroke-width: .3;
@@ -12731,6 +12732,13 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             add('circle', { cx: x, cy: y, r: .4, class: 'schematic-node' });
             label(x, y - 1.75, value);
           };
+          // 机制节点不能只留下一个无语义的小圆点：每个连接点都要有可读名称。
+          const namedNode = (x, y, value, role = '') => {
+            add('circle', { cx: x, cy: y, r: .82, class: 'schematic-node-halo' });
+            const attrs = role ? { 'data-role': role, 'aria-label': value } : { 'aria-label': value };
+            add('circle', { cx: x, cy: y, r: .52, class: 'schematic-node', ...attrs });
+            label(x, y - 1.85, value, 'schematic-node-label');
+          };
           const stepBadge = (x, y, value) => {
             add('circle', { cx: x, cy: y, r: .64, class: 'schematic-step-disc' });
             label(x, y + .3, String(value), 'schematic-step-number');
@@ -12889,9 +12897,9 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             metabolite(...p.adpMatrix, 'ADP'); metabolite(...p.piMatrix, 'Pi'); metabolite(...p.atpMatrix, 'ATP');
             metabolite(...p.atpIms, 'ATP（输出）'); metabolite(...p.adpIms, 'ADP（输入）');
             metabolite(...p.piIms, 'Pi（输入）'); metabolite(...p.piImported, 'Pi');
-            add('circle', { cx: p.atpSynthase[0], cy: p.atpSynthase[1], r: .4, class: 'schematic-node', 'data-role': 'atp-synthase' });
-            add('circle', { cx: p.ant[0], cy: p.ant[1], r: .4, class: 'schematic-node', 'data-role': 'ant' });
-            add('circle', { cx: p.piCarrier[0], cy: p.piCarrier[1], r: .4, class: 'schematic-node', 'data-role': 'phosphate-carrier' });
+            namedNode(...p.atpSynthase, 'ATP 合酶 F₀F₁', 'atp-synthase');
+            namedNode(...p.ant, 'ANT 核苷酸转位酶', 'ant');
+            namedNode(...p.piCarrier, 'Pi/H⁺ 同向载体', 'phosphate-carrier');
 
             // ATP 合酶固定在底图最右侧的 F₀F₁ 结构：H⁺ 从膜间隙回流至基质，
             // F₁ 在基质侧催化 ADP + Pi → ATP。
@@ -12933,9 +12941,9 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             metabolite(...p.acylCarnMatrix, '脂酰肉碱'); metabolite(...p.coaMatrix, 'CoA-SH · 基质池');
             metabolite(...p.acylCoaMatrix, '脂酰-CoA'); metabolite(...p.carnitineMatrix, '游离肉碱');
             metabolite(...p.carnitineReturn, '肉碱'); metabolite(...p.carnitineCytReturn, '肉碱');
-            add('circle', { cx: p.cpt1[0], cy: p.cpt1[1], r: .4, class: 'schematic-node', 'data-role': 'cpt1' });
-            add('circle', { cx: p.cact[0], cy: p.cact[1], r: .4, class: 'schematic-node', 'data-role': 'cact' });
-            add('circle', { cx: p.cpt2[0], cy: p.cpt2[1], r: .4, class: 'schematic-node', 'data-role': 'cpt2' });
+            namedNode(...p.cpt1, 'CPT1', 'cpt1');
+            namedNode(...p.cact, 'CACT', 'cact');
+            namedNode(...p.cpt2, 'CPT2', 'cpt2');
 
             // CPT1 位于外膜胞质侧：脂酰基转给肉碱，CoA 留在胞质池。
             routePath('M 27 36 C 31 37, 35 39, 38 40', false, 'schematic-route');
@@ -12966,8 +12974,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             label(48, 30, '肝线粒体：乙酰-CoA 过剩时转成可输出酮体', 'schematic-enzyme');
             metabolite(...p.acetyl1, '乙酰-CoA'); metabolite(...p.acetyl2, '乙酰-CoA'); metabolite(...p.acoa, '乙酰乙酰-CoA');
             metabolite(...p.hmgcoa, 'HMG-CoA'); metabolite(...p.acac, '乙酰乙酸'); metabolite(...p.bhb, 'β-羟丁酸'); metabolite(...p.acetone, '丙酮');
-            metabolite(...p.succinyl, '球珀酰-CoA'); metabolite(...p.acetoacetylUse, '乙酰乙酰-CoA'); metabolite(...p.acetylUse, '2 乙酰-CoA');
-            add('circle', { cx: p.scot[0], cy: p.scot[1], r: .4, class: 'schematic-node', 'data-role': 'scot' });
+            metabolite(...p.succinyl, '琥珀酰-CoA'); metabolite(...p.acetoacetylUse, '乙酰乙酰-CoA'); metabolite(...p.acetylUse, '2 乙酰-CoA');
+            namedNode(...p.scot, 'SCOT', 'scot');
             routePath('M 22 48 C 27 48, 31 51, 35 53', false, 'schematic-route'); routePath('M 22 61 C 28 61, 31 58, 35 55', false, 'schematic-route');
             routePath('M 39 54 L 53 54', false, 'schematic-route'); routePath('M 57 54 L 70 54', false, 'schematic-route');
             routePath('M 74 53 C 79 49, 83 45, 86 44', false, 'schematic-route'); routePath('M 74 55 C 80 59, 83 64, 86 66', false, 'schematic-route');
@@ -12978,7 +12986,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             label(29, 44, '硫解酶 · 2 个乙酰-CoA', 'schematic-enzyme'); label(46, 50, 'HMGCS2', 'schematic-enzyme');
             label(64, 50, 'HMG-CoA 裂解酶', 'schematic-enzyme'); label(84, 38, 'BDH1 · NADH', 'schematic-cofactor');
             label(85, 73, '自发脱羧', 'schematic-cofactor');
-            label(57, 75, '外周组织 SCOT：球珀酰-CoA → 球珀酸', 'schematic-enzyme');
+            label(57, 75, '外周组织 SCOT：琥珀酰-CoA → 琥珀酸', 'schematic-enzyme');
             label(82, 75, '硫解酶', 'schematic-enzyme');
             label(59, 89, '肝缺少 SCOT，只输出酸体；外周线粒体再生乙酰-CoA', 'schematic-note');
             stepBadge(30, 50, 1); stepBadge(46, 57, 2); stepBadge(64, 57, 3); stepBadge(80, 48, 4);
@@ -13039,8 +13047,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             metabolite(...q.amino, '氨基酸'); metabolite(...q.carbon, '碳骨架');
             metabolite(...q.pyruvate, '丙酮酸'); metabolite(...q.acetyl, '乙酰-CoA');
             metabolite(...q.acetoacetyl, '乙酰乙酰-CoA'); metabolite(...q.akg, 'α-酮戊二酸');
-            metabolite(...q.succinyl, '球珀酰-CoA'); metabolite(...q.fumarate, '延胡索酸'); metabolite(...q.oaa, '草酰乙酸');
-            add('circle', { cx: q.interface[0], cy: q.interface[1], r: .4, class: 'schematic-node', 'data-role': 'carbon-interface' });
+            metabolite(...q.succinyl, '琥珀酰-CoA'); metabolite(...q.fumarate, '延胡索酸'); metabolite(...q.oaa, '草酰乙酸');
+            namedNode(...q.interface, '碳骨架跨区室接口', 'carbon-interface');
             line(...q.amino, ...q.carbon);
             routePath('M 40 48 C 49 48, 57 50, 64 52', false, 'schematic-route schematic-transporter-route');
             routePath('M 66 51 C 69 45, 72 40, 74 37', false, 'schematic-route');
@@ -13086,7 +13094,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             metabolite(...q.keto, '对应 α-酮酸'); metabolite(...q.glutamateC, '谷氨酸（胞质）');
             metabolite(...q.glutamateM, '谷氨酸（基质）'); metabolite(...q.akgM, 'α-酮戊二酸');
             metabolite(...q.ammonia, 'NH₄⁺'); metabolite(...q.urea, '尿素循环第一步');
-            add('circle', { cx: q.carrier[0], cy: q.carrier[1], r: .4, class: 'schematic-node', 'data-role': 'glutamate-carrier' });
+            namedNode(...q.carrier, '谷氨酸载体', 'glutamate-carrier');
 
             routePath('M 23 39 C 30 38, 36 38, 41 39', true, 'schematic-route');
             routePath('M 23 57 C 30 55, 36 55, 42 57', true, 'schematic-route');
@@ -13144,7 +13152,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             label(39, 27, 'ER 膜 / 腔：G6Pase', 'schematic-compartment-title', { 'data-role': 'er-title' });
             metabolite(...q.pyruvate, '丙酮酸'); metabolite(...q.oaa, '草酰乙酸'); metabolite(...q.pep, 'PEP');
             metabolite(...q.f16bp, 'F-1,6-BP'); metabolite(...q.f6p, 'F6P'); metabolite(...q.g6p, 'G6P'); metabolite(...q.glucose, '葡萄糖');
-            add('circle', { cx: q.g6pase[0], cy: q.g6pase[1], r: .4, class: 'schematic-node', 'data-role': 'g6pase-er' });
+            namedNode(...q.g6pase, 'G6P 转位酶', 'g6pase-er');
             line(...q.pyruvate, ...q.oaa);
             routePath('M 90 66 C 84 63, 78 60, 74 58', false, 'schematic-route schematic-transporter-route');
             line(...q.pep, ...q.f16bp); line(...q.f16bp, ...q.f6p);
@@ -13215,7 +13223,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             metabolite(...p.malonyl, '丙二酰-CoA'); metabolite(...p.fas, '脂肪酸合酶 FAS');
             metabolite(...p.palmitate, '棕榈酸 C16'); metabolite(...p.elongation, '长链 / 不饱和脂肪酸');
             metabolite(...p.nadph, 'NADPH');
-            add('circle', { cx: p.erEnzyme[0], cy: p.erEnzyme[1], r: .4, class: 'schematic-node', 'data-role': 'er-elongation' });
+            namedNode(...p.erEnzyme, 'ELOVL / 去饱和酶', 'er-elongation');
 
             line(...p.citrate, ...p.acetyl); line(...p.acetyl, ...p.malonyl);
             // 乙酰-CoA 作为引物、丙二酰-CoA 作为 2C 供体，分别进入 FAS，不再画成单一直线反应。
@@ -13260,7 +13268,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             metabolite(...p.dihydro, '二氢乳清酸'); metabolite(...p.orotate, '乳清酸');
             metabolite(...p.omp, 'OMP'); metabolite(...p.ump, 'UMP'); metabolite(...p.udp, 'UDP');
             metabolite(...p.utp, 'UTP'); metabolite(...p.ctp, 'CTP'); metabolite(...p.dump, 'dUMP'); metabolite(...p.dtmp, 'dTMP');
-            add('circle', { cx: p.dhodh[0], cy: p.dhodh[1], r: .4, class: 'schematic-node', 'data-role': 'dhodh' });
+            namedNode(...p.dhodh, 'DHODH', 'dhodh');
 
             // CAD 的三种活性都在细胞质：CPS II → ATCase → 二氢乳清酸酶。
             line(...p.carbP, ...p.carbAsp); line(...p.carbAsp, ...p.dihydro);
@@ -13348,8 +13356,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             label(84, 59, '谷氨酸 + H⁺ ↓　/　天冬氨酸 ↑', 'schematic-exchange');
             label(60.5, 70, 'MDH2 · NAD⁺ → NADH + H⁺', 'schematic-cofactor');
             label(76, 88, 'GOT2 · 草酰乙酸 + 谷氨酸 → 天冬氨酸 + α-KG', 'schematic-enzyme');
-            add('circle', { cx: 53, cy: 53, r: 1.7, class: 'schematic-transporter-anchor' });
-            add('circle', { cx: 84, cy: 53, r: 1.7, class: 'schematic-transporter-anchor' });
+            namedNode(53, 53, '苹果酸–α-KG 载体', 'malate-alpha-kg-carrier');
+            namedNode(84, 53, '天冬氨酸–谷氨酸载体', 'aspartate-glutamate-carrier');
             line(...p.oaaC, ...p.malC);
             line(...p.malC, ...p.malM, true, 'schematic-route schematic-transporter-route');
             line(...p.malM, ...p.oaaM); line(...p.oaaM, ...p.aspM);
