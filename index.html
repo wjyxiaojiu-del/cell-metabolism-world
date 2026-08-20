@@ -440,6 +440,7 @@
     .scene-heading { min-width: 230px; }
     .scene-heading small { display: block; color: #658593; font-size: 9px; letter-spacing: .13em; text-transform: uppercase; }
     .scene-heading strong { display: block; margin-top: 2px; font-family: "Noto Serif SC", "Songti SC", serif; font-size: 16px; letter-spacing: .04em; }
+    .scene-level-hint { display: inline-flex; margin-top: 5px; padding: 3px 7px; border: 1px solid rgba(45,133,157,.24); border-radius: 999px; color: #2b7182; background: rgba(235,250,252,.86); font-size: 9px; font-weight: 800; line-height: 1.2; }
     .scene-description { flex: 1; max-width: 560px; margin: 0; color: #52727f; font-size: 10px; line-height: 1.55; }
     .scene-views { margin-left: auto; display: flex; gap: 5px; max-width: 42%; overflow-x: auto; scrollbar-width: none; }
     .scene-views::-webkit-scrollbar { display: none; }
@@ -7283,7 +7284,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         </svg>
         <div class="scene-nav">
           <button class="scene-back" id="sceneBack">← 返回</button>
-          <div class="scene-heading"><small id="sceneSubtitle">分层代谢地图</small><strong id="sceneTitle">细胞内部</strong></div>
+          <div class="scene-heading"><small id="sceneSubtitle">分层代谢地图</small><strong id="sceneTitle">细胞内部</strong><span class="scene-level-hint" id="sceneLevelHint">第 1 层 · 结构入口</span></div>
           <p class="scene-description" id="sceneDescription"></p>
           <div class="scene-views" id="sceneViews" aria-label="场景视角"></div>
         </div>
@@ -7684,6 +7685,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       const sceneExpertOverlayLayer = document.getElementById('sceneExpertOverlayLayer');
       const sceneTitle = document.getElementById('sceneTitle');
       const sceneSubtitle = document.getElementById('sceneSubtitle');
+      const sceneLevelHint = document.getElementById('sceneLevelHint');
       const sceneDescription = document.getElementById('sceneDescription');
       const sceneViews = document.getElementById('sceneViews');
       const sceneHotspots = document.getElementById('sceneHotspots');
@@ -12621,6 +12623,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         const scene = atlas.scenes[currentSceneId];
         if (!scene || !scene.views?.length) return;
         sceneDeck.classList.remove('pathway-visual-active');
+        sceneDeck.dataset.sceneLevel = scene.parent && atlas.scenes[scene.parent]?.parent ? '3' : (scene.parent ? '2' : '1');
+        if (sceneLevelHint) sceneLevelHint.textContent = `第 ${sceneDeck.dataset.sceneLevel} 层 · ${sceneDeck.dataset.sceneLevel === '3' ? '区室视图 · 选择通路' : sceneDeck.dataset.sceneLevel === '2' ? '细胞器总览 · 选择区室' : '结构入口 · 选择细胞器'}`;
         sceneBackground.tabIndex = -1;
         sceneBackground.removeAttribute('role');
         sceneBackground.removeAttribute('aria-label');
@@ -12637,6 +12641,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         const scene = atlas.scenes[currentSceneId];
         const pathway = atlas.pathways[pathwayId];
         if (!scene || !pathway || !pathwayBelongsToScene(pathwayId, currentSceneId)) return false;
+        sceneDeck.dataset.sceneLevel = '4';
+        if (sceneLevelHint) sceneLevelHint.textContent = '第 4 层 · 机制图 · 查看反应与连接';
         const sceneView = sceneViewEntry(scene, currentSceneView);
         const visual = expertPathwayVisualSources[pathwayId]
           ? expertPathwayVisualOverrides[pathwayId]
@@ -13686,6 +13692,14 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         sceneTitle.textContent = scene.title;
         sceneSubtitle.textContent = sceneLevelText(scene.subtitle || '分层代谢地图');
         sceneDescription.textContent = displayText(scene.description || '');
+        const level = sceneDeck.dataset.sceneLevel || '1';
+        const levelCopy = {
+          '1': '结构入口 · 选择细胞器',
+          '2': '细胞器总览 · 选择区室',
+          '3': '区室视图 · 选择通路',
+          '4': '机制图 · 查看反应与连接'
+        }[level] || '分层代谢地图';
+        if (sceneLevelHint) sceneLevelHint.textContent = `第 ${level} 层 · ${levelCopy}`;
         updateSceneBackLabel();
         sceneViews.innerHTML = '';
         const pathwayVisual = pathwayId ? expertPathwayVisualOverrides[pathwayId] : null;
