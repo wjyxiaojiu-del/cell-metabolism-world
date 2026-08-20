@@ -7598,7 +7598,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
     <nav class="pathbar" aria-label="专家地图通路导航">
       <span class="pathbar-label"><strong>通路导航</strong><small>专家地图 · 通路索引</small></span>
       <div class="path-filters" id="pathFilters"></div>
-      <span class="path-note" id="pathNote"><span class="path-note-copy"><b>单击聚焦通路</b><small>双击进入细胞器<br>再点一次显示全部</small></span><span class="expert-path-preview" id="expertPathPreview" role="button" tabindex="0" aria-label="打开当前通路所在细胞器" hidden><img id="expertPathPreviewImage" alt=""><span><b id="expertPathPreviewTitle"></b><small id="expertPathPreviewCaption"></small><em class="path-focus-stats" id="pathFocusStats"></em></span></span></span>
+      <span class="path-note" id="pathNote"><span class="path-note-copy"><b>先选通路，再按入口进入</b><small>单击通路聚焦<br>点击右侧卡片进入第 3 层区室</small></span><span class="expert-path-preview" id="expertPathPreview" role="button" tabindex="0" aria-label="点击进入当前通路所属的第 3 层区室" hidden><img id="expertPathPreviewImage" alt=""><span><b id="expertPathPreviewTitle"></b><small id="expertPathPreviewCaption"></small><em class="path-focus-stats" id="pathFocusStats"></em></span></span></span>
     </nav>
 
     <dialog class="pathway-visual-dialog" id="pathwayVisualDialog" aria-labelledby="pathwayVisualDialogTitle">
@@ -9301,7 +9301,10 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           expertPathPreviewImage.src = source;
           expertPathPreviewImage.alt = `${displayText(pathway.name)}结构视图`;
           expertPathPreviewTitle.textContent = displayText(pathway.name);
-          expertPathPreviewCaption.textContent = `${displayText(label || scene.title || '结构图')} · 点击进入细胞器`;
+          const entryScene = expertEntrySceneForPathway(pathway);
+          const entryTitle = atlas.scenes[entryScene]?.title || scene.title || '细胞器';
+          const entryLevel = sceneLevelText(atlas.scenes[entryScene]?.subtitle || '第 2 层');
+          expertPathPreviewCaption.textContent = `点击进入${displayText(entryTitle)}（${entryLevel}）`;
           const routeGroup = routeGroupForPathway(pathwayId, pathway) || pathwayId;
           const pathwayReactions = reactions.filter(reaction => groupsFor(reaction).includes(pathwayId) || groupsFor(reaction).includes(routeGroup));
           const pathwayEntityIds = new Set(pathwayReactions.flatMap(reaction => [reaction.from, reaction.to]));
