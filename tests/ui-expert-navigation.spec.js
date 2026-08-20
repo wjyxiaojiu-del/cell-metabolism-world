@@ -722,6 +722,8 @@ test('iPad landscape supports batched pinch gestures and tablet fullscreen', asy
     }
     await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     const pinchedViewBox = svg.getAttribute('viewBox');
+    const previewTransform = document.querySelector('#mapGesturePreviewContent').style.transform;
+    const previewVisible = document.querySelector('#mapGesturePreview').classList.contains('active');
     const activeDuringGesture = document.body.classList.contains('map-gesture-active');
     fire('pointerup', 41, 422, 410, true);
     fire('pointerup', 42, 772, 410);
@@ -731,6 +733,10 @@ test('iPad landscape supports batched pinch gestures and tablet fullscreen', asy
       initialViewBox,
       pinchedViewBox,
       finalViewBox: svg.getAttribute('viewBox'),
+      previewTransform,
+      finalTransform: document.querySelector('#mapGesturePreviewContent').style.transform,
+      previewVisible,
+      previewHiddenAfterGesture: !document.querySelector('#mapGesturePreview').classList.contains('active'),
       viewBoxChanges,
       activeDuringGesture,
       activeAfterGesture: document.body.classList.contains('map-gesture-active')
@@ -738,9 +744,13 @@ test('iPad landscape supports batched pinch gestures and tablet fullscreen', asy
   });
 
   const initialWidth = Number(gesture.initialViewBox.split(/\s+/)[2]);
-  const pinchedWidth = Number(gesture.pinchedViewBox.split(/\s+/)[2]);
-  expect(pinchedWidth).toBeLessThan(initialWidth);
-  expect(gesture.finalViewBox).toBe(gesture.pinchedViewBox);
+  const finalWidth = Number(gesture.finalViewBox.split(/\s+/)[2]);
+  expect(gesture.pinchedViewBox).toBe(gesture.initialViewBox);
+  expect(gesture.previewTransform).toContain('translate3d(');
+  expect(gesture.previewVisible).toBe(true);
+  expect(finalWidth).toBeLessThan(initialWidth);
+  expect(gesture.finalTransform).toBe('');
+  expect(gesture.previewHiddenAfterGesture).toBe(true);
   expect(gesture.viewBoxChanges).toBeLessThanOrEqual(2);
   expect(gesture.activeDuringGesture).toBe(true);
   expect(gesture.activeAfterGesture).toBe(false);

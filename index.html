@@ -6687,6 +6687,24 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
     body.expert-map.map-gesture-active .enzyme,
     body.expert-map.map-gesture-active .organelle-hit { transition: none !important; }
     body.expert-map.map-gesture-active .route-aura { filter: none !important; }
+    .map-gesture-preview {
+      position: absolute; inset: 0; z-index: 3; overflow: hidden;
+      pointer-events: none; background: #dcecef; opacity: 0; visibility: hidden;
+    }
+    .map-gesture-preview.active { opacity: 1; visibility: visible; }
+    .map-gesture-preview-content { position: absolute; inset: 0; will-change: transform; }
+    .map-gesture-preview-image { position: absolute; max-width: none; user-select: none; opacity: .68; }
+    .map-gesture-preview::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: rgba(243,247,255,.18);
+    }
+    body.expert-map.map-gesture-active #viewport.gesture-source-hidden {
+      opacity: 0 !important; transition: none !important;
+    }
+    body.tablet-touch .scene-deck.switching .scene-background {
+      filter: none !important; transform: none !important;
+      transition: opacity .18s ease !important;
+    }
     body.tablet-touch.expert-map.map-gesture-active .topbar,
     body.tablet-touch.expert-map.map-gesture-active .context,
     body.tablet-touch.expert-map.map-gesture-active .pathbar,
@@ -7304,9 +7322,14 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           <g id="enzymeLayer"></g>
         </g>
       </svg>
+      <div class="map-gesture-preview" id="mapGesturePreview" aria-hidden="true">
+        <div class="map-gesture-preview-content" id="mapGesturePreviewContent">
+          <img class="map-gesture-preview-image" id="mapGesturePreviewImage" src="cell-metabolism-assets/optimized/01-home-cell-cover.webp" alt="">
+        </div>
+      </div>
       <div class="grain"></div>
       <section class="scene-deck" id="sceneDeck" aria-hidden="true" inert>
-        <img class="scene-background" id="sceneBackground" alt="" data-scene-visual-zoom tabindex="-1">
+        <img class="scene-background" id="sceneBackground" alt="" data-scene-visual-zoom decoding="async" tabindex="-1">
         <div class="scene-vignette"></div>
         <svg class="scene-expert-overlay" id="sceneExpertOverlay" viewBox="0 0 100 100" aria-hidden="true">
           <g id="sceneExpertOverlayLayer"></g>
@@ -7673,6 +7696,9 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       const svg = document.getElementById('viewport');
       const mapStage = document.getElementById('mapStage');
       const image = document.getElementById('cellImage');
+      const mapGesturePreview = document.getElementById('mapGesturePreview');
+      const mapGesturePreviewContent = document.getElementById('mapGesturePreviewContent');
+      const mapGesturePreviewImage = document.getElementById('mapGesturePreviewImage');
       const fallback = document.getElementById('imageFallback');
       const syncViewportMode = () => {
         const compact = window.matchMedia('(max-width: 760px)').matches;
@@ -7886,6 +7912,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       let mapGesture = null;
       let mapGestureFrame = null;
       let pendingGestureView = null;
+      let previewedGestureView = null;
+      let pendingGestureTransform = null;
       // Absolute performance.now() deadline used to swallow the synthetic click emitted after a moved gesture.
       let clickInterceptDeadline = 0;
       let viewAnimation = null;
@@ -11891,7 +11919,38 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         return [...mapPointers.values()].slice(0, 2);
       }
 
+      function activateMapGesturePreview() {
+        if (!document.body.classList.contains('expert-map') || !mapGesturePreview || !mapGesturePreviewImage) return false;
+        const rect = svg.getBoundingClientRect();
+        const stageRect = mapStage.getBoundingClientRect();
+        const slice = (svg.getAttribute('preserveAspectRatio') || '').includes('slice');
+        const screenScale = (slice ? Math.max : Math.min)(rect.width / view.w, rect.height / view.h);
+        const offsetX = (rect.width - view.w * screenScale) / 2;
+        const offsetY = (rect.height - view.h * screenScale) / 2;
+        const source = image.dataset.expertSrc || image.getAttribute('href');
+        if (source && mapGesturePreviewImage.getAttribute('src') !== source) mapGesturePreviewImage.src = source;
+        mapGesturePreviewImage.style.left = `${rect.left - stageRect.left + offsetX - view.x * screenScale}px`;
+        mapGesturePreviewImage.style.top = `${rect.top - stageRect.top + offsetY - view.y * screenScale}px`;
+        mapGesturePreviewImage.style.width = `${base.w * screenScale}px`;
+        mapGesturePreviewImage.style.height = `${base.h * screenScale}px`;
+        mapGesturePreviewContent.style.transform = '';
+        mapGesturePreviewContent.style.transformOrigin = '';
+        mapGesturePreview.classList.add('active');
+        svg.classList.add('gesture-source-hidden');
+        return true;
+      }
+
+      function deactivateMapGesturePreview() {
+        if (mapGesturePreviewContent) {
+          mapGesturePreviewContent.style.transform = '';
+          mapGesturePreviewContent.style.transformOrigin = '';
+        }
+        if (mapGesturePreview) mapGesturePreview.classList.remove('active');
+        svg.classList.remove('gesture-source-hidden');
+      }
+
       function beginMapGesture() {
+        if (pendingGestureView || previewedGestureView) flushMapGestureView();
         if (!mapPointers.size) {
           mapGesture = null;
           return;
@@ -11906,19 +11965,34 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           startCenter: center,
           startDistance: points.length > 1 ? Math.max(12, Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y)) : 0,
           anchor: clientToMapPoint(center.x, center.y),
+          viewportRect: svg.getBoundingClientRect(),
           moved: false
         };
         document.body.classList.add('map-gesture-active');
+        mapGesture.previewActive = activateMapGesturePreview();
       }
 
-      function queueMapGestureView(nextView) {
+      function queueMapGestureView(nextView, nextTransform) {
         pendingGestureView = nextView;
+        pendingGestureTransform = nextTransform;
         if (mapGestureFrame) return;
         mapGestureFrame = requestAnimationFrame(() => {
           mapGestureFrame = null;
           if (!pendingGestureView) return;
-          view = pendingGestureView;
+          previewedGestureView = pendingGestureView;
           pendingGestureView = null;
+          const transform = pendingGestureTransform;
+          pendingGestureTransform = null;
+          if (!transform || !mapGesture) return;
+          if (mapGesture.previewActive && mapGesturePreviewContent) {
+            const stageRect = mapStage.getBoundingClientRect();
+            const originX = mapGesture.startCenter.x - stageRect.left;
+            const originY = mapGesture.startCenter.y - stageRect.top;
+            mapGesturePreviewContent.style.transformOrigin = `${originX}px ${originY}px`;
+            mapGesturePreviewContent.style.transform = `translate3d(${transform.x}px, ${transform.y}px, 0) scale(${transform.scale})`;
+            return;
+          }
+          view = previewedGestureView;
           applyView({ lightweight: true });
         });
       }
@@ -11926,15 +12000,20 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       function flushMapGestureView() {
         if (mapGestureFrame) cancelAnimationFrame(mapGestureFrame);
         mapGestureFrame = null;
-        if (!pendingGestureView) return;
-        view = pendingGestureView;
+        const nextView = pendingGestureView || previewedGestureView;
         pendingGestureView = null;
-        applyView({ lightweight: true });
+        previewedGestureView = null;
+        pendingGestureTransform = null;
+        if (nextView) {
+          view = nextView;
+          applyView({ lightweight: true });
+        }
+        deactivateMapGesturePreview();
       }
 
       function mapViewAroundGestureAnchor(center, width) {
         const height = width * .75;
-        const rect = svg.getBoundingClientRect();
+        const rect = mapGesture.viewportRect;
         const slice = (svg.getAttribute('preserveAspectRatio') || '').includes('slice');
         const screenScale = (slice ? Math.max : Math.min)(rect.width / width, rect.height / height);
         const offsetX = (rect.width - width * screenScale) / 2;
@@ -11964,20 +12043,24 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           if (!mapGesture.moved && Math.abs(distance - mapGesture.startDistance) < 3 && centerTravel < 3) return;
           mapGesture.moved = true;
           const width = Math.max(420, Math.min(1900, mapGesture.startView.w * mapGesture.startDistance / distance));
-          queueMapGestureView(mapViewAroundGestureAnchor(center, width));
+          queueMapGestureView(mapViewAroundGestureAnchor(center, width), {
+            x: center.x - mapGesture.startCenter.x,
+            y: center.y - mapGesture.startCenter.y,
+            scale: distance / mapGesture.startDistance
+          });
         } else {
           const dx = points[0].x - mapGesture.startCenter.x;
           const dy = points[0].y - mapGesture.startCenter.y;
           if (!mapGesture.moved && Math.hypot(dx, dy) < 5) return;
           mapGesture.moved = true;
-          const rect = svg.getBoundingClientRect();
+          const rect = mapGesture.viewportRect;
           const slice = (svg.getAttribute('preserveAspectRatio') || '').includes('slice');
           const screenScale = (slice ? Math.max : Math.min)(rect.width / mapGesture.startView.w, rect.height / mapGesture.startView.h);
           queueMapGestureView({
             ...mapGesture.startView,
             x: mapGesture.startView.x - dx / screenScale,
             y: mapGesture.startView.y - dy / screenScale
-          });
+          }, { x: dx, y: dy, scale: 1 });
         }
         svg.classList.add('dragging');
       }
@@ -12632,20 +12715,26 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         sceneDeck.classList.add('loading');
         if (!immediate) sceneDeck.classList.add('switching');
         sceneSource.textContent = '图像加载中 · 知识关系仍来自代谢总图人工核对';
-        const loader = new Image();
-        loader.onload = () => {
+        let settled = false;
+        const finish = async () => {
+          if (settled) return;
+          settled = true;
+          try { await sceneBackground.decode(); } catch (_) {}
           if (request !== sceneImageRequest || currentSceneId !== scene.id) return;
-          sceneBackground.src = src;
           sceneBackground.alt = `${scene.title} · ${label}`;
           requestAnimationFrame(() => sceneDeck.classList.remove('loading', 'switching'));
           sceneSource.textContent = `当前视角：${label} · 知识关系：代谢总图人工核对`;
         };
-        loader.onerror = () => {
+        sceneBackground.onload = finish;
+        sceneBackground.onerror = () => {
+          if (settled) return;
+          settled = true;
           if (request !== sceneImageRequest) return;
           sceneDeck.classList.remove('loading', 'switching');
           sceneSource.textContent = '当前场景图片未加载 · 通路入口仍可使用';
         };
-        loader.src = src;
+        sceneBackground.src = src;
+        if (sceneBackground.complete && sceneBackground.naturalWidth > 0) finish();
       }
 
       function setSceneView(index, immediate = false) {
