@@ -7125,6 +7125,26 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       body.expert-map .path-note .expert-path-preview img { width: 76px; height: 54px; }
       body.expert-map .path-note .expert-path-preview small { white-space: normal; }
     }
+    /* iPad 横屏优先：地图保持主视觉，顶部与底部工具栏不压缩地图。 */
+    @media (min-width: 700px) and (max-width: 1366px) and (orientation: landscape) {
+      body.expert-map #viewport { inset: 0; }
+      body.expert-map .topbar { top: 10px; left: 14px; right: 14px; min-height: 52px; height: 52px; padding: 7px 12px; }
+      body.expert-map .brand strong { font-size: 15px; }
+      body.expert-map .brand small { display: none; }
+      body.expert-map .search, body.expert-map #search { height: 38px; }
+      body.expert-map .top-actions { height: 38px; }
+      body.expert-map .top-actions .btn { height: 44px; min-height: 44px; }
+      body.expert-map .pathbar { right: 14px; bottom: 12px; left: 14px; height: 92px; min-height: 92px; max-height: 92px; padding: 9px 12px; grid-template-columns: 128px minmax(0, 1fr) 238px; gap: 10px; border-radius: 20px; }
+      body.expert-map .path-filters { height: 72px; grid-template-rows: repeat(2, 32px); gap: 6px; padding: 1px 6px 4px 0; }
+      body.expert-map .path-filter { height: 32px; min-height: 32px; padding: 0 9px; font-size: 11px; border-radius: 10px; }
+      body.expert-map .pathbar-label { padding: 8px 10px; }
+      body.expert-map .pathbar-label strong { font-size: 14px; }
+      body.expert-map .pathbar-label small { font-size: 7px; }
+      body.expert-map .path-note { font-size: 9px; }
+      body.expert-map .expert-path-preview { min-height: 52px; padding: 7px 39px 7px 8px; }
+      body.expert-map .expert-path-preview b { font-size: 10px; }
+      body.expert-map .expert-path-preview small { font-size: 8px; }
+    }
     /* 通路机制图使用完整画布；细胞器热点与标注只属于结构视角。 */
     .scene-deck.pathway-visual-active { background: #eaf5fa; }
     .scene-deck.pathway-visual-active .scene-background {
