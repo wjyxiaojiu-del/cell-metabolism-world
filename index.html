@@ -12389,6 +12389,11 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         container.appendChild(button);
       }
 
+      function sceneEntryLabel(hotspot) {
+        const target = hotspot?.target ? atlas.scenes[hotspot.target] : null;
+        return target?.parent ? `${hotspot.label || target.title}（进入第 3 层）` : (hotspot.label || hotspot.target);
+      }
+
       function renderSceneRouteLanes(scene, hotspots = [], selectedPathwayId = null) {
         if (!sceneRouteLanes) return;
         sceneRouteLanes.replaceChildren();
@@ -12496,6 +12501,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           scopeLocalCount.textContent = `${targetHotspots.length} 个入口`;
           const hint = document.createElement('div'); hint.className = 'scope-empty'; hint.textContent = '先进入一个细胞器，再查看区室内通路。'; scopeExchange.appendChild(hint);
         } else {
+          const childTargets = targetHotspots.filter(hotspot => atlas.scenes[hotspot.target]?.parent === scene.id);
+          childTargets.forEach(hotspot => appendScopeItem(scopeLocal, sceneEntryLabel(hotspot), hotspot.tone || scene.tone, () => openScene(hotspot.target), '进入 →'));
           const transport = uniquePaths.filter(hotspot => {
             const pathway = atlas.pathways[hotspot.pathway];
             return sceneTransportIds.has(hotspot.pathway) || /穿梭|转运|运输|膜/.test(`${pathway.name} ${pathway.compartment || ''}`);
@@ -12505,9 +12512,9 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           const local = uniquePaths.filter(hotspot => !transport.includes(hotspot));
           local.forEach(hotspot => {
             const pathway = atlas.pathways[hotspot.pathway];
-            appendScopeItem(scopeLocal, pathway.name, hotspot.tone || scene.tone, () => openPathway(hotspot.pathway));
+            appendScopeItem(scopeLocal, pathway.name, hotspot.tone || scene.tone, () => openPathway(hotspot.pathway), '查看机制 →');
           });
-          scopeLocalCount.textContent = `${local.length} 条通路`;
+          scopeLocalCount.textContent = `${childTargets.length + local.length} 个入口`;
           const exchanges = [];
           local.slice(0, 4).forEach(hotspot => {
             const pathway = atlas.pathways[hotspot.pathway];
