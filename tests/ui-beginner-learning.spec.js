@@ -162,10 +162,10 @@ test('pathway overview restores structural images and expands opaque abbreviatio
   }, pathwayId);
 
   await selectPathway('fa_synthesis');
-  await expect(page.locator('#studentPrimerVisualImage')).toHaveAttribute('src', /pathway-learning\/optimized\/fa_synthesis-v3\.svg/);
+  await expect(page.locator('#studentPrimerVisualImage')).toHaveAttribute('src', /pathway-learning\/optimized\/fa_synthesis-v4\.png/);
   await expect(page.locator('#studentPrimer')).toContainText('乙酰辅酶 A 羧化酶');
   await expect(page.locator('#studentPathwayMapVisual')).toBeVisible();
-  await expect(page.locator('#studentPathwayMapVisualImage')).toHaveAttribute('src', /pathway-learning\/optimized\/fa_synthesis-v3\.svg/);
+  await expect(page.locator('#studentPathwayMapVisualImage')).toHaveAttribute('src', /pathway-learning\/optimized\/fa_synthesis-v4\.png/);
   await expect(page.locator('#studentPathwayMapScientificOverlayLayer .overlay-schematic')).toHaveCount(0);
   await expect(page.locator('#studentPathwayMapVisualCaption')).toContainText('脂肪酸合酶');
   await page.locator('#studentPathwayMapVisual').screenshot({ path: 'output/playwright/fa-synthesis-scientific-learning-map.png' });
@@ -194,9 +194,9 @@ test('high-risk learning pathways use the corrected textbook mechanism plates', 
   }, pathwayId);
 
   const expected = {
-    fa_synthesis: /fa_synthesis-v3\.svg/,
-    aa_carbon: /aa_carbon-v3\.svg/,
-    nucleotide_degradation: /nucleotide_degradation-v3\.svg/
+    fa_synthesis: /fa_synthesis-v4\.png/,
+    aa_carbon: /aa_carbon-v4\.png/,
+    nucleotide_degradation: /nucleotide_degradation-v4\.png/
   };
   for (const [pathwayId, source] of Object.entries(expected)) {
     await selectPathway(pathwayId);
