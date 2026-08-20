@@ -115,6 +115,45 @@ test('expert pathway navigation is a large two-row feature dock on desktop', asy
   await page.screenshot({ path: '../output/playwright/ui-feature-expert-nav-desktop.png' });
 });
 
+test('selected pathway entry card stays fully visible on narrow landscape screens', async ({ page }) => {
+  await page.setViewportSize({ width: 455, height: 245 });
+  await enterExpertMap(page);
+  await page.locator('.path-filter[data-path="tca"]').click();
+  const card = page.locator('#expertPathPreview');
+  await expect(card).toBeVisible();
+  const metrics = await card.evaluate(node => {
+    const rect = node.getBoundingClientRect();
+    const title = node.querySelector('b')?.getBoundingClientRect();
+    const caption = node.querySelector('small')?.getBoundingClientRect();
+    return {
+      left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom,
+      titleTop: title?.top, captionBottom: caption?.bottom,
+      viewportWidth: innerWidth, viewportHeight: innerHeight
+    };
+  });
+  expect(metrics.left).toBeGreaterThanOrEqual(0);
+  expect(metrics.right).toBeLessThanOrEqual(metrics.viewportWidth);
+  expect(metrics.top).toBeGreaterThanOrEqual(0);
+  expect(metrics.bottom).toBeLessThanOrEqual(metrics.viewportHeight);
+  expect(metrics.titleTop).toBeGreaterThanOrEqual(metrics.top);
+  expect(metrics.captionBottom).toBeLessThanOrEqual(metrics.bottom);
+});
+
+test('subcompartment pathway points always show their names beside the point', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await enterExpertMap(page);
+  await page.locator('.path-filter[data-path="malate_aspartate"]').click();
+  await page.locator('#expertPathPreview').click();
+  await page.locator('.scene-hotspot[data-target="mitochondria-inner-membrane"]').click();
+  const pointLabels = await page.locator('#sceneHotspots .scene-hotspot[data-pathway]').evaluateAll(nodes => nodes.map(node => {
+    const rect = node.getBoundingClientRect();
+    const style = getComputedStyle(node);
+    return { text: node.textContent.trim(), width: rect.width, height: rect.height, fontSize: style.fontSize };
+  }));
+  expect(pointLabels.length).toBeGreaterThan(0);
+  expect(pointLabels.every(point => point.text.length > 0 && point.width > 20 && point.height > 15)).toBe(true);
+});
+
 test('expert overview hides dense secondary nodes until their pathway is selected', async ({ page }) => {
   const errors = watchRuntimeErrors(page);
   await page.setViewportSize({ width: 1194, height: 834 });

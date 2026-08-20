@@ -597,9 +597,10 @@
     .overlay-schematic-purine .schematic-cofactor,
     .overlay-schematic-pyrimidine .schematic-cofactor,
     .overlay-schematic-nucleotide_degradation .schematic-cofactor { font-size: 1.15px; }
-    .overlay-schematic .schematic-route-underlay { fill: none; stroke: rgba(255,255,255,.84); stroke-width: 1.02; stroke-linecap: round; stroke-linejoin: round; }
-    .overlay-schematic .schematic-route { fill: none; stroke: var(--schematic-tone, #367c70); stroke-width: .42; stroke-linecap: round; stroke-linejoin: round; opacity: .96; }
-    .overlay-schematic .schematic-transporter-route { stroke: #315e8a; stroke-dasharray: 1.5 1; }
+    .overlay-schematic .schematic-route-underlay { fill: none; stroke: rgba(255,255,255,.58); stroke-width: .72; stroke-linecap: round; stroke-linejoin: round; }
+    .overlay-schematic .schematic-route { fill: none; stroke: var(--schematic-tone, #367c70); stroke-width: .32; stroke-linecap: round; stroke-linejoin: round; opacity: .9; filter: drop-shadow(0 .14px .2px rgba(19,54,67,.22)); }
+    .overlay-schematic .schematic-cofactor-route { stroke: #7d9141; stroke-width: .28; stroke-dasharray: .85 1.15; opacity: .86; }
+    .overlay-schematic .schematic-transporter-route { stroke: #315e8a; stroke-width: .3; stroke-dasharray: 1.35 1.35; opacity: .9; }
     .overlay-schematic .schematic-transporter-anchor { fill: rgba(255,255,255,.1); stroke: #315e8a; stroke-width: .36; stroke-dasharray: 1.05 .72; }
     .overlay-schematic .schematic-step-disc { fill: var(--schematic-tone, #367c70); stroke: rgba(255,255,255,.96); stroke-width: .2; }
     .overlay-schematic .schematic-step-number { fill: #fff; font: 900 .82px "Noto Sans SC", sans-serif; }
@@ -1916,21 +1917,25 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
     .scope-empty { padding: 4px 2px; color: #95a9aa; font-size: 10px; line-height: 1.55; }
     .scene-route-lanes { display: grid; gap: 7px; }
     .scene-route-lane {
-      display: grid; gap: 5px; width: 100%; padding: 8px 9px 7px; border: 1px solid color-mix(in srgb, var(--tone), #dcebea 72%);
-      border-radius: 9px; color: #315f68; background: rgba(255,255,255,.72); text-align: left; cursor: pointer;
+      position: relative; isolation: isolate; display: grid; gap: 6px; width: 100%; padding: 10px 10px 8px 12px;
+      border: 1px solid color-mix(in srgb, var(--tone), #dcebea 72%); border-left: 3px solid var(--tone);
+      border-radius: 11px; color: #315f68; background: linear-gradient(135deg, rgba(255,255,255,.9), color-mix(in srgb, var(--tone), #fff 96%));
+      box-shadow: 0 5px 14px color-mix(in srgb, var(--tone), transparent 94%), inset 0 1px 0 rgba(255,255,255,.95);
+      text-align: left; cursor: pointer; overflow: hidden;
       transition: border-color .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
     }
-    .scene-route-lane:hover, .scene-route-lane:focus-visible { border-color: var(--tone); background: rgba(255,255,255,.96); box-shadow: 0 8px 18px color-mix(in srgb, var(--tone), transparent 86%); outline: none; transform: translateY(-1px); }
-    .scene-route-lane.active { border-color: var(--tone); background: color-mix(in srgb, var(--tone), #fff 94%); box-shadow: 0 0 0 2px color-mix(in srgb, var(--tone), transparent 84%), 0 9px 20px color-mix(in srgb, var(--tone), transparent 88%); }
+    .scene-route-lane::before { content: ""; position: absolute; z-index: -1; top: -18px; right: -20px; width: 70px; height: 70px; border-radius: 50%; background: color-mix(in srgb, var(--tone), transparent 88%); filter: blur(4px); }
+    .scene-route-lane:hover, .scene-route-lane:focus-visible { border-color: var(--tone); background: linear-gradient(135deg, rgba(255,255,255,.98), color-mix(in srgb, var(--tone), #fff 92%)); box-shadow: 0 10px 22px color-mix(in srgb, var(--tone), transparent 84%), inset 0 1px 0 #fff; outline: none; transform: translateY(-1px); }
+    .scene-route-lane.active { border-color: var(--tone); background: linear-gradient(135deg, color-mix(in srgb, var(--tone), #fff 94%), #fff); box-shadow: 0 0 0 2px color-mix(in srgb, var(--tone), transparent 84%), 0 10px 22px color-mix(in srgb, var(--tone), transparent 86%); }
     .scene-route-lane-head { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; align-items: center; gap: 7px; }
     .scene-route-lane-thumb { width: 42px; height: 28px; border: 1px solid color-mix(in srgb, var(--tone), #fff 62%); border-radius: 6px; object-fit: cover; background: #f3f8f7; }
-    .scene-route-lane-head strong { min-width: 0; overflow: hidden; color: #244f5b; font-size: 10px; font-weight: 900; text-overflow: ellipsis; white-space: nowrap; }
-    .scene-route-lane-head em { flex: 0 0 auto; color: var(--tone); font-size: 12px; font-style: normal; }
-    .scene-route-line { display: grid; grid-template-columns: repeat(var(--lane-nodes, 2), minmax(0, 1fr)); align-items: center; min-height: 16px; }
-    .scene-route-node { position: relative; min-width: 0; color: #789197; font-size: 8px; line-height: 1.2; text-align: center; }
-    .scene-route-node::before { content: ""; display: block; width: 7px; height: 7px; margin: 0 auto 3px; border: 2px solid #fff; border-radius: 50%; background: var(--tone); box-shadow: 0 0 0 1px color-mix(in srgb, var(--tone), transparent 38%); }
-    .scene-route-node:not(:last-child)::after { content: ""; position: absolute; top: 4px; left: calc(50% + 5px); width: calc(100% - 10px); height: 2px; border-radius: 99px; background: color-mix(in srgb, var(--tone), #fff 25%); }
-    .scene-route-caption { overflow: hidden; color: #81979b; font-size: 8px; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
+    .scene-route-lane-head strong { min-width: 0; overflow: hidden; color: #244f5b; font-size: 10px; font-weight: 900; letter-spacing: .01em; text-overflow: ellipsis; white-space: nowrap; }
+    .scene-route-lane-head em { flex: 0 0 auto; width: 21px; height: 21px; border: 1px solid color-mix(in srgb, var(--tone), #fff 54%); border-radius: 50%; color: var(--tone); background: rgba(255,255,255,.78); font-size: 12px; font-style: normal; line-height: 19px; text-align: center; }
+    .scene-route-line { display: grid; grid-template-columns: repeat(var(--lane-nodes, 2), minmax(0, 1fr)); align-items: start; min-height: 20px; padding: 2px 1px 0; }
+    .scene-route-node { position: relative; min-width: 0; color: #68828a; font-size: 8px; line-height: 1.2; text-align: center; }
+    .scene-route-node::before { content: ""; display: block; width: 8px; height: 8px; margin: 0 auto 4px; border: 2px solid #fff; border-radius: 50%; background: var(--tone); box-shadow: 0 0 0 1px color-mix(in srgb, var(--tone), transparent 34%), 0 2px 8px color-mix(in srgb, var(--tone), transparent 76%); }
+    .scene-route-node:not(:last-child)::after { content: ""; position: absolute; top: 4px; left: calc(50% + 6px); width: calc(100% - 12px); height: 1px; border-radius: 99px; background: linear-gradient(90deg, color-mix(in srgb, var(--tone), #fff 18%), color-mix(in srgb, var(--tone), #fff 62%)); }
+    .scene-route-caption { overflow: hidden; padding-top: 4px; border-top: 1px solid color-mix(in srgb, var(--tone), transparent 84%); color: #81979b; font-size: 8px; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
     .scene-map { left: 320px; }
     .scene-hotspot.pathway-hotspot { display: none; }
     body.scene-open .pathbar { display: none; }
@@ -4829,7 +4834,6 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         font-size: 10px;
       }
     }
-
     /* rev.14 首屏：高端科学图谱入口，保留完整细胞主视觉。 */
     .cell-cover {
       --cover-ink: #0b2038;
@@ -7127,6 +7131,10 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       body.expert-map .path-note .expert-path-preview img { width: 76px; height: 54px; }
       body.expert-map .path-note .expert-path-preview small { white-space: normal; }
     }
+    @media (max-width: 760px) and (max-height: 500px) {
+      body.expert-map .path-note:has(.expert-path-preview:not([hidden])) { bottom: calc(100% - 2px); }
+      body.expert-map .path-note .expert-path-preview { min-height: 68px; }
+    }
     /* iPad 横屏优先：地图保持主视觉，顶部与底部工具栏不压缩地图。 */
     @media (min-width: 700px) and (max-width: 1366px) and (orientation: landscape) {
       body.expert-map #viewport { inset: 0; }
@@ -7224,6 +7232,22 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         height: 24px;
         flex-basis: 24px;
         border-radius: 7px;
+      }
+    }
+    /* 第 3 层区室中的每个通路点都必须自带名称，不能要求用户悬停才猜得到。 */
+    .scene-deck[data-scene-depth="subcompartment"] .scene-hotspot[data-pathway] {
+      width: max-content; min-width: 0; max-width: 190px; height: auto; min-height: 25px;
+      padding: 5px 9px 5px 8px; border-radius: 999px; font-size: 9px; line-height: 1.25;
+      white-space: normal; overflow: visible;
+    }
+    .scene-deck[data-scene-depth="subcompartment"] .scene-hotspot[data-pathway]::before {
+      width: 6px; height: 6px; margin: 0 1px 0 0; border-radius: 50%;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--tone), transparent 84%);
+    }
+    .scene-deck[data-scene-depth="subcompartment"] .scene-hotspot[data-pathway]::after { content: none; }
+    @media (max-width: 760px) {
+      .scene-deck[data-scene-depth="subcompartment"] .scene-hotspot[data-pathway] {
+        max-width: 158px; min-height: 23px; padding: 4px 7px; font-size: 8px;
       }
     }
   </style>
