@@ -680,7 +680,7 @@
       bottom: 20px;
       left: 32px;
       display: grid;
-      grid-template-columns: 150px minmax(0, 1fr) 172px;
+      grid-template-columns: 150px minmax(0, 1fr) 260px;
       align-items: stretch;
       gap: 15px;
       width: auto;
@@ -701,6 +701,10 @@
         inset 0 1px 0 rgba(255,255,255,1);
       backdrop-filter: blur(24px) saturate(135%);
     }
+    /* 选中通路后右侧预览会变高，必须锁住网格轨道，避免把整张导航台向下撑开。 */
+    body.expert-map .pathbar > * { min-height: 0; }
+    body.expert-map .path-filters { min-height: 0; height: 100px; }
+    body.expert-map .path-note { min-width: 0; min-height: 0; overflow: hidden; }
     body.expert-map .pathbar::before {
       content: "";
       position: absolute;
@@ -2968,6 +2972,17 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       pointer-events: stroke !important;
     }
     body.expert-map:not(.pathway-focus) #routeLayer > .route:not(.route-secondary) { opacity: .72 !important; }
+    /* 专家地图进入时保持干净的结构总览；不要让默认核心线规则重新显示线路。 */
+    body.expert-map:not(.pathway-focus) #routeLayer .route,
+    body.expert-map:not(.pathway-focus) #routeLayer .route-aura,
+    body.expert-map:not(.pathway-focus) #routeLayer .route-title {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      filter: none !important;
+    }
+    body.expert-map.pathway-focus #routeLayer .route.pathway-active {
+      pointer-events: stroke;
+    }
     /* 覆盖总览的核心线默认透明度：跨通路和转运线路保持收起。 */
     body.expert-map:not(.pathway-focus) #routeLayer > .route.route-overview-muted {
       opacity: 0 !important;
@@ -4717,7 +4732,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       bottom: 20px;
       left: 32px;
       display: grid;
-      grid-template-columns: 150px minmax(0, 1fr) 172px;
+      grid-template-columns: 150px minmax(0, 1fr) 260px;
       align-items: stretch;
       gap: 15px;
       width: auto;
