@@ -125,6 +125,8 @@
     .path-note-copy { display: grid; gap: 3px; }
     .expert-path-preview { display: grid; grid-template-columns: 82px minmax(0, 1fr); align-items: center; gap: 10px; min-width: 0; padding: 7px 8px; border: 1px solid rgba(73, 139, 174, .18); border-radius: 13px; background: rgba(255,255,255,.58); box-shadow: inset 0 1px 0 rgba(255,255,255,.9); }
     .expert-path-preview[hidden] { display: none; }
+    .expert-path-preview { grid-template-columns: 1fr; }
+    .expert-path-preview img { display: none; }
     .expert-path-preview img { width: 82px; height: 58px; object-fit: cover; border-radius: 9px; border: 1px solid rgba(68, 131, 153, .24); box-shadow: 0 5px 12px rgba(31,87,124,.13); }
     .expert-path-preview span { display: grid; gap: 3px; min-width: 0; }
     .expert-path-preview b { overflow: hidden; color: #244a62; font-size: 11px; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
@@ -154,6 +156,7 @@
       border-radius: 11px;
       background: linear-gradient(135deg, rgba(235, 249, 253, .96), rgba(255, 250, 235, .88));
     }
+    .inspector-visual { display: none !important; }
     .inspector-visual[hidden] { display: none; }
     .inspector-visual img {
       display: block;
@@ -6844,6 +6847,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
     }
     body.student-mode .student-topic-structure-content { display: grid; gap: 11px; min-width: 0; }
     body.student-mode .student-topic-structure-visuals { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    body.student-mode .student-topic-structure-visuals { display: none; }
     body.student-mode .student-topic-structure-visual { display: grid; grid-template-columns: 104px minmax(0, 1fr); align-items: center; gap: 10px; min-width: 0; padding: 7px; border: 1px solid rgba(93, 143, 174, .2); border-radius: 13px; background: rgba(255,255,255,.84); }
     body.student-mode .student-topic-structure-visual img { width: 104px; height: 72px; object-fit: contain; border-radius: 9px; border: 1px solid rgba(77, 132, 164, .22); background: #eaf5fa; box-shadow: 0 5px 12px rgba(35,90,132,.1); }
     body.student-mode .student-topic-structure-visual span { display: grid; gap: 3px; min-width: 0; }
