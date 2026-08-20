@@ -9383,16 +9383,16 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         glycogenesis: 'cell-metabolism-assets/pathway-learning/optimized/glycogenesis.webp',
         glycogenolysis: 'cell-metabolism-assets/pathway-learning/optimized/glycogenolysis.webp',
         ppp: 'cell-metabolism-assets/pathway-learning/optimized/ppp.webp',
-        fa_synthesis: 'cell-metabolism-assets/pathway-learning/optimized/fa_synthesis.webp',
+        fa_synthesis: 'cell-metabolism-assets/pathway-learning/optimized/fa_synthesis-v3.svg',
         carnitine: 'cell-metabolism-assets/pathway-learning/optimized/carnitine-v2.webp',
         beta_oxidation: 'cell-metabolism-assets/pathway-learning/optimized/beta_oxidation-v2.webp',
         ketone: 'cell-metabolism-assets/pathway-learning/optimized/ketone-v2.webp',
         transamination: 'cell-metabolism-assets/pathway-learning/optimized/transamination-v2.webp',
         urea: 'cell-metabolism-assets/pathway-learning/optimized/urea-v2.webp',
-        aa_carbon: 'cell-metabolism-assets/pathway-learning/optimized/aa_carbon-v2.webp',
+        aa_carbon: 'cell-metabolism-assets/pathway-learning/optimized/aa_carbon-v3.svg',
         purine: 'cell-metabolism-assets/pathway-learning/optimized/purine-v2.webp',
         pyrimidine: 'cell-metabolism-assets/pathway-learning/optimized/pyrimidine.webp',
-        nucleotide_degradation: 'cell-metabolism-assets/pathway-learning/optimized/nucleotide_degradation.webp'
+        nucleotide_degradation: 'cell-metabolism-assets/pathway-learning/optimized/nucleotide_degradation-v3.svg'
       };
       const studentPathwayVisualOverrides = Object.fromEntries(
         Object.entries(studentPathwayImageSources).map(([pathwayId, source]) => [
@@ -12380,6 +12380,25 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       function renderSceneRouteLanes(scene, hotspots = []) {
         if (!sceneRouteLanes) return;
         sceneRouteLanes.replaceChildren();
+        // 第 1 层只承担结构导航，避免把所有通路线路堆叠在完整细胞总览上。
+        if (scene?.id === 'cell-atlas') {
+          if (sceneRouteLaneCount) sceneRouteLaneCount.textContent = '0 条';
+          const selectedPathway = activePathway && activePathway !== 'all' ? atlas.pathways[activePathway] : null;
+          if (selectedPathway && (selectedPathway.scene === 'cell-atlas' || expertEntrySceneForPathway(selectedPathway) === 'cell-atlas')) {
+            if (sceneRouteLaneCount) sceneRouteLaneCount.textContent = '1 条';
+            const lane = document.createElement('button');
+            lane.type = 'button'; lane.className = 'scene-route-lane'; lane.dataset.pathway = activePathway;
+            lane.textContent = `${selectedPathway.name} · 点击查看机制图`;
+            lane.addEventListener('click', event => { event.stopPropagation(); openPathway(activePathway); });
+            sceneRouteLanes.appendChild(lane);
+            return;
+          }
+          const hint = document.createElement('div');
+          hint.className = 'scope-empty';
+          hint.textContent = '完整细胞层只显示结构入口；进入细胞器后查看对应区室通路。';
+          sceneRouteLanes.appendChild(hint);
+          return;
+        }
         const pathwayIds = [...new Set(hotspots
           .filter(hotspot => hotspot.pathway && coreStudyPathwaySet.has(hotspot.pathway) && atlas.pathways[hotspot.pathway])
           .map(hotspot => hotspot.pathway))];
@@ -13400,6 +13419,13 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           }
           return pathwayBelongsToScene(hotspot.pathway, currentSceneId);
         });
+        if (currentSceneId === 'cell-atlas') {
+          const existingPathways = new Set(hotspots.filter(hotspot => hotspot.pathway).map(hotspot => hotspot.pathway));
+          const atlasPathwayIds = ['gluconeogenesis', 'glycogenolysis'].filter(pathwayId => atlas.pathways[pathwayId]);
+          hotspots = hotspots.concat(atlasPathwayIds
+            .filter(pathwayId => !existingPathways.has(pathwayId))
+            .map((pathwayId, index) => ({ pathway: pathwayId, label: atlas.pathways[pathwayId].name, x: 28 + index * 16, y: 82, tone: pathwayMeta[pathwayId]?.tone })));
+        }
         // 有些跨区室通路的底图入口只标了子结构目标（例如核—ER、内体—溶酶体）。
         // 在真正承载该通路的区室层补出一个明确入口，避免用户只能点进子结构却找不到通路。
         if (!options.pathwayId && !['cell-atlas', 'mitochondria'].includes(currentSceneId)) {

@@ -162,10 +162,10 @@ test('pathway overview restores structural images and expands opaque abbreviatio
   }, pathwayId);
 
   await selectPathway('fa_synthesis');
-  await expect(page.locator('#studentPrimerVisualImage')).toHaveAttribute('src', /pathway-learning\/optimized\/fa_synthesis\.webp/);
+  await expect(page.locator('#studentPrimerVisualImage')).toHaveAttribute('src', /pathway-learning\/optimized\/fa_synthesis-v3\.svg/);
   await expect(page.locator('#studentPrimer')).toContainText('乙酰辅酶 A 羧化酶');
   await expect(page.locator('#studentPathwayMapVisual')).toBeVisible();
-  await expect(page.locator('#studentPathwayMapVisualImage')).toHaveAttribute('src', /pathway-learning\/optimized\/fa_synthesis\.webp/);
+  await expect(page.locator('#studentPathwayMapVisualImage')).toHaveAttribute('src', /pathway-learning\/optimized\/fa_synthesis-v3\.svg/);
   await expect(page.locator('#studentPathwayMapScientificOverlayLayer .overlay-schematic')).toHaveCount(0);
   await expect(page.locator('#studentPathwayMapVisualCaption')).toContainText('脂肪酸合酶');
   await page.locator('#studentPathwayMapVisual').screenshot({ path: 'output/playwright/fa-synthesis-scientific-learning-map.png' });
@@ -184,6 +184,28 @@ test('pathway overview restores structural images and expands opaque abbreviatio
   await selectPathway('pdh');
   await expect(nodeTitles.filter({ hasText: '电压依赖性阴离子通道' })).toHaveCount(1);
   await expect(nodeTitles.filter({ hasText: '线粒体丙酮酸载体' })).toHaveCount(1);
+});
+
+test('high-risk learning pathways use the corrected textbook mechanism plates', async ({ page }) => {
+  await enterLearning(page);
+  const selectPathway = pathwayId => page.locator('#studentPathwaySelect').evaluate((select, value) => {
+    select.value = value;
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+  }, pathwayId);
+
+  const expected = {
+    fa_synthesis: /fa_synthesis-v3\.svg/,
+    aa_carbon: /aa_carbon-v3\.svg/,
+    nucleotide_degradation: /nucleotide_degradation-v3\.svg/
+  };
+  for (const [pathwayId, source] of Object.entries(expected)) {
+    await selectPathway(pathwayId);
+    await expect(page.locator('#studentPrimerVisualImage')).toHaveAttribute('src', source);
+    await expect(page.locator('#studentPathwayMapVisualImage')).toHaveAttribute('src', source);
+  }
+  await selectPathway('nucleotide_degradation');
+  await expect(page.locator('#studentPrimer')).toContainText('主要在细胞质');
+  await expect(page.locator('#studentPrimer')).not.toContainText('溶酶体');
 });
 
 test('every core pathway exposes a complete beginner primer', async ({ page }) => {

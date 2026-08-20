@@ -150,6 +150,17 @@ test('expert overview hides dense secondary nodes until their pathway is selecte
   expect(errors.pageErrors).toEqual([]);
 });
 
+test('complete-cell scene is a structural gateway without stacked pathway lanes', async ({ page }) => {
+  await page.goto(URL, { waitUntil: 'networkidle' });
+  await page.getByRole('button', { name: /进入学习模式/ }).click();
+  await expect(page.locator('#studentWorkspace')).toBeVisible();
+  await page.evaluate(() => document.getElementById('studentOrganelleBtn').click());
+  await expect(page.locator('#sceneScopeTitle')).toHaveText('细胞结构与代谢入口');
+  await expect(page.locator('#sceneRouteLaneCount')).toHaveText('0 条');
+  await expect(page.locator('#sceneRouteLanes .scene-route-lane')).toHaveCount(0);
+  await expect(page.locator('#sceneHotspots .navigation-hotspot[data-target]')).not.toHaveCount(0);
+});
+
 test('all 21 core expert pathways expose a loadable visual entry', async ({ page }) => {
   const errors = watchRuntimeErrors(page);
   await page.setViewportSize({ width: 1280, height: 900 });
