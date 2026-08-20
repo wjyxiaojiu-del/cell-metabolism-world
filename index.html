@@ -123,7 +123,9 @@
     .path-filter i { width: 8px; height: 8px; border-radius: 50%; background: var(--tone); box-shadow: 0 0 0 4px color-mix(in srgb, var(--tone), transparent 82%); }
     .path-note { margin-left: auto; color: #71909b; font-size: 10px; white-space: nowrap; }
     .path-note-copy { display: grid; gap: 3px; }
-    .expert-path-preview { display: grid; grid-template-columns: 82px minmax(0, 1fr); align-items: center; gap: 10px; min-width: 0; padding: 7px 8px; border: 1px solid rgba(73, 139, 174, .18); border-radius: 13px; background: rgba(255,255,255,.58); box-shadow: inset 0 1px 0 rgba(255,255,255,.9); }
+    .expert-path-preview { position: relative; display: grid; grid-template-columns: 82px minmax(0, 1fr); align-items: center; gap: 10px; min-width: 0; min-height: 66px; padding: 9px 42px 9px 10px; border: 2px solid rgba(34, 139, 194, .42); border-radius: 13px; color: #184b66; background: linear-gradient(135deg, rgba(255,255,255,.94), rgba(226,246,255,.92)); box-shadow: 0 5px 16px rgba(34,112,153,.16), inset 0 1px 0 rgba(255,255,255,1); cursor: pointer; transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease; }
+    .expert-path-preview::after { content: '进入 →'; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #087fb8; font-size: 10px; font-weight: 900; white-space: nowrap; }
+    .expert-path-preview:hover, .expert-path-preview:focus-visible { border-color: #078bd0; box-shadow: 0 8px 22px rgba(20,126,183,.26), 0 0 0 3px rgba(61,177,226,.2); outline: none; transform: translateY(-1px); }
     .expert-path-preview[hidden] { display: none; }
     .expert-path-preview { grid-template-columns: 1fr; }
     .expert-path-preview img { display: none; }
