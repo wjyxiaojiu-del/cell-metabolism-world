@@ -12377,19 +12377,22 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         container.appendChild(button);
       }
 
-      function renderSceneRouteLanes(scene, hotspots = []) {
+      function renderSceneRouteLanes(scene, hotspots = [], selectedPathwayId = null) {
         if (!sceneRouteLanes) return;
         sceneRouteLanes.replaceChildren();
         // 第 1 层只承担结构导航，避免把所有通路线路堆叠在完整细胞总览上。
         if (scene?.id === 'cell-atlas') {
           if (sceneRouteLaneCount) sceneRouteLaneCount.textContent = '0 条';
-          const selectedPathway = activePathway && activePathway !== 'all' ? atlas.pathways[activePathway] : null;
+          const selectedId = selectedPathwayId || (activePathway && activePathway !== 'all'
+            ? activePathway
+            : document.querySelector('.path-filter.active[data-path]:not([data-path="all"])')?.dataset.path);
+          const selectedPathway = selectedId ? atlas.pathways[selectedId] : null;
           if (selectedPathway && (selectedPathway.scene === 'cell-atlas' || expertEntrySceneForPathway(selectedPathway) === 'cell-atlas')) {
             if (sceneRouteLaneCount) sceneRouteLaneCount.textContent = '1 条';
             const lane = document.createElement('button');
-            lane.type = 'button'; lane.className = 'scene-route-lane'; lane.dataset.pathway = activePathway;
+            lane.type = 'button'; lane.className = 'scene-route-lane'; lane.dataset.pathway = selectedId;
             lane.textContent = `${selectedPathway.name} · 点击查看机制图`;
-            lane.addEventListener('click', event => { event.stopPropagation(); openPathway(activePathway); });
+            lane.addEventListener('click', event => { event.stopPropagation(); openPathway(selectedId); });
             sceneRouteLanes.appendChild(lane);
             return;
           }
@@ -12450,12 +12453,12 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         });
       }
 
-      function renderSceneScope(scene, viewIndex = 0, hotspots = sceneHotspotsForView(scene, viewIndex)) {
+      function renderSceneScope(scene, viewIndex = 0, hotspots = sceneHotspotsForView(scene, viewIndex), selectedPathwayId = null) {
         if (!sceneScope) return;
         sceneScopeTitle.textContent = scene.title || '细胞器';
         sceneScopeBoundary.textContent = sceneBoundaryText[scene.id] || displayText(scene.description || '当前场景的空间范围与代谢入口。');
         scopeLocal.innerHTML = ''; scopeExchange.innerHTML = ''; scopeTransport.innerHTML = '';
-        renderSceneRouteLanes(scene, hotspots);
+        renderSceneRouteLanes(scene, hotspots, selectedPathwayId);
         const pathHotspots = hotspots.filter(hotspot => hotspot.pathway && coreStudyPathwaySet.has(hotspot.pathway) && atlas.pathways[hotspot.pathway]);
         const uniquePaths = [...new Map(pathHotspots.map(hotspot => [hotspot.pathway, hotspot])).values()];
         const targetHotspots = hotspots.filter(hotspot => hotspot.target);
@@ -13441,7 +13444,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           hotspots = hotspots.concat(scenePathwayHotspots);
         }
         const annotations = sceneAnnotationsForView(scene, viewIndex);
-        renderSceneScope(scene, viewIndex, hotspots);
+        renderSceneScope(scene, viewIndex, hotspots, options.pathwayId || null);
         if (options.pathwayId) {
           const activePathway = atlas.pathways[options.pathwayId];
           scopeLocal.innerHTML = '';
@@ -13594,6 +13597,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       function openScene(sceneId, options = {}) {
         if (!atlas.scenes[sceneId]) return;
         setStudentMode(false, { buildExpert: false });
+        // 从通路机制图回到父级时，恢复父级的完整线路列表，避免上一个通路的隐藏状态残留。
+        if (!options.pathwayId) sceneDeck.classList.remove('pathway-visual-active');
         if (currentSceneId && currentSceneId !== sceneId && options.pushHistory !== false) sceneHistory.push(currentSceneId);
         clearSelection();
         document.body.classList.add('scene-open');
