@@ -152,6 +152,14 @@ test('subcompartment pathway points always show their names beside the point', a
   }));
   expect(pointLabels.length).toBeGreaterThan(0);
   expect(pointLabels.every(point => point.text.length > 0 && point.width > 20 && point.height > 15)).toBe(true);
+  const annotationToggle = page.locator('#sceneAnnotationToggle');
+  if (await annotationToggle.getAttribute('aria-pressed') === 'false') await annotationToggle.click();
+  const landmarkLabels = await page.locator('#sceneHotspots .scene-landmark-label').evaluateAll(nodes => nodes.map(node => {
+    const style = getComputedStyle(node);
+    return { text: node.textContent.trim(), opacity: Number(style.opacity), visibility: style.visibility };
+  }));
+  expect(landmarkLabels.length).toBeGreaterThan(0);
+  expect(landmarkLabels.every(label => label.text.length > 0 && label.opacity === 1 && label.visibility === 'visible')).toBe(true);
 });
 
 test('expert overview hides dense secondary nodes until their pathway is selected', async ({ page }) => {

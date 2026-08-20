@@ -7245,9 +7245,13 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       box-shadow: 0 0 0 3px color-mix(in srgb, var(--tone), transparent 84%);
     }
     .scene-deck[data-scene-depth="subcompartment"] .scene-hotspot[data-pathway]::after { content: none; }
+    .scene-landmark-label { opacity: 1; visibility: visible; }
     @media (max-width: 760px) {
       .scene-deck[data-scene-depth="subcompartment"] .scene-hotspot[data-pathway] {
         max-width: 158px; min-height: 23px; padding: 4px 7px; font-size: 8px;
+      }
+      .scene-landmark-label {
+        display: block; max-width: 126px; padding: 5px 7px; font-size: 8px; line-height: 1.25;
       }
     }
   </style>
