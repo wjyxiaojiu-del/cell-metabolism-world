@@ -8147,7 +8147,9 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
 
       setStudentCatalogCollapsed(readStudentPreference('metabolism.studentCatalogCollapsed', true), false);
       setStudentTopicLanesCollapsed(readStudentPreference('metabolism.studentTopicLanesCollapsed', true), false);
-      setTopbarCollapsed(readStudentPreference('metabolism.topbarCollapsed', false), false);
+      // 顶部导航每次打开页面默认展开；用户可用底部折叠钮临时收起，
+      // 不把上一次的收起状态带到下一次打开，避免导航像“消失”一样。
+      setTopbarCollapsed(false, false);
       try { activeStudentTopicView = window.localStorage.getItem('metabolism.studentTopicView') === 'lanes' ? 'lanes' : 'network'; } catch (_) {}
       setStudentTopicView(activeStudentTopicView, false);
       studentSidebarToggle?.addEventListener('click', () => {
