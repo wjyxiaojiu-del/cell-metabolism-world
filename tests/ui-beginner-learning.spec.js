@@ -62,13 +62,14 @@ test('beginner sees a concept primer before the detailed pathway map', async ({ 
   await expect(page.locator('#studentMapNodes .student-map-node.is-current')).toHaveCount(1);
   await expect(page.locator('.student-map-stage')).toBeVisible();
   await expect(page.locator('#studentPathwayMapVisual')).toBeVisible();
-  await expect(page.locator('#studentPathwayMapVisualImage')).toHaveAttribute('src', /39-pdh-complex-mechanism\.svg/);
+  await expect(page.locator('#studentPathwayMapVisualImage')).toHaveAttribute('src', /pathway-learning\/optimized\/pdh\.webp/);
   await page.locator('#studentPathwayMapVisualImage').click();
   await expect(page.locator('#pathwayVisualDialog')).toBeVisible();
-  await expect(page.locator('#pathwayVisualDialogImage')).toHaveAttribute('src', /39-pdh-complex-mechanism\.svg/);
+  await expect(page.locator('#pathwayVisualDialogImage')).toHaveAttribute('src', /pathway-learning\/optimized\/pdh\.webp/);
   await page.locator('#pathwayVisualDialog').screenshot({ path: 'output/playwright/pdh-mechanism-lightbox.png' });
   await page.locator('#pathwayVisualDialogClose').click();
   await expect(page.locator('#pathwayVisualDialog')).toBeHidden();
+  await expect(page.locator('#pathwayVisualDialogImage')).not.toHaveAttribute('src', /.+/);
   await page.locator('#studentPathwayMapVisualImage').focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#pathwayVisualDialog')).toBeVisible();
@@ -138,7 +139,7 @@ test('electron transport primer makes purpose, inputs, outputs, and location exp
     select.dispatchEvent(new Event('change', { bubbles: true }));
   });
   await expect(page.locator('#studentPathwayMapVisual')).toBeVisible();
-  await expect(page.locator('#studentPathwayMapVisual img')).toHaveAttribute('src', /41-glycolysis-textbook-overview\.png/);
+  await expect(page.locator('#studentPathwayMapVisual img')).toHaveAttribute('src', /pathway-learning\/optimized\/glycolysis\.webp/);
 
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.locator('#studentPathwaySelect').evaluate(select => {
@@ -147,9 +148,9 @@ test('electron transport primer makes purpose, inputs, outputs, and location exp
   });
   const betaPlate = page.locator('#studentPathwayMapVisual img');
   await expect(page.locator('#studentPathwayMapVisual')).toBeVisible();
-  await expect(betaPlate).toHaveAttribute('src', /43-beta-oxidation-textbook-plate\.webp/);
+  await expect(betaPlate).toHaveAttribute('src', /pathway-learning\/optimized\/beta_oxidation-v2\.webp/);
   await expect(betaPlate).not.toHaveAttribute('src', /40-fatty-acid-beta-oxidation-mechanism\.svg/);
-  await expect(page.locator('#studentPathwayMapVisualCaption')).toContainText('肉碱穿梭进入基质');
+  await expect(page.locator('#studentPathwayMapVisualCaption')).toContainText('每轮释放乙酰-CoA');
   await betaPlate.screenshot({ path: 'output/playwright/beta-oxidation-textbook-plate.png' });
 });
 
@@ -161,10 +162,11 @@ test('pathway overview restores structural images and expands opaque abbreviatio
   }, pathwayId);
 
   await selectPathway('fa_synthesis');
-  await expect(page.locator('#studentPrimerVisualImage')).toHaveAttribute('src', /10-smooth-er-lipid-droplet\.webp/);
+  await expect(page.locator('#studentPrimerVisualImage')).toHaveAttribute('src', /pathway-learning\/optimized\/fa_synthesis\.webp/);
   await expect(page.locator('#studentPrimer')).toContainText('乙酰辅酶 A 羧化酶');
   await expect(page.locator('#studentPathwayMapVisual')).toBeVisible();
-  await expect(page.locator('#studentPathwayMapScientificOverlayLayer .overlay-schematic-fa_synthesis')).toHaveCount(1);
+  await expect(page.locator('#studentPathwayMapVisualImage')).toHaveAttribute('src', /pathway-learning\/optimized\/fa_synthesis\.webp/);
+  await expect(page.locator('#studentPathwayMapScientificOverlayLayer .overlay-schematic')).toHaveCount(0);
   await expect(page.locator('#studentPathwayMapVisualCaption')).toContainText('脂肪酸合酶');
   await page.locator('#studentPathwayMapVisual').screenshot({ path: 'output/playwright/fa-synthesis-scientific-learning-map.png' });
 
@@ -190,7 +192,6 @@ test('every core pathway exposes a complete beginner primer', async ({ page }) =
     const select = document.querySelector('#studentPathwaySelect');
     const failures = [];
     const visualFailures = [];
-    const staticPlateIds = new Set(['glycolysis', 'pdh', 'tca', 'beta_oxidation', 'etc', 'oxphos']);
     [...select.options].forEach(option => {
       select.value = option.value;
       select.dispatchEvent(new Event('change', { bubbles: true }));
@@ -202,10 +203,10 @@ test('every core pathway exposes a complete beginner primer', async ({ page }) =
       if (factValues.some(value => !value) || storyCount !== 3 || termCount !== 3 || !visualReady) failures.push(option.value);
       const mapFigure = document.querySelector('#studentPathwayMapVisual');
       const mapImage = document.querySelector('#studentPathwayMapVisualImage');
-      const overlay = document.querySelector('#studentPathwayMapScientificOverlay');
       const overlayGroup = document.querySelector('#studentPathwayMapScientificOverlayLayer .overlay-schematic');
-      const hasScientificMap = !mapFigure?.hidden && Boolean(mapImage?.getAttribute('src'))
-        && (staticPlateIds.has(option.value) || (!overlay?.hidden && overlayGroup));
+      const hasScientificMap = !mapFigure?.hidden
+        && /(?:pathway-learning\/optimized\/|27-etc-electron-transport-full)/.test(mapImage?.getAttribute('src') || '')
+        && !overlayGroup;
       if (!hasScientificMap) visualFailures.push(option.value);
     });
     return { failures, visualFailures };

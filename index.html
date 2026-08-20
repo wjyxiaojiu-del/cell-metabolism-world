@@ -2110,8 +2110,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
     .student-pathway-map { display: block; width: 100%; height: auto; min-height: 390px; }
     .student-map-visual { display: none; margin: 0 auto; padding: 18px 24px 22px; border-top: 1px solid rgba(109,151,177,.2); background: rgba(255,255,255,.72); }
     .student-map-visual:not([hidden]) { display: block; }
-    .student-map-scientific-frame { position: relative; width: min(100%, 980px); aspect-ratio: 16 / 9; margin: 0 auto; overflow: hidden; border: 1px solid rgba(112,157,184,.28); border-radius: 12px; background: #f7fbfd; box-shadow: 0 10px 24px rgba(38,91,122,.12); }
-    .student-map-visual img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .student-map-scientific-frame { position: relative; width: min(100%, 980px); aspect-ratio: 3 / 2; margin: 0 auto; overflow: hidden; border: 1px solid rgba(112,157,184,.28); border-radius: 12px; background: #f7fbfd; box-shadow: 0 10px 24px rgba(38,91,122,.12); }
+    .student-map-visual img { display: block; width: 100%; height: 100%; object-fit: contain; }
     .student-map-scientific-overlay { position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; pointer-events: none; }
     .student-map-scientific-overlay[hidden] { display: none; }
     .student-map-visual figcaption { max-width: 980px; margin: 10px auto 0; color: #456875; font-size: 11px; line-height: 1.6; text-align: center; }
@@ -7420,7 +7420,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
                   </svg>
                   <figure id="studentPathwayMapVisual" class="student-map-visual" hidden aria-label="当前通路教材机制图">
                     <div class="student-map-scientific-frame" id="studentPathwayMapVisualFrame">
-                      <img id="studentPathwayMapVisualImage" alt="" data-visual-zoom tabindex="0" role="button" aria-label="放大查看当前通路图">
+                      <img id="studentPathwayMapVisualImage" alt="" loading="lazy" decoding="async" data-visual-zoom tabindex="0" role="button" aria-label="放大查看当前通路图">
                       <svg class="scene-expert-overlay student-map-scientific-overlay" id="studentPathwayMapScientificOverlay" viewBox="0 0 100 100" aria-hidden="true" hidden>
                         <g id="studentPathwayMapScientificOverlayLayer"></g>
                       </svg>
@@ -7568,7 +7568,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
     <dialog class="pathway-visual-dialog" id="pathwayVisualDialog" aria-labelledby="pathwayVisualDialogTitle">
       <button class="pathway-visual-dialog-close" id="pathwayVisualDialogClose" type="button" aria-label="关闭大图">×</button>
       <figure>
-        <img id="pathwayVisualDialogImage" alt="">
+        <img id="pathwayVisualDialogImage" alt="" decoding="async">
         <figcaption id="pathwayVisualDialogTitle"></figcaption>
       </figure>
     </dialog>
@@ -7844,6 +7844,11 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       pathwayVisualDialogClose?.addEventListener('click', () => pathwayVisualDialog.close());
       pathwayVisualDialog?.addEventListener('click', event => {
         if (event.target === pathwayVisualDialog) pathwayVisualDialog.close();
+      });
+      pathwayVisualDialog?.addEventListener('close', () => {
+        if (!pathwayVisualDialogImage) return;
+        pathwayVisualDialogImage.removeAttribute('src');
+        pathwayVisualDialogImage.alt = '';
       });
 
       let selected = null;
@@ -9196,7 +9201,9 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       // 每条核心通路都登记自己的入口图；暂时没有专属机制图的通路，使用
       // 同一区室的干净结构图作为稳定占位，后续替换素材时无需改交互逻辑。
       const expertSceneVisualProfiles = {
+        'cell-atlas': ['完整细胞结构总览', 'cell-metabolism-assets/optimized/28-cell-overview-rev2.webp'],
         cytosol: ['细胞质代谢总览', 'cell-metabolism-assets/optimized/02-cytoplasm-overview.webp'],
+        mitochondria: ['线粒体整体结构图', 'cell-metabolism-assets/optimized/18-mitochondrion-isolated.webp'],
         'mitochondria-matrix': ['线粒体基质结构图', 'cell-metabolism-assets/optimized/25-mitochondrial-matrix-detailed.webp'],
         'mitochondria-inner-membrane': ['线粒体内膜能量转换图', 'cell-metabolism-assets/optimized/27-etc-electron-transport-full.webp'],
         'smooth-er-lipid': ['平滑内质网与脂滴', 'cell-metabolism-assets/optimized/10-smooth-er-lipid-droplet.webp'],
@@ -9208,19 +9215,20 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         'plant-extension': ['植物细胞区室图', 'cell-metabolism-assets/optimized/37-plant-cell-overview.svg']
       };
       const expertPathwayVisualLabels = {
-        pdh: '丙酮酸脱氢酶所在基质', tca: '三羧酸循环所在基质', beta_oxidation: '脂肪酸 β-氧化基质',
-        ketone: '酮体生成所在基质', urea: '尿素循环基质侧', etc: '蓝白色电子传递链全貌',
+        pdh: '丙酮酸跨膜进入基质与 PDH', tca: '三羧酸循环所在基质', beta_oxidation: '脂肪酸 β-氧化基质',
+        ketone: '酮体生成所在基质', urea: '尿素循环基质—胞质接力', etc: '蓝白色电子传递链全貌',
         oxphos: '蓝白色电子传递链全貌', malate_aspartate: '苹果酸–天冬氨酸穿梭',
         glycerol_phosphate: '甘油-3-磷酸穿梭', atp_transport: 'ATP/ADP 与磷酸转运', carnitine: '肉碱穿梭',
-        glycolysis: '糖酵解细胞质路线', gluconeogenesis: '糖异生细胞质接口', glycogenesis: '糖原合成细胞质路线',
-        glycogenolysis: '糖原分解细胞质路线', ppp: '磷酸戊糖途径细胞质路线', fa_synthesis: '脂肪酸合成内质网接口',
+        glycolysis: '糖酵解细胞质路线', gluconeogenesis: '糖异生的基质—胞质—内质网接力', glycogenesis: '糖原合成细胞质路线',
+        glycogenolysis: '糖原动员与肝细胞内质网释糖', ppp: '磷酸戊糖途径细胞质路线', fa_synthesis: '脂肪酸从头合成（胞质）',
         purine: '嘌呤核苷酸合成', pyrimidine: '嘧啶核苷酸合成',
-        nucleotide_degradation: '核苷酸降解与回收'
+        nucleotide_degradation: '胞质核苷酸降解与补救回收'
       };
       const expertPathwayVisualSources = {
         // 第二层始终使用对应细胞器的完整解剖图；通路差异由下方 SVG 线路层表达。
         // 肉碱穿梭例外：必须同时看见外膜、膜间隙、内膜与基质。
         carnitine: 'cell-metabolism-assets/optimized/23-mitochondrion-blueprint.webp',
+        pdh: 'cell-metabolism-assets/optimized/04-cytoplasm-mito-interface.webp',
         // 尿素循环横跨基质与细胞质，需要同时看到线粒体边界与外侧细胞质。
         urea: 'cell-metabolism-assets/optimized/04-cytoplasm-mito-interface.webp',
         aa_carbon: 'cell-metabolism-assets/optimized/04-cytoplasm-mito-interface.webp',
@@ -9363,46 +9371,35 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           links: [['purine', 'nucleotide_degradation'], ['pyrimidine', 'nucleotide_degradation']]
         }
       };
-      const studentPathwayVisualOverrides = {
-        glycolysis: ['糖酵解教材总览图', 'cell-metabolism-assets/optimized/41-glycolysis-textbook-overview.png'],
-        pdh: ['丙酮酸脱氢酶复合体机制图', 'cell-metabolism-assets/optimized/39-pdh-complex-mechanism.svg'],
-        tca: ['三羧酸循环教材总览图', 'cell-metabolism-assets/optimized/42-tca-textbook-overview.png'],
-        beta_oxidation: ['线粒体脂肪酸 β-氧化教材机制图', 'cell-metabolism-assets/optimized/43-beta-oxidation-textbook-plate.webp'],
-        etc: ['电子传递链全视图', 'cell-metabolism-assets/optimized/27-etc-electron-transport-full.webp'],
-        oxphos: ['电子传递链全视图', 'cell-metabolism-assets/optimized/27-etc-electron-transport-full.webp']
+      const studentPathwayImageSources = {
+        pdh: 'cell-metabolism-assets/pathway-learning/optimized/pdh.webp',
+        tca: 'cell-metabolism-assets/pathway-learning/optimized/tca.webp',
+        malate_aspartate: 'cell-metabolism-assets/pathway-learning/optimized/malate_aspartate-v2.webp',
+        glycerol_phosphate: 'cell-metabolism-assets/pathway-learning/optimized/glycerol_phosphate.webp',
+        etc: 'cell-metabolism-assets/optimized/27-etc-electron-transport-full.webp',
+        oxphos: 'cell-metabolism-assets/pathway-learning/optimized/oxphos-v2.webp',
+        glycolysis: 'cell-metabolism-assets/pathway-learning/optimized/glycolysis.webp',
+        gluconeogenesis: 'cell-metabolism-assets/pathway-learning/optimized/gluconeogenesis-v2.webp',
+        glycogenesis: 'cell-metabolism-assets/pathway-learning/optimized/glycogenesis.webp',
+        glycogenolysis: 'cell-metabolism-assets/pathway-learning/optimized/glycogenolysis.webp',
+        ppp: 'cell-metabolism-assets/pathway-learning/optimized/ppp.webp',
+        fa_synthesis: 'cell-metabolism-assets/pathway-learning/optimized/fa_synthesis.webp',
+        carnitine: 'cell-metabolism-assets/pathway-learning/optimized/carnitine-v2.webp',
+        beta_oxidation: 'cell-metabolism-assets/pathway-learning/optimized/beta_oxidation-v2.webp',
+        ketone: 'cell-metabolism-assets/pathway-learning/optimized/ketone-v2.webp',
+        transamination: 'cell-metabolism-assets/pathway-learning/optimized/transamination-v2.webp',
+        urea: 'cell-metabolism-assets/pathway-learning/optimized/urea-v2.webp',
+        aa_carbon: 'cell-metabolism-assets/pathway-learning/optimized/aa_carbon-v2.webp',
+        purine: 'cell-metabolism-assets/pathway-learning/optimized/purine-v2.webp',
+        pyrimidine: 'cell-metabolism-assets/pathway-learning/optimized/pyrimidine.webp',
+        nucleotide_degradation: 'cell-metabolism-assets/pathway-learning/optimized/nucleotide_degradation.webp'
       };
-      const studentPathwayMapVisuals = {
-        glycolysis: {
-          label: '糖酵解教材总览图',
-          source: 'cell-metabolism-assets/optimized/41-glycolysis-textbook-overview.png',
-          caption: '教材式总览：能量投资阶段消耗 ATP，能量收益阶段生成 ATP 和 NADH，最终由 6 碳葡萄糖形成 2 个丙酮酸。'
-        },
-        pdh: {
-          label: '丙酮酸脱氢酶复合体 E1–E2–E3 机制图',
-          source: 'cell-metabolism-assets/optimized/39-pdh-complex-mechanism.svg',
-          caption: 'E1 使用 TPP 脱羧，E2 的硫辛酰胺摆臂转移乙酰基，E3 再通过 FAD 与 NAD⁺ 回收电子。'
-        },
-        tca: {
-          label: '三羧酸循环教材总览图',
-          source: 'cell-metabolism-assets/optimized/42-tca-textbook-overview.png',
-          caption: '教材式循环总览：乙酰辅酶 A 与草酰乙酸结合，经过 8 个反应再生草酰乙酸，并收集 NADH、FADH₂、GTP 和 CO₂。'
-        },
-        beta_oxidation: {
-          label: '线粒体脂肪酸 β-氧化教材机制图',
-          source: 'cell-metabolism-assets/optimized/43-beta-oxidation-textbook-plate.webp',
-          caption: '连续教材图：脂肪酸先由 ACSL 活化，经 CPT1–CACT–CPT2 肉碱穿梭进入基质，再依次完成脱氢、水合、再脱氢和硫解；每轮释放乙酰-CoA，并让脂酰-CoA 缩短 2C 后返回下一轮。'
-        },
-        etc: {
-          label: '蓝白色电子传递链全貌图',
-          source: 'cell-metabolism-assets/optimized/27-etc-electron-transport-full.webp',
-          caption: '电子传递链全貌：复合体 I、II、III、IV 将电子传递与质子泵出联系起来，ATP 合酶再利用质子梯度合成 ATP。'
-        },
-        oxphos: {
-          label: '蓝白色电子传递链全貌图',
-          source: 'cell-metabolism-assets/optimized/27-etc-electron-transport-full.webp',
-          caption: '电子传递链全貌：复合体 I、II、III、IV 将电子传递与质子泵出联系起来，ATP 合酶再利用质子梯度合成 ATP。'
-        }
-      };
+      const studentPathwayVisualOverrides = Object.fromEntries(
+        Object.entries(studentPathwayImageSources).map(([pathwayId, source]) => [
+          pathwayId,
+          [`${atlas.pathways[pathwayId]?.name || pathwayId}独立教材机制图`, source]
+        ])
+      );
       const studentPathwayScientificCaptions = {
         malate_aspartate: '胞质与基质两侧通过苹果酸、草酰乙酸和天冬氨酸往返，把胞质 NADH 的电子转交给线粒体。',
         glycerol_phosphate: '胞质甘油-3-磷酸脱氢酶与内膜甘油-3-磷酸脱氢酶接力，把电子送入 CoQ 池。',
@@ -9418,20 +9415,26 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         aa_carbon: '去除氨基后的碳骨架分别进入丙酮酸、乙酰-CoA、乙酰乙酰-CoA或三羧酸循环中间体。',
         purine: '嘌呤环在 PRPP 核糖骨架上逐步组装成 IMP，再分流形成 AMP 和 GMP。',
         pyrimidine: 'CAD 在胞质完成早期反应，DHODH 在线粒体内膜生成乳清酸，随后形成 UMP、CTP 与 dTMP。',
-        nucleotide_degradation: '核酸先在溶酶体和胞质分解为核苷与碱基，随后优先补救回收，其余继续降解。'
+        nucleotide_degradation: '胞质核苷酸先去磷酸形成核苷和碱基；可补救回收的部分重新进入核苷酸池，其余继续降解。'
       };
-      coreStudyPathwayIds.forEach(pathwayId => {
-        if (studentPathwayMapVisuals[pathwayId]) return;
-        const visual = expertPathwayVisualOverrides[pathwayId];
-        const pathway = atlas.pathways[pathwayId];
-        if (!visual || !pathway) return;
-        studentPathwayMapVisuals[pathwayId] = {
-          label: `${pathway.name}教材机制图`,
-          source: visual[1],
-          caption: studentPathwayScientificCaptions[pathwayId] || `${pathway.name}的区室、关键节点与反应方向。`,
-          overlay: true
-        };
+      Object.assign(studentPathwayScientificCaptions, {
+        pdh: 'E1、E2、E3 与五种辅酶接力，把丙酮酸转成乙酰-CoA、CO₂ 和 NADH。',
+        tca: '乙酰-CoA 进入循环并再生草酰乙酸，每轮生成 3 NADH、1 FADH₂、1 GTP 和 2 CO₂。',
+        etc: '复合体 I–IV 逐级传递电子，并由 I、III、IV 将质子泵到膜间隙。',
+        oxphos: '质子经 ATP 合酶回流并驱动旋转，ANT 与磷酸载体再完成 ADP、Pi 和 ATP 的跨膜交换。',
+        glycolysis: '能量投资阶段消耗 2 ATP，六碳中间体裂成两条三碳通路，最终净得 2 ATP、2 NADH 和 2 个丙酮酸。',
+        beta_oxidation: '脂酰-CoA 在基质中依次完成脱氢、水合、再脱氢和硫解，每轮释放乙酰-CoA并缩短 2 个碳。'
       });
+      const studentPathwayMapVisuals = Object.fromEntries(
+        coreStudyPathwayIds.map(pathwayId => {
+          const pathway = atlas.pathways[pathwayId];
+          return [pathwayId, {
+            label: `${pathway?.name || pathwayId}独立教材机制图`,
+            source: studentPathwayImageSources[pathwayId],
+            caption: studentPathwayScientificCaptions[pathwayId] || `${pathway?.name || pathwayId}的区室、关键节点与反应方向。`
+          }];
+        })
+      );
       const studentPathwayRoleLabels = {
         pdh: '入场', tca: '循环', malate_aspartate: '穿梭', glycerol_phosphate: '穿梭', etc: '呼吸链', oxphos: '产能',
         glycolysis: '分解', gluconeogenesis: '产糖', glycogenesis: '储存', glycogenolysis: '动员', ppp: '分流',
@@ -9460,7 +9463,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         aa_carbon: { topic: '氨基酸与氮', lesson: '氨基酸第 3 课 · 氨基酸的碳最后去哪儿', title: '去掉氨基后，氨基酸还剩什么？', question: '剩下的碳骨架会汇入糖酵解、乙酰辅酶 A 或三羧酸循环。', goal: '区分生糖氨基酸和生酮氨基酸', problem: '把氨基酸的碳资源重新接回供能、产糖或产酮体路线。', input: '去氨基后的 α-酮酸和其他碳骨架', output: '丙酮酸、乙酰辅酶 A、TCA 中间体', location: '细胞质与线粒体', purpose: '氨基酸不只是造蛋白质，也能在需要时补充能量和葡萄糖原料。', terms: [['生糖', '碳骨架可以净生成葡萄糖'], ['生酮', '碳骨架生成乙酰辅酶 A 或酮体'], ['补充循环', '把中间体补回 TCA 以维持循环']], story: [['氮先被移走', '转氨或脱氨让碳骨架与氮分开。'], ['找到中央入口', '不同碳骨架进入丙酮酸、乙酰辅酶 A 或 TCA 不同位置。'], ['按身体需要分配', '空腹偏向供糖，能量需求高时偏向氧化供能。']] },
         purine: { topic: '核苷酸代谢', lesson: '核苷酸第 1 课 · 从头搭建嘌呤', title: '嘌呤环是一次性造出来的吗？', question: '不是。细胞把氨基酸、一碳单位和 CO₂ 等小片段逐步装到核糖骨架上。', goal: '理解 IMP 是 AMP 和 GMP 的共同分叉点', problem: '从简单原料合成 DNA/RNA 和能量分子需要的嘌呤核苷酸。', input: 'PRPP、甘氨酸、谷氨酰胺、天冬氨酸、一碳单位', output: 'IMP，再分成 AMP 或 GMP', location: '细胞质', purpose: '提供 ATP、GTP 以及核酸合成所需的嘌呤骨架。', terms: [['PRPP', '被活化的核糖磷酸骨架'], ['IMP', '嘌呤从头合成的第一个共同分叉点'], ['一碳单位', '由叶酸携带、用于搭建环结构的小片段']], story: [['先活化核糖', 'PRPP 提供带能量的核糖骨架。'], ['逐片拼环', '甘氨酸、谷氨酰胺、天冬氨酸和一碳单位依次加入。'], ['在 IMP 分叉', 'IMP 继续分别走向 AMP 或 GMP。']] },
         pyrimidine: { topic: '核苷酸代谢', lesson: '核苷酸第 2 课 · 先造环，再接到核糖上', title: '嘧啶和嘌呤的搭建顺序有什么不同？', question: '嘧啶环先在核糖外组装好，再接到 PRPP 上形成核苷酸。', goal: '掌握 UMP 是嘧啶合成的入口', problem: '合成 UTP、CTP 以及 DNA 前体 dTTP 所需的嘧啶核苷酸。', input: '谷氨酰胺、CO₂、天冬氨酸、PRPP', output: 'UMP，再形成 UDP/UTP/CTP 和 dNTP', location: '细胞质；DHODH 这一步在线粒体内膜', purpose: '提供 RNA 和 DNA 合成所需的嘧啶原料。', terms: [['氨甲酰磷酸', '嘧啶环组装的含氮起始原料'], ['UMP', '嘧啶从头合成的第一个核苷酸产物'], ['RNR', '把核糖核苷酸还原成脱氧核苷酸的酶']], story: [['先拼出嘧啶环', '氨甲酰磷酸和天冬氨酸先形成环状前体。'], ['接上核糖', '乳清酸接到 PRPP 上，生成 OMP 后脱羧成 UMP。'], ['继续磷酸化和还原', 'UMP 变成 UTP/CTP，或经 RNR 进入 DNA 前体池。']] },
-        nucleotide_degradation: { topic: '核苷酸代谢', lesson: '核苷酸第 3 课 · 用完的核苷酸去哪儿', title: '核苷酸分解后，细胞怎样处理它们？', question: '核酸拆开的碱基不会凭空消失：有的回收，有的继续分解成尿酸或其他小分子。', goal: '看懂回收与降解是两种选择', problem: '处理 DNA/RNA 周转产生的核苷酸和含氮碱基。', input: 'AMP、GMP、尿嘧啶、胸腺嘧啶等', output: '可回收碱基、尿酸、β-丙氨酸、β-氨基异丁酸', location: '细胞质、溶酶体及肝肾等组织', purpose: '回收有用原料，同时把不能回收的含氮部分安全处理。', terms: [['补救合成', '直接回收碱基或核苷，节省从头合成能量'], ['尿酸', '嘌呤分解的主要终产物之一'], ['周转', '旧核酸被拆解、新核酸不断合成的动态过程']], story: [['先拆成核苷酸', '核酸酶把 DNA/RNA 分解成单核苷酸。'], ['优先回收', '有用的碱基和核糖可以走补救合成。'], ['多余部分继续降解', '嘌呤形成尿酸，嘧啶形成可进一步代谢的小分子。']] }
+        nucleotide_degradation: { topic: '核苷酸代谢', lesson: '核苷酸第 3 课 · 用完的核苷酸去哪儿', title: '核苷酸分解后，细胞怎样处理它们？', question: '核苷酸和碱基不会凭空消失：有的回收，有的继续分解成尿酸或其他小分子。', goal: '看懂回收与降解是两种选择', problem: '处理细胞核苷酸池周转产生的核苷、碱基和含氮产物。', input: 'AMP、GMP、UMP、TMP 等核苷酸', output: '可回收碱基、尿酸、β-丙氨酸、β-氨基异丁酸', location: '主要在细胞质；终产物再由相应组织处理或排出', purpose: '回收有用原料，同时把不能回收的含氮部分安全处理。', terms: [['补救合成', '直接回收碱基或核苷，节省从头合成能量'], ['尿酸', '人类嘌呤分解的主要终产物'], ['周转', '核苷酸池不断消耗、降解和补充的动态过程']], story: [['先去掉磷酸', '核苷酸酶把 AMP、GMP 等变成相应核苷。'], ['优先回收', '有用的碱基和核苷可以走补救合成。'], ['多余部分继续降解', '嘌呤形成尿酸，嘧啶形成可进一步代谢的小分子。']] }
       };
       const studentStepAliases = window.STUDENT_STEP_RESOLVER?.aliasesByShortName || {};
 
@@ -13158,43 +13161,34 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
             label(61, 92, '主体在细胞质；仅 DHODH 在线粒体内膜，UMP 再分流生成 UTP、CTP 与 dTMP', 'schematic-output');
           } else if (pathwayId === 'nucleotide_degradation') {
             const p = {
-              nucleic: [93, 72], nucleotideLys: [83, 72], nucleosideLys: [73, 72], lysExporter: [68, 61],
-              nucleosideCyt: [60, 52], base: [50, 52], salvage: [31, 52],
-              purBase: [50, 38], hypoxXanthine: [68, 35], uric: [91, 35],
-              pyrBase: [48, 66], soluble: [29, 75]
+              nucleotide: [83, 52], nucleoside: [68, 52], base: [53, 52], salvage: [31, 52],
+              purBase: [53, 38], hypoxXanthine: [70, 35], uric: [91, 35],
+              pyrBase: [53, 66], soluble: [30, 75]
             };
-            label(61, 24, '溶酶体—细胞质 · 核苷酸降解与回收', 'schematic-title');
-            label(34, 30, '细胞质：补救、嘌呤降解与嘱啶降解', 'schematic-compartment-title');
-            label(87, 61, '溶酶体腔：酸性水解步骤', 'schematic-compartment-title');
-            metabolite(...p.nucleic, 'DNA / RNA'); metabolite(...p.nucleotideLys, '核苷酸');
-            metabolite(...p.nucleosideLys, '核苷'); metabolite(...p.nucleosideCyt, '核苷（胞质）');
-            metabolite(...p.base, '嘌呤 / 嘱啶碱基'); metabolite(...p.salvage, '核苷酸池（补救）');
+            label(61, 24, '细胞质 · 核苷酸降解与补救回收', 'schematic-title');
+            label(35, 30, '补救分支：碱基 / 核苷重新进入核苷酸池', 'schematic-compartment-title');
+            label(79, 30, '降解分支：嘌呤与嘧啶分别处理', 'schematic-compartment-title');
+            metabolite(...p.nucleotide, 'AMP / GMP / UMP / TMP'); metabolite(...p.nucleoside, '核苷');
+            metabolite(...p.base, '嘌呤 / 嘧啶碱基'); metabolite(...p.salvage, '核苷酸池（补救）');
             metabolite(...p.purBase, '腺嘌呤 / 鸟嘌呤'); metabolite(...p.hypoxXanthine, '次黄嘌呤 / 黄嘌呤');
-            metabolite(...p.uric, '尿酸'); metabolite(...p.pyrBase, '尿嘱啶 / 胸腺嘱啶');
+            metabolite(...p.uric, '尿酸'); metabolite(...p.pyrBase, '尿嘧啶 / 胸腺嘧啶');
             metabolite(...p.soluble, 'β-丙氨酸 / β-氨基异丁酸');
-            add('circle', { cx: p.lysExporter[0], cy: p.lysExporter[1], r: .4, class: 'schematic-node', 'data-role': 'lysosome-exporter' });
 
-            line(...p.nucleic, ...p.nucleotideLys); line(...p.nucleotideLys, ...p.nucleosideLys);
-            routePath('M 72 71 C 70 68, 69 64, 68 62', false, 'schematic-route');
-            routePath('M 67 60 C 65 57, 63 54, 61 53', false, 'schematic-route schematic-transporter-route');
-            line(...p.nucleosideCyt, ...p.base);
-            routePath('M 49 52 C 43 52, 37 52, 32 52', false, 'schematic-route schematic-cofactor-route');
-            routePath('M 50 51 C 50 47, 50 43, 50 39', false, 'schematic-route');
-            routePath('M 52 38 C 57 36, 62 35, 67 35', false, 'schematic-route');
+            line(...p.nucleotide, ...p.nucleoside); line(...p.nucleoside, ...p.base);
+            routePath('M 52 52 C 45 52, 38 52, 32 52', false, 'schematic-route schematic-cofactor-route');
+            routePath('M 53 51 C 53 47, 53 43, 53 39', false, 'schematic-route');
+            routePath('M 55 38 C 60 36, 65 35, 69 35', false, 'schematic-route');
             line(...p.hypoxXanthine, ...p.uric);
-            routePath('M 50 53 C 50 58, 49 62, 48 65', false, 'schematic-route');
-            routePath('M 46 67 C 40 70, 35 73, 30 75', false, 'schematic-route');
+            routePath('M 53 53 C 53 58, 53 62, 53 65', false, 'schematic-route');
+            routePath('M 51 67 C 43 70, 36 73, 31 75', false, 'schematic-route');
 
-            label(88, 68, '酸性核酸酶', 'schematic-enzyme');
-            label(78, 68, '5′-核苷酸酶', 'schematic-enzyme');
-            label(67, 57, '核苷转运体', 'schematic-transporter');
-            label(55, 48, '核苷磷酸化酶 / 水解酶', 'schematic-enzyme');
+            label(76, 47, '5′-核苷酸酶', 'schematic-enzyme');
+            label(61, 47, '核苷磷酸化酶 / 水解酶', 'schematic-enzyme');
             label(39, 48, 'HGPRT / APRT / 核苷激酶', 'schematic-cofactor');
             label(78, 31, '黄嘌呤氧化还原酶（XOR）', 'schematic-enzyme');
             label(38, 69, '开环 → 还原 → 水解', 'schematic-enzyme');
-            stepBadge(88, 75, 1); stepBadge(78, 75, 2); stepBadge(65, 57, 3); stepBadge(55, 55, 4);
-
-            // 旧版只是一条横线，无法表达溶酶体—细胞质分工，不再渲染。
+            stepBadge(83, 57, 1); stepBadge(68, 57, 2); stepBadge(52, 57, 3);
+            label(61, 92, '胞质核苷酸先去磷酸；可回收碱基返回核苷酸池，其余进入终末降解', 'schematic-output');
             if (false) {
             label(61, 24, '溶酶体—细胞质 · 核苷酸降解与回收', 'schematic-title');
             metabolite(...p.nucleic, '核酸'); metabolite(...p.nucleotide, '核苷酸'); metabolite(...p.nucleoside, '核苷'); metabolite(...p.base, '碱基'); metabolite(...p.hypox, '次黄嘌呤'); metabolite(...p.uric, '尿酸'); metabolite(...p.pyrBase, '嘧啶碱基'); metabolite(...p.betaAla, 'β-丙氨酸等'); metabolite(...p.salvage, '补救回收');
@@ -13596,6 +13590,12 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
 
       function backScene() {
         if (!currentSceneId) return;
+        // 通路机制图是当前细胞器内的一层阅读状态；“返回”应先退回该
+        // 细胞器的结构视图，再继续退出到上一级细胞结构。
+        if (sceneDeck.classList.contains('pathway-visual-active')) {
+          setSceneView(currentSceneView, true);
+          return;
+        }
         const current = atlas.scenes[currentSceneId];
         const target = sceneHistory.pop() || current?.parent;
         if (target) openScene(target, { pushHistory: false });

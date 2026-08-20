@@ -292,11 +292,13 @@ function applyCuratedOverrides(pathwayId, layout, entities) {
   // 安全多边形定锚，避免节点落到左下方胞质或贴在外膜边缘。
   if (pathwayId === 'pdh') {
     const curated = [
-      ['丙酮酸', 500, 790, 'above'],
-      ['乙酰辅酶 A', 700, 790, 'below']
+      ['丙酮酸', '细胞质', 410, 585, 'above'],
+      ['丙酮酸', '线粒体膜间隙', 530, 665, 'above'],
+      ['丙酮酸', '线粒体基质', 650, 835, 'above'],
+      ['乙酰辅酶 A', '线粒体基质', 820, 835, 'right']
     ];
-    curated.forEach(([name, x, y, labelSide]) => {
-      const id = entityIdFor(entities, name, '线粒体基质');
+    curated.forEach(([name, compartment, x, y, labelSide]) => {
+      const id = entityIdFor(entities, name, compartment);
       if (id && layout[id]) layout[id] = { x, y, labelSide, labelLocked: true };
     });
     return;
@@ -386,21 +388,27 @@ function applyCuratedOverrides(pathwayId, layout, entities) {
     });
     return;
   }
-  // “氨基酸碳骨架归宿”是一个总入口分流到六类产物，不应把六个终点
-  // 在椭圆边缘压成一串。这里明确画成 1 → 6 的概念分支。
+  // “氨基酸碳骨架归宿”按教材标准分为七类中央代谢入口，不应把终点
+  // 在椭圆边缘压成一串。这里按胞质与基质两组展开。
   if (pathwayId === 'aa_carbon') {
     const curated = [
-      ['氨基酸', 210, 470, 'left'],
-      ['丙酮酸', 350, 375, 'above'],
-      ['乙酰辅酶 A', 460, 375, 'above'],
-      ['α-酮戊二酸', 350, 470, 'left'],
-      ['琥珀酰辅酶 A', 500, 470, 'right'],
-      ['延胡索酸', 350, 565, 'below'],
-      ['草酰乙酸', 500, 565, 'below']
+      ['丙氨酸/丝氨酸/甘氨酸/半胱氨酸', '细胞质', 220, 400, 'left'],
+      ['丙酮酸', '细胞质', 430, 400, 'right'],
+      ['苯丙氨酸/酪氨酸', '细胞质', 220, 485, 'left'],
+      ['延胡索酸', '细胞质', 430, 485, 'right'],
+      ['天冬氨酸/天冬酰胺', '细胞质', 220, 555, 'left'],
+      ['草酰乙酸', '细胞质', 430, 555, 'right'],
+      ['亮氨酸/赖氨酸等', '线粒体基质', 420, 735, 'left'],
+      ['乙酰辅酶 A', '线粒体基质', 650, 720, 'right'],
+      ['乙酰乙酰辅酶 A', '线粒体基质', 720, 775, 'right'],
+      ['谷氨酸/谷氨酰胺/精氨酸/脯氨酸/组氨酸', '线粒体基质', 420, 810, 'left'],
+      ['α-酮戊二酸', '线粒体基质', 650, 815, 'right'],
+      ['缬氨酸/异亮氨酸/蛋氨酸/苏氨酸', '线粒体基质', 500, 855, 'left'],
+      ['琥珀酰辅酶 A', '线粒体基质', 720, 855, 'right']
     ];
-    curated.forEach(([name, x, y, labelSide]) => {
-      const id = entityIdFor(entities, name, '细胞质');
-      if (id && layout[id]) layout[id] = { x, y, labelSide };
+    curated.forEach(([name, compartment, x, y, labelSide]) => {
+      const id = entityIdFor(entities, name, compartment);
+      if (id && layout[id]) layout[id] = { x, y, labelSide, labelLocked: true };
     });
     return;
   }
@@ -439,13 +447,13 @@ function applyCuratedOverrides(pathwayId, layout, entities) {
   }
   if (pathwayId === 'pyrimidine') {
     const curated = [
-      ['谷氨酰胺', 170, 400, 'left'], ['氨甲酰磷酸', 280, 400, 'above'],
-      ['氨甲酰天冬氨酸', 390, 400, 'above'],
+      ['谷氨酰胺', 310, 555, 'left'], ['氨甲酰磷酸', 420, 555, 'above'],
+      ['氨甲酰天冬氨酸', 540, 555, 'above'],
       // DHODH 反应的代谢物属于胞质，但该酶锚定在线粒体内膜；
-      // 两个端点因此放在大线粒体上缘的胞质侧。
-      ['二氢乳清酸', 500, 550, 'below'], ['乳清酸', 620, 550, 'right'],
-      ['UMP', 620, 470, 'right'], ['UTP', 520, 470, 'above'], ['CTP', 420, 470, 'above'],
-      ['UDP', 170, 520, 'left'], ['dUDP', 280, 520, 'below'], ['dTMP', 390, 520, 'below']
+      // 两个端点放在内膜上方的胞质侧，并由酶标签明确膜锚定。
+      ['二氢乳清酸', 660, 555, 'above'], ['乳清酸', 790, 555, 'right'],
+      ['UMP', 900, 555, 'right'], ['UTP', 790, 610, 'below'], ['CTP', 900, 610, 'right'],
+      ['UDP', 420, 610, 'below'], ['dUDP', 540, 610, 'below'], ['dTMP', 660, 610, 'below']
     ];
     curated.forEach(([name, x, y, labelSide]) => {
       const id = entityIdFor(entities, name, '细胞质');
@@ -508,10 +516,14 @@ function applyCuratedOverrides(pathwayId, layout, entities) {
   // 内膜—基质”的局部展开剖面，页面会同时显示对应教学轨道。
   if (pathwayId === 'glycerol_phosphate') {
     const curated = [
-      ['NADH', '细胞质', 330, 600, 'above'],
-      ['磷酸二羟丙酮', '细胞质', 455, 600, 'above'],
-      ['甘油-3-磷酸', '细胞质', 600, 600, 'above'],
-      ['辅酶 Q', '线粒体内膜', 735, 730, 'right']
+      ['NADH', '细胞质', 310, 585, 'above'],
+      ['NAD⁺', '细胞质', 410, 585, 'above'],
+      ['磷酸二羟丙酮', '细胞质', 540, 585, 'above'],
+      ['甘油-3-磷酸', '细胞质', 690, 585, 'above'],
+      ['甘油-3-磷酸', '线粒体膜间隙', 560, 665, 'above'],
+      ['磷酸二羟丙酮', '线粒体膜间隙', 730, 665, 'above'],
+      ['辅酶 Q', '线粒体内膜', 560, 730, 'left'],
+      ['泛醇', '线粒体内膜', 760, 730, 'right']
     ];
     curated.forEach(([name, compartment, x, y, labelSide]) => {
       const id = entityIdFor(entities, name, compartment);
@@ -521,11 +533,17 @@ function applyCuratedOverrides(pathwayId, layout, entities) {
   }
   if (pathwayId === 'oxphos') {
     const curated = [
-      ['ADP', '细胞质', 515, 600, 'above'],
-      ['ATP', '细胞质', 755, 600, 'above'],
-      ['膜间隙 H⁺', '线粒体膜间隙', 410, 665, 'left'],
-      ['ADP', '线粒体基质', 515, 835, 'left'],
-      ['ATP', '线粒体基质', 755, 835, 'right']
+      ['ADP', '细胞质', 400, 585, 'above'],
+      ['无机磷酸', '细胞质', 600, 585, 'above'],
+      ['ATP', '细胞质', 800, 585, 'above'],
+      ['膜间隙 H⁺', '线粒体膜间隙', 330, 665, 'left'],
+      ['ADP', '线粒体膜间隙', 480, 665, 'above'],
+      ['无机磷酸', '线粒体膜间隙', 650, 665, 'above'],
+      ['ATP', '线粒体膜间隙', 830, 665, 'right'],
+      ['ATP 合酶', '线粒体内膜', 650, 730, 'above'],
+      ['ADP', '线粒体基质', 430, 835, 'left'],
+      ['无机磷酸', '线粒体基质', 650, 875, 'below'],
+      ['ATP', '线粒体基质', 830, 835, 'right']
     ];
     curated.forEach(([name, compartment, x, y, labelSide]) => {
       const id = entityIdFor(entities, name, compartment);
@@ -536,9 +554,13 @@ function applyCuratedOverrides(pathwayId, layout, entities) {
   if (pathwayId === 'carnitine') {
     const curated = [
       ['脂酰-CoA', '细胞质', 380, 600, 'above'],
-      ['脂酰肉碱', '线粒体膜间隙', 515, 665, 'above'],
-      ['脂酰肉碱', '线粒体基质', 665, 835, 'below'],
-      ['脂酰-CoA', '线粒体基质', 830, 835, 'right']
+      ['肉碱', '细胞质', 540, 600, 'above'],
+      ['脂酰肉碱', '细胞质', 720, 600, 'above'],
+      ['脂酰肉碱', '线粒体膜间隙', 520, 665, 'above'],
+      ['肉碱', '线粒体膜间隙', 760, 665, 'above'],
+      ['脂酰肉碱', '线粒体基质', 520, 835, 'below'],
+      ['肉碱', '线粒体基质', 680, 885, 'below'],
+      ['脂酰-CoA', '线粒体基质', 850, 835, 'right']
     ];
     curated.forEach(([name, compartment, x, y, labelSide]) => {
       const id = entityIdFor(entities, name, compartment);
@@ -550,11 +572,18 @@ function applyCuratedOverrides(pathwayId, layout, entities) {
     const curated = [
       ['草酰乙酸', '细胞质', 300, 600, 'above'],
       ['NADH', '细胞质', 410, 600, 'above'],
-      ['苹果酸', '细胞质', 525, 600, 'above'],
-      ['天冬氨酸', '细胞质', 830, 600, 'right'],
-      ['苹果酸', '线粒体基质', 525, 835, 'left'],
-      ['草酰乙酸', '线粒体基质', 670, 835, 'below'],
-      ['天冬氨酸', '线粒体基质', 830, 835, 'right']
+      ['NAD⁺', '细胞质', 510, 600, 'above'],
+      ['苹果酸', '细胞质', 610, 600, 'above'],
+      ['α-酮戊二酸', '细胞质', 710, 600, 'above'],
+      ['谷氨酸', '细胞质', 810, 600, 'above'],
+      ['天冬氨酸', '细胞质', 930, 600, 'right'],
+      ['苹果酸', '线粒体基质', 330, 835, 'left'],
+      ['NAD⁺', '线粒体基质', 430, 885, 'below'],
+      ['NADH', '线粒体基质', 530, 835, 'above'],
+      ['草酰乙酸', '线粒体基质', 630, 885, 'below'],
+      ['α-酮戊二酸', '线粒体基质', 730, 835, 'above'],
+      ['谷氨酸', '线粒体基质', 830, 885, 'below'],
+      ['天冬氨酸', '线粒体基质', 930, 835, 'right']
     ];
     curated.forEach(([name, compartment, x, y, labelSide]) => {
       const id = entityIdFor(entities, name, compartment);

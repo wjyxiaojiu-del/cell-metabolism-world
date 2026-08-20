@@ -28,12 +28,12 @@ const CORE_PATHWAYS = [
 // 21 条核心通路的端点区室合同。它校验的是“代谢物端点在哪”，
 // 膜结合酶的位置另由反应酶字段和专家图靠膜布局表达。
 const CORE_COMPARTMENT_CONTRACTS = {
-  pdh: ['线粒体基质'],
+  pdh: ['细胞质', '线粒体基质', '线粒体膜间隙'],
   tca: ['线粒体基质'],
   malate_aspartate: ['细胞质', '线粒体基质'],
-  glycerol_phosphate: ['细胞质', '线粒体内膜'],
+  glycerol_phosphate: ['细胞质', '线粒体内膜', '线粒体膜间隙'],
   etc: ['线粒体基质', '线粒体内膜', '线粒体膜间隙'],
-  oxphos: ['细胞质', '线粒体基质', '线粒体膜间隙'],
+  oxphos: ['细胞质', '线粒体内膜', '线粒体基质', '线粒体膜间隙'],
   glycolysis: ['细胞质'],
   gluconeogenesis: ['细胞质', '线粒体基质', '线粒体膜间隙', '内质网腔'],
   glycogenesis: ['细胞质'],
@@ -45,15 +45,71 @@ const CORE_COMPARTMENT_CONTRACTS = {
   ketone: ['线粒体基质'],
   transamination: ['细胞质', '线粒体基质'],
   urea: ['细胞质', '线粒体基质'],
-  aa_carbon: ['细胞质'],
+  aa_carbon: ['细胞质', '线粒体基质'],
   purine: ['细胞质'],
   pyrimidine: ['细胞质'],
   nucleotide_degradation: ['细胞质']
 };
 
+// 科学锚点不是几何偏好：这些节点/酶/场景缺失时，即使坐标全部在框内，
+// 也不能把专家地图判为正确。键使用“名称@中文区室”，与编译实体 id 一致。
+const REQUIRED_NODE_ANCHORS = {
+  pdh: ['丙酮酸@细胞质', '丙酮酸@线粒体膜间隙', '丙酮酸@线粒体基质', '乙酰辅酶 A@线粒体基质'],
+  malate_aspartate: [
+    'α-酮戊二酸@细胞质', 'α-酮戊二酸@线粒体基质',
+    '谷氨酸@细胞质', '谷氨酸@线粒体基质', 'NADH@线粒体基质'
+  ],
+  glycerol_phosphate: [
+    '甘油-3-磷酸@线粒体膜间隙', '磷酸二羟丙酮@线粒体膜间隙',
+    '辅酶 Q@线粒体内膜', '泛醇@线粒体内膜'
+  ],
+  oxphos: [
+    'ATP 合酶@线粒体内膜', 'ATP@线粒体膜间隙', 'ADP@线粒体膜间隙',
+    '无机磷酸@细胞质', '无机磷酸@线粒体膜间隙', '无机磷酸@线粒体基质'
+  ],
+  carnitine: [
+    '脂酰肉碱@细胞质', '脂酰肉碱@线粒体膜间隙', '脂酰肉碱@线粒体基质',
+    '肉碱@线粒体膜间隙', '肉碱@线粒体基质'
+  ],
+  aa_carbon: [
+    '丙氨酸/丝氨酸/甘氨酸/半胱氨酸@细胞质',
+    '亮氨酸/赖氨酸等@线粒体基质',
+    '乙酰乙酰辅酶 A@线粒体基质',
+    '谷氨酸/谷氨酰胺/精氨酸/脯氨酸/组氨酸@线粒体基质',
+    '缬氨酸/异亮氨酸/蛋氨酸/苏氨酸@线粒体基质'
+  ]
+};
+
+const REQUIRED_ENZYME_ANCHORS = {
+  pdh: [/VDAC/, /MPC/, /丙酮酸脱氢酶复合体/],
+  glycerol_phosphate: [/GPD1/, /GPD2/, /VDAC/],
+  oxphos: [/ATP 合酶/, /ANT|SLC25A4/, /SLC25A3/, /VDAC/],
+  glycogenolysis: [/糖原磷酸化酶/, /去分支酶 AGL/, /葡萄糖-6-磷酸酶/],
+  carnitine: [/CPT1/, /CACT|SLC25A20/, /CPT2/, /VDAC/],
+  urea: [/氨甲酰磷酸合成酶 I/, /鸟氨酸氨甲酰基转移酶/, /ORNT1|SLC25A15/, /精氨代琥珀酸合成酶/, /精氨酸酶/],
+  pyrimidine: [/氨甲酰磷酸合成酶 II/, /DHODH/, /胸苷酸合成酶/]
+};
+
+const REQUIRED_SCENES = {
+  pdh: 'mitochondria',
+  gluconeogenesis: 'cell-atlas',
+  glycogenolysis: 'cell-atlas',
+  fa_synthesis: 'cytosol',
+  carnitine: 'mitochondria',
+  transamination: 'mitochondria',
+  urea: 'mitochondria',
+  aa_carbon: 'mitochondria',
+  purine: 'cytosol',
+  pyrimidine: 'mitochondria-inner-membrane',
+  nucleotide_degradation: 'cytosol'
+};
+
 const sandbox = { window: {} };
 vm.runInNewContext(fs.readFileSync(path.join(ROOT, 'data-compiled.js'), 'utf8'), sandbox);
 const data = sandbox.window.METABOLIC_COMPILED;
+const sceneSandbox = { window: {} };
+vm.runInNewContext(fs.readFileSync(path.join(ROOT, 'scene-data.js'), 'utf8'), sceneSandbox);
+const sceneData = sceneSandbox.window.METABOLIC_ATLAS_DATA;
 const entityById = new Map(data.entities.map(entity => [entity.id, entity]));
 const groupsFor = item => Array.isArray(item.group) ? item.group : [item.group];
 
@@ -62,6 +118,10 @@ console.log('=== 专家地图逐通路几何审计 ===');
 for (const pathwayId of CORE_PATHWAYS) {
   const reactions = data.reactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
   const nodeIds = [...new Set(reactions.flatMap(reaction => [reaction.from, reaction.to]))];
+  const nodeKeys = new Set(nodeIds.map(id => {
+    const entity = entityById.get(id);
+    return entity ? `${entity.name}@${entity.compartment}` : id;
+  }));
   const layout = data.expertPathwayLayouts?.[pathwayId] || {};
   const missing = nodeIds.filter(id => !layout[id]);
   const outside = [];
@@ -108,6 +168,24 @@ for (const pathwayId of CORE_PATHWAYS) {
       return expected.join('|') === actual.join('|') ? '' : `区室合同 期望[${expected.join('、')}] 实际[${actual.join('、')}]`;
     })(),
     missing.length ? `缺坐标 ${missing.length}` : '',
+    (() => {
+      const required = REQUIRED_NODE_ANCHORS[pathwayId] || [];
+      const absent = required.filter(id => !nodeKeys.has(id));
+      return absent.length ? `缺科学节点 ${absent.join('、')}` : '';
+    })(),
+    (() => {
+      const required = REQUIRED_ENZYME_ANCHORS[pathwayId] || [];
+      const enzymes = reactions.map(reaction => reaction.enzyme || '');
+      const absent = required.filter(pattern => !enzymes.some(enzyme => pattern.test(enzyme)));
+      return absent.length ? `缺酶锚点 ${absent.map(pattern => pattern.source).join('、')}` : '';
+    })(),
+    (() => {
+      const expected = REQUIRED_SCENES[pathwayId];
+      const actual = sceneData?.pathways?.[pathwayId]?.scene;
+      return expected && actual !== expected ? `场景错误 期望[${expected}] 实际[${actual || '无'}]` : '';
+    })(),
+    pathwayId === 'aa_carbon' && nodeKeys.has('氨基酸@细胞质') ? '仍使用错误的通用氨基酸直连节点' : '',
+    pathwayId === 'nucleotide_degradation' && nodeKeys.has('核酸@细胞质') ? '仍把胞质核苷酸分解与大分子核酸水解混为一图' : '',
     topologyUnknown.length ? `膜侧合同缺节点 ${topologyUnknown.join('、')}` : '',
     outside.length ? `越界 ${outside.join('、')}` : '',
     closePairs.length ? `过密 ${closePairs.join('、')}` : ''

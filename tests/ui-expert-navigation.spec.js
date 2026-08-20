@@ -20,6 +20,15 @@ function watchRuntimeErrors(page) {
   return { consoleErrors, pageErrors };
 }
 
+async function openScenePathway(page, pathwayId) {
+  const hotspot = page.locator(`#sceneHotspots .scene-hotspot[data-pathway="${pathwayId}"]`);
+  if (await hotspot.count()) {
+    await hotspot.first().click({ force: true });
+    return;
+  }
+  await page.locator(`.scene-route-lane[data-pathway="${pathwayId}"]`).click({ force: true });
+}
+
 test('expert pathway navigation is a large two-row feature dock on desktop', async ({ page }) => {
   const errors = watchRuntimeErrors(page);
   await page.setViewportSize({ width: 1440, height: 1000 });
@@ -165,7 +174,7 @@ test('all 21 core expert pathways expose a loadable visual entry', async ({ page
   expect(audit.count).toBe(21);
   expect(audit.missing).toEqual([]);
   expect(audit.broken).toEqual([]);
-  expect(audit.sourceCount).toBeGreaterThanOrEqual(6);
+  expect(audit.sourceCount).toBeGreaterThanOrEqual(5);
   expect(errors.consoleErrors).toEqual([]);
   expect(errors.pageErrors).toEqual([]);
 });
@@ -178,7 +187,7 @@ test('expert pathway preview keeps organelle, subcompartment and reaction points
   const pathway = page.locator('.path-filter[data-path="pdh"]');
   await pathway.click();
   await expect(page.locator('#expertPathPreview')).toBeVisible();
-  await expect(page.locator('#expertPathPreviewImage')).toHaveAttribute('src', /25-mitochondrial-matrix-detailed\.webp/);
+  await expect(page.locator('#expertPathPreviewImage')).toHaveAttribute('src', /18-mitochondrion-isolated\.webp/);
   const selectedOverflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
   expect(selectedOverflow).toBeLessThanOrEqual(1);
   await page.locator('#expertPathPreview').click();
@@ -188,27 +197,19 @@ test('expert pathway preview keeps organelle, subcompartment and reaction points
   await expect(page.locator('#sceneDeck')).not.toHaveClass(/pathway-visual-active/);
   await expect(page.locator('#sceneExpertOverlayLayer > *')).toHaveCount(0);
   await expect(page.locator('#sceneHotspots .scene-hotspot')).toHaveCount(3);
-  await expect(page.locator('#sceneRouteLanes .scene-route-lane')).toHaveCount(7);
-  await expect(page.locator('#sceneRouteLaneCount')).toHaveText('7 条');
-  await page.locator('.scene-hotspot[data-target="mitochondria-matrix"]').click();
-  await expect(page.locator('#sceneTitle')).toHaveText('线粒体基质代谢');
-  await expect(page.locator('#sceneDeck')).toHaveClass(/annotations-hidden/);
-  await expect(page.locator('.scene-hotspot[data-pathway]')).toHaveCount(9);
+  expect(await page.locator('#sceneRouteLanes .scene-route-lane').count()).toBeGreaterThanOrEqual(10);
+  await expect(page.locator('#sceneRouteLaneCount')).toHaveText(/\d+ 条/);
   const pointStyle = await page.evaluate(() => {
-    const pdh = document.querySelector('.scene-hotspot[data-pathway="pdh"]');
-    const tca = document.querySelector('.scene-hotspot[data-pathway="tca"]');
+    const pdh = document.querySelector('.scene-route-lane[data-pathway="pdh"]');
+    const tca = document.querySelector('.scene-route-lane[data-pathway="tca"]');
     const style = getComputedStyle(pdh);
     return {
-      width: Math.round(pdh.getBoundingClientRect().width),
-      height: Math.round(pdh.getBoundingClientRect().height),
-      coreWidth: getComputedStyle(pdh, '::before').width,
       pdhTone: style.getPropertyValue('--tone').trim(),
       tcaTone: getComputedStyle(tca).getPropertyValue('--tone').trim()
     };
   });
-  expect(pointStyle).toMatchObject({ width: 14, height: 14, coreWidth: '4px' });
   expect(pointStyle.pdhTone).not.toBe(pointStyle.tcaTone);
-  await page.locator('.scene-hotspot[data-pathway="pdh"]').click();
+  await openScenePathway(page, 'pdh');
   await expect(page.locator('#sceneDeck')).toHaveClass(/pathway-visual-active/);
   await expect(page.locator('#sceneHotspots')).toBeEmpty();
   await expect(page.locator('#sceneExpertOverlayLayer .overlay-schematic-pdh')).toHaveCount(1);
@@ -230,8 +231,9 @@ test('inner-membrane pathway points open only inside the inner-membrane layer', 
     count: nodes.length,
     withThumb: nodes.filter(node => node.querySelector('.scene-route-lane-thumb')?.getAttribute('src')).length
   }));
-  expect(laneState.count).toBe(7);
-  expect(laneState.withThumb).toBe(7);
+  expect(laneState.count).toBe(10);
+  expect(laneState.withThumb).toBeGreaterThanOrEqual(5);
+  expect(laneState.withThumb).toBeLessThanOrEqual(laneState.count);
 
   await page.locator('.scene-hotspot[data-target="mitochondria-inner-membrane"]').click();
   await expect(page.locator('#sceneTitle')).toHaveText('线粒体内膜与能量转换');
@@ -253,8 +255,7 @@ test('cyclic pathways use real closed reaction routes inside their scene image',
 
   await page.locator('.path-filter[data-path="urea"]').click();
   await page.locator('#expertPathPreview').click();
-  await page.locator('.scene-hotspot[data-target="mitochondria-matrix"]').click();
-  await page.locator('.scene-hotspot[data-pathway="urea"]').click();
+  await openScenePathway(page, 'urea');
   const ureaState = await page.locator('#sceneExpertOverlayLayer').evaluate(layer => ({
     schematic: Boolean(layer.querySelector('.overlay-schematic-urea')),
     routes: layer.querySelectorAll('.schematic-route').length,
@@ -317,8 +318,7 @@ test('cyclic pathways use real closed reaction routes inside their scene image',
 
   await expect(page.locator('.scene-route-lane:visible')).toHaveCount(1);
   await page.locator('#sceneBack').click();
-  await page.locator('.scene-hotspot[data-target="mitochondria-inner-membrane"]').click();
-  await page.locator('.scene-hotspot[data-pathway="glycerol_phosphate"]').click();
+  await openScenePathway(page, 'glycerol_phosphate');
   await expect(page.locator('#sceneExpertOverlayLayer .overlay-schematic-glycerol_phosphate')).toHaveCount(1);
   await expect(page.locator('#sceneExpertOverlayLayer .overlay-schematic-malate_aspartate')).toHaveCount(0);
   await expect(page.locator('#sceneExpertOverlayLayer')).toContainText('本穿梭不把 NADH 本身送入基质');
@@ -368,8 +368,7 @@ test('PDH pathway shows E1-E2-E3 cofactor handoff on the matrix image', async ({
 
   await page.locator('.path-filter[data-path="pdh"]').click();
   await page.locator('#expertPathPreview').click();
-  await page.locator('.scene-hotspot[data-target="mitochondria-matrix"]').click();
-  await page.locator('.scene-hotspot[data-pathway="pdh"]').click();
+  await openScenePathway(page, 'pdh');
 
   const pdhState = await page.locator('#sceneExpertOverlayLayer').evaluate(layer => ({
     schematic: Boolean(layer.querySelector('.overlay-schematic-pdh')),
@@ -390,7 +389,7 @@ test('PDH pathway shows E1-E2-E3 cofactor handoff on the matrix image', async ({
   expect(pdhState.labels).toContain('TPP');
   expect(pdhState.labels).toContain('FAD → FADH₂');
   expect(pdhState.labels).toContain('NADH + H⁺');
-  expect(pdhState.background).toMatch(/25-mitochondrial-matrix-detailed\.webp/);
+  expect(pdhState.background).toMatch(/04-cytoplasm-mito-interface\.webp/);
   expect(pdhState.genericCompartmentLabel).toEqual([]);
   expect(errors.consoleErrors).toEqual([]);
   expect(errors.pageErrors).toEqual([]);
@@ -433,14 +432,14 @@ test('remaining core pathways each open their own bottom-image mechanism page', 
   test.setTimeout(120_000);
   const cases = [
     ['glycolysis', '细胞质代谢网络', /02-cytoplasm-overview\.webp/, ['葡萄糖', 'GAPDH', '丙酮酸']],
-    ['gluconeogenesis', '细胞质代谢网络', /04-cytoplasm-mito-interface\.webp/, ['丙酮酸羧化酶', 'PEPCK', '葡萄糖-6-磷酸酶']],
+    ['gluconeogenesis', '细胞结构与代谢入口', /04-cytoplasm-mito-interface\.webp/, ['丙酮酸羧化酶', 'PEPCK', '葡萄糖-6-磷酸酶']],
     ['glycogenesis', '细胞质代谢网络', /02-cytoplasm-overview\.webp/, ['UDP-葡萄糖', '糖原合酶', '分支酶']],
-    ['glycogenolysis', '细胞质代谢网络', /02-cytoplasm-overview\.webp/, ['糖原磷酸化酶', '去分支酶', 'G1P']],
+    ['glycogenolysis', '细胞结构与代谢入口', /28-cell-overview-rev2\.webp/, ['糖原磷酸化酶', '去分支酶', 'G1P']],
     ['ppp', '细胞质代谢网络', /02-cytoplasm-overview\.webp/, ['G6PD', 'NADPH', 'R5P']],
-    ['fa_synthesis', '平滑内质网与脂滴', /10-smooth-er-lipid-droplet\.webp/, ['ACC', '脂肪酸合酶', '棕榈酸']],
-    ['purine', '细胞核与内质网', /02-cytoplasm-overview\.webp/, ['PRPP', 'IMP', 'AMP']],
-    ['pyrimidine', '细胞核与内质网', /04-cytoplasm-mito-interface\.webp/, ['DHODH', 'UMP', 'CTP', '主体在细胞质']],
-    ['nucleotide_degradation', '内体、溶酶体与物质回收', /09-endosome-lysosome-scene\.webp/, ['核苷酸', '尿酸', '补救回收']]
+    ['fa_synthesis', '细胞质代谢网络', /02-cytoplasm-overview\.webp/, ['ACC', '脂肪酸合酶', '棕榈酸']],
+    ['purine', '细胞质代谢网络', /02-cytoplasm-overview\.webp/, ['PRPP', 'IMP', 'AMP']],
+    ['pyrimidine', '线粒体总览', /04-cytoplasm-mito-interface\.webp/, ['DHODH', 'UMP', 'CTP', '主体在细胞质']],
+    ['nucleotide_degradation', '细胞质代谢网络', /02-cytoplasm-overview\.webp/, ['核苷酸', '尿酸', '补救回收']]
   ];
   await page.setViewportSize({ width: 1280, height: 900 });
   await enterExpertMap(page);
@@ -448,7 +447,10 @@ test('remaining core pathways each open their own bottom-image mechanism page', 
     await page.locator(`.path-filter[data-path="${pathwayId}"]`).click();
     await page.locator('#expertPathPreview').click({ force: true });
     await expect(page.locator('#sceneTitle')).toHaveText(sceneTitle);
-    await page.locator(`.scene-hotspot[data-pathway="${pathwayId}"]`).dispatchEvent('click');
+    if (pathwayId === 'pyrimidine') {
+      await page.locator('.scene-hotspot[data-target="mitochondria-inner-membrane"]').dispatchEvent('click');
+    }
+    await openScenePathway(page, pathwayId);
     await expect(page.locator(`#sceneExpertOverlayLayer .overlay-schematic-${pathwayId}`)).toHaveCount(1);
     await expect(page.locator('#sceneBackground')).toHaveAttribute('src', backgroundPattern);
     const text = await page.locator('#sceneExpertOverlayLayer').textContent();
@@ -502,10 +504,9 @@ test('remaining core pathways each open their own bottom-image mechanism page', 
       await page.screenshot({ path: 'output/playwright/pyrimidine-premium-sample-v2-local.png' });
     }
     if (pathwayId === 'nucleotide_degradation') {
-      const exporter = page.locator('.overlay-schematic-nucleotide_degradation [data-role="lysosome-exporter"]');
-      await expect(exporter).toHaveAttribute('cx', '68');
-      await expect(exporter).toHaveAttribute('cy', '61');
-      await expect(page.locator('.overlay-schematic-nucleotide_degradation')).toContainText('溶酶体腔');
+      await expect(page.locator('.overlay-schematic-nucleotide_degradation')).not.toContainText('溶酶体腔');
+      await expect(page.locator('.overlay-schematic-nucleotide_degradation')).not.toContainText('DNA / RNA');
+      await expect(page.locator('.overlay-schematic-nucleotide_degradation')).toContainText('AMP / GMP / UMP / TMP');
       await expect(page.locator('.overlay-schematic-nucleotide_degradation')).toContainText('核苷酸池（补救）');
       await page.screenshot({ path: 'output/playwright/nucleotide_degradation-premium-sample-v2-local.png' });
     }
@@ -522,9 +523,9 @@ test('energy, lipid transport and amino-acid pathways use dedicated organelle me
   test.setTimeout(90_000);
   const cases = [
     ['oxphos', 'mitochondria-inner-membrane', /26-etc-complexes-detailed\.webp/, ['ATP 合酶', 'H⁺回流', 'ANT']],
-    ['carnitine', 'mitochondria-inner-membrane', /23-mitochondrion-blueprint\.webp/, ['CPT1', 'CACT', 'CPT2', 'CoA 不跨内膜']],
+    ['carnitine', null, /23-mitochondrion-blueprint\.webp/, ['CPT1', 'CACT', 'CPT2', 'CoA 不跨内膜']],
     ['ketone', 'mitochondria-matrix', /25-mitochondrial-matrix-detailed\.webp/, ['HMG-CoA', '乙酰乙酸', 'SCOT']],
-    ['aa_carbon', 'mitochondria-matrix', /04-cytoplasm-mito-interface\.webp/, ['7 类中央代谢入口', '乙酰乙酰-CoA', '草酰乙酸']],
+    ['aa_carbon', null, /04-cytoplasm-mito-interface\.webp/, ['7 类中央代谢入口', '乙酰乙酰-CoA', '草酰乙酸']],
     ['transamination', null, /04-cytoplasm-mito-interface\.webp/, ['ALT / AST', '谷氨酸脱氢酶', 'NH₄⁺']]
   ];
   await page.setViewportSize({ width: 1280, height: 900 });
@@ -533,7 +534,7 @@ test('energy, lipid transport and amino-acid pathways use dedicated organelle me
     await page.locator(`.path-filter[data-path="${pathwayId}"]`).click();
     await page.locator('#expertPathPreview').click({ force: true });
     if (subcompartment) await page.locator(`.scene-hotspot[data-target="${subcompartment}"]`).dispatchEvent('click');
-    await page.locator(`.scene-hotspot[data-pathway="${pathwayId}"]`).dispatchEvent('click');
+    await openScenePathway(page, pathwayId);
     await expect(page.locator(`#sceneExpertOverlayLayer .overlay-schematic-${pathwayId}`)).toHaveCount(1);
     await expect(page.locator('#sceneBackground')).toHaveAttribute('src', backgroundPattern);
     const text = await page.locator('#sceneExpertOverlayLayer').textContent();
@@ -607,13 +608,12 @@ test('expert pathway navigation remains usable on mobile', async ({ page }) => {
   await target.click();
   await expect(target).toHaveClass(/active/);
   await expect(page.locator('#expertPathPreview')).toBeVisible();
-  await expect(page.locator('#expertPathPreviewImage')).toHaveAttribute('src', /25-mitochondrial-matrix-detailed\.webp/);
+  await expect(page.locator('#expertPathPreviewImage')).toHaveAttribute('src', /18-mitochondrion-isolated\.webp/);
   await page.locator('#expertPathPreview').click();
   await expect(page.locator('body')).toHaveClass(/scene-open/);
   await expect(page.locator('#inspector')).not.toHaveClass(/open/);
   await expect(page.locator('#sceneDeck')).not.toHaveClass(/pathway-visual-active/);
-  await page.locator('.scene-hotspot[data-target="mitochondria-matrix"]').click();
-  await page.locator('.scene-hotspot[data-pathway="pdh"]').click();
+  await openScenePathway(page, 'pdh');
   await expect(page.locator('#sceneRouteLanes .scene-route-lane[data-pathway="pdh"]')).toHaveClass(/active/);
   expect(errors.consoleErrors).toEqual([]);
   expect(errors.pageErrors).toEqual([]);

@@ -38,8 +38,8 @@ const EXPERT_MITO_MEMBRANE_GUIDE = {
 };
 
 const EXPERT_MITO_GUIDE_PATHWAYS = [
-  'malate_aspartate', 'glycerol_phosphate', 'etc', 'oxphos', 'carnitine',
-  'transamination', 'urea'
+  'pdh', 'malate_aspartate', 'glycerol_phosphate', 'etc', 'oxphos', 'carnitine',
+  'transamination', 'urea', 'pyrimidine'
 ];
 
 const EXPERT_ER_MEMBRANE_GUIDE = {
@@ -80,6 +80,12 @@ const EXPERT_GLUCO_GUIDE_PATHWAYS = ['gluconeogenesis'];
 // 逐通路、逐节点的膜侧合同。节点名和区室同时参与匹配，避免同名 ATP、
 // NADH 在细胞质与基质之间被误判。未列出的节点继续使用普通区室门禁。
 const EXPERT_MITO_TOPOLOGY = {
+  pdh: {
+    cytosol: ['丙酮酸@细胞质'],
+    ims: ['丙酮酸@线粒体膜间隙'],
+    membrane: [],
+    matrix: ['丙酮酸@线粒体基质', '乙酰辅酶 A@线粒体基质']
+  },
   etc: {
     cytosol: [],
     ims: ['膜间隙 H⁺@线粒体膜间隙', '细胞色素 c@线粒体膜间隙'],
@@ -94,29 +100,40 @@ const EXPERT_MITO_TOPOLOGY = {
     ]
   },
   oxphos: {
-    cytosol: ['ATP@细胞质', 'ADP@细胞质'],
-    ims: ['膜间隙 H⁺@线粒体膜间隙'],
-    membrane: [],
-    matrix: ['ATP@线粒体基质', 'ADP@线粒体基质']
+    cytosol: ['ATP@细胞质', 'ADP@细胞质', '无机磷酸@细胞质'],
+    ims: [
+      '膜间隙 H⁺@线粒体膜间隙', 'ATP@线粒体膜间隙',
+      'ADP@线粒体膜间隙', '无机磷酸@线粒体膜间隙'
+    ],
+    membrane: ['ATP 合酶@线粒体内膜'],
+    matrix: ['ATP@线粒体基质', 'ADP@线粒体基质', '无机磷酸@线粒体基质']
   },
   glycerol_phosphate: {
-    cytosol: ['磷酸二羟丙酮@细胞质', '甘油-3-磷酸@细胞质', 'NADH@细胞质'],
-    ims: [],
-    membrane: ['辅酶 Q@线粒体内膜'],
+    cytosol: [
+      '磷酸二羟丙酮@细胞质', '甘油-3-磷酸@细胞质',
+      'NADH@细胞质', 'NAD⁺@细胞质'
+    ],
+    ims: ['甘油-3-磷酸@线粒体膜间隙', '磷酸二羟丙酮@线粒体膜间隙'],
+    membrane: ['辅酶 Q@线粒体内膜', '泛醇@线粒体内膜'],
     matrix: []
   },
   carnitine: {
-    cytosol: ['脂酰-CoA@细胞质'],
-    ims: ['脂酰肉碱@线粒体膜间隙'],
+    cytosol: ['脂酰-CoA@细胞质', '肉碱@细胞质', '脂酰肉碱@细胞质'],
+    ims: ['脂酰肉碱@线粒体膜间隙', '肉碱@线粒体膜间隙'],
     membrane: [],
-    matrix: ['脂酰肉碱@线粒体基质', '脂酰-CoA@线粒体基质']
+    matrix: ['脂酰肉碱@线粒体基质', '脂酰-CoA@线粒体基质', '肉碱@线粒体基质']
   },
   malate_aspartate: {
-    cytosol: ['草酰乙酸@细胞质', '苹果酸@细胞质', 'NADH@细胞质', '天冬氨酸@细胞质'],
+    cytosol: [
+      '草酰乙酸@细胞质', '苹果酸@细胞质', 'NADH@细胞质', 'NAD⁺@细胞质',
+      '天冬氨酸@细胞质', 'α-酮戊二酸@细胞质', '谷氨酸@细胞质'
+    ],
     ims: [],
     membrane: [],
     matrix: [
-      '苹果酸@线粒体基质', '草酰乙酸@线粒体基质', '天冬氨酸@线粒体基质'
+      '苹果酸@线粒体基质', '草酰乙酸@线粒体基质', '天冬氨酸@线粒体基质',
+      'α-酮戊二酸@线粒体基质', '谷氨酸@线粒体基质',
+      'NAD⁺@线粒体基质', 'NADH@线粒体基质'
     ]
   },
   transamination: {
@@ -136,6 +153,16 @@ const EXPERT_MITO_TOPOLOGY = {
       'NH₄⁺@线粒体基质', '氨甲酰磷酸@线粒体基质',
       '鸟氨酸@线粒体基质', '瓜氨酸@线粒体基质'
     ]
+  },
+  pyrimidine: {
+    cytosol: [
+      '谷氨酰胺@细胞质', '氨甲酰磷酸@细胞质', '氨甲酰天冬氨酸@细胞质',
+      '二氢乳清酸@细胞质', '乳清酸@细胞质', 'UMP@细胞质', 'UTP@细胞质',
+      'CTP@细胞质', 'UDP@细胞质', 'dUDP@细胞质', 'dTMP@细胞质'
+    ],
+    ims: [],
+    membrane: [],
+    matrix: []
   }
 };
 
