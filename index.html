@@ -2973,6 +2973,14 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       opacity: 0 !important;
       pointer-events: none !important;
     }
+    /* 第 1 层只做细胞器结构导航：未选中通路时不在底图上铺设任何代谢线路。 */
+    body.expert-map:not(.pathway-focus) #routeLayer > .route,
+    body.expert-map:not(.pathway-focus) #routeLayer > .route-aura,
+    body.expert-map:not(.pathway-focus) #routeLayer > .route-title {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      filter: none !important;
+    }
     body.expert-map:not(.pathway-focus):not(.entity-focus):not(.reaction-focus) #entityLayer > .entity.entity-secondary {
       opacity: 0 !important;
       visibility: hidden;
