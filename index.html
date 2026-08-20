@@ -2980,6 +2980,17 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       pointer-events: none !important;
       filter: none !important;
     }
+    /* 专家地图首页不展示代谢节点小点，也不保留线路命中带；首页只承担
+       细胞器结构导航。聚焦具体通路后，再由下方规则恢复相关节点。 */
+    body.expert-map:not(.pathway-focus) #routeLayer,
+    body.expert-map:not(.pathway-focus) #entityLayer > .entity {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    body.expert-map.pathway-focus #routeLayer,
+    body.expert-map.pathway-focus #entityLayer > .entity.pathway-active {
+      opacity: 1 !important;
+    }
     body.expert-map.pathway-focus #routeLayer .route.pathway-active {
       pointer-events: stroke;
     }
