@@ -9296,7 +9296,9 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         const pathway = atlas.pathways[pathwayId];
         if (!pathway?.scene) return;
         // 预览入口只进入细胞器第一层；第三层机制图由场景内的具体通路入口打开。
-        openScene(expertEntrySceneForPathway(pathway));
+        // 保留筛选器选中的通路上下文，让跨区室通路在第 1/2 层仍有
+        // 唯一、明确的“进入机制图”入口；未选择通路时完整细胞仍是纯结构总览。
+        openScene(expertEntrySceneForPathway(pathway), { preservePathway: true });
       }
       expertPathPreview?.addEventListener('click', event => { event.stopPropagation(); openExpertPathPreview(); });
       expertPathPreview?.addEventListener('keydown', event => {
@@ -12563,6 +12565,20 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         return true;
       }
 
+      function updateSceneBackLabel() {
+        if (!sceneBack) return;
+        if (sceneDeck.classList.contains('pathway-visual-active')) {
+          sceneBack.textContent = '← 返回结构视图';
+          sceneBack.setAttribute('aria-label', '返回当前区室结构视图');
+          return;
+        }
+        const current = atlas.scenes[currentSceneId];
+        const targetId = sceneHistory[sceneHistory.length - 1] || current?.parent;
+        const target = targetId ? atlas.scenes[targetId] : null;
+        sceneBack.textContent = target ? `← 返回${target.title}` : '← 返回专家地图';
+        sceneBack.setAttribute('aria-label', target ? `返回${target.title}` : '返回专家地图');
+      }
+
       function renderSceneExpertOverlay(pathwayId, targetLayer = sceneExpertOverlayLayer) {
         if (!targetLayer) return;
         targetLayer.replaceChildren();
@@ -13565,6 +13581,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         sceneTitle.textContent = scene.title;
         sceneSubtitle.textContent = sceneLevelText(scene.subtitle || '分层代谢地图');
         sceneDescription.textContent = displayText(scene.description || '');
+        updateSceneBackLabel();
         sceneViews.innerHTML = '';
         const pathwayVisual = pathwayId ? expertPathwayVisualOverrides[pathwayId] : null;
         if (pathwayVisual) {
@@ -13592,6 +13609,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           sceneViews.appendChild(button);
         });
         if (!setScenePathwayVisual(pathwayId, true)) setSceneView(viewIndex, true);
+        updateSceneBackLabel();
       }
 
       function openScene(sceneId, options = {}) {
@@ -13600,7 +13618,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         // 从通路机制图回到父级时，恢复父级的完整线路列表，避免上一个通路的隐藏状态残留。
         if (!options.pathwayId) sceneDeck.classList.remove('pathway-visual-active');
         if (currentSceneId && currentSceneId !== sceneId && options.pushHistory !== false) sceneHistory.push(currentSceneId);
-        clearSelection();
+        if (!options.preservePathway) clearSelection();
         document.body.classList.add('scene-open');
         sceneDeck.classList.add('open');
         syncAccessibilityState();
@@ -13625,6 +13643,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         // 细胞器的结构视图，再继续退出到上一级细胞结构。
         if (sceneDeck.classList.contains('pathway-visual-active')) {
           setSceneView(currentSceneView, true);
+          updateSceneBackLabel();
           return;
         }
         const current = atlas.scenes[currentSceneId];
