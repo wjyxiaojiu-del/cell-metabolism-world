@@ -306,6 +306,54 @@ test('inner-membrane pathway points open only inside the inner-membrane layer', 
   expect(errors.pageErrors).toEqual([]);
 });
 
+test('iPad mechanism overlay stays aligned with the visible image canvas', async ({ page }) => {
+  await page.setViewportSize({ width: 1194, height: 834 });
+  await enterExpertMap(page);
+  await page.locator('.path-filter[data-path="etc"]').click();
+  await page.locator('#expertPathPreview').click();
+  await page.locator('.scene-hotspot[data-target="mitochondria-inner-membrane"]').click();
+  await page.locator('.scene-hotspot[data-pathway="etc"]').click();
+  await expect(page.locator('#sceneExpertOverlayLayer .overlay-schematic-etc')).toHaveCount(1);
+
+  const geometry = await page.evaluate(() => {
+    const scene = document.querySelector('#sceneDeck');
+    const image = document.querySelector('#sceneBackground');
+    const overlay = document.querySelector('#sceneExpertOverlay');
+    const scope = document.querySelector('#sceneScope');
+    const label = [...document.querySelectorAll('#sceneExpertOverlayLayer .schematic-label')]
+      .find(node => node.textContent.includes('NADH'));
+    const sceneRect = scene.getBoundingClientRect();
+    const imageRect = image.getBoundingClientRect();
+    const overlayRect = overlay.getBoundingClientRect();
+    const scopeRect = scope.getBoundingClientRect();
+    const style = getComputedStyle(image);
+    const padLeft = parseFloat(style.paddingLeft);
+    const padRight = parseFloat(style.paddingRight);
+    const padTop = parseFloat(style.paddingTop);
+    const padBottom = parseFloat(style.paddingBottom);
+    const contentWidth = imageRect.width - padLeft - padRight;
+    const contentHeight = imageRect.height - padTop - padBottom;
+    const sourceRatio = image.naturalWidth / image.naturalHeight;
+    const contentRatio = contentWidth / contentHeight;
+    const visualWidth = contentRatio > sourceRatio ? contentHeight * sourceRatio : contentWidth;
+    const visualHeight = contentRatio > sourceRatio ? contentHeight : contentWidth / sourceRatio;
+    const visualLeft = imageRect.left + padLeft + (contentWidth - visualWidth) / 2;
+    const visualTop = imageRect.top + padTop + (contentHeight - visualHeight) / 2;
+    const labelRect = label.getBoundingClientRect();
+    return {
+      overlay: { left: overlayRect.left, right: overlayRect.right, top: overlayRect.top, bottom: overlayRect.bottom },
+      visual: { left: visualLeft, right: visualLeft + visualWidth, top: visualTop, bottom: visualTop + visualHeight },
+      scope: { right: scopeRect.right },
+      nadh: { left: labelRect.left, right: labelRect.right },
+      scene: { left: sceneRect.left, right: sceneRect.right }
+    };
+  });
+
+  expect(geometry.overlay.left).toBeGreaterThanOrEqual(geometry.visual.left - 2);
+  expect(geometry.overlay.right).toBeLessThanOrEqual(geometry.visual.right + 2);
+  expect(geometry.nadh.left).toBeGreaterThan(geometry.scope.right + 8);
+});
+
 test('cyclic pathways use real closed reaction routes inside their scene image', async ({ page }) => {
   const errors = watchRuntimeErrors(page);
   await page.setViewportSize({ width: 1280, height: 900 });

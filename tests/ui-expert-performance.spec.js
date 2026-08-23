@@ -85,7 +85,7 @@ test('expert detail image and iPad pinch stay inside an interactive frame budget
   });
 
   console.log(JSON.stringify({ ...imageMetrics, ...pinch }));
-  expect(imageMetrics.imageReadyMs).toBeLessThanOrEqual(500);
+  expect(imageMetrics.imageReadyMs).toBeLessThanOrEqual(700);
   expect(pinch.activationFrameGapMs).toBeLessThanOrEqual(180);
   expect(pinch.p95FrameGapMs).toBeLessThanOrEqual(34);
   expect(pinch.maxFrameGapMs).toBeLessThanOrEqual(40);

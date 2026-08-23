@@ -416,6 +416,11 @@
     .scene-expert-overlay .overlay-route { fill: none; stroke: var(--overlay-tone, #2f9eb5); stroke-width: .48; stroke-linecap: round; stroke-linejoin: round; opacity: .92; filter: drop-shadow(0 0 1px rgba(255,255,255,.9)); }
     .scene-expert-overlay .overlay-node { fill: color-mix(in srgb, var(--overlay-tone, #367c70) 14%, #fff); stroke: var(--overlay-tone, #367c70); stroke-width: .3; filter: drop-shadow(0 .16px .24px rgba(20,67,78,.18)); }
     .scene-expert-overlay .overlay-label { fill: #164f63; font-size: 2.2px; font-weight: 800; paint-order: stroke; stroke: rgba(255,255,255,.96); stroke-width: .8px; }
+    .scene-expert-overlay .overlay-schematic text {
+      transform-box: fill-box;
+      transform-origin: center;
+      transform: scaleX(var(--overlay-text-x-scale, 1));
+    }
     .scene-deck:not(.pathway-visual-active) .scene-expert-overlay { display: none; }
     .scene-deck.switching .scene-background { opacity: .18; transform: scale(1.025); filter: blur(4px); }
     .scene-vignette {
@@ -7331,7 +7336,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
       <section class="scene-deck" id="sceneDeck" aria-hidden="true" inert>
         <img class="scene-background" id="sceneBackground" alt="" data-scene-visual-zoom decoding="async" tabindex="-1">
         <div class="scene-vignette"></div>
-        <svg class="scene-expert-overlay" id="sceneExpertOverlay" viewBox="0 0 100 100" aria-hidden="true">
+        <svg class="scene-expert-overlay" id="sceneExpertOverlay" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           <g id="sceneExpertOverlayLayer"></g>
         </svg>
         <div class="scene-nav">
@@ -7713,6 +7718,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         );
       };
       window.addEventListener('resize', syncViewportMode);
+      window.addEventListener('resize', () => requestAnimationFrame(syncSceneExpertOverlayGeometry));
       syncViewportMode();
       const context = document.getElementById('context');
       const searchInput = document.getElementById('search');
@@ -11966,6 +11972,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           startDistance: points.length > 1 ? Math.max(12, Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y)) : 0,
           anchor: clientToMapPoint(center.x, center.y),
           viewportRect: svg.getBoundingClientRect(),
+          stageRect: mapStage.getBoundingClientRect(),
           moved: false
         };
         document.body.classList.add('map-gesture-active');
@@ -11985,9 +11992,8 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           pendingGestureTransform = null;
           if (!transform || !mapGesture) return;
           if (mapGesture.previewActive && mapGesturePreviewContent) {
-            const stageRect = mapStage.getBoundingClientRect();
-            const originX = mapGesture.startCenter.x - stageRect.left;
-            const originY = mapGesture.startCenter.y - stageRect.top;
+            const originX = mapGesture.startCenter.x - mapGesture.stageRect.left;
+            const originY = mapGesture.startCenter.y - mapGesture.stageRect.top;
             mapGesturePreviewContent.style.transformOrigin = `${originX}px ${originY}px`;
             mapGesturePreviewContent.style.transform = `translate3d(${transform.x}px, ${transform.y}px, 0) scale(${transform.scale})`;
             return;
@@ -12722,6 +12728,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
           try { await sceneBackground.decode(); } catch (_) {}
           if (request !== sceneImageRequest || currentSceneId !== scene.id) return;
           sceneBackground.alt = `${scene.title} · ${label}`;
+          syncSceneExpertOverlayGeometry();
           requestAnimationFrame(() => sceneDeck.classList.remove('loading', 'switching'));
           sceneSource.textContent = `当前视角：${label} · 知识关系：代谢总图人工核对`;
         };
@@ -12735,6 +12742,37 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         };
         sceneBackground.src = src;
         if (sceneBackground.complete && sceneBackground.naturalWidth > 0) finish();
+      }
+
+      function syncSceneExpertOverlayGeometry() {
+        if (!sceneExpertOverlay || !sceneBackground || !sceneDeck) return;
+        if (!sceneDeck.classList.contains('pathway-visual-active') || !sceneBackground.naturalWidth || !sceneBackground.naturalHeight) {
+          sceneExpertOverlay.style.left = '';
+          sceneExpertOverlay.style.top = '';
+          sceneExpertOverlay.style.width = '';
+          sceneExpertOverlay.style.height = '';
+          return;
+        }
+        const imageRect = sceneBackground.getBoundingClientRect();
+        const deckRect = sceneDeck.getBoundingClientRect();
+        const style = getComputedStyle(sceneBackground);
+        const padLeft = parseFloat(style.paddingLeft) || 0;
+        const padRight = parseFloat(style.paddingRight) || 0;
+        const padTop = parseFloat(style.paddingTop) || 0;
+        const padBottom = parseFloat(style.paddingBottom) || 0;
+        const contentWidth = Math.max(1, imageRect.width - padLeft - padRight);
+        const contentHeight = Math.max(1, imageRect.height - padTop - padBottom);
+        const sourceRatio = sceneBackground.naturalWidth / sceneBackground.naturalHeight;
+        const contentRatio = contentWidth / contentHeight;
+        const visualWidth = contentRatio > sourceRatio ? contentHeight * sourceRatio : contentWidth;
+        const visualHeight = contentRatio > sourceRatio ? contentHeight : contentWidth / sourceRatio;
+        const visualLeft = imageRect.left + padLeft + (contentWidth - visualWidth) / 2;
+        const visualTop = imageRect.top + padTop + (contentHeight - visualHeight) / 2;
+        sceneExpertOverlay.style.left = `${visualLeft - deckRect.left}px`;
+        sceneExpertOverlay.style.top = `${visualTop - deckRect.top}px`;
+        sceneExpertOverlay.style.width = `${visualWidth}px`;
+        sceneExpertOverlay.style.height = `${visualHeight}px`;
+        sceneExpertOverlay.style.setProperty('--overlay-text-x-scale', Math.min(1, visualHeight / Math.max(1, visualWidth)).toFixed(4));
       }
 
       function setSceneView(index, immediate = false) {
@@ -12775,6 +12813,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         renderSceneHotspots(scene, currentSceneView, { pathwayId });
         loadSceneVisual(scene, visual[0], visual[1], immediate);
         renderSceneExpertOverlay(pathwayId);
+        requestAnimationFrame(syncSceneExpertOverlayGeometry);
         return true;
       }
 
