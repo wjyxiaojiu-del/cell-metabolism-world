@@ -12775,12 +12775,29 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         sceneExpertOverlay.style.setProperty('--overlay-text-x-scale', Math.min(1, visualHeight / Math.max(1, visualWidth)).toFixed(4));
       }
 
+      function setSceneStructuralHeader(scene) {
+        if (!scene) return;
+        sceneTitle.textContent = scene.title;
+        sceneSubtitle.textContent = sceneLevelText(scene.subtitle || '分层代谢地图');
+        sceneDescription.textContent = displayText(scene.description || '');
+      }
+
+      function setSceneMechanismHeader(scene, pathway) {
+        if (!scene || !pathway) return;
+        sceneTitle.textContent = displayText(pathway.name || scene.title);
+        sceneSubtitle.textContent = '第 4 层 · 通路机制图';
+        const scope = displayText(pathway.compartment || scene.title || '');
+        const summary = displayText(pathway.summary || '按箭头追踪反应节点、酶与跨区室连接。');
+        sceneDescription.textContent = scope ? `${scope} · ${summary}` : summary;
+      }
+
       function setSceneView(index, immediate = false) {
         const scene = atlas.scenes[currentSceneId];
         if (!scene || !scene.views?.length) return;
         sceneDeck.classList.remove('pathway-visual-active');
         sceneDeck.dataset.sceneLevel = scene.parent && atlas.scenes[scene.parent]?.parent ? '3' : (scene.parent ? '2' : '1');
         if (sceneLevelHint) sceneLevelHint.textContent = `第 ${sceneDeck.dataset.sceneLevel} 层 · ${sceneDeck.dataset.sceneLevel === '3' ? '区室视图 · 选择通路' : sceneDeck.dataset.sceneLevel === '2' ? '细胞器总览 · 选择区室' : '结构入口 · 选择细胞器'}`;
+        setSceneStructuralHeader(scene);
         sceneBackground.tabIndex = -1;
         sceneBackground.removeAttribute('role');
         sceneBackground.removeAttribute('aria-label');
@@ -12799,6 +12816,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         if (!scene || !pathway || !pathwayBelongsToScene(pathwayId, currentSceneId)) return false;
         sceneDeck.dataset.sceneLevel = '4';
         if (sceneLevelHint) sceneLevelHint.textContent = '第 4 层 · 机制图 · 查看反应与连接';
+        setSceneMechanismHeader(scene, pathway);
         const sceneView = sceneViewEntry(scene, currentSceneView);
         const visual = expertPathwayVisualSources[pathwayId]
           ? expertPathwayVisualOverrides[pathwayId]
@@ -13853,9 +13871,7 @@ body.expert-map.pathway-focus .enzyme.pathway-active:focus text { opacity: 1; }
         // 子区室默认只展示通路入口点；结构讲解点由用户按需打开。
         setSceneAnnotationsVisible(sceneDeck.dataset.sceneDepth !== 'subcompartment');
         sceneDeck.style.setProperty('--scene-tone', scene.tone || '#338ca3');
-        sceneTitle.textContent = scene.title;
-        sceneSubtitle.textContent = sceneLevelText(scene.subtitle || '分层代谢地图');
-        sceneDescription.textContent = displayText(scene.description || '');
+        setSceneStructuralHeader(scene);
         const level = sceneDeck.dataset.sceneLevel || '1';
         const levelCopy = {
           '1': '结构入口 · 选择细胞器',

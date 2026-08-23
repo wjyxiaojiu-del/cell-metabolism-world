@@ -354,6 +354,25 @@ test('iPad mechanism overlay stays aligned with the visible image canvas', async
   expect(geometry.nadh.left).toBeGreaterThan(geometry.scope.right + 8);
 });
 
+test('level four identifies the pathway mechanism and restores the compartment heading on return', async ({ page }) => {
+  await page.setViewportSize({ width: 1194, height: 834 });
+  await enterExpertMap(page);
+  await page.locator('.path-filter[data-path="tca"]').click();
+  await page.locator('#expertPathPreview').click();
+  await page.locator('.scene-hotspot[data-target="mitochondria-matrix"]').click();
+  await page.locator('.scene-hotspot[data-pathway="tca"]').click();
+
+  await expect(page.locator('#sceneLevelHint')).toContainText('第 4 层');
+  await expect(page.locator('#sceneSubtitle')).toContainText('第 4 层');
+  await expect(page.locator('#sceneSubtitle')).toContainText('通路机制图');
+  await expect(page.locator('#sceneTitle')).toHaveText('三羧酸循环');
+
+  await page.locator('#sceneBack').click();
+  await expect(page.locator('#sceneLevelHint')).toContainText('第 3 层');
+  await expect(page.locator('#sceneSubtitle')).toContainText('第 3 层');
+  await expect(page.locator('#sceneTitle')).toHaveText('线粒体基质代谢');
+});
+
 test('cyclic pathways use real closed reaction routes inside their scene image', async ({ page }) => {
   const errors = watchRuntimeErrors(page);
   await page.setViewportSize({ width: 1280, height: 900 });
