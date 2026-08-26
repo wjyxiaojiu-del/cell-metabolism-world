@@ -7,3 +7,17 @@ tmp-pdh.png
 
 # 原始场景 PNG 约 335MB；运行时仅使用根目录优化封面与 optimized/ 下的 WebP/SVG。
 cell-metabolism-assets/*.png
+
+# 个人与无关文件，禁止入库
+*.docx
+*.exe
+cell-metabolism-assets/*.jpg
+debug.log
+tools/__pycache__/
+.scratch/
+
+# 实验与素材源文件，不进正式提交（见 HANDOFF.md 约定）
+cell-metabolism-assets/pathway-icons/pilots/
+cell-metabolism-assets/pathway-icons/rejected/
+cell-metabolism-assets/pathway-icons/replacements/
+cell-metabolism-assets/pathway-learning/source/

@@ -3,9 +3,9 @@ window.METABOLIC_ATLAS_DATA = (() => {
   const pending = 'PDF 主干已录入 · 逐反应待二次审校';
   const pathways = {
     glycolysis: { name: '糖酵解', english: 'Glycolysis', scene: 'cytosol', compartment: '细胞质', group: '糖代谢', review: reviewed, source: 'PDF 左上糖代谢区', summary: '葡萄糖经十步反应生成丙酮酸，并形成 ATP 与胞质 NADH。', steps: ['葡萄糖', 'G6P', 'F6P', 'F-1,6-BP', 'DHAP / G3P', '1,3-BPG', '3-PG', '2-PG', 'PEP', '丙酮酸'] },
-    gluconeogenesis: { name: '糖异生', english: 'Gluconeogenesis', scene: 'cell-atlas', compartment: '线粒体基质 / 细胞质 / 内质网', group: '糖代谢', review: pending, source: 'PDF 左中糖异生区', summary: '由乳酸、甘油和生糖氨基酸重新生成葡萄糖，跨越线粒体、细胞质与内质网并绕过糖酵解不可逆步骤。', steps: ['丙酮酸', 'OAA / 苹果酸', 'PEP', 'F-1,6-BP', 'F6P', 'G6P', '葡萄糖'] },
+    gluconeogenesis: { name: '糖异生', english: 'Gluconeogenesis', scene: 'cell-atlas', expertEntryScene: 'cytosol', expertMechanismScene: 'cytosol', compartment: '线粒体基质 / 细胞质 / 内质网', group: '糖代谢', review: pending, source: 'PDF 左中糖异生区', summary: '由乳酸、甘油和生糖氨基酸重新生成葡萄糖，跨越线粒体、细胞质与内质网并绕过糖酵解不可逆步骤。', steps: ['丙酮酸', 'OAA / 苹果酸', 'PEP', 'F-1,6-BP', 'F6P', 'G6P', '葡萄糖'] },
     glycogenesis: { name: '糖原合成', english: 'Glycogenesis', scene: 'cytosol', compartment: '细胞质', group: '糖储存', review: pending, source: 'PDF 左上糖原区', summary: '将葡萄糖转为 UDP-葡萄糖并延长糖原链。', steps: ['葡萄糖', 'G6P', 'G1P', 'UDP-葡萄糖', '糖原'] },
-    glycogenolysis: { name: '糖原分解', english: 'Glycogenolysis', scene: 'cell-atlas', compartment: '细胞质 / 内质网', group: '糖储存', review: pending, source: 'PDF 左上糖原区', summary: '糖原磷酸解主要形成 G1P，去分支酶另释放少量葡萄糖；肝肾的 G6P 还需进入内质网后才能释糖。', steps: ['糖原', 'G1P + 少量葡萄糖', 'G6P', '糖酵解 / 内质网释糖'] },
+    glycogenolysis: { name: '糖原分解', english: 'Glycogenolysis', scene: 'cell-atlas', expertEntryScene: 'cytosol', expertMechanismScene: 'cytosol', compartment: '细胞质 / 内质网', group: '糖储存', review: pending, source: 'PDF 左上糖原区', summary: '糖原磷酸解主要形成 G1P，去分支酶另释放少量葡萄糖；肝肾的 G6P 还需进入内质网后才能释糖。', steps: ['糖原', 'G1P + 少量葡萄糖', 'G6P', '糖酵解 / 内质网释糖'] },
     starch: { name: '淀粉合成与降解', english: 'Starch metabolism', scene: 'plant-extension', compartment: '植物细胞质体', group: '植物扩展', review: pending, source: 'PDF 左上淀粉区', summary: '植物以 ADP-葡萄糖合成淀粉，并经水解或磷酸解动员。', steps: ['G1P', 'ADP-葡萄糖', '直链淀粉 / 支链淀粉', '麦芽糖 / G1P'] },
     ppp: { name: '磷酸戊糖途径', english: 'Pentose phosphate pathway', scene: 'cytosol', compartment: '细胞质', group: '糖代谢', review: pending, source: 'PDF 左中磷酸戊糖区', summary: '氧化阶段依次经过内酯和6-磷酸葡萄糖酸，非氧化阶段在核糖、木酮糖、景天庚酮糖和赤藓糖之间重排，并与糖酵解互通。', steps: ['G6P', '6-磷酸葡萄糖酸内酯', '6-磷酸葡萄糖酸', 'Ru5P', 'R5P', 'X5P', 'S7P', 'E4P', 'F6P', 'G3P'] },
     fructose: { name: '果糖代谢', english: 'Fructose metabolism', scene: 'cytosol', compartment: '细胞质', group: '糖代谢', review: pending, source: 'PDF 左上单糖区', summary: '果糖在肝脏主要经 F1P 进入 DHAP 与甘油醛，也可经 F6P 并入糖酵解。', steps: ['果糖', 'F1P / F6P', 'DHAP', 'G3P'] },
@@ -73,7 +73,6 @@ window.METABOLIC_ATLAS_DATA = (() => {
         { label: '细胞核与内质网', x: 66, y: 29, target: 'nucleus-er', tone: '#7560af' }, { label: '高尔基体', x: 73, y: 66, target: 'golgi', tone: '#d46f71' },
         { label: '内体与溶酶体', x: 83, y: 52, target: 'endosome-lysosome', tone: '#8b6bb1' }, { label: '平滑内质网与脂滴', x: 83, y: 35, target: 'smooth-er-lipid', tone: '#6fa6c2' },
         { label: '过氧化物酶体', x: 88, y: 64, target: 'peroxisome', tone: '#79a95f' }, { label: '质膜运输', x: 52, y: 88, target: 'plasma-membrane', tone: '#438eac' },
-        { pathway: 'gluconeogenesis', x: 41, y: 43 }, { pathway: 'glycogenolysis', x: 43, y: 54 },
         { label: '植物特异扩展', x: 12, y: 18, target: 'plant-extension', tone: '#6e9f55' }
       ]
     },
@@ -86,16 +85,16 @@ window.METABOLIC_ATLAS_DATA = (() => {
         { pathway: 'polyol', x: 75, y: 28 }, { pathway: 'pyruvate_fates', x: 48, y: 62 }, { pathway: 'transamination', x: 62, y: 64 }, { pathway: 'glutamate_glutamine', x: 75, y: 57 },
         { pathway: 'aa_biosynthesis', x: 81, y: 71 }, { pathway: 'methionine_cysteine', x: 67, y: 78 }, { pathway: 'fa_synthesis', x: 54, y: 73 },
         { pathway: 'purine', x: 86, y: 49 }, { pathway: 'nucleotide_degradation', x: 88, y: 62 }, { label: '进入线粒体', x: 34, y: 76, target: 'mitochondria', tone: '#df7d4e' },
-        { label: '核苷酸与一碳代谢', x: 85, y: 43, target: 'nucleus-er', tone: '#7560af' }
+        { label: '核苷酸与一碳代谢', x: 92, y: 43, target: 'nucleus-er', tone: '#7560af' }
       ]
     },
     mitochondria: {
       title: '线粒体总览', subtitle: '第 2 层 · Mitochondrion', description: '继续进入基质或内膜。切换视角可查看橙色教材图、独立线粒体以及两种半透明结构图。', tone: '#db7448', parent: 'cell-atlas',
       views: [['独立结构', 'cell-metabolism-assets/optimized/18-mitochondrion-isolated.webp'], ['橙色总览', 'cell-metabolism-assets/optimized/03-mitochondrion-overview-orange.webp'], ['蓝色结构', 'cell-metabolism-assets/optimized/23-mitochondrion-blueprint.webp'], ['白色结构', 'cell-metabolism-assets/optimized/24-mitochondrion-blueprint-white.webp']],
       hotspots: [
-        { label: '线粒体基质', x: 48, y: 55, target: 'mitochondria-matrix', tone: '#d67c47' }, { label: '线粒体内膜', x: 52, y: 26, target: 'mitochondria-inner-membrane', tone: '#309cb3' },
+        { label: '线粒体基质', x: 48, y: 45, target: 'mitochondria-matrix', tone: '#d67c47' }, { label: '线粒体内膜', x: 52, y: 26, target: 'mitochondria-inner-membrane', tone: '#309cb3' },
         { pathway: 'pdh', x: 24, y: 46 }, { pathway: 'tca', x: 45, y: 57 }, { pathway: 'beta_oxidation', x: 66, y: 48 }, { pathway: 'ketone', x: 76, y: 62 },
-        { pathway: 'carnitine', x: 24, y: 72 }, { pathway: 'malate_aspartate', x: 72, y: 68 }, { pathway: 'glycerol_phosphate', x: 80, y: 42 },
+        { pathway: 'carnitine', x: 24, y: 72 }, { pathway: 'malate_aspartate', x: 70, y: 72 }, { pathway: 'glycerol_phosphate', x: 80, y: 42 },
         { pathway: 'transamination', x: 50, y: 76 }, { pathway: 'aa_carbon', x: 65, y: 78 }, { pathway: 'urea', x: 83, y: 77 },
         { label: '返回细胞质接口', x: 13, y: 27, target: 'cytosol', tone: '#d99a34' }
       ]
@@ -254,7 +253,7 @@ window.METABOLIC_ATLAS_DATA = (() => {
         },
         {
           label: '质膜横截面', src: 'cell-metabolism-assets/optimized/36-plasma-membrane-transport-clean.webp', hotspots: [
-            { label: '进入跨膜运输场景', x: 51, y: 51, target: 'plasma-membrane-transport', tone: '#438eac' }
+            { label: '进入跨膜运输场景', x: 87, y: 13, target: 'plasma-membrane-transport', tone: '#438eac' }
           ]
         }
       ],

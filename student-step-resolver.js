@@ -96,9 +96,13 @@
       if (!groupMatches(entity, options.pathwayId, options.routeGroup)) return false;
       const fields = [entity.name, entity.label, entity.latin].filter(Boolean);
       const fieldKeys = fields.map(nameKey).filter(Boolean);
-      return fieldKeys.some(fieldKey => [...keywordKeys].some(keywordKey =>
-        keywordKey.length > 1 && (fieldKey === keywordKey || fieldKey.includes(keywordKey) || keywordKey.includes(fieldKey))
-      ));
+      return fieldKeys.some(fieldKey => [...keywordKeys].some(keywordKey => {
+        if (keywordKey.length <= 1) return false;
+        if (fieldKey === keywordKey) return true;
+        const asciiPair = /^[a-z0-9]+$/.test(fieldKey) && /^[a-z0-9]+$/.test(keywordKey);
+        if (asciiPair) return false;
+        return fieldKey.includes(keywordKey) || keywordKey.includes(fieldKey);
+      }));
     });
     const score = entity => {
       const fieldKeys = [entity.name, entity.label, entity.latin].map(nameKey).filter(Boolean);

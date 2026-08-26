@@ -46,7 +46,10 @@ test('all learning steps link to a metabolite or a representative reaction', asy
     boundaryFailures.push(...boundaries);
   }
 
-  expect(totals.steps).toBe(115);
+  const expectedSteps = await page.evaluate(ids => ids.reduce((sum, id) =>
+    sum + (window.METABOLIC_ATLAS_DATA?.pathways?.[id]?.steps?.length || 0), 0), pathwayIds);
+  expect(totals.steps).toBe(expectedSteps);
+  expect(expectedSteps).toBeGreaterThan(0);
   expect(totals.disabled).toBe(0);
   expect(totals.metabolite + totals.enzyme + totals.process).toBe(totals.steps);
   expect(totals.enzyme).toBeGreaterThan(0);

@@ -12,8 +12,8 @@ test('student canvas keeps current and next step in sync', async ({ page }) => {
   });
 
   const mainNodes = page.locator('#studentMapNodes .student-map-node[data-step-index]');
-  await expect(mainNodes).toHaveCount(7);
-  await expect(mainNodes.nth(4)).toContainText('甘油醛-3-磷酸');
+  await expect(mainNodes).toHaveCount(10);
+  await expect(mainNodes.nth(4)).toContainText('磷酸二羟丙酮');
   await expect(page.locator('#flowSteps .flow-step').nth(4)).toContainText('甘油醛-3-磷酸');
   await expect(page.locator('#studentMapNodes .student-map-node.is-current')).toHaveCount(1);
   await expect(page.locator('#studentMapNodes .student-map-node.is-next')).toHaveCount(1);
@@ -278,10 +278,10 @@ test('all compiled reactions expose enzyme facts and readable equations', async 
         if (!equation || !equation.querySelector('.reaction-equation-line')) failures.push(`${option.value}:${index}:反应式`);
       });
     });
-    return { failures, reactionViews, uniqueReactions: reactionIds.size };
+    return { failures, reactionViews, uniqueReactions: reactionIds.size, expectedReactions: window.METABOLIC_COMPILED.reactions.length };
   });
-  expect(audit.reactionViews).toBeGreaterThanOrEqual(324);
-  expect(audit.uniqueReactions).toBe(324);
+  expect(audit.reactionViews).toBeGreaterThanOrEqual(audit.expectedReactions);
+  expect(audit.uniqueReactions).toBe(audit.expectedReactions);
   expect(audit.failures).toEqual([]);
 
   await page.locator('#studentPathwaySelect').evaluate(select => {
@@ -289,7 +289,7 @@ test('all compiled reactions expose enzyme facts and readable equations', async 
     select.dispatchEvent(new Event('change', { bubbles: true }));
   });
   await page.locator('#studentReactionToggle').click();
-  await page.locator('#studentReactions .student-reaction').first().click();
+  await page.locator('#studentReactions .student-reaction', { hasText: /乙酰-?辅酶/ }).click();
   const facts = page.locator('#studentDetail .student-enzyme-facts');
   await expect(facts).toContainText('E1、E2、E3');
   await expect(facts).toContainText('TPP');

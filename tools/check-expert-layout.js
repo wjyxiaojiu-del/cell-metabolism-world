@@ -104,6 +104,24 @@ const REQUIRED_SCENES = {
   nucleotide_degradation: 'cytosol'
 };
 
+const HOTSPOT_MIN_DISTANCE = 7.5;
+const INNER_MEMBRANE_SCENE = 'mitochondria-inner-membrane';
+
+function hotspotLabel(hotspot) {
+  return hotspot.label || hotspot.pathway || '未命名热点';
+}
+
+function transferReaction(reaction) {
+  const fromAt = String(reaction.from || '').lastIndexOf('@');
+  const toAt = String(reaction.to || '').lastIndexOf('@');
+  if (fromAt < 1 || toAt < 1) return false;
+  const fromName = reaction.from.slice(0, fromAt);
+  const toName = reaction.to.slice(0, toAt);
+  const fromCompartment = reaction.from.slice(fromAt + 1);
+  const toCompartment = reaction.to.slice(toAt + 1);
+  return fromName === toName && fromCompartment !== toCompartment;
+}
+
 const sandbox = { window: {} };
 vm.runInNewContext(fs.readFileSync(path.join(ROOT, 'data-compiled.js'), 'utf8'), sandbox);
 const data = sandbox.window.METABOLIC_COMPILED;
@@ -115,6 +133,46 @@ const groupsFor = item => Array.isArray(item.group) ? item.group : [item.group];
 
 let failures = 0;
 console.log('=== 专家地图逐通路几何审计 ===');
+
+const sceneHotspotIssues = [];
+for (const [sceneId, scene] of Object.entries(sceneData?.scenes || {})) {
+  const hotspots = (scene.hotspots || []).filter(hotspot => Number.isFinite(hotspot.x) && Number.isFinite(hotspot.y));
+  const pathwayHotspots = hotspots.filter(hotspot => hotspot.pathway);
+  if (sceneId === 'cell-atlas' && pathwayHotspots.length) {
+    sceneHotspotIssues.push(`G1 cell-atlas 仍有通路热点：${pathwayHotspots.map(hotspotLabel).join('、')}`);
+  }
+  for (let left = 0; left < hotspots.length; left += 1) {
+    for (let right = left + 1; right < hotspots.length; right += 1) {
+      const distance = Math.hypot(hotspots[left].x - hotspots[right].x, hotspots[left].y - hotspots[right].y);
+      if (distance < HOTSPOT_MIN_DISTANCE) {
+        sceneHotspotIssues.push(`G2 ${sceneId} ${hotspotLabel(hotspots[left])}~${hotspotLabel(hotspots[right])} 距离 ${distance.toFixed(2)}<${HOTSPOT_MIN_DISTANCE}`);
+      }
+    }
+  }
+  if (sceneId === INNER_MEMBRANE_SCENE) {
+    const upper = pathwayHotspots.filter(hotspot => hotspot.y < 55).length;
+    const lower = pathwayHotspots.filter(hotspot => hotspot.y >= 65).length;
+    if (upper < 3 || lower < 3) sceneHotspotIssues.push(`G2 ${sceneId} 两排分布不足：上排 ${upper}、下排 ${lower}`);
+  }
+}
+if (sceneHotspotIssues.length) {
+  failures += sceneHotspotIssues.length;
+  sceneHotspotIssues.forEach(issue => console.error(`FAIL ${issue}`));
+} else {
+  console.log(`PASS 场景热点组              G1/G2 通过 · 最小距离 ${HOTSPOT_MIN_DISTANCE}`);
+}
+
+const transferIssues = data.reactions
+  .filter(transferReaction)
+  .filter(reaction => !String(reaction.enzyme || '').trim());
+if (transferIssues.length) {
+  failures += transferIssues.length;
+  transferIssues.forEach(reaction => console.error(`FAIL 转运反应 ${reaction.id} 缺载体/酶标注`));
+} else {
+  const transferCount = data.reactions.filter(transferReaction).length;
+  console.log(`PASS 跨区室转运标注          ${transferCount} 条转运反应均有载体/酶`);
+}
+
 for (const pathwayId of CORE_PATHWAYS) {
   const reactions = data.reactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
   const nodeIds = [...new Set(reactions.flatMap(reaction => [reaction.from, reaction.to]))];

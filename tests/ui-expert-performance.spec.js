@@ -58,10 +58,8 @@ test('expert detail image and iPad pinch stay inside an interactive frame budget
 
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 2 });
   await page.locator('.path-filter[data-path="etc"]').click();
-  await page.locator('#expertPathPreview').click();
-  await page.locator('.scene-hotspot[data-target="mitochondria-inner-membrane"]').click();
 
-  const imageMetrics = await page.locator('.scene-hotspot[data-pathway="etc"]').evaluate(async hotspot => {
+  const imageMetrics = await page.locator('#expertPathPreview').evaluate(async preview => {
     const image = document.querySelector('#sceneBackground');
     const startedAt = performance.now();
     const loaded = new Promise((resolve, reject) => {
@@ -74,7 +72,7 @@ test('expert detail image and iPad pinch stay inside an interactive frame budget
       };
       image.addEventListener('load', onLoad);
     });
-    hotspot.click();
+    preview.click();
     const clickHandlerMs = performance.now() - startedAt;
     await loaded;
     await image.decode();

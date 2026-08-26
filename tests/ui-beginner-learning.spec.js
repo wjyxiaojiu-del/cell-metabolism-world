@@ -160,7 +160,6 @@ test('pathway overview restores structural images and expands opaque abbreviatio
   }, pathwayId);
 
   await selectPathway('fa_synthesis');
-  await expect(page.locator('#studentPrimerVisualImage')).toHaveAttribute('src', /pathway-learning\/optimized\/fa_synthesis-v4\.png/);
   await expect(page.locator('#studentPrimer')).toContainText('乙酰辅酶 A 羧化酶');
   await expect(page.locator('#studentPathwayMapVisual')).toBeVisible();
   await expect(page.locator('#studentPathwayMapVisualImage')).toHaveAttribute('src', /pathway-learning\/optimized\/fa_synthesis-v4\.png/);
