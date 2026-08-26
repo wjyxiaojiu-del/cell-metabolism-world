@@ -67,8 +67,18 @@ if (!errors.length) {
   const entityIds = new Set(compiled.entities.map(entity => entity.id));
   let studentTopicCatalog = null;
   try {
-    const indexSource = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-    const literal = extractObjectLiteral(indexSource, 'const studentTopicCatalog =');
+    // studentTopicCatalog 曾内联在 index.html，2026-08-26 随 JS 提取迁移到 scripts/app.js。
+    // 依次尝试两个来源，保证迁移前后一致。
+    const sources = ['scripts/app.js', 'index.html'];
+    let literal = null;
+    for (const file of sources) {
+      const source = fs.readFileSync(path.join(ROOT, file), 'utf8');
+      try {
+        literal = extractObjectLiteral(source, 'const studentTopicCatalog =');
+        break;
+      } catch (_error) { /* 继续尝试下一个来源 */ }
+    }
+    if (literal === null) throw new Error(`index.html / scripts/app.js 缺少 const studentTopicCatalog =`);
     studentTopicCatalog = vm.runInNewContext(`(${literal})`);
   } catch (error) {
     errors.push(`无法读取学生专题目录: ${error.message}`);
