@@ -88,7 +88,7 @@ test('beginner sees a concept primer before the detailed pathway map', async ({ 
 
   const home = page.locator('#studentCourseHome');
   await expect(home).toBeVisible();
-  await expect(home).toContainText('细胞代谢，其实先抓住一条主线就够了');
+  await expect(home).toContainText('细胞代谢主线');
   await expect(home.locator('.student-course-topic')).toHaveCount(5);
   await expect(home).toContainText('质子梯度 → ATP');
   await expect(page.locator('#studentPathwayPanel')).toBeHidden();

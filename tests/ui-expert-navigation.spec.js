@@ -5,6 +5,7 @@ const URL = appUrl('expert-feature-nav-1');
 async function enterExpertMap(page) {
   await page.goto(URL, { waitUntil: 'networkidle' });
   await page.getByRole('button', { name: /进入学习模式/ }).click();
+  await expect(page.locator('body')).not.toHaveClass(/cover-transitioning/);
   await expect(page.locator('#studentWorkspace')).toBeVisible();
   await page.getByRole('button', { name: '专家地图', exact: true }).click();
   await expect(page.locator('body')).toHaveClass(/expert-map/);
@@ -20,7 +21,7 @@ function watchRuntimeErrors(page) {
   return { consoleErrors, pageErrors };
 }
 
-test('expert pathway navigation is a large two-row feature dock on desktop', async ({ page }) => {
+test('expert overview uses a spatial atlas index and controlled layers on desktop', async ({ page }) => {
   const errors = watchRuntimeErrors(page);
   await page.setViewportSize({ width: 1440, height: 1000 });
   await enterExpertMap(page);
@@ -34,36 +35,95 @@ test('expert pathway navigation is a large two-row feature dock on desktop', asy
     const buttonStyle = getComputedStyle(button);
     return {
       pageOverflow: document.documentElement.scrollWidth - innerWidth,
+      dockWidth: dock.getBoundingClientRect().width,
+      dockLeft: Math.round(dock.getBoundingClientRect().left),
+      dockRight: Math.round(innerWidth - dock.getBoundingClientRect().right),
       dockHeight: dock.getBoundingClientRect().height,
       dockRadius: parseFloat(dockStyle.borderTopLeftRadius),
       dockDisplay: dockStyle.display,
-      columns: dockStyle.gridTemplateColumns,
+      rows: dockStyle.gridTemplateRows,
       filterDisplay: filterStyle.display,
-      filterRows: filterStyle.gridTemplateRows,
+      filterOverflowX: filterStyle.overflowX,
+      filterOverflowY: filterStyle.overflowY,
       buttonHeight: button.getBoundingClientRect().height,
-      canScrollPathways: filters.scrollWidth > filters.clientWidth,
-      pathwayCount: document.querySelectorAll('.path-filter').length
+      canScrollPathways: filters.scrollHeight > filters.clientHeight,
+      pathwayCount: document.querySelectorAll('.path-filter').length,
+      groupCount: document.querySelectorAll('.path-filter-group').length,
+      overviewVisible: getComputedStyle(document.querySelector('.expert-overview-panel')).display !== 'none',
+      visibleRoutes: [...document.querySelectorAll('#routeLayer .route')].filter(node => {
+        const style = getComputedStyle(node);
+        return style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity) > 0;
+      }).length,
+      visibleEntities: [...document.querySelectorAll('#entityLayer .entity')].filter(node => {
+        const style = getComputedStyle(node);
+        return style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity) > 0;
+      }).length,
+      visibleEnzymes: [...document.querySelectorAll('#enzymeLayer .enzyme')].filter(node => {
+        const style = getComputedStyle(node);
+        return style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity) > 0;
+      }).length,
+      anchorCount: document.querySelectorAll('#organelleLayer .organelle-anchor-dot').length,
+      controls: [...document.querySelectorAll('.expert-layer-controls button')].map(button => ({
+        id: button.id,
+        pressed: button.getAttribute('aria-pressed')
+      }))
     };
   });
 
   expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
+  expect(metrics.dockWidth).toBeGreaterThanOrEqual(240);
+  expect(metrics.dockWidth).toBeLessThanOrEqual(280);
+  expect(metrics.dockLeft).toBe(22);
+  expect(metrics.dockRight).toBeGreaterThanOrEqual(20);
   expect(metrics.dockHeight).toBeGreaterThanOrEqual(128);
-  expect(metrics.dockRadius).toBeGreaterThanOrEqual(6);
-  expect(metrics.dockRadius).toBeLessThanOrEqual(12);
+  expect(metrics.dockRadius).toBeGreaterThanOrEqual(14);
   expect(metrics.dockDisplay).toBe('grid');
-  expect(metrics.columns.split(' ').length).toBe(3);
-  expect(metrics.filterDisplay).toBe('grid');
-  expect(metrics.filterRows.split(' ').length).toBe(2);
-  expect(metrics.buttonHeight).toBeGreaterThanOrEqual(42);
+  expect(metrics.rows.split(' ').length).toBe(3);
+  expect(metrics.filterDisplay).toBe('flex');
+  expect(metrics.filterOverflowX).toBe('hidden');
+  expect(metrics.filterOverflowY).toBe('auto');
+  expect(metrics.buttonHeight).toBeGreaterThanOrEqual(32);
+  expect(metrics.buttonHeight).toBeLessThanOrEqual(36);
   expect(metrics.canScrollPathways).toBe(true);
   expect(metrics.pathwayCount).toBe(22);
+  expect(metrics.groupCount).toBe(5);
+  expect(metrics.overviewVisible).toBe(true);
+  expect(metrics.visibleRoutes).toBe(0);
+  expect(metrics.visibleEntities).toBe(0);
+  expect(metrics.visibleEnzymes).toBe(0);
+  expect(metrics.anchorCount).toBeGreaterThanOrEqual(8);
+  expect(metrics.controls).toEqual([
+    { id: 'expertStructureToggle', pressed: 'true' },
+    { id: 'expertRouteToggle', pressed: 'true' },
+    { id: 'expertLabelToggle', pressed: 'true' },
+    { id: 'expertOverviewReset', pressed: null }
+  ]);
   await expect(page.locator('.path-filter[data-path="autophagy"]')).toHaveCount(0);
   await expect(page.locator('.path-filter[data-path="etc"]')).toHaveCount(1);
-  await expect(page.locator('.expert-overview-axes button')).toHaveCount(4);
+  await expect(page.locator('.expert-overview-axes')).toHaveCount(0);
+  await expect(page.locator('.path-filter-group')).toHaveText([
+    '生物氧化', '糖代谢', '脂代谢', '氨基酸与氮', '核苷酸'
+  ]);
 
-  await page.locator('.expert-overview-axes button[data-expert-path="etc"]').click();
+  for (const [id, className] of [
+    ['expertStructureToggle', 'expert-structure-muted'],
+    ['expertRouteToggle', 'expert-routes-hidden'],
+    ['expertLabelToggle', 'expert-labels-hidden']
+  ]) {
+    await page.locator(`#${id}`).click();
+    await expect(page.locator(`#${id}`)).toHaveAttribute('aria-pressed', 'false');
+    await expect(page.locator('body')).toHaveClass(new RegExp(className));
+    await page.locator(`#${id}`).click();
+    await expect(page.locator(`#${id}`)).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('body')).not.toHaveClass(new RegExp(className));
+  }
+
+  await page.locator('.path-filter[data-path="etc"]').click();
   await expect(page.locator('.path-filter[data-path="etc"]')).toHaveClass(/active/);
   await expect(page.locator('body')).toHaveClass(/pathway-focus/);
+  await expect.poll(() => page.locator('#routeLayer .route.pathway-active').evaluateAll(nodes =>
+    nodes.filter(node => Number(getComputedStyle(node).opacity) > 0).length
+  )).toBeGreaterThan(0);
   await page.locator('.path-filter[data-path="all"]').click();
   await expect(page.locator('body')).not.toHaveClass(/pathway-focus/);
 
@@ -195,7 +255,7 @@ test('expert route hit decoration stays transparent and double click enters the 
   expect(errors.pageErrors).toEqual([]);
 });
 
-test('expert pathway navigation remains usable on mobile', async ({ page }) => {
+test('expert overview index remains usable on mobile', async ({ page }) => {
   const errors = watchRuntimeErrors(page);
   await page.setViewportSize({ width: 390, height: 844 });
   await enterExpertMap(page);
@@ -211,7 +271,9 @@ test('expert pathway navigation remains usable on mobile', async ({ page }) => {
       dockLeft: Math.round(dock.getBoundingClientRect().left),
       buttonHeight: firstButton.getBoundingClientRect().height,
       filterOverflowX: getComputedStyle(filters).overflowX,
-      filterCanScroll: filters.scrollWidth > filters.clientWidth,
+      filterOverflowY: getComputedStyle(filters).overflowY,
+      filterCanScroll: filters.scrollHeight > filters.clientHeight,
+      groupCount: document.querySelectorAll('.path-filter-group').length,
       noteDisplay: getComputedStyle(document.querySelector('.path-note')).display
     };
   });
@@ -220,9 +282,12 @@ test('expert pathway navigation remains usable on mobile', async ({ page }) => {
   expect(metrics.dockHeight).toBeGreaterThanOrEqual(158);
   expect(metrics.dockLeft).toBe(10);
   expect(metrics.dockRight).toBe(10);
-  expect(metrics.buttonHeight).toBeGreaterThanOrEqual(39);
-  expect(metrics.filterOverflowX).toBe('auto');
+  expect(metrics.buttonHeight).toBeGreaterThanOrEqual(30);
+  expect(metrics.buttonHeight).toBeLessThanOrEqual(32);
+  expect(metrics.filterOverflowX).toBe('hidden');
+  expect(metrics.filterOverflowY).toBe('auto');
   expect(metrics.filterCanScroll).toBe(true);
+  expect(metrics.groupCount).toBe(5);
   expect(metrics.noteDisplay).toBe('none');
 
   const target = page.locator('.path-filter').nth(1);

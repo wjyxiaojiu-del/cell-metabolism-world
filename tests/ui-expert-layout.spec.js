@@ -73,7 +73,10 @@ test('all 21 focused expert pathways render visible routes and matching arrows',
       unrelated: [...document.querySelectorAll('#enzymeLayer .enzyme:not(.pathway-active)')]
         .filter(enzyme => Number(getComputedStyle(enzyme).opacity) > .5).length,
       unrelatedRoutes: [...document.querySelectorAll('#routeLayer .route:not(.pathway-active)')]
-        .filter(route => Number(getComputedStyle(route).opacity) > .1).length
+        .filter(route => Number(getComputedStyle(route).opacity) > .1).length,
+      numberedSteps: [...document.querySelectorAll('#entityLayer .entity.pathway-active[data-expert-step]')]
+        .map(entity => Number(entity.dataset.expertStep))
+        .sort((left, right) => left - right)
     }));
     expect(metrics.length, `${pathwayId} should show active routes`).toBeGreaterThan(0);
     expect(metrics.every(route => route.stroke !== 'none'), `${pathwayId} routes need a visible stroke`).toBeTruthy();
@@ -83,6 +86,10 @@ test('all 21 focused expert pathways render visible routes and matching arrows',
     expect(enzymeMetrics.visibleActive, `${pathwayId} should keep enzyme labels hidden until requested`).toBe(0);
     expect(enzymeMetrics.unrelated, `${pathwayId} should hide unrelated enzyme labels`).toBe(0);
     expect(enzymeMetrics.unrelatedRoutes, `${pathwayId} should hide unrelated routes`).toBe(0);
+    expect(enzymeMetrics.numberedSteps.length, `${pathwayId} should expose numbered map nodes`).toBeGreaterThan(0);
+    expect(enzymeMetrics.numberedSteps, `${pathwayId} step numbers should stay consecutive`).toEqual(
+      Array.from({ length: enzymeMetrics.numberedSteps.length }, (_, index) => index + 1)
+    );
     if (pathwayId === 'pdh') {
       const revealRoute = page.locator('#routeLayer .route.pathway-active:not(.route-teaching-detail):not(.route-classification)').first();
       const revealId = await revealRoute.getAttribute('data-id');
@@ -96,6 +103,28 @@ test('all 21 focused expert pathways render visible routes and matching arrows',
       )).toBe(0);
     }
   }
+});
+
+test('expert pathway step navigator follows numbered nodes without leaving focus', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto(appUrl('expert-step-navigator'), { waitUntil: 'networkidle' });
+  await page.getByRole('button', { name: /进入学习模式/ }).click();
+  await page.getByRole('button', { name: '专家地图', exact: true }).click();
+  await focusExpertPathway(page, 'tca');
+
+  const status = page.locator('#expertStepStatus');
+  await expect(status).toHaveText(/— \/ \d+/);
+  await page.locator('#expertStepNext').click();
+  await expect(status).toHaveText(/1 \/ \d+/);
+  await expect(page.locator('body')).toHaveClass(/pathway-focus/);
+  await expect(page.locator('#inspector')).not.toHaveClass(/open/);
+  await expect(page.locator('#entityLayer .entity.active[data-expert-step="1"]')).toHaveCount(1);
+
+  await page.locator('#expertStepNext').click();
+  await expect(status).toHaveText(/2 \/ \d+/);
+  await expect(page.locator('#entityLayer .entity.active[data-expert-step="2"]')).toHaveCount(1);
+  await page.locator('#expertStepPrev').click();
+  await expect(status).toHaveText(/1 \/ \d+/);
 });
 
 test('all 21 expert pathway briefs expose a pathway-specific teaching contract', async ({ page }) => {
@@ -379,11 +408,15 @@ test('P1 pathway layouts preserve their pathway-specific topology', async ({ pag
   )).toBe(true);
   await page.waitForTimeout(480);
   await expect.poll(() => page.locator('#entityLayer .entity.pathway-teaching-detail.pathway-active').evaluateAll(nodes => {
-    const top = document.querySelector('.expert-pathway-brief')?.getBoundingClientRect().bottom || 0;
+    const top = document.querySelector('.topbar')?.getBoundingClientRect().bottom || 0;
     const bottom = document.querySelector('.pathbar')?.getBoundingClientRect().top || innerHeight;
+    const brief = document.querySelector('.expert-pathway-brief')?.getBoundingClientRect();
     return nodes.every(node => {
       const box = node.getBoundingClientRect();
-      return box.top >= top && box.bottom <= bottom && box.left >= 0 && box.right <= innerWidth;
+      const overlapsBrief = brief && Math.min(box.right, brief.right) > Math.max(box.left, brief.left)
+        && Math.min(box.bottom, brief.bottom) > Math.max(box.top, brief.top);
+      return box.top >= top && box.bottom <= bottom && box.left >= 0 && box.right <= innerWidth
+        && !overlapsBrief;
     });
   })).toBe(true);
 

@@ -17,8 +17,10 @@ test('expert map skips missing endpoints and treats labels as text', async ({ pa
   await page.goto(appUrl('expert-resilience-1'), { waitUntil: 'networkidle' });
   await page.getByRole('button', { name: /进入学习模式/ }).click();
   await page.getByRole('button', { name: '专家地图', exact: true }).click();
-  // 扩展通路在重点总览中按产品范围隐藏；断言使用仍应可见的核心线路。
-  await expect(page.locator('#routeLayer .route:not(.route-extended)').first()).toBeVisible();
+  // 总览只显示图片与空间锚点；选择一条通路后才开放核心线路。
+  await expect(page.locator('#routeLayer .route:not(.route-extended)').first()).toHaveCSS('display', 'none');
+  await page.locator('.path-filter[data-path="glycolysis"]').click();
+  await expect(page.locator('#routeLayer .route:not(.route-extended).pathway-active').first()).toBeVisible();
   await expect(page.locator('#routeLayer [data-id="rx-missing-endpoint"]')).toHaveCount(0);
   await expect(page.locator('#enzymeLayer [data-id="rx-missing-endpoint"]')).toHaveCount(0);
   await expect(page.locator('#expertInjectionProbe')).toHaveCount(0);

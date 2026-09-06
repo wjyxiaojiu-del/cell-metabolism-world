@@ -38,12 +38,12 @@ test('student canvas keeps current and next step in sync', async ({ page }) => {
   await page.locator('#studentReactions .student-reaction').first().click();
   const detailTitle = studentDetail.getByRole('heading', { level: 3 });
   const initialDetailTitle = await detailTitle.textContent();
-  await expect(studentDetail.locator('.student-detail-count')).toHaveText(/1 \/ \d+通路内反应/);
+  await expect(studentDetail.locator('.student-detail-count')).toHaveText(/1 \/ \d+反应/);
   await expect(studentDetail.locator('[data-student-detail-nav="-1"]')).toBeDisabled();
   await expect(studentDetail.locator('[data-student-detail-nav="1"]')).toBeEnabled();
   await studentDetail.locator('[data-student-detail-nav="1"]').click();
   await expect(detailTitle).not.toHaveText(initialDetailTitle);
-  await expect(studentDetail.locator('.student-detail-count')).toHaveText(/2 \/ \d+通路内反应/);
+  await expect(studentDetail.locator('.student-detail-count')).toHaveText(/2 \/ \d+反应/);
   await expect(studentDetail.locator('[data-student-detail-nav="-1"]')).toBeEnabled();
   const detailTextSizes = await studentDetail.evaluate(detail => ({
     description: parseFloat(getComputedStyle(detail.querySelector('.student-detail-description')).fontSize),
@@ -109,10 +109,10 @@ test('student canvas keeps current and next step in sync', async ({ page }) => {
 
   await page.locator('#studentReactions .student-reaction', { hasText: '果糖-6-磷酸 + ATP' }).click();
   const beginnerNote = studentDetail.locator('.student-reaction-note');
-  await expect(beginnerNote).toContainText('这一步在做什么');
+  await expect(beginnerNote).toContainText('做什么');
   await expect(beginnerNote.locator('.note-source')).toHaveText('人工精讲');
-  await expect(beginnerNote).toContainText('为什么需要');
-  await expect(beginnerNote).toContainText('这样记');
+  await expect(beginnerNote).toContainText('为什么');
+  await expect(beginnerNote).toContainText('记忆点');
   const noteBeforeEquation = await studentDetail.evaluate(detail => {
     const note = detail.querySelector('.student-reaction-note');
     const equation = detail.querySelector('.equation-summary');
@@ -149,8 +149,9 @@ test('student canvas keeps current and next step in sync', async ({ page }) => {
   });
   await page.locator('#studentReactionToggle').click();
   await page.locator('#studentReactions .student-reaction').first().click();
-  const generatedNote = page.locator('#studentDetail .student-reaction-note.generated');
-  await expect(generatedNote.locator('.note-source')).toHaveText('自动整理 · 待人工精讲');
+  const faSynthesisNote = page.locator('#studentDetail .student-reaction-note');
+  await expect(faSynthesisNote).not.toHaveClass(/generated/);
+  await expect(faSynthesisNote.locator('.note-source')).toHaveText('人工精讲');
 
   await page.locator('#studentPathwaySelect').evaluate(select => {
     select.value = 'glycolysis';

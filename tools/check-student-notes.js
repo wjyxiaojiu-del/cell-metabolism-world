@@ -21,10 +21,7 @@ const groupsFor = reaction => Array.isArray(reaction.group) ? reaction.group : [
 const keyFor = (pathwayId, reaction) => `${pathwayId}|${reaction.from}>${reaction.to}`;
 const validKeys = new Set(data.reactions.flatMap(reaction => groupsFor(reaction).map(pathwayId => keyFor(pathwayId, reaction))));
 const orphanKeys = Object.keys(notes).filter(key => !validKeys.has(key));
-const requiredManualCoverage = new Set([
-  'glycolysis', 'gluconeogenesis', 'glycogenesis', 'glycogenolysis', 'ppp', 'pdh', 'tca', 'malate_aspartate', 'glycerol_phosphate', 'etc', 'oxphos',
-  'transamination', 'urea', 'aa_carbon'
-]);
+const requiredManualCoverage = new Set(corePathways);
 
 let covered = 0;
 let total = 0;
@@ -44,9 +41,9 @@ for (const pathwayId of corePathways) {
 }
 for (const key of orphanKeys) console.error(`ERROR 孤儿解读键：${key}`);
 console.log(`人工精讲 ${covered}/${total}；白话可读 ${generatedFallbackEnabled ? total : covered}/${total}；孤儿键 ${orphanKeys.length}`);
-if (covered < 113) console.error(`ERROR 人工精讲覆盖回退：${covered}/113`);
+if (covered < total) console.error(`ERROR 人工精讲覆盖回退：${covered}/${total}`);
 if (!generatedFallbackEnabled) console.error('ERROR 缺少未精讲反应的白话兜底');
 if (!generatedStatusVisible) console.error('ERROR 自动白话缺少“待人工精讲”视觉标识');
 if (!representationConventionVisible) console.error('ERROR 缺少第二表示边的全局读图约定');
-console.log('统计口径：155 为 21 门课程内反应数求和；跨课程共享反应会按课程分别计入。');
-if (orphanKeys.length || covered < 113 || requiredCoverageFailed || !generatedFallbackEnabled || !generatedStatusVisible || !representationConventionVisible) process.exitCode = 1;
+console.log(`统计口径：${total} 为 21 门课程内反应数求和；跨课程共享反应会按课程分别计入。`);
+if (orphanKeys.length || covered < total || requiredCoverageFailed || !generatedFallbackEnabled || !generatedStatusVisible || !representationConventionVisible) process.exitCode = 1;

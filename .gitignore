@@ -28,3 +28,7 @@ docs/archive/screenshots-2026-08/
 # OS / editor noise
 Thumbs.db
 .DS_Store
+
+.env
+.next/
+.turbo/

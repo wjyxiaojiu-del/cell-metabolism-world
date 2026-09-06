@@ -630,5 +630,257 @@ window.STUDENT_REACTION_NOTES = {
     doing: '教学简化边：胞质琥珀酰辅酶 A 水解为琥珀酸（真实过程为多步且酶名待具体化，本边待审校）。',
     why: '缬氨酸/异亮氨酸/甲硫氨酸/苏氨酸的碳骨架以琥珀酰辅酶 A 形式汇入（rx10），本边给出胞质侧的简化去向，是连接 aa_carbon 终点与 TCA 入口的教学链一环。',
     hook: 'BCAA 类碳骨架先落到琥珀酰辅酶 A，再简化为琥珀酸。'
-  }
+  },
+
+  'fa_synthesis|柠檬酸@cytosol>乙酰辅酶 A@cytosol': {
+    doing: 'ATP 柠檬酸裂解酶用 CoA-SH 和 ATP 把胞质柠檬酸拆成乙酰辅酶 A、草酰乙酸和 ADP。',
+    why: '柠檬酸把线粒体里的碳带到胞质；裂解后得到的乙酰辅酶 A 才能进入脂肪酸合成。',
+    hook: '柠檬酸出线粒体，先拆出乙酰辅酶 A，再开始造脂肪。'
+  },
+  'fa_synthesis|乙酰辅酶 A@cytosol>丙二酰-CoA@cytosol': {
+    doing: '乙酰辅酶 A 羧化酶（ACC）消耗 ATP 和碳酸氢根，给乙酰辅酶 A 加上一个碳，生成丙二酰-CoA。',
+    why: '丙二酰-CoA 是脂肪酸合酶使用的二碳供体；ACC 这一步是脂肪酸合成的主要承诺和调控关口。',
+    hook: '先给乙酰辅酶 A 加一颗碳，做成可用于延长脂肪酸的丙二酰-CoA。'
+  },
+  'fa_synthesis|丙二酰-CoA@cytosol>棕榈酸@cytosol': {
+    doing: '脂肪酸合酶以乙酰辅酶 A 作引物，反复缩合、还原、脱水和再还原，把丙二酰-CoA提供的二碳单位拼成长链，最终形成棕榈酸。',
+    why: '这条边表示多轮循环的净结果；每轮都要消耗 NADPH，丙二酰-CoA 脱羧则推动碳链延长。',
+    hook: '不是一步变长，而是七轮“加两碳并还原”，最后得到 16 碳棕榈酸。'
+  },
+  'fa_synthesis|NADPH@cytosol>棕榈酸@cytosol': {
+    doing: '这是脂肪酸合酶净反应的还原力表示边：14 个 NADPH 为多轮缩合后的还原步骤提供电子。',
+    why: '它和“丙二酰-CoA → 棕榈酸”属于同一个多酶、多轮净反应，不是 NADPH 单独变成棕榈酸。',
+    hook: '同一条合成反应的另一入口：脂肪酸合成要用 NADPH 供还原力。'
+  },
+  'fa_synthesis|柠檬酸@mito-matrix>柠檬酸@cytosol': {
+    doing: '柠檬酸-苹果酸穿梭把线粒体基质的柠檬酸运到胞质。',
+    why: '乙酰辅酶 A 不能直接穿过线粒体内膜；先以柠檬酸形式输出，才能在胞质被 ATP 柠檬酸裂解酶释放。',
+    hook: '这一步是运碳，不是造脂肪：柠檬酸先把线粒体碳源带到胞质。'
+  },
+
+  'carnitine|脂酰-CoA@cytosol>脂酰肉碱@mito-ims': {
+    doing: '外膜侧的肉碱棕榈酰转移酶 1（CPT1）把长链脂酰基从 CoA 转给肉碱，生成脂酰肉碱并释放 CoA-SH。',
+    why: '长链脂酰-CoA不能直接穿过线粒体内膜；CPT1 是进入肉碱穿梭的闸门，也受丙二酰-CoA抑制。',
+    hook: '先把脂酰基换乘到肉碱上，才能进线粒体做 β-氧化。'
+  },
+  'carnitine|脂酰肉碱@mito-ims>脂酰肉碱@mito-matrix': {
+    doing: '线粒体内膜上的肉碱-脂酰肉碱转位酶（CACT）以交换方式把脂酰肉碱送入基质，同时把游离肉碱送回膜间隙侧。',
+    why: 'CACT 负责真正跨过内膜；它不是化学转化，而是维持肉碱循环的交换运输。',
+    hook: '脂酰肉碱进来，肉碱换出去，内膜靠交换完成过关。'
+  },
+  'carnitine|脂酰肉碱@mito-matrix>脂酰-CoA@mito-matrix': {
+    doing: '基质侧的肉碱棕榈酰转移酶 2（CPT2）把脂酰基从肉碱转回 CoA，生成可被 β-氧化使用的脂酰-CoA。',
+    why: '恢复成脂酰-CoA后，脂肪酸才进入脱氢、水合、再脱氢和硫解循环；肉碱则被释放并返回穿梭。',
+    hook: '到达基质后再换回 CoA，脂酰链正式接入 β-氧化。'
+  },
+
+  'beta_oxidation|脂酰-CoA@mito-matrix>烯酰-CoA@mito-matrix': {
+    doing: '脂酰-CoA 脱氢酶从脂酰链的 α、β 位移走氢，形成 trans-Δ²-烯酰-CoA，并把电子交给 FAD 生成 FADH₂。',
+    why: '第一次脱氢把碳链变成下一步可加水的双键，同时把一份还原力送入呼吸链。',
+    hook: '先脱氢造双键：FADH₂ 在 β-氧化第一步充电。'
+  },
+  'beta_oxidation|烯酰-CoA@mito-matrix>β-羟脂酰-CoA@mito-matrix': {
+    doing: '烯酰-CoA 水合酶把水加到双键两端，生成具有正确立体构型的 β-羟脂酰-CoA。',
+    why: '羟基被放到 β 位，下一步才能把它氧化成 β-酮基；本步本身不产生 ATP 或还原当量。',
+    hook: '给双键加水，把结构摆到下一次氧化所需的位置。'
+  },
+  'beta_oxidation|β-羟脂酰-CoA@mito-matrix>β-酮脂酰-CoA@mito-matrix': {
+    doing: 'β-羟脂酰-CoA 脱氢酶把 β-羟基氧化为 β-酮基，并把 NAD⁺ 还原为 NADH。',
+    why: 'β-酮基让最后的硫解切割成为可能；这一轮又保存了一份还原力。',
+    hook: '第二次脱氢把羟基变成酮基，为拆下乙酰辅酶 A 做准备。'
+  },
+  'beta_oxidation|β-酮脂酰-CoA@mito-matrix>乙酰辅酶 A@mito-matrix': {
+    doing: 'β-酮硫解酶用 CoA-SH 进行硫解，切下两个碳形成乙酰辅酶 A，同时留下缩短两个碳的脂酰-CoA。',
+    why: '乙酰辅酶 A 进入三羧酸循环，缩短后的脂酰-CoA继续下一轮；因此每轮都重复四步。',
+    hook: '最后一刀拆下两碳乙酰辅酶 A，剩下的脂酰链继续循环。'
+  },
+
+  'ketone|乙酰辅酶 A@mito-matrix>乙酰乙酰辅酶 A@mito-matrix': {
+    doing: '硫解酶把两分子乙酰辅酶 A 缩合成乙酰乙酰辅酶 A，并释放一分子 CoA-SH。',
+    why: '这是肝线粒体生成酮体的起始缩合，把过量乙酰辅酶 A 汇入酮体路线。',
+    hook: '两分子乙酰辅酶 A 先合成四碳的酮体前体。'
+  },
+  'ketone|乙酰乙酰辅酶 A@mito-matrix>HMG-CoA@mito-matrix': {
+    doing: 'HMG-CoA 合成酶把另一分子乙酰辅酶 A 加到乙酰乙酰辅酶 A 上，并用水生成 HMG-CoA。',
+    why: '肝线粒体 HMG-CoA 合成酶 2（HMGCS2）控制酮体生成的关键承诺步骤。',
+    hook: '再接上一颗乙酰基，四碳前体变成六碳 HMG-CoA。'
+  },
+  'ketone|HMG-CoA@mito-matrix>乙酰乙酸@mito-matrix': {
+    doing: 'HMG-CoA 裂解酶把 HMG-CoA 拆成乙酰乙酸和乙酰辅酶 A。',
+    why: '乙酰乙酸是第一个真正释放出来的酮体，可以直接输出，也可以转成 β-羟丁酸。',
+    hook: 'HMG-CoA 一分为二：一份酮体，另一份乙酰辅酶 A。'
+  },
+  'ketone|乙酰乙酸@mito-matrix>β-羟丁酸@mito-matrix': {
+    doing: 'β-羟丁酸脱氢酶利用 NADH 和质子把乙酰乙酸还原成 β-羟丁酸，并生成 NAD⁺。',
+    why: '乙酰乙酸与 β-羟丁酸的比例反映线粒体 NADH/NAD⁺ 状态；β-羟丁酸是肝输出的重要还原型酮体。',
+    hook: 'NADH 越多，乙酰乙酸越容易被还原成 β-羟丁酸。'
+  },
+  'ketone|乙酰乙酸@mito-matrix>乙酰乙酰辅酶 A@mito-matrix': {
+    doing: '外周组织的 SCOT（琥珀酰-CoA:3-酮酸 CoA 转移酶）把 CoA 从琥珀酰-CoA转给乙酰乙酸，生成乙酰乙酰辅酶 A。',
+    why: '这一步启动酮体利用；肝脏缺少 SCOT，所以肝生成酮体但不能把它作为自己的主要燃料。',
+    hook: '外周组织先把酮体重新接上 CoA，才能拆回能量。'
+  },
+  'ketone|乙酰乙酰辅酶 A@mito-matrix>乙酰辅酶 A@mito-matrix': {
+    doing: 'β-酮硫解酶把乙酰乙酰辅酶 A 裂解成两分子乙酰辅酶 A。',
+    why: '两分子乙酰辅酶 A 进入三羧酸循环氧化，酮体携带的碳由此转成可利用的能量。',
+    hook: '酮体利用的最后一步：四碳前体拆成两份乙酰辅酶 A。'
+  },
+
+  'purine|核糖-5-磷酸@cytosol>PRPP@cytosol': {
+    doing: 'PRPP 合成酶用 ATP 给核糖-5-磷酸加上焦磷酸基，生成活化的 PRPP。',
+    why: 'PRPP 把核糖骨架变成可接收含氮原子的活化平台，是嘌呤从头合成的入口。',
+    hook: '先把核糖装上“活化把手”，后面才能逐步搭嘌呤环。'
+  },
+  'purine|PRPP@cytosol>5-磷酸核糖胺@cytosol': {
+    doing: '谷氨酰胺-PRPP 酰胺转移酶用谷氨酰胺提供的氮替换 PRPP 的焦磷酸基，生成 5-磷酸核糖胺和谷氨酸。',
+    why: '这是嘌呤从头合成的承诺步骤；一旦进入这里，核糖骨架通常就沿嘌呤合成路线继续。',
+    hook: '谷氨酰胺交出第一个氮，嘌呤环开始真正搭建。'
+  },
+  'purine|5-磷酸核糖胺@cytosol>GAR@cytosol': {
+    doing: 'GAR 合成酶把甘氨酸接到 5-磷酸核糖胺上，并消耗 ATP，生成 GAR。',
+    why: '甘氨酸不是旁观者，它会贡献嘌呤环的碳和氮；这一小步把第一个完整片段装上核糖。',
+    hook: '甘氨酸带着碳和氮加入，嘌呤环开始长出第一段。'
+  },
+  'purine|GAR@cytosol>AICAR@cytosol': {
+    doing: '这条表示边把 GAR 到 AICAR 之间的多步反应合并展示，实际包含逐步加原子、甲酰化、环化和 ATP 消耗。',
+    why: '它不是某一个酶的一步反应；合并后用于突出“开链前体逐渐闭合成嘌呤环”的教学主线。',
+    hook: 'GAR 到 AICAR 是一段施工过程，不要把它误记成单步跳跃。'
+  },
+  'purine|AICAR@cytosol>IMP@cytosol': {
+    doing: 'ATIC 的两个功能完成最后的甲酰化与环化：10-甲酰-四氢叶酸提供一碳单位，AICAR 最终变成 IMP。',
+    why: 'IMP 是第一个完整的嘌呤核苷酸分叉点，之后分别走向 AMP 或 GMP。',
+    hook: '最后补上一碳并闭合环，嘌呤共同中间体 IMP 出现。'
+  },
+  'purine|IMP@cytosol>AMP@cytosol': {
+    doing: '腺苷酸琥珀酸合成/裂解系统先让 IMP 接受天冬氨酸和 GTP，再释放延胡索酸，形成 AMP。',
+    why: '天冬氨酸提供 AMP 分支所需的氮；GTP 提供能量，使 IMP 朝腺嘌呤核苷酸方向分化。',
+    hook: 'IMP 接上天冬氨酸，放出延胡索酸，走向 AMP 分支。'
+  },
+  'purine|IMP@cytosol>GMP@cytosol': {
+    doing: 'IMP 先被氧化，再由 GMP 合成酶用谷氨酰胺提供氮并消耗 ATP，最终生成 GMP。',
+    why: '谷氨酰胺是 GMP 分支的氮源；这条分支与 AMP 分支共享 IMP，但使用不同的能量和氮输入。',
+    hook: '另一条出口：先氧化 IMP，再用谷氨酰胺补上 GMP 所需的氮。'
+  },
+  'purine|AMP@cytosol>ATP@cytosol': {
+    doing: '这条边表示腺苷酸激酶维持腺嘌呤核苷酸池：实际净反应是 AMP + ATP ⇌ 2 ADP，随后由其他激酶继续调节 ATP。',
+    why: '图上的 AMP→ATP 是核苷酸池方向的教学表示，不是 AMP 单独直接变成 ATP 的单步反应。',
+    hook: '这是能量池平衡边：腺苷酸激酶在 AMP、ADP 和 ATP 之间重新分配磷酸。'
+  },
+  'purine|GMP@cytosol>GTP@cytosol': {
+    doing: '鸟苷酸激酶和核苷二磷酸激酶接力，把 GMP 经 GDP 推到 GTP；数据边合并表示这两步磷酸转移。',
+    why: 'GTP 是蛋白合成、信号和多种酶反应使用的高能鸟苷酸；这里强调的是核苷酸池的活化。',
+    hook: 'GMP 先到 GDP，再到 GTP；图上是一条合并的补能边。'
+  },
+
+  'pyrimidine|谷氨酰胺@cytosol>氨甲酰磷酸@cytosol': {
+    doing: '胞质型氨甲酰磷酸合成酶 II 用谷氨酰胺提供氮，消耗 CO₂ 和两个 ATP，生成氨甲酰磷酸。',
+    why: '这是嘧啶从头合成的胞质入口；不要和在线粒体、服务于尿素循环的 CPS I 混淆。',
+    hook: '嘧啶先在胞质用谷氨酰胺和两份 ATP 做出氨甲酰磷酸。'
+  },
+  'pyrimidine|氨甲酰磷酸@cytosol>氨甲酰天冬氨酸@cytosol': {
+    doing: '天冬氨酸转氨甲酰酶把氨甲酰基转给天冬氨酸，形成氨甲酰天冬氨酸。',
+    why: '天冬氨酸提供嘧啶环的一部分骨架；这一步把氨甲酰磷酸正式接到环前体上。',
+    hook: '氨甲酰磷酸把氨甲酰基交给天冬氨酸，环前体开始成形。'
+  },
+  'pyrimidine|氨甲酰天冬氨酸@cytosol>二氢乳清酸@cytosol': {
+    doing: '二氢乳清酸酶促使氨甲酰天冬氨酸发生环化并水解，生成二氢乳清酸。',
+    why: '到这里嘧啶环的闭环骨架已经建立，后面只需氧化和接上核糖磷酸。',
+    hook: '开链前体折回并闭环，得到二氢乳清酸。'
+  },
+  'pyrimidine|二氢乳清酸@cytosol>乳清酸@cytosol': {
+    doing: 'DHODH 氧化二氢乳清酸生成乳清酸，并把电子交给辅酶 Q 形成泛醇。',
+    why: '哺乳动物 DHODH 锚定在线粒体内膜附近，嘧啶合成因此与呼吸链醌池发生连接。',
+    hook: '嘧啶环在这里完成氧化，也把电子交给线粒体醌池。'
+  },
+  'pyrimidine|乳清酸@cytosol>UMP@cytosol': {
+    doing: '乳清酸磷酸核糖转移酶先接上 PRPP，随后乳清酸核苷酸脱羧酶去掉羧基，合并生成 UMP。',
+    why: '这条边合并了两个连续步骤；UMP 是嘧啶核苷酸合成的共同起点。',
+    hook: '先接活化核糖，再脱羧，乳清酸变成第一个嘧啶核苷酸 UMP。'
+  },
+  'pyrimidine|UMP@cytosol>UDP@cytosol': {
+    doing: '核苷酸激酶系用 ATP 给 UMP 加一个磷酸，生成 UDP。',
+    why: 'UDP 是合成 RNA 前体、糖核苷酸和 dTMP 分支的重要中间体；该反应可逆，受核苷酸池状态影响。',
+    hook: 'UMP 先补上一枚磷酸，进入 UDP 这个分叉节点。'
+  },
+  'pyrimidine|UDP@cytosol>UTP@cytosol': {
+    doing: '另一类核苷酸激酶继续用 ATP 给 UDP 加磷酸，生成 UTP。',
+    why: 'UTP 可直接用于 RNA 前体池，也可进入 CTP 合成和糖核苷酸代谢。',
+    hook: '再补一枚磷酸，UDP 被活化成 UTP。'
+  },
+  'pyrimidine|UTP@cytosol>CTP@cytosol': {
+    doing: 'CTP 合成酶用谷氨酰胺提供氮，并消耗 ATP，把 UTP 的尿嘧啶碱基氨化为 CTP。',
+    why: '这是嘧啶合成的胞嘧啶分支；氮源来自谷氨酰胺，谷氨酸是副产物。',
+    hook: 'UTP 接受谷氨酰胺提供的氮，转成 CTP。'
+  },
+  'pyrimidine|UDP@cytosol>dUDP@cytosol': {
+    doing: '核糖核苷酸还原酶把 UDP 的核糖 2′-羟基还原掉，生成脱氧形式 dUDP，并依赖还原型硫氧还蛋白供电子。',
+    why: '这一步把 RNA 型核苷酸池接到 DNA 前体池；还原后的 dUDP 还要继续加工才能成为胸苷酸。',
+    hook: '先去掉核糖的 2′-羟基，UDP 才能进入脱氧核苷酸路线。'
+  },
+  'pyrimidine|dUDP@cytosol>dTMP@cytosol': {
+    doing: '这是一个合并表示边：dUDP 先去磷酸成为 dUMP，再由胸苷酸合成酶用 5,10-亚甲基-四氢叶酸把 dUMP 甲基化成 dTMP。',
+    why: '数据边跨越两个连续反应，酶名只突出最后一步；学习时要把它理解为“dUDP 经 dUMP 生成 dTMP”的路线。',
+    hook: '先处理磷酸，再补一个甲基，脱氧尿苷酸变成胸苷酸。'
+  },
+
+  'nucleotide_degradation|核酸@cytosol>核苷酸@cytosol': {
+    doing: '核酸酶用水解开核酸骨架，把 DNA 或 RNA 的大分子切成核苷酸。',
+    why: '这是核苷酸降解的入口；后续还要去磷酸、拆糖苷键，才能回收碱基和糖。',
+    hook: '先把大分子拆成一个个核苷酸，回收路线才有入口。'
+  },
+  'nucleotide_degradation|核苷酸@cytosol>核苷@cytosol': {
+    doing: '核苷酸酶水解核苷酸的磷酸酯键，生成核苷和无机磷酸。',
+    why: '去掉磷酸后，核苷才能被核苷磷酸化酶拆成碱基和核糖-1-磷酸。',
+    hook: '先卸下磷酸标签，再拆核苷的糖和碱基。'
+  },
+  'nucleotide_degradation|核苷@cytosol>碱基@cytosol': {
+    doing: '核苷磷酸化酶用无机磷酸进行磷解，把核苷拆成碱基和核糖-1-磷酸；该反应可逆。',
+    why: '它把核苷的糖部分和含氮碱基分开，碱基随后进入嘌呤或嘧啶的具体去路。',
+    hook: '不是加水硬切，而是用磷酸换出碱基和核糖-1-磷酸。'
+  },
+  'nucleotide_degradation|次黄嘌呤@cytosol>黄嘌呤@cytosol': {
+    doing: '黄嘌呤氧化酶氧化次黄嘌呤，并把氧气还原成过氧化氢，生成黄嘌呤。',
+    why: '这是嘌呤降解到尿酸的第一步；过氧化氢也说明该反应需要细胞的抗氧化处理。',
+    hook: '次黄嘌呤先被氧化成黄嘌呤，同时产生 H₂O₂。'
+  },
+  'nucleotide_degradation|黄嘌呤@cytosol>尿酸@cytosol': {
+    doing: '黄嘌呤氧化酶继续氧化黄嘌呤，生成尿酸并产生过氧化氢。',
+    why: '这是人类嘌呤分解的末端；尿酸过多会增加痛风相关结晶风险。',
+    hook: '同一酶再做一次氧化，黄嘌呤到尿酸，嘌呤降解到达末端。'
+  },
+  'nucleotide_degradation|鸟嘌呤@cytosol>黄嘌呤@cytosol': {
+    doing: '鸟嘌呤脱氨酶用水去掉鸟嘌呤的氨基，释放氨并生成黄嘌呤。',
+    why: '鸟嘌呤支路在这里汇入黄嘌呤，再与次黄嘌呤支路共同走向尿酸。',
+    hook: '鸟嘌呤先脱氨，和另一条嘌呤支路汇合到黄嘌呤。'
+  },
+  'nucleotide_degradation|尿嘧啶@cytosol>β-丙氨酸@cytosol': {
+    doing: '这条边合并了尿嘧啶还原、环水解和氨基甲酰基裂解三步，净结果是生成 β-丙氨酸、二氧化碳和氨。',
+    why: 'NADPH 提供还原力；β-丙氨酸可继续进入含氮和有机酸代谢。',
+    hook: '尿嘧啶不是一步变成 β-丙氨酸，而是经过三步净降解。'
+  },
+  'nucleotide_degradation|胸腺嘧啶@cytosol>β-氨基异丁酸@cytosol': {
+    doing: '这条边合并了胸腺嘧啶还原、环水解和裂解三步，净生成 β-氨基异丁酸、二氧化碳和氨。',
+    why: '它与尿嘧啶降解共享同类酶系，但甲基使末端产物变成 β-氨基异丁酸。',
+    hook: '胸腺嘧啶的甲基被保留到 β-氨基异丁酸中。'
+  },
+  'nucleotide_degradation|碱基@cytosol>次黄嘌呤@cytosol': {
+    doing: '这是把“碱基池”分向次黄嘌呤的教学分类边，对应腺嘌呤脱氨等真实过程的简化表示。',
+    why: '它不是一个可独立定位的单一酶反应；具体底物、酶和中间体在真实代谢中需要展开。',
+    hook: '分类入口只告诉你碱基会汇入哪条支路，不要把它背成一步反应。'
+  },
+  'nucleotide_degradation|碱基@cytosol>鸟嘌呤@cytosol': {
+    doing: '这是把“碱基池”分向鸟嘌呤的教学分类边，用于显示嘌呤碱基支路的入口。',
+    why: '它不是一个具体的单步转化；真实路线需要按鸟嘌呤来源和回收/降解酶分别展开。',
+    hook: '先读成嘌呤碱基分流提示，再追具体鸟嘌呤反应。'
+  },
+  'nucleotide_degradation|碱基@cytosol>尿嘧啶@cytosol': {
+    doing: '这是把“碱基池”分向尿嘧啶的教学分类边，概括胞嘧啶脱氨后进入嘧啶降解的方向。',
+    why: '图上省略了具体碱基、酶和水解中间体；它的作用是提示嘧啶碱基的降解出口。',
+    hook: '这是一条嘧啶分流提示，不是一条直接的碱基到尿嘧啶反应。'
+  },
+  'nucleotide_degradation|碱基@cytosol>胸腺嘧啶@cytosol': {
+    doing: '这是把“碱基池”分向胸腺嘧啶的教学分类边，用于展示嘧啶降解支路的另一入口。',
+    why: '胸腺嘧啶的真实来源和降解步骤需要单独展开；本边只承担类别导航，不代表直接转化。',
+    hook: '先按嘧啶支路定位胸腺嘧啶，再回到具体反应学习。'
+  },
 };
