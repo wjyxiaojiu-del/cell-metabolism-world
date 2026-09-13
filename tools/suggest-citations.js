@@ -222,12 +222,19 @@ async function main() {
       const lineIdx = lines.findIndex(l => rowKey(l.split('\t')[0], l.split('\t')[1], l.split('\t')[2]) === key);
       if (lineIdx < 0) { record.status = 'row-not-found'; report.push(record); continue; }
       record.line = lineIdx + 1;
+      const noteNow = lines[lineIdx].split('\t')[6] || '';
+      if (/\b(?:RHEA:\d+|KEGG:R\d{5}|R-HSA-\d+|PMID:\d{7,8}|(?:UniProt:)?[OPQ][0-9][A-Z0-9]{3}[0-9])\b/.test(noteNow)) {
+        record.status = 'already-cited';
+        report.push(record);
+        continue;
+      }
 
       // 已核验 ID 池直接引用
       if (item.cite) {
         const parts = [];
         if (item.cite.kegg) for (const id of item.cite.kegg) parts.push(`KEGG:${id}（${item.cite.note || '反应/酶对应'}；生理方向与区室另审）`);
         if (item.cite.uniprot) for (const id of item.cite.uniprot) parts.push(`UniProt:${id}（${item.cite.note || '转运体功能'}；细节另审）`);
+        if (item.cite.reactome) for (const entry of item.cite.reactome) parts.push(`${entry.id}（${entry.name}；类别映射行的通路级证据，不表示单一反应）`);
         record.citation = parts.join('；');
         record.status = 'pooled';
         report.push(record);

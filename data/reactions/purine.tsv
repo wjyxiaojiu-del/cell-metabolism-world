@@ -9,5 +9,5 @@ GAR	AICAR	多酶复合体	否	GAR → AICAR	已终审	多步示意边：合并 G
 AICAR	IMP	AICAR 转化酶/IMP 环水解酶 (ATIC)	否	AICAR + 10-甲酰-THF → IMP + THF + H₂O	已终审	双功能酶 ATIC 的两步净反应；KEGG:R04560、KEGG:R01127；RHEA:22195、RHEA:18448
 IMP	AMP	腺苷酸琥珀酸合成/裂解酶系	否	IMP + 天冬氨酸 + GTP → AMP + 延胡索酸 + GDP + Pi	已终审	腺苷酸琥珀酸合成与裂解两步净反应；RHEA:15753、RHEA:23922
 IMP	GMP	IMP 脱氢酶/GMP 合成酶	否	IMP + NAD⁺ + 2 H₂O + ATP + 谷氨酰胺 → GMP + NADH + H⁺ + AMP + PPi + 谷氨酸	已终审	IMPDH 与 GMPS 两步净反应；RHEA:11708、RHEA:11680
-AMP	ATP	腺苷酸激酶	是	AMP + ATP ⇌ 2 ADP	已终审	腺嘌呤核苷酸池；只保留腺苷酸激酶的正确净反应；KEGG:R00333（NTP/NDP 通式写法，ATP 口径另审；生理方向与区室另审）；KEGG:R00333（NTP/NDP 通式写法，ATP 口径另审；生理方向与区室另审）
+AMP	ATP	腺苷酸激酶	是	AMP + ATP ⇌ 2 ADP	已终审	腺嘌呤核苷酸池；只保留腺苷酸激酶的正确净反应；KEGG:R00333（NTP/NDP 通式写法，ATP 口径另审；生理方向与区室另审）；生理方向与区室另审）
 GMP	GTP	鸟苷酸激酶/nucleoside diphosphate kinase	是	GMP + ATP ⇌ GDP + ADP；GDP + ATP ⇌ GTP + ADP	已终审	鸟苷酸激酶与 NDPK 两步磷酸化；KEGG:R00332、KEGG:R00330；RHEA:20783、RHEA:27689

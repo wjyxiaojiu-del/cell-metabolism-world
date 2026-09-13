@@ -2,9 +2,9 @@
 #	默认区室: 线粒体基质
 #	来源: PDF 下中 BCAA 区
 底物	产物	酶	可逆	反应式	审校	备注
-BCAA	支链α-酮酸	支链氨基酸转氨酶 BCAT	是	BCAA + α-KG ⇌ 支链α-酮酸 + 谷氨酸	已终审	亮氨酸/异亮氨酸/缬氨酸共同入口
-支链α-酮酸	支链酰-CoA	支链α-酮酸脱氢酶复合体 BCKDH	否	支链α-酮酸 + CoA-SH + NAD⁺ → 支链酰-CoA + CO₂ + NADH	已终审	氧化脱羧
+BCAA	支链α-酮酸	支链氨基酸转氨酶 BCAT	是	BCAA + α-KG ⇌ 支链α-酮酸 + 谷氨酸	已终审	亮氨酸/异亮氨酸/缬氨酸共同入口；R-HSA-70895（Branched-chain amino acid catabolism；类别映射行的通路级证据，不表示单一反应）
+支链α-酮酸	支链酰-CoA	支链α-酮酸脱氢酶复合体 BCKDH	否	支链α-酮酸 + CoA-SH + NAD⁺ → 支链酰-CoA + CO₂ + NADH	已终审	氧化脱羧；R-HSA-70895（Branched-chain amino acid catabolism；类别映射行的通路级证据，不表示单一反应）
 支链酰-CoA	乙酰辅酶 A	支链酰-CoA 脱氢/硫解酶系	否	支链酰-CoA → 乙酰-CoA	已终审	类别示意边：亮氨酸生成乙酰-CoA和乙酰乙酸，异亮氨酸生成乙酰-CoA和琥珀酰-CoA，缬氨酸不生成乙酰-CoA；R-HSA-70895
 支链酰-CoA	琥珀酰辅酶 A	支链酰-CoA 脱氢/硫解酶系	否	支链酰-CoA → 琥珀酰-CoA	已终审	类别示意边：仅表达异亮氨酸和缬氨酸的多步生糖出口，不代表亮氨酸路径或精确净反应；R-HSA-70895
-亮氨酸	乙酰辅酶 A	亮氨酸代谢酶系	否	亮氨酸 → 乙酰-CoA + 乙酰乙酸	已终审	纯生酮氨基酸
-异亮氨酸	琥珀酰辅酶 A	异亮氨酸代谢酶系	否	异亮氨酸 → 乙酰-CoA + 琥珀酰-CoA	已终审	兼具生糖/生酮出口
+亮氨酸	乙酰辅酶 A	亮氨酸代谢酶系	否	亮氨酸 → 乙酰-CoA + 乙酰乙酸	已终审	纯生酮氨基酸；R-HSA-70895（Branched-chain amino acid catabolism；类别映射行的通路级证据，不表示单一反应）
+异亮氨酸	琥珀酰辅酶 A	异亮氨酸代谢酶系	否	异亮氨酸 → 乙酰-CoA + 琥珀酰-CoA	已终审	兼具生糖/生酮出口；R-HSA-70895（Branched-chain amino acid catabolism；类别映射行的通路级证据，不表示单一反应）

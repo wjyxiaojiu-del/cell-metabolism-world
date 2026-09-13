@@ -57,6 +57,17 @@ async function fetchText(url) {
     });
     const body = await response.text();
     if (!response.ok) {
+      // PubMed/接口偶发 429 限流：退避后重试一次，再失败才记为 unavailable。
+      if (response.status === 429) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        const retry = await fetch(url, {
+          headers: { 'user-agent': 'cell-metabolism-review/1.0' },
+          signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
+        });
+        const retryBody = await retry.text();
+        if (retry.ok) return { ok: true, body: retryBody };
+        return { ok: false, kind: failureKind(retry.status), reason: `HTTP ${retry.status}` };
+      }
       return { ok: false, kind: failureKind(response.status), reason: `HTTP ${response.status}` };
     }
     return { ok: true, body };
