@@ -328,6 +328,7 @@ for (const f of files) {
 const banner = '// 本文件由 tools/compile.js 从 data/*.tsv 生成，不要手改。\n'
   + '// 改数据请改 data/reactions/*.tsv 与 data/nodes/*.tsv，然后重跑 node tools/compile.js\n';
 const body = 'window.METABOLIC_COMPILED = '
+  // 不带缩进输出：相比缩进格式少约 400KB 原始体积，减小浏览器解析开销。
   + JSON.stringify({
     entities,
     reactions: outReactions,
@@ -335,7 +336,7 @@ const body = 'window.METABOLIC_COMPILED = '
     participantCatalog,
     expertPathwayLayouts,
     expertMapGuides
-  }, null, 1) + ';\n';
+  }) + ';\n';
 const outputPath = path.join(ROOT, 'data-compiled.js');
 const compiledOutput = banner + body;
 if (CHECK) {
