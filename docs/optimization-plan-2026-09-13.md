@@ -4,6 +4,8 @@
 
 ## 阶段〇：现在就能做（零视觉风险，不碰运行时像素）
 
+> **执行状态（2026-09-13 当日）**：0.1 已推送且 CI 全绿（data-gates + ubuntu UI 阻塞 + windows 可读性信息项）；0.2 证据覆盖 327→334/368（90.8%），已终审带证据 276/308，Reactome 通道已建成；0.3 钩子已建并加 versions --check；0.4 完成。另完成两件计划外项：发布构建管线（terser 最小化，126/126 对产物全绿，解析字节 -17%）与 pre-commit 自动 bump 缓存版本（关闭 30 天旧缓存缺口）。1.1 签核包工具、1.2 flaky 修复（5 连绿）、1.3 版本号脚本均已完成。
+
 ### 0.1 推送仓库并确认 CI 首跑
 - 做法：`git push origin codex/map-polish`；打开 GitHub Actions 看 `gates` 两个 job（data-gates 约 3 分钟、ui-regression 约 12 分钟）。
 - 验证：两个 job 绿；若 Playwright 安装浏览器失败，改用 `npx playwright install chromium --with-deps` 的输出定位。

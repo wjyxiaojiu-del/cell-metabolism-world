@@ -2,9 +2,9 @@
 #	默认区室: 平滑内质网
 #	来源: PDF 脂质合成区
 底物	产物	酶	可逆	反应式	审校	备注
-甘油-3-磷酸	溶血磷脂酸	甘油-3-磷酸酰基转移酶	否	甘油-3-磷酸 + 脂酰-CoA → 溶血磷脂酸 + CoA-SH	已终审	TAG 合成起始酰化
-溶血磷脂酸	磷脂酸	1-酰基甘油-3-磷酸酰基转移酶	否	溶血磷脂酸 + 脂酰-CoA → 磷脂酸 + CoA-SH	已终审	第二次酰化
-磷脂酸	DAG	磷脂酸磷酸酶	否	磷脂酸 + H₂O → DAG + Pi	已终审	去磷酸化
-DAG	TAG	二酰甘油酰基转移酶	否	DAG + 脂酰-CoA → TAG + CoA-SH	已终审	TAG 合成末步
-TAG	脂肪酸	脂肪甘油三酯脂肪酶	否	TAG + H₂O → DAG + 脂肪酸	已终审	脂解；另一产物为 DAG
-TAG	甘油	脂肪甘油三酯脂肪酶	否	TAG + H₂O → DAG + 脂肪酸	已终审	脂解；主链出口
+甘油-3-磷酸	溶血磷脂酸	甘油-3-磷酸酰基转移酶	否	甘油-3-磷酸 + 脂酰-CoA → 溶血磷脂酸 + CoA-SH	已终审	TAG 合成起始酰化；R-HSA-75109（Triglyceride biosynthesis；类别映射行的通路级证据，不表示单一反应）
+溶血磷脂酸	磷脂酸	1-酰基甘油-3-磷酸酰基转移酶	否	溶血磷脂酸 + 脂酰-CoA → 磷脂酸 + CoA-SH	已终审	第二次酰化；R-HSA-75109（Triglyceride biosynthesis；类别映射行的通路级证据，不表示单一反应）
+磷脂酸	DAG	磷脂酸磷酸酶	否	磷脂酸 + H₂O → DAG + Pi	已终审	去磷酸化；R-HSA-75109（Triglyceride biosynthesis；类别映射行的通路级证据，不表示单一反应）
+DAG	TAG	二酰甘油酰基转移酶	否	DAG + 脂酰-CoA → TAG + CoA-SH	已终审	TAG 合成末步；R-HSA-75109（Triglyceride biosynthesis；类别映射行的通路级证据，不表示单一反应）
+TAG	脂肪酸	脂肪甘油三酯脂肪酶	否	TAG + H₂O → DAG + 脂肪酸	已终审	脂解；另一产物为 DAG；R-HSA-163560（Triglyceride catabolism；类别映射行的通路级证据，不表示单一反应）
+TAG	甘油	脂肪甘油三酯脂肪酶	否	TAG + H₂O → DAG + 脂肪酸	已终审	脂解；主链出口；R-HSA-163560（Triglyceride catabolism；类别映射行的通路级证据，不表示单一反应）
