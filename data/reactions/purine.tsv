@@ -3,7 +3,7 @@
 #	来源: PDF 右下嘌呤区
 底物	产物	酶	可逆	反应式	审校	备注
 核糖-5-磷酸	PRPP	PRPP 合成酶	否	核糖-5-磷酸 + ATP → PRPP + AMP	已终审	嘌呤合成入口；KEGG:R01049（反应/酶对应；生理方向与区室另审）
-PRPP	5-磷酸核糖胺	谷氨酰胺-PRPP 酰胺转移酶	否	PRPP + 谷氨酰胺 → 5-磷酸核糖胺 + 谷氨酸	已终审	限速步骤
+PRPP	5-磷酸核糖胺	谷氨酰胺-PRPP 酰胺转移酶	否	PRPP + 谷氨酰胺 → 5-磷酸核糖胺 + 谷氨酸 + PPi	已终审	限速步骤；糖苷键 P–N 交换释放 PPi（原式漏写，已补）；KEGG:R01072（反应/酶对应；KEGG 式含水/质子本表未写；生理方向与区室另审）
 5-磷酸核糖胺	GAR	GAR synthetase (GART)	否	5-磷酸核糖胺 + 甘氨酸 + ATP → GAR + ADP + Pi	已终审	单酶步骤，氮源为甘氨酸而非谷氨酰胺；KEGG:R04144；RHEA:17456
 GAR	AICAR	多酶复合体	否	GAR → AICAR	已终审	多步示意边：合并 GAR→FGAR→FGAM→AIR→CAIR→SAICAR→AICAR；谷氨酰胺、ATP、CO₂、天冬氨酸和中间体未写入当前方程；R-HSA-73817
 AICAR	IMP	AICAR 转化酶/IMP 环水解酶 (ATIC)	否	AICAR + 10-甲酰-THF → IMP + THF + H₂O	已终审	双功能酶 ATIC 的两步净反应；KEGG:R04560、KEGG:R01127；RHEA:22195、RHEA:18448
