@@ -57,6 +57,7 @@ docs/
   adr/0001-*.md              # 架构决策记录
 
 index.html                   # 主页面（学习模式、专家地图和场景跳转）
+.github/workflows/ci.yml     # CI：push 时跑数据门禁与 UI 回归
 scene-data.js                # 55 个通路入口与场景导航元数据（运行时依赖）
 data-compiled.js             # 编译输出（由 compile.js 生成，不要手改）
 CONTEXT.md                   # 术语表（16 个关键概念）
@@ -165,7 +166,7 @@ npm run test:ui
 npm test
 ```
 
-所有门禁都应该退出 0。`node tools/check-expert-layout.js` 会逐条检查 21 条核心通路的专属坐标是否完整、端点区室集合是否符合核心通路合同、是否落在与当前细胞照片对齐的安全区域，以及节点间距是否安全；胞质节点覆盖核、内质网、线粒体、高尔基体或中心体会直接失败。补充的只读审校检查可运行 `node tools/review-helper.js`、`node tools/check-citations.js`、`node tools/export-svg-reactions.js` 和 `node tools/import-svg-coords.js`。联网时另运行 `node tools/check-citations.js --online`。TSV 修改后使用 `node tools/compile.js` 更新生成文件；只有执行明确的数据迁移时才使用 `export-svg-reactions.js --write` 或 `import-svg-coords.js --write`，覆盖反应文件还必须同时提供 `--force`。
+所有门禁都应该退出 0。推送前可启用本地快速门禁：`git config core.hooksPath hooks`（pre-push 跑 validate + compile --check）。CI 在每次 push/PR 时自动执行 `npm run test:data` 与完整 UI 回归。`node tools/check-expert-layout.js` 会逐条检查 21 条核心通路的专属坐标是否完整、端点区室集合是否符合核心通路合同、是否落在与当前细胞照片对齐的安全区域，以及节点间距是否安全；胞质节点覆盖核、内质网、线粒体、高尔基体或中心体会直接失败。补充的只读审校检查可运行 `node tools/review-helper.js`、`node tools/check-citations.js`、`node tools/export-svg-reactions.js` 和 `node tools/import-svg-coords.js`。联网时另运行 `node tools/check-citations.js --online`。TSV 修改后使用 `node tools/compile.js` 更新生成文件；只有执行明确的数据迁移时才使用 `export-svg-reactions.js --write` 或 `import-svg-coords.js --write`，覆盖反应文件还必须同时提供 `--force`。
 
 当前工程和数据统计由 `STATS.md` 提供。数据或测试数量变化后运行 `npm run stats`，完整门禁会检查该文件是否同步。
 

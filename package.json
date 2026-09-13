@@ -18,7 +18,8 @@
     "test:final-owner-audit": "node tests/final-owner-audit.test.js",
     "test:data": "node tools/validate.js && node tools/selftest.js && node tools/layout.js && node tools/compile.js --check && node tools/check-cross-consistency.js && node tools/check-student-steps.js && node tools/check-expert-layout.js && python tools/optimize-pathway-icons.py && node tools/check-assets.js && node tools/review-helper.js --check && node tools/generate-stats.js --check",
     "test:ui": "playwright test",
-    "test": "npm run test:stats && npm run test:data && npm run test:ui"
+    "test": "npm run test:stats && npm run test:data && npm run test:ui",
+    "versions": "node tools/bump-cache-versions.js"
   },
   "devDependencies": {
     "playwright": "1.62.0"

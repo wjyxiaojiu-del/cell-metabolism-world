@@ -1,0 +1,5 @@
+#!/bin/sh
+# 推送前的快速数据门禁（完整 UI 回归由 CI 执行）。
+# 启用：git config core.hooksPath hooks
+node tools/validate.js || exit 1
+node tools/compile.js --check || exit 1

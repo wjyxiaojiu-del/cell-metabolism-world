@@ -1,5 +1,7 @@
 # 第五周总目标收口交接文档
 
+> 注：本文件为 2026-08-31 的历史快照，签核进度与当前执行队列以 `docs/map-polish/owner-signoff.md` 与 `docs/continuous-product-roadmap.md` 为准。
+
 更新时间：2026-08-31
 工作目录：`D:\wangjunyi\Documents\cell Metabolism world`
 
