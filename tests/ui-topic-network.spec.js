@@ -195,7 +195,8 @@ test('all five topic networks render without node overlap or invalid paths', asy
   for (const topicId of topicIds) {
     await page.locator(`.student-topic-card[data-topic="${topicId}"]`).click();
     await page.locator('#studentTopicAtlas > summary').click();
-    await page.waitForTimeout(80);
+    // 网络节点为异步渲染：等首个节点出现再采样，替代固定延时（避免 nodeCount=0 采样抖动）。
+    await expect(page.locator('.student-topic-network-node').first()).toBeVisible();
     const metrics = await page.evaluate(() => {
       const rectangles = [...document.querySelectorAll('.student-topic-network-node')].map(node => node.getBoundingClientRect());
       let overlaps = 0;
