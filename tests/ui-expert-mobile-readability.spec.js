@@ -1,5 +1,9 @@
 const { test, expect } = require('playwright/test');
 
+// 度量口径说明：本文件的字号断言按签核平台（Windows/iPad 原生 CJK 字体）的文本包围盒高度校准；
+// 字体度量随平台变化，因此该 spec 只在 CI 的 windows 任务中执行（见 .github/workflows/ci.yml）。
+
+
 const URL = '/index.html?v=expert-mobile-readability';
 
 test('mobile zoom preserves the current mechanism and makes it scrollably readable', async ({ page }) => {
