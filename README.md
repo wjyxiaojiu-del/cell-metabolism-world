@@ -170,6 +170,14 @@ npm test
 
 当前工程和数据统计由 `STATS.md` 提供。数据或测试数量变化后运行 `npm run stats`，完整门禁会检查该文件是否同步。
 
+## 发布构建
+
+```bash
+npm run release:build
+```
+
+生成 `dist/candidate/`：仅复制浏览器运行所需文件，JavaScript（app/scene-data/data-compiled/student-step-resolver）经 terser 最小化（源码不动），附 SHA-256 的 `MANIFEST.txt`。已验证：126 项 UI 回归对最小化产物全绿；无行为或像素差异。
+
 ## 场景图片
 
 原始 PNG 保留在 `cell-metabolism-assets/`，页面只加载 `cell-metabolism-assets/optimized/` 中的 WebP。重新生成运行时图片：
