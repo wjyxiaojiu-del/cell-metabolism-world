@@ -16,7 +16,7 @@ test('mobile zoom preserves the current mechanism and makes it scrollably readab
     const stage = element.querySelector('.pathway-visual-dialog-stage');
     const text = [...element.querySelectorAll('svg text')].find(node => node.textContent.includes('PFK-1'));
     stage.scrollLeft = stage.scrollWidth;
-    return { labelHeight: text.getBoundingClientRect().height, canPan: stage.scrollLeft > 0,
+    return { labelHeight: Number.parseFloat(getComputedStyle(text).fontSize), canPan: stage.scrollLeft > 0,
       pageOverflow: document.documentElement.scrollWidth - innerWidth };
   });
   expect(reading.labelHeight).toBeGreaterThanOrEqual(16);
@@ -94,7 +94,7 @@ test('TCA mechanism separates the eight-step cycle from its yield and inner-memb
         '.schematic-cofactor', '.schematic-transporter', '.schematic-exchange', '.schematic-output'
       ].join(','))]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -108,7 +108,7 @@ test('TCA mechanism separates the eight-step cycle from its yield and inner-memb
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1
           || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1
@@ -117,7 +117,7 @@ test('TCA mechanism separates the eight-step cycle from its yield and inner-memb
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -156,7 +156,7 @@ test('malate aspartate mechanism separates both half-cycles, two exchangers and 
         '.schematic-output', '.schematic-note'
       ].join(','))]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -168,7 +168,7 @@ test('malate aspartate mechanism separates both half-cycles, two exchangers and 
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1
           || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1
@@ -177,7 +177,7 @@ test('malate aspartate mechanism separates both half-cycles, two exchangers and 
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -215,7 +215,7 @@ test('glycerol phosphate mechanism separates cytosolic GPD1, VDAC, intermembrane
         '.schematic-output', '.schematic-note'
       ].join(','))]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -227,7 +227,7 @@ test('glycerol phosphate mechanism separates cytosolic GPD1, VDAC, intermembrane
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1
           || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1
@@ -236,7 +236,7 @@ test('glycerol phosphate mechanism separates cytosolic GPD1, VDAC, intermembrane
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -274,9 +274,9 @@ test('glycolysis expert mechanism exposes all ten steps, three irreversible gate
         '.schematic-enzyme', '.schematic-cofactor', '.schematic-output', '.schematic-note'
       ].join(','))]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1
           || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1
@@ -284,7 +284,7 @@ test('glycolysis expert mechanism exposes all ten steps, three irreversible gate
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
   }
@@ -323,9 +323,9 @@ test('gluconeogenesis expert mechanism separates the three bypasses across matri
         '.schematic-enzyme', '.schematic-cofactor', '.schematic-output', '.schematic-note', '.schematic-transporter'
       ].join(','))]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1
           || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1
@@ -333,7 +333,7 @@ test('gluconeogenesis expert mechanism separates the three bypasses across matri
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
   }
@@ -371,9 +371,9 @@ test('glycogenesis expert mechanism separates activation, glycogenin priming, el
         '.schematic-enzyme', '.schematic-cofactor', '.schematic-output', '.schematic-note'
       ].join(','))]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1
           || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1
@@ -381,7 +381,7 @@ test('glycogenesis expert mechanism separates activation, glycogenin priming, el
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
   }
@@ -414,7 +414,7 @@ test('glycogenolysis expert mechanism separates the limit dextrin, two debranchi
       const groupRect = group.getBoundingClientRect();
       const labels = [...group.querySelectorAll('.schematic-title,.schematic-compartment-title,.schematic-label,.schematic-node-label,.schematic-enzyme,.schematic-cofactor,.schematic-output,.schematic-note')]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -426,14 +426,14 @@ test('glycogenolysis expert mechanism separates the limit dextrin, two debranchi
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1 || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1 || label.rect.bottom > groupRect.bottom + 1).map(label => label.text),
         collisions,
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -468,7 +468,7 @@ test('PPP expert mechanism separates oxidative yield, carbon balance and cellula
       const groupRect = group.getBoundingClientRect();
       const labels = [...group.querySelectorAll('.schematic-title,.schematic-compartment-title,.schematic-label,.schematic-node-label,.schematic-enzyme,.schematic-cofactor,.schematic-output,.schematic-note')]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -480,14 +480,14 @@ test('PPP expert mechanism separates oxidative yield, carbon balance and cellula
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1 || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1 || label.rect.bottom > groupRect.bottom + 1).map(label => label.text),
         collisions,
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -525,7 +525,7 @@ test('fatty acid synthesis expert mechanism separates citrate export, ACC commit
       const groupRect = group.getBoundingClientRect();
       const labels = [...group.querySelectorAll('.schematic-title,.schematic-compartment-title,.schematic-label,.schematic-node-label,.schematic-enzyme,.schematic-cofactor,.schematic-transporter,.schematic-output,.schematic-note')]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -537,14 +537,14 @@ test('fatty acid synthesis expert mechanism separates citrate export, ACC commit
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1 || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1 || label.rect.bottom > groupRect.bottom + 1).map(label => label.text),
         collisions,
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -580,7 +580,7 @@ test('carnitine shuttle expert mechanism separates both membranes, CACT antiport
       const groupRect = group.getBoundingClientRect();
       const labels = [...group.querySelectorAll('.schematic-title,.schematic-compartment-title,.schematic-label,.schematic-node-label,.schematic-enzyme,.schematic-cofactor,.schematic-transporter,.schematic-output,.schematic-note')]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -592,14 +592,14 @@ test('carnitine shuttle expert mechanism separates both membranes, CACT antiport
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1 || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1 || label.rect.bottom > groupRect.bottom + 1).map(label => label.text),
         collisions,
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -636,7 +636,7 @@ test('beta oxidation expert mechanism separates the four-step spiral, ETF electr
       const groupRect = group.getBoundingClientRect();
       const labels = [...group.querySelectorAll('.schematic-title,.schematic-compartment-title,.schematic-label,.schematic-node-label,.schematic-enzyme,.schematic-cofactor,.schematic-output,.schematic-note')]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -648,14 +648,14 @@ test('beta oxidation expert mechanism separates the four-step spiral, ETF electr
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1 || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1 || label.rect.bottom > groupRect.bottom + 1).map(label => label.text),
         collisions,
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -692,7 +692,7 @@ test('ketone expert mechanism separates liver production, circulation and extrah
       const groupRect = group.getBoundingClientRect();
       const labels = [...group.querySelectorAll('.schematic-title,.schematic-compartment-title,.schematic-label,.schematic-node-label,.schematic-enzyme,.schematic-cofactor,.schematic-transporter,.schematic-output,.schematic-note')]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -704,14 +704,14 @@ test('ketone expert mechanism separates liver production, circulation and extrah
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1 || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1 || label.rect.bottom > groupRect.bottom + 1).map(label => label.text),
         collisions,
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -750,7 +750,7 @@ test('transamination expert mechanism separates PLP transfer, glutamate transpor
       const groupRect = group.getBoundingClientRect();
       const labels = [...group.querySelectorAll('.schematic-title,.schematic-compartment-title,.schematic-label,.schematic-node-label,.schematic-enzyme,.schematic-cofactor,.schematic-transporter,.schematic-output,.schematic-note')]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -762,14 +762,14 @@ test('transamination expert mechanism separates PLP transfer, glutamate transpor
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1 || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1 || label.rect.bottom > groupRect.bottom + 1).map(label => label.text),
         collisions,
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -809,7 +809,7 @@ test('urea expert mechanism separates five reactions, two carriers, atom origins
       const groupRect = group.getBoundingClientRect();
       const labels = [...group.querySelectorAll('.schematic-title,.schematic-compartment-title,.schematic-label,.schematic-node-label,.schematic-enzyme,.schematic-cofactor,.schematic-transporter,.schematic-output,.schematic-note')]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -821,14 +821,14 @@ test('urea expert mechanism separates five reactions, two carriers, atom origins
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1 || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1 || label.rect.bottom > groupRect.bottom + 1).map(label => label.text),
         collisions,
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -868,7 +868,7 @@ test('amino acid carbon expert mechanism resolves seven gateways without inventi
       const groupRect = group.getBoundingClientRect();
       const labels = [...group.querySelectorAll('.schematic-title,.schematic-compartment-title,.schematic-label,.schematic-node-label,.schematic-enzyme,.schematic-cofactor,.schematic-transporter,.schematic-output,.schematic-note')]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -880,14 +880,14 @@ test('amino acid carbon expert mechanism resolves seven gateways without inventi
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1 || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1 || label.rect.bottom > groupRect.bottom + 1).map(label => label.text),
         collisions,
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -929,7 +929,7 @@ test('purine expert mechanism exposes the ten-step IMP assembly, atom ledger and
       const groupRect = group.getBoundingClientRect();
       const labels = [...group.querySelectorAll('.schematic-title,.schematic-compartment-title,.schematic-label,.schematic-node-label,.schematic-enzyme,.schematic-cofactor,.schematic-transporter,.schematic-output,.schematic-note')]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -941,14 +941,14 @@ test('purine expert mechanism exposes the ten-step IMP assembly, atom ledger and
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1 || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1 || label.rect.bottom > groupRect.bottom + 1).map(label => label.text),
         collisions,
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -990,7 +990,7 @@ test('pyrimidine expert mechanism keeps six-step UMP synthesis and both nucleoti
       const groupRect = group.getBoundingClientRect();
       const labels = [...group.querySelectorAll('.schematic-title,.schematic-compartment-title,.schematic-label,.schematic-node-label,.schematic-enzyme,.schematic-cofactor,.schematic-transporter,.schematic-output,.schematic-note')]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -1002,14 +1002,14 @@ test('pyrimidine expert mechanism keeps six-step UMP synthesis and both nucleoti
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         clipped: labels.filter(label => label.rect.left < groupRect.left - 1 || label.rect.right > groupRect.right + 1
           || label.rect.top < groupRect.top - 1 || label.rect.bottom > groupRect.bottom + 1).map(label => label.text),
         collisions,
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -1050,7 +1050,7 @@ test('OxPhos mechanism separates ATP synthase, ANT and phosphate carrier on mobi
         '.schematic-cofactor', '.schematic-transporter', '.schematic-exchange', '.schematic-output'
       ].join(','))]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -1064,12 +1064,12 @@ test('OxPhos mechanism separates ATP synthase, ANT and phosphate carrier on mobi
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         collisions,
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize).toBeGreaterThanOrEqual(10);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
   }
@@ -1098,7 +1098,7 @@ test('PDH mechanism separates membrane entry from E1 E2 E3 handoff on mobile and
         '.schematic-cofactor', '.schematic-transporter', '.schematic-exchange', '.schematic-output'
       ].join(','))]
         .filter(label => label.textContent.trim())
-        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+        .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
       const collisions = [];
       for (let left = 0; left < labels.length; left += 1) {
         for (let right = left + 1; right < labels.length; right += 1) {
@@ -1112,12 +1112,12 @@ test('PDH mechanism separates membrane entry from E1 E2 E3 handoff on mobile and
         }
       }
       return {
-        minHeight: Math.min(...labels.map(label => label.rect.height)),
+        minFontSize: Math.min(...labels.map(label => label.fontSize)),
         collisions,
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minFontSize).toBeGreaterThanOrEqual(10);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
   }
@@ -1145,7 +1145,7 @@ test('pyrimidine mobile mechanism separates the RNA and DNA precursor branches',
     ]);
     const labels = [...group.querySelectorAll('text')]
       .filter(label => auditedLabels.has(label.textContent.trim()))
-      .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect() }));
+      .map(label => ({ text: label.textContent.trim(), rect: label.getBoundingClientRect(), fontSize: Number.parseFloat(getComputedStyle(label).fontSize) }));
     const collisions = [];
     for (let left = 0; left < labels.length; left += 1) {
       for (let right = left + 1; right < labels.length; right += 1) {
