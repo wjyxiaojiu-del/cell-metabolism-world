@@ -2,7 +2,7 @@
 #	默认区室: 细胞质
 #	来源: PDF 中上脂肪酸合成区
 底物	产物	酶	可逆	反应式	审校	备注
-柠檬酸	乙酰辅酶 A	ATP 柠檬酸裂解酶	否	柠檬酸 + CoA-SH + ATP → 乙酰-CoA + 草酰乙酸 + ADP + Pi	已终审	线粒体碳输出后的胞质裂解
-乙酰辅酶 A	丙二酰-CoA	乙酰-CoA 羧化酶 ACC	否	乙酰-CoA + HCO₃⁻ + ATP → 丙二酰-CoA + ADP + Pi	已终审	限速步骤
+柠檬酸	乙酰辅酶 A	ATP 柠檬酸裂解酶	否	柠檬酸 + CoA-SH + ATP → 乙酰-CoA + 草酰乙酸 + ADP + Pi	已终审	线粒体碳输出后的胞质裂解；KEGG:R00352（反应/酶对应；生理方向与区室另审）
+乙酰辅酶 A	丙二酰-CoA	乙酰-CoA 羧化酶 ACC	否	乙酰-CoA + HCO₃⁻ + ATP → 丙二酰-CoA + ADP + Pi	已终审	限速步骤；KEGG:R00742（反应/酶对应；生理方向与区室另审）
 丙二酰-CoA	棕榈酸	脂肪酸合酶 FAS	否	乙酰-CoA + 7 丙二酰-CoA + 14 NADPH + 14 H⁺ → 棕榈酸 + 7 CO₂ + 8 CoA-SH + 14 NADP⁺ + 6 H₂O	已终审	多轮缩合/还原的净反应；主表示边
 NADPH	棕榈酸	脂肪酸合酶 FAS	否	乙酰-CoA + 7 丙二酰-CoA + 14 NADPH + 14 H⁺ → 棕榈酸 + 7 CO₂ + 8 CoA-SH + 14 NADP⁺ + 6 H₂O	已终审	同一多轮反应的还原力表示边
