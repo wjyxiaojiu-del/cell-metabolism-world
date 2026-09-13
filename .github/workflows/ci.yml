@@ -35,4 +35,20 @@ jobs:
       - run: pip install -r requirements-assets.txt
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: npm run test:ui
+      # 可读性 spec 的阈值按签核平台（Windows/iPad 原生 CJK 字体）校准，
+      # 在 Noto 字体的 Linux 上会因 app 的按宽度自动缩字号逻辑而系统性偏低，
+      # 因此该 spec 在 windows 任务里执行（见下）。
+      - run: npx playwright test $(find tests -name '*.spec.js' ! -name 'ui-expert-mobile-readability.spec.js')
+
+  ui-readability-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install chromium
+      - run: npx playwright test tests/ui-expert-mobile-readability.spec.js
+        shell: bash
