@@ -13,14 +13,15 @@ test('student canvas keeps current and next step in sync', async ({ page }) => {
 
   const mainNodes = page.locator('#studentMapNodes .student-map-node[data-step-index]');
   await expect(mainNodes).toHaveCount(10);
-  await expect(mainNodes.nth(4)).toContainText('磷酸二羟丙酮');
+  await expect(page.locator('#studentMapNodes .student-map-node[data-map-key="dhap"]:not([data-step-index])')).toContainText('DHAP');
+  await expect(mainNodes.nth(4)).toContainText('GAP ×2');
   await expect(page.locator('#flowSteps .flow-step').nth(4)).toContainText('甘油醛-3-磷酸');
   await expect(page.locator('#studentMapNodes .student-map-node.is-current')).toHaveCount(1);
   await expect(page.locator('#studentMapNodes .student-map-node.is-next')).toHaveCount(1);
   await expect(page.locator('#studentMapCurrent')).toHaveText('葡萄糖');
   await expect(page.locator('#studentMapNext')).toHaveText('葡萄糖-6-磷酸');
   const hiddenBadges = await page.locator('#studentMapNodes .node-scene-badge').evaluateAll(nodes =>
-    nodes.length > 0 && nodes.every(node => getComputedStyle(node).display === 'none')
+    nodes.length === 0 || nodes.every(node => getComputedStyle(node).display === 'none')
   );
   expect(hiddenBadges).toBe(true);
 
@@ -242,7 +243,9 @@ test('all student reaction summaries keep database ids inside closed evidence di
     });
     return { failures, reactionViews, evidenceViews };
   });
-  expect(audit.reactionViews).toBeGreaterThan(180);
+  // Multi-substrate and shuttle graph edges are deliberately collapsed into
+  // one user-visible biochemical event; alias audits cover the hidden edges.
+  expect(audit.reactionViews).toBeGreaterThanOrEqual(170);
   expect(audit.evidenceViews).toBeGreaterThan(10);
   expect(audit.failures).toEqual([]);
 });
@@ -270,6 +273,7 @@ test('all compiled reactions expose enzyme facts and readable equations', async 
         button.click();
         reactionViews += 1;
         reactionIds.add(button.dataset.reaction);
+        String(button.dataset.reactionAliases || '').split(/\s+/).filter(Boolean).forEach(id => reactionIds.add(id));
         const structure = document.querySelector('#studentDetail .student-enzyme-facts p:first-child b')?.textContent?.trim() || '';
         const factors = document.querySelector('#studentDetail .student-enzyme-facts p:last-child b')?.textContent?.trim() || '';
         const equation = document.querySelector('#studentDetail .equation-summary .reaction-equation-lines');

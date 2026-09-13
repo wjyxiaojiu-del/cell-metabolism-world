@@ -3,6 +3,8 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const os = require('os');
+const { execFileSync } = require('child_process');
 const { readTsv } = require('./tsv.js');
 const stepResolver = require('../student-step-resolver.js');
 
@@ -47,8 +49,35 @@ const crossPathwayParticipants = (compiled.participantCatalog || []).filter(item
 const assetSources = [sceneDataSource, fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8')].join('\n');
 const assetReferences = [...new Set([...assetSources.matchAll(/cell-metabolism-assets\/(?:optimized\/)?[A-Za-z0-9._-]+\.(?:png|jpe?g|webp)/g)].map(match => match[0]))];
 const assetBytes = assetReferences.reduce((sum, reference) => sum + fs.statSync(path.join(ROOT, ...reference.split('/'))).size, 0);
-const specFiles = fs.readdirSync(path.join(ROOT, 'tests')).filter(file => file.endsWith('.spec.js'));
-const testCases = specFiles.reduce((count, file) => count + (fs.readFileSync(path.join(ROOT, 'tests', file), 'utf8').match(/^[ \t]*test\s*\(/gm) || []).length, 0);
+// Ask Playwright to discover tests so parameterized cases and configured projects
+// are counted exactly as they are by the runner. Listing does not launch browsers.
+const inventoryDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cell-test-inventory-'));
+const inventoryFile = path.join(inventoryDir, 'report.json');
+const specFiles = new Set();
+let testCases = 0;
+try {
+  const cli = path.join(path.dirname(require.resolve('playwright/package.json')), 'cli.js');
+  execFileSync(process.execPath, [cli, 'test', '--list', '--reporter=json', '--config', path.join(ROOT, 'playwright.config.js')], {
+    cwd: ROOT,
+    env: { ...process.env, PLAYWRIGHT_JSON_OUTPUT_FILE: inventoryFile },
+    windowsHide: true,
+    stdio: ['ignore', 'pipe', 'pipe']
+  });
+  const report = JSON.parse(fs.readFileSync(inventoryFile, 'utf8'));
+  if (report.errors?.length) throw new Error('Playwright test discovery failed');
+  const visit = suite => {
+    for (const spec of suite.specs || []) {
+      if (spec.tests?.length) specFiles.add(spec.file);
+      testCases += spec.tests?.length || 0;
+    }
+    for (const child of suite.suites || []) visit(child);
+  };
+  visit(report);
+  if (!testCases) throw new Error('Playwright did not discover any browser tests');
+} finally {
+  if (fs.existsSync(inventoryFile)) fs.unlinkSync(inventoryFile);
+  fs.rmdirSync(inventoryDir);
+}
 const checksum = crypto.createHash('sha256').update(fs.readFileSync(compiledFile)).digest('hex').toUpperCase();
 const lines = [
   '# 当前项目基线', '',
@@ -66,7 +95,7 @@ const lines = [
   '## 学习与资源', '',
   `- 学习主线步骤：${stepAudit.total} 个，${stepAudit.missing.length ? `${stepAudit.missing.length} 个尚未链接` : '全部链接到实体或代表性反应'}`,
   `- 运行时图片：${assetReferences.length} 个唯一引用，共 ${(assetBytes / 1024 / 1024).toFixed(2)}MB`,
-  `- 浏览器回归：${specFiles.length} 个 spec，${testCases} 个测试`, '',
+  `- 浏览器回归：${specFiles.size} 个 spec，${testCases} 个测试`, '',
   '## 构建指纹', '',
   `- \`data-compiled.js\` SHA-256：\`${checksum}\``, ''
 ];

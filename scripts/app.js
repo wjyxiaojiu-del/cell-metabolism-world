@@ -242,11 +242,46 @@
       function openPathwayVisualDialog(imageElement) {
         const source = imageElement?.currentSrc || imageElement?.src;
         if (!pathwayVisualDialog || !pathwayVisualDialogImage || !source) return;
+        const canvas = pathwayVisualDialog.querySelector('.pathway-visual-dialog-canvas');
+        const stage = pathwayVisualDialog.querySelector('.pathway-visual-dialog-stage');
+        canvas.querySelector('svg')?.remove();
+        const sourceOverlay = imageElement === sceneBackground
+          ? (sceneDeck.classList.contains('pathway-visual-active') ? sceneExpertOverlay : null)
+          : imageElement.closest('figure')?.querySelector('svg:not([hidden])');
+        const hasOverlay = Boolean(sourceOverlay && !sourceOverlay.hidden && sourceOverlay.querySelector('text'));
+        pathwayVisualDialog.classList.toggle('has-mechanism', hasOverlay);
+        if (hasOverlay) {
+          // Snapshot the visible mechanism, including styles scoped to its scene.
+          // Copying only the raster background discards the reviewed annotations.
+          const clone = sourceOverlay.cloneNode(true);
+          const originals = [sourceOverlay, ...sourceOverlay.querySelectorAll('*')];
+          const copies = [clone, ...clone.querySelectorAll('*')];
+          const properties = ['fill', 'fill-opacity', 'stroke', 'stroke-width', 'stroke-opacity',
+            'stroke-dasharray', 'stroke-linecap', 'stroke-linejoin', 'opacity', 'paint-order',
+            'font-family', 'font-size', 'font-weight', 'font-style', 'letter-spacing',
+            'text-anchor', 'dominant-baseline', 'transform', 'transform-origin', 'transform-box',
+            'filter', 'vector-effect'];
+          originals.forEach((node, index) => {
+            const style = getComputedStyle(node);
+            for (const property of properties) copies[index].style.setProperty(property, style.getPropertyValue(property));
+            if (copies[index].id) copies[index].removeAttribute('id');
+          });
+          clone.removeAttribute('aria-hidden');
+          clone.setAttribute('role', 'img');
+          clone.setAttribute('aria-label', `${imageElement.alt || '当前通路'}机制标注`);
+          Object.assign(clone.style, { left: '0', top: '0', width: '100%', height: '100%' });
+          canvas.style.aspectRatio = `${imageElement.naturalWidth} / ${imageElement.naturalHeight}`;
+          canvas.appendChild(clone);
+        } else {
+          canvas.style.removeProperty('aspect-ratio');
+        }
         pathwayVisualDialogImage.src = source;
         pathwayVisualDialogImage.alt = imageElement.alt || '通路结构图大图';
-        pathwayVisualDialogTitle.textContent = visualDialogCaptionFor(imageElement);
+        pathwayVisualDialogTitle.textContent = visualDialogCaptionFor(imageElement)
+          + (hasOverlay ? ' · 左右滑动查看完整机制图' : '');
         if (typeof pathwayVisualDialog.showModal === 'function') pathwayVisualDialog.showModal();
         else pathwayVisualDialog.setAttribute('open', '');
+        stage.scrollTo(0, 0);
       }
 
       function zoomableVisualFromEvent(event) {
@@ -277,6 +312,7 @@
         if (!pathwayVisualDialogImage) return;
         pathwayVisualDialogImage.removeAttribute('src');
         pathwayVisualDialogImage.alt = '';
+        pathwayVisualDialog.querySelector('.pathway-visual-dialog-canvas svg')?.remove();
       });
 
       let selected = null;
@@ -1574,7 +1610,7 @@
           const meta = pathwayMeta[key];
           if (!meta) return;
           const b = document.createElement('button'); b.className = 'path-filter'; b.dataset.path = key; b.style.setProperty('--tone', meta.tone);
-          b.title = `${meta.label} · 单击查看第 2 层通路总览`;
+          b.title = `${meta.label} · 查看所属区室与通路机制`;
           b.append(createPathwayFilterIcon(key, meta.tone), document.createTextNode(meta.label)); wrap.appendChild(b);
         });
         wrap.addEventListener('click', event => {
@@ -1618,7 +1654,7 @@
       const expertPathwayVisualLabels = {
         pdh: '丙酮酸跨膜进入基质与 PDH', tca: '三羧酸循环所在基质', beta_oxidation: '脂肪酸 β-氧化基质',
         ketone: '酮体生成所在基质', urea: '尿素循环基质—胞质接力', etc: '蓝白色电子传递链全貌',
-        oxphos: '蓝白色电子传递链全貌', malate_aspartate: '苹果酸–天冬氨酸穿梭',
+        oxphos: '无文字内膜蛋白定位图', malate_aspartate: '苹果酸–天冬氨酸穿梭',
         glycerol_phosphate: '甘油-3-磷酸穿梭', atp_transport: 'ATP/ADP 与磷酸转运', carnitine: '肉碱穿梭',
         glycolysis: '糖酵解细胞质路线', gluconeogenesis: '糖异生的基质—胞质—内质网接力', glycogenesis: '糖原合成细胞质路线',
         glycogenolysis: '糖原动员与肝细胞内质网释糖', ppp: '磷酸戊糖途径细胞质路线', fa_synthesis: '脂肪酸从头合成（胞质）',
@@ -1630,6 +1666,8 @@
         // 肉碱穿梭例外：必须同时看见外膜、膜间隙、内膜与基质。
         carnitine: 'cell-metabolism-assets/optimized/23-mitochondrion-blueprint.webp',
         pdh: 'cell-metabolism-assets/optimized/04-cytoplasm-mito-interface.webp',
+        // 氧化磷酸化由 SVG 叠加层承担文字与方向；无文字底图避免重复标签。
+        oxphos: 'cell-metabolism-assets/optimized/19-inner-membrane-proteins.webp',
         // 尿素循环横跨基质与细胞质，需要同时看到线粒体边界与外侧细胞质。
         urea: 'cell-metabolism-assets/optimized/04-cytoplasm-mito-interface.webp',
         aa_carbon: 'cell-metabolism-assets/optimized/04-cytoplasm-mito-interface.webp',
@@ -1705,7 +1743,7 @@
         const pathway = atlas.pathways[pathwayId];
         const entryScene = expertEntrySceneForPathway(pathway);
         if (!entryScene) return;
-        // 主路径按通路理解推进：第 2 层总览卡直接进入第 3 层机制图。
+        // 主路径按通路理解推进：通路总览卡直接进入所属区室的机制图。
         // 细胞器与区室保留在完整细胞的自由探索路径中，不再作为必经关卡。
         openScene(entryScene, { pathwayId, preservePathway: true });
       }
@@ -1737,7 +1775,7 @@
           scope: '丙酮酸、三羧酸循环、电子传递链、氧化磷酸化',
           summary: '把含碳燃料中的电子收集起来，经呼吸链建立质子梯度，最终合成 ATP。',
           structureTitle: '从碳氧化到 ATP 的四个位置',
-          structure: [['丙酮酸入场', '丙酮酸进入线粒体并形成乙酰辅酶 A'], ['循环收集电子', '三羧酸循环生成 NADH 和 FADH₂'], ['电子跨膜传递', '穿梭与呼吸链把电子送入内膜复合体'], ['梯度驱动产能', '质子回流推动 ATP 合酶']],
+          structure: [['丙酮酸入场', '丙酮酸进入线粒体并形成乙酰辅酶 A'], ['循环收集电子', '三羧酸循环生成 NADH，并由复合体 II 把电子送入 CoQ'], ['电子跨膜传递', '穿梭与呼吸链把电子送入内膜复合体'], ['梯度驱动产能', '质子回流推动 ATP 合酶']],
           pathways: ['pdh', 'tca', 'malate_aspartate', 'glycerol_phosphate', 'etc', 'oxphos'],
           links: [['pdh', 'tca'], ['tca', 'etc'], ['malate_aspartate', 'etc'], ['glycerol_phosphate', 'etc'], ['etc', 'oxphos']],
           visuals: [
@@ -1830,8 +1868,8 @@
       };
       Object.assign(studentPathwayScientificCaptions, {
         pdh: 'E1、E2、E3 与五种辅酶接力，把丙酮酸转成乙酰-CoA、CO₂ 和 NADH。',
-        tca: '乙酰-CoA 进入循环并再生草酰乙酸，每轮生成 3 NADH、1 FADH₂、1 GTP 和 2 CO₂。',
-        etc: '复合体 I–IV 逐级传递电子，并由 I、III、IV 将质子泵到膜间隙。',
+        tca: '乙酰-CoA 进入循环并再生草酰乙酸；每轮生成 3 NADH、1 GTP、2 CO₂，并由内膜复合体 II 把电子送入 CoQ 形成 CoQH₂。',
+        etc: '复合体 I–IV 逐级传递电子，并由 I、III、IV 将质子泵到膜间隙；参考图中的 FADH₂ 是复合体 II 酶内电子中继，真实底物入口为琥珀酸。',
         oxphos: '质子经 ATP 合酶回流并驱动旋转，ANT 与磷酸载体再完成 ADP、Pi 和 ATP 的跨膜交换。',
         glycolysis: '能量投资阶段消耗 2 ATP，六碳中间体裂成两条三碳通路，最终净得 2 ATP、2 NADH 和 2 个丙酮酸。',
         beta_oxidation: '脂酰-CoA 在基质中依次完成脱氢、水合、再脱氢和硫解，每轮释放乙酰-CoA并缩短 2 个碳。'
@@ -1855,10 +1893,10 @@
       };
       const studentBeginnerLessons = {
         pdh: { topic: '生物氧化', lesson: '第 1 课 · 把糖的产物送进线粒体', title: '丙酮酸为什么要进入线粒体？', question: '葡萄糖已经在细胞质变成丙酮酸，但这还不是高效供能的终点。', goal: '把丙酮酸变成乙酰辅酶 A', problem: '把糖酵解留下的 3 碳丙酮酸，接到线粒体的供能主线。', input: '丙酮酸、辅酶 A、NAD⁺', output: '乙酰辅酶 A、CO₂、NADH', location: '线粒体基质', purpose: '乙酰辅酶 A 才能进入三羧酸循环；NADH 会把电子交给呼吸链。', terms: [['脱羧', '去掉一个碳，并以 CO₂ 释放'], ['乙酰辅酶 A', '携带 2 个碳进入三羧酸循环'], ['NADH', '携带高能电子的还原当量']], story: [['丙酮酸到达线粒体', '先通过外膜通道，再由内膜载体进入基质。'], ['去掉一个碳', '丙酮酸脱羧，释放 CO₂，剩下 2 个碳。'], ['接上辅酶 A', '形成乙酰辅酶 A，同时 NAD⁺ 被还原成 NADH。']] },
-        tca: { topic: '生物氧化', lesson: '第 2 课 · 循环拆出电子', title: '三羧酸循环到底在循环什么？', question: '它不是只为了“绕一圈”，而是逐步氧化乙酰基，把能量装进 NADH 和 FADH₂。', goal: '把乙酰辅酶 A 的碳氧化成 CO₂', problem: '彻底氧化乙酰基，同时收集能交给呼吸链的电子。', input: '乙酰辅酶 A、NAD⁺、FAD、ADP/GDP', output: 'CO₂、NADH、FADH₂、GTP/ATP', location: '主要在线粒体基质；琥珀酸脱氢酶位于内膜', purpose: '为电子传递链持续提供 NADH 和 FADH₂。', terms: [['乙酰基', '乙酰辅酶 A 中真正被氧化的 2 个碳'], ['还原当量', '装载高能电子的 NADH 或 FADH₂'], ['补充反应', '补回被抽走的循环中间体']], story: [['2 个碳进入循环', '乙酰辅酶 A 与草酰乙酸结合，形成柠檬酸。'], ['碳以 CO₂ 离开', '连续氧化和脱羧，把乙酰基的碳释放出来。'], ['电子被收集', '每一圈生成多个 NADH、FADH₂，并产生少量 GTP/ATP。']] },
-        malate_aspartate: { topic: '生物氧化', lesson: '第 3 课 · 把胞质电子送入线粒体', title: 'NADH 进不了内膜，电子怎么办？', question: 'NADH 分子不能直接穿过线粒体内膜，细胞用穿梭反应把“电子”转交进去。', goal: '把胞质 NADH 的电子交给线粒体基质', problem: '解决 NADH 不能直接穿过内膜的空间限制。', input: '胞质 NADH、苹果酸/草酰乙酸、谷氨酸', output: '基质 NADH、天冬氨酸、NAD⁺', location: '细胞质、线粒体内膜两侧与基质', purpose: '让糖酵解产生的还原当量继续支持呼吸链。', terms: [['穿梭', '不搬运 NADH 本身，而是转交它的电子'], ['草酰乙酸', '在苹果酸和天冬氨酸之间转换的枢纽'], ['转氨', '把氨基在谷氨酸和草酰乙酸之间转移']], story: [['胞质 NADH 交出电子', '草酰乙酸被还原成苹果酸，电子暂时换了载体。'], ['苹果酸进入基质', '苹果酸跨过内膜后再被氧化，生成基质 NADH。'], ['氨基完成往返', '天冬氨酸和谷氨酸帮助草酰乙酸的碳骨架回来。']] },
-        glycerol_phosphate: { topic: '生物氧化', lesson: '第 4 课 · 另一条电子入口', title: '为什么同样是胞质 NADH，会有两种穿梭？', question: '不同组织和不同能量需求，可以选择更快但能量收益略低的电子转交路线。', goal: '把胞质 NADH 的电子交给辅酶 Q', problem: '让胞质还原当量在不搬运 NADH 的情况下进入呼吸链。', input: '胞质 NADH、磷酸二羟丙酮、FAD', output: '辅酶 QH₂、NAD⁺、甘油-3-磷酸', location: '细胞质与线粒体内膜外侧', purpose: '快速把电子送入辅酶 Q，接上复合体 III。', terms: [['电子入口', '电子进入呼吸链的具体位置'], ['辅酶 Q', '内膜中移动电子的脂溶性载体'], ['收益差异', '进入 Q 池通常比生成基质 NADH 少保存一些能量']], story: [['NADH 先还原底物', '磷酸二羟丙酮变成甘油-3-磷酸。'], ['内膜酶接手', '膜外侧的甘油-3-磷酸脱氢酶把电子转给 FAD。'], ['电子进入 Q 池', 'FADH₂ 再把电子交给辅酶 Q，继续向下游流动。']] },
-        etc: { topic: '生物氧化', lesson: '第 5 课 · 电子流如何变成梯度', title: '呼吸链怎样把电子流变成“可用的力”？', question: 'NADH 和 FADH₂ 带来的电子，沿着内膜上的复合体逐级传递，能量被用来泵出质子。', goal: '建立质子动力势，准备合成 ATP', problem: '把分散在 NADH/FADH₂ 里的电子能量，转换成跨内膜的质子梯度。', input: 'NADH、FADH₂、氧气', output: 'NAD⁺、FAD、水、质子动力势', location: '线粒体内膜；质子积在膜间隙一侧', purpose: '建立 ATP 合酶可以利用的电化学梯度。', terms: [['电子载体', '在复合体之间接力传递电子的分子或复合体'], ['质子梯度', '内膜两侧 H⁺ 数量和电荷的差异'], ['末端电子受体', '氧气接收电子和质子，最终形成水']], story: [['电子开始接力', 'NADH 把电子交给复合体 I，FADH₂ 从复合体 II 进入。'], ['质子被泵出', '复合体 I、III、IV 利用电子能量，把 H⁺ 推到膜间隙。'], ['氧气收尾', '复合体 IV 让氧气接收电子和质子，形成水。']] },
+        tca: { topic: '生物氧化', lesson: '第 2 课 · 循环拆出电子', title: '三羧酸循环到底在循环什么？', question: '它不是只为了“绕一圈”，而是逐步氧化乙酰基：电子装进 NADH，或经琥珀酸脱氢酶的酶内 FAD 直接交给 CoQ。', goal: '把乙酰辅酶 A 的碳氧化成 CO₂', problem: '彻底氧化乙酰基，同时收集能交给呼吸链的电子。', input: '乙酰辅酶 A、NAD⁺、GDP + Pi、CoQ', output: 'CO₂、NADH、GTP、CoQH₂', location: '主要在线粒体基质；琥珀酸脱氢酶是内膜复合体 II', purpose: '为电子传递链持续提供 NADH，并把一对电子直接送入 CoQ 池。', terms: [['乙酰基', '乙酰辅酶 A 中真正被氧化的 2 个碳'], ['还原当量', 'NADH 或 CoQH₂携带、可交给呼吸链的高能电子'], ['补充反应', '补回被抽走的循环中间体']], story: [['2 个碳进入循环', '乙酰辅酶 A 与草酰乙酸结合，形成柠檬酸。'], ['碳以 CO₂ 离开', '连续氧化和脱羧，把乙酰基的碳释放出来。'], ['电子被收集', '每一圈生成 3 NADH；复合体 II 的酶内 FAD 再把一对电子交给 CoQ，同时形成 1 GTP。']] },
+        malate_aspartate: { topic: '生物氧化', lesson: '第 3 课 · 把胞质电子送入线粒体', title: 'NADH 进不了内膜，电子怎么办？', question: 'NADH 分子不能直接穿过线粒体内膜，细胞用穿梭反应把还原当量转交进去。', goal: '把胞质 NADH 的电子交给线粒体基质', problem: '解决 NADH 不能直接穿过内膜的空间限制。', input: '胞质 NADH + H⁺、基质 NAD⁺；OAA/苹果酸与谷氨酸/α-KG/天冬氨酸循环', output: '胞质 NAD⁺、基质 NADH + H⁺；循环中间体再生', location: '细胞质、线粒体内膜与基质', purpose: '把糖酵解等产生的胞质还原当量接到基质 NADH，再送入呼吸链复合体 I。', terms: [['穿梭', '不搬运 NADH 本身，而是借代谢物转交它的电子'], ['两台交换器', 'SLC25A11 交换苹果酸/α-KG；SLC25A12/13 交换天冬氨酸/谷氨酸 + H⁺'], ['转氨', 'GOT1/2 让 OAA 与天冬氨酸在两侧互换并闭合循环']], story: [['胞质 MDH1 接电子', 'OAA 消耗胞质 NADH + H⁺还原成苹果酸，同时再生胞质 NAD⁺。'], ['两台载体跨内膜交换', '苹果酸与 α-KG 反向交换；天冬氨酸输出与谷氨酸 + H⁺输入配对。'], ['基质 MDH2 重新生成 NADH', '苹果酸在基质被氧化为 OAA，基质 NAD⁺得到电子形成 NADH + H⁺并进入复合体 I。']] },
+        glycerol_phosphate: { topic: '生物氧化', lesson: '第 4 课 · 另一条电子入口', title: '为什么同样是胞质 NADH，会有两种穿梭？', question: '甘油-3-磷酸穿梭不把 NADH 搬进基质，而是用代谢物与酶内辅基把电子直接交给 CoQ。', goal: '把胞质 NADH 的还原当量交给 CoQ 池', problem: '在 NADH 不能穿过内膜的前提下再生胞质 NAD⁺，并让电子进入呼吸链。', input: '胞质 NADH + H⁺、DHAP、CoQ', output: '胞质 NAD⁺、CoQH₂；DHAP 与甘油-3-磷酸循环再生', location: '细胞质、线粒体外膜/膜间隙与线粒体内膜', purpose: '电子由 CoQH₂接到复合体 III，绕过复合体 I；不生成基质 NADH。', terms: [['GPD1', '胞质酶，用 NADH 把 DHAP 还原为甘油-3-磷酸'], ['VDAC', '外膜通道，让甘油-3-磷酸和 DHAP 在胞质与膜间隙之间往返'], ['GPD2', '内膜酶，活性位点朝膜间隙；酶内 FAD 接电子后再还原 CoQ']], story: [['胞质 GPD1 先接电子', 'DHAP 消耗胞质 NADH + H⁺变成甘油-3-磷酸，同时再生胞质 NAD⁺。'], ['两种三碳磷酸经 VDAC 往返', '甘油-3-磷酸到膜间隙侧交出电子；形成的 DHAP 再返回胞质闭环。'], ['GPD2 把电子送入 CoQ 池', 'GPD2 的酶内 FAD/FADH₂完成接力，形成 CoQH₂并从复合体 III继续；NADH 本身不跨膜。']] },
+        etc: { topic: '生物氧化', lesson: '第 5 课 · 电子流如何变成梯度', title: '呼吸链怎样把电子流变成“可用的力”？', question: 'NADH 和琥珀酸带来的电子，沿着内膜上的复合体逐级传递；复合体 II 先用酶内 FAD 接力，再把电子交给 CoQ，能量被用来泵出质子。', goal: '建立质子动力势，准备合成 ATP', problem: '把分散在 NADH 和琥珀酸里的电子能量，转换成跨内膜的质子梯度。', input: 'NADH、琥珀酸、氧气', output: 'NAD⁺、延胡索酸、CoQH₂、水、质子动力势', location: '线粒体内膜；质子积在膜间隙一侧', purpose: '建立 ATP 合酶可以利用的电化学梯度。', terms: [['电子载体', '在复合体之间接力传递电子的分子或复合体'], ['质子梯度', '内膜两侧 H⁺ 数量和电荷的差异'], ['末端电子受体', '氧气接收电子和质子，最终形成水']], story: [['电子开始接力', 'NADH 把电子交给复合体 I；琥珀酸在复合体 II 内由酶内 FAD 接收电子，再交给 CoQ。'], ['质子被泵出', '复合体 I、III、IV 利用电子能量，把 H⁺ 推到膜间隙。'], ['氧气收尾', '复合体 IV 让氧气接收电子和质子，形成水。']] },
         oxphos: { topic: '生物氧化', lesson: '第 6 课 · 梯度驱动 ATP', title: 'ATP 合酶为什么能制造 ATP？', question: '质子想回到基质，ATP 合酶把这股回流变成旋转，再推动 ADP 和 Pi 合成 ATP。', goal: '把质子动力势保存为 ATP', problem: '把线粒体内膜两侧的质子梯度转换成细胞可以直接使用的 ATP。', input: 'ADP、无机磷酸、质子动力势', output: 'ATP、水', location: '线粒体内膜与基质侧', purpose: 'ATP 是细胞最常用的即时能量货币。', terms: [['ATP', '可被细胞直接用来做功的能量货币'], ['ATP 合酶', '利用质子回流催化 ATP 形成的分子机器'], ['化学渗透', '用跨膜离子梯度驱动化学反应']], story: [['质子寻找回路', '膜间隙中的 H⁺ 不能自由穿过疏水的内膜。'], ['ATP 合酶转动', 'H⁺ 通过 ATP 合酶的通道，带动分子机器发生构象变化。'], ['ADP 变成 ATP', 'ADP 和 Pi 在基质侧结合，形成 ATP 供细胞使用。']] },
         glycolysis: { topic: '糖代谢', lesson: '糖代谢第 1 课 · 葡萄糖先变成丙酮酸', title: '一分子葡萄糖能先得到什么？', question: '糖酵解把 6 个碳的葡萄糖分成两份 3 个碳的丙酮酸，并直接得到少量 ATP。', goal: '看懂葡萄糖到丙酮酸的主干', problem: '快速取得 ATP，并把碳流送到乳酸、乙酰辅酶 A 或其他代谢方向。', input: '葡萄糖、ADP、Pi、NAD⁺', output: '丙酮酸、净 ATP、NADH', location: '细胞质', purpose: '不依赖线粒体也能供能，是所有细胞都重要的中央入口。', terms: [['底物水平磷酸化', '反应本身直接把磷酸基转给 ADP'], ['承诺步骤', '把中间体推向本通路的关键控制点'], ['丙酮酸', '糖酵解的 3 碳出口，可继续多种去路']], story: [['先投入能量', '前几步消耗 ATP，把葡萄糖变成更容易裂解的中间体。'], ['六碳裂成两条三碳', '果糖-1,6-二磷酸分成两个三碳分子。'], ['收回并赚取能量', '后半段生成 ATP 和 NADH，最后形成两个丙酮酸。']] },
         gluconeogenesis: { topic: '糖代谢', lesson: '糖代谢第 2 课 · 没有进食也要维持血糖', title: '糖异生是在“倒放”糖酵解吗？', question: '大部分步骤可以借用，但糖酵解的三个不可逆关卡需要绕路。', goal: '理解乳酸和氨基酸怎样回到葡萄糖', problem: '在空腹时为脑和红细胞维持血糖。', input: '乳酸、甘油、生糖氨基酸、ATP/GTP', output: '葡萄糖、ADP/GDP、NAD⁺', location: '线粒体、细胞质和内质网协作', purpose: '避免血糖降到影响中枢神经和红细胞供能的程度。', terms: [['不可逆关卡', '热力学上很难直接倒回去的步骤'], ['生糖原料', '能够转成葡萄糖的乳酸、甘油或氨基酸'], ['空腹', '进食间隔中需要维持血糖的状态']], story: [['碳骨架先汇合', '乳酸和生糖氨基酸先进入丙酮酸或草酰乙酸。'], ['绕开三个关卡', '用另一组酶消耗能量，绕过糖酵解的不可逆步骤。'], ['恢复六碳结构', '中间体回到葡萄糖-6-磷酸，最后释放葡萄糖。']] },
@@ -2846,6 +2884,81 @@
         return reactions.filter(reaction => studentGroupMatches(reaction, pathwayId));
       }
 
+      function visibleReactionRows(pathwayId, rows) {
+        if (pathwayId === 'tca') {
+          // The graph stores citrate synthase twice so both acetyl-CoA and OAA can
+          // connect to citrate. They are two substrate edges of one biochemical
+          // event, not a ninth canonical TCA step. Keep the complete equation row.
+          return rows.filter(reaction => !(
+            reaction.from === '草酰乙酸@mito-matrix'
+            && reaction.to === '柠檬酸@mito-matrix'
+            && /柠檬酸合酶/.test(reaction.enzyme || '')
+          ));
+        }
+        if (pathwayId === 'malate_aspartate') {
+          const seen = new Set();
+          return rows.filter(reaction => {
+            const group = malateAspartateEventKey(reaction);
+            if (!group || seen.has(group)) return false;
+            seen.add(group);
+            return true;
+          });
+        }
+        if (pathwayId === 'glycerol_phosphate') {
+          const seen = new Set();
+          return rows.filter(reaction => {
+            const group = glycerolPhosphateEventKey(reaction);
+            if (!group || seen.has(group)) return false;
+            seen.add(group);
+            return true;
+          });
+        }
+        return rows;
+      }
+
+      function malateAspartateEventKey(reaction) {
+        const enzyme = String(reaction?.enzyme || '');
+        if (/MDH1|胞质苹果酸脱氢酶/.test(enzyme)) return 'mdh1';
+        if (/SLC25A11|苹果酸-α-KG/.test(enzyme)) return 'slc25a11';
+        if (/MDH2|线粒体苹果酸脱氢酶/.test(enzyme)) return 'mdh2';
+        if (/GOT2|线粒体天冬氨酸转氨酶/.test(enzyme)) return 'got2';
+        if (/SLC25A12|SLC25A13|天冬氨酸-谷氨酸/.test(enzyme)) return 'slc25a12-13';
+        if (/GOT1|胞质天冬氨酸转氨酶/.test(enzyme)) return 'got1';
+        return '';
+      }
+
+      function glycerolPhosphateEventKey(reaction) {
+        const enzyme = String(reaction?.enzyme || '');
+        const from = String(reaction?.from || '');
+        const to = String(reaction?.to || '');
+        if (/GPD1|胞质甘油-3-磷酸脱氢酶/.test(enzyme)) return 'gpd1';
+        if (/GPD2|线粒体甘油-3-磷酸脱氢酶/.test(enzyme)) return 'gpd2';
+        if (/VDAC|外膜通道/.test(enzyme)) {
+          if (/甘油-3-磷酸/.test(`${from} ${to}`)) return 'vdac-g3p';
+          if (/磷酸二羟丙酮/.test(`${from} ${to}`)) return 'vdac-dhap';
+        }
+        return '';
+      }
+
+      function visibleReactionAliases(pathwayId, reaction, rows) {
+        if (pathwayId === 'tca' && /柠檬酸合酶/.test(reaction.enzyme || '')) {
+          return rows.filter(candidate => candidate.id !== reaction.id
+            && /柠檬酸合酶/.test(candidate.enzyme || '')
+            && candidate.to === reaction.to);
+        }
+        if (pathwayId === 'malate_aspartate') {
+          const eventKey = malateAspartateEventKey(reaction);
+          return rows.filter(candidate => candidate.id !== reaction.id
+            && malateAspartateEventKey(candidate) === eventKey);
+        }
+        if (pathwayId === 'glycerol_phosphate') {
+          const eventKey = glycerolPhosphateEventKey(reaction);
+          return rows.filter(candidate => candidate.id !== reaction.id
+            && glycerolPhosphateEventKey(candidate) === eventKey);
+        }
+        return [];
+      }
+
       function resolveStudentStep(pathwayId, step, index = 0) {
         const { pathway, routeGroup } = studentPathwayMeta(pathwayId);
         return window.STUDENT_STEP_RESOLVER.resolveStep({
@@ -3509,6 +3622,7 @@
           studentPathwayMapVisualImage.alt = mapVisual.label;
           studentPathwayMapVisual?.setAttribute('aria-label', mapVisual.label);
           if (studentPathwayMapVisualCaption) studentPathwayMapVisualCaption.textContent = mapVisual.caption;
+          studentPathwayMapVisualFrame?.classList.toggle('is-etc-cropped', pathwayId === 'etc');
           const usesScientificOverlay = Boolean(mapVisual.overlay);
           if (studentPathwayMapScientificOverlay) studentPathwayMapScientificOverlay.toggleAttribute('hidden', !usesScientificOverlay);
           if (studentPathwayMapScientificOverlayLayer) {
@@ -3530,11 +3644,97 @@
         } else if (studentPathwayMapScientificOverlayLayer) {
           studentPathwayMapScientificOverlayLayer.replaceChildren();
           if (studentPathwayMapScientificOverlay) studentPathwayMapScientificOverlay.setAttribute('hidden', '');
+          studentPathwayMapVisualFrame?.classList.remove('is-etc-cropped');
         }
         if (!studentPathwayMap || !studentMapBands || !studentMapEdges || !studentMapNodes) return;
         const { pathway, tone } = studentPathwayMeta(pathwayId);
         const steps = Array.isArray(pathway.steps) ? pathway.steps : [];
         const pathwayReactions = studentReactionsFor(pathwayId);
+        studentPathwayMap.removeAttribute('data-map-layout');
+        if (pathwayId === 'malate_aspartate') {
+          renderMalateAspartateStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'glycerol_phosphate') {
+          renderGlycerolPhosphateStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'glycolysis') {
+          renderGlycolysisStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'gluconeogenesis') {
+          renderGluconeogenesisStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'glycogenesis') {
+          renderGlycogenesisStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'glycogenolysis') {
+          renderGlycogenolysisStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'ppp') {
+          renderPppStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'fa_synthesis') {
+          renderFaSynthesisStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'carnitine') {
+          renderCarnitineStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'beta_oxidation') {
+          renderBetaOxidationStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'ketone') {
+          renderKetoneStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'transamination') {
+          renderTransaminationStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'urea') {
+          renderUreaStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'aa_carbon') {
+          renderAaCarbonStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'purine') {
+          renderPurineStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'pyrimidine') {
+          renderPyrimidineStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'nucleotide_degradation') {
+          renderNucleotideDegradationStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'tca') {
+          renderTcaStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'pdh') {
+          renderPdhStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'etc') {
+          renderEtcStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
+        if (pathwayId === 'oxphos') {
+          renderOxphosStudentMap(pathwayId, pathwayReactions, tone);
+          return;
+        }
         const twoRows = steps.length > 7;
         const mapHeight = twoRows ? 540 : 455;
         const nodeWidth = twoRows ? 136 : 128;
@@ -3709,6 +3909,3104 @@
           studentMapNodes.appendChild(node);
           fitStudentMapText(nodeLabel, nodeWidth - 18, 15.5, 10);
         });
+      }
+
+      function renderMalateAspartateStudentMap(pathwayId, pathwayReactions, tone) {
+        const viewWidth = 1280;
+        const viewHeight = 930;
+        const nodeWidth = 136;
+        const nodeHeight = 54;
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const eventRows = visibleReactionRows(pathwayId, ownReactions);
+        const eventByKey = new Map(eventRows.map(reaction => [malateAspartateEventKey(reaction), reaction]));
+
+        studentPathwayMap.setAttribute('viewBox', `0 0 ${viewWidth} ${viewHeight}`);
+        studentPathwayMap.dataset.mapLayout = 'malate-aspartate-cycle';
+        studentPathwayMap.setAttribute('aria-label', '苹果酸-天冬氨酸穿梭：六个机制事件在胞质、线粒体内膜与基质之间闭环，把胞质NADH的还原当量转成基质NADH，NADH分子本身不跨内膜');
+        studentMapBands.replaceChildren();
+        studentMapEdges.replaceChildren();
+        studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '6 个机制事件 · 2 台内膜交换器';
+
+        [
+          { key: 'cytosol', y: 22, height: 242, className: 'mas-cytosol-band', label: '细胞质半环 · MDH1 接收糖酵解 NADH；GOT1 闭合 OAA' },
+          { key: 'transport', y: 280, height: 210, className: 'mas-transport-band', label: '线粒体内膜 · 两台交换器搬运代谢物，不搬运 NADH' },
+          { key: 'matrix', y: 506, height: 252, className: 'mas-matrix-band', label: '线粒体基质半环 · MDH2 生成基质 NADH；GOT2 生成天冬氨酸' },
+          { key: 'net', y: 776, height: 112, className: 'mas-net-band', label: '净效果 · 还原当量由胞质转到基质' }
+        ].forEach(zone => {
+          studentMapBands.appendChild(studentSvgElement('rect', {
+            x: 24, y: zone.y, width: 1232, height: zone.height,
+            class: `student-map-band ${zone.className}`, 'data-shuttle-zone': zone.key
+          }));
+          if (zone.key !== 'net') {
+            studentMapBands.appendChild(studentSvgElement('text', {
+              x: 48, y: zone.y + 30, class: 'student-map-band-label'
+            }, zone.label));
+          }
+        });
+
+        const nodeDefinitions = [
+          { key: 'oaa-c', entityId: '草酰乙酸@cytosol', label: '草酰乙酸', meta: 'OAA · 胞质', x: 110, y: 140, reaction: eventByKey.get('mdh1') },
+          { key: 'malate-c', entityId: '苹果酸@cytosol', label: '苹果酸', meta: '胞质', x: 370, y: 140, reaction: eventByKey.get('slc25a11') },
+          { key: 'aspartate-c', entityId: '天冬氨酸@cytosol', label: '天冬氨酸', meta: '胞质', x: 920, y: 140, reaction: eventByKey.get('got1') },
+          { key: 'alpha-kg-c', entityId: 'α-酮戊二酸@cytosol', label: 'α-KG', meta: '胞质 · 交换出', x: 650, y: 225, reaction: eventByKey.get('got1'), className: 'mas-companion-node' },
+          { key: 'glutamate-c', entityId: '谷氨酸@cytosol', label: '谷氨酸 + H⁺', meta: '胞质 · 交换入', x: 1120, y: 225, reaction: eventByKey.get('slc25a12-13'), className: 'mas-companion-node' },
+          { key: 'nadh-c', entityId: 'NADH@cytosol', label: 'NADH + H⁺', meta: '胞质 · 交出电子', x: 120, y: 225, reaction: eventByKey.get('mdh1'), className: 'mas-redox-node' },
+          { key: 'nad-c', entityId: 'NAD⁺@cytosol', label: 'NAD⁺', meta: '胞质 · 再生', x: 360, y: 225, reaction: eventByKey.get('mdh1'), className: 'mas-redox-node' },
+          { key: 'slc25a11', entityId: '', label: 'SLC25A11', meta: '苹果酸 / α-KG 反向交换', x: 370, y: 385, reaction: eventByKey.get('slc25a11'), className: 'mas-carrier-node', width: 190 },
+          { key: 'slc25a12-13', entityId: '', label: 'SLC25A12/13', meta: '天冬氨酸 / 谷氨酸-H⁺交换', x: 920, y: 385, reaction: eventByKey.get('slc25a12-13'), className: 'mas-carrier-node', width: 206 },
+          { key: 'malate-m', entityId: '苹果酸@mito-matrix', label: '苹果酸', meta: '基质', x: 370, y: 630, reaction: eventByKey.get('mdh2') },
+          { key: 'oaa-m', entityId: '草酰乙酸@mito-matrix', label: '草酰乙酸', meta: 'OAA · 基质', x: 620, y: 630, reaction: eventByKey.get('got2') },
+          { key: 'aspartate-m', entityId: '天冬氨酸@mito-matrix', label: '天冬氨酸', meta: '基质', x: 920, y: 630, reaction: eventByKey.get('slc25a12-13') },
+          { key: 'alpha-kg-m', entityId: 'α-酮戊二酸@mito-matrix', label: 'α-KG', meta: '基质 · 交换出', x: 650, y: 710, reaction: eventByKey.get('slc25a11'), className: 'mas-companion-node' },
+          { key: 'glutamate-m', entityId: '谷氨酸@mito-matrix', label: '谷氨酸', meta: '基质 · 交换入', x: 1120, y: 710, reaction: eventByKey.get('got2'), className: 'mas-companion-node' },
+          { key: 'nad-m', entityId: 'NAD⁺@mito-matrix', label: 'NAD⁺', meta: '基质 · 接收电子', x: 350, y: 545, reaction: eventByKey.get('mdh2'), className: 'mas-redox-node' },
+          { key: 'nadh-m', entityId: 'NADH@mito-matrix', label: 'NADH + H⁺', meta: '基质 · 进入复合体 I', x: 560, y: 545, reaction: eventByKey.get('mdh2'), className: 'mas-redox-node' }
+        ];
+        const nodeRecords = new Map(nodeDefinitions.map(definition => [definition.key, {
+          ...definition,
+          entity: definition.entityId ? entityById[definition.entityId] || null : null
+        }]));
+
+        const edgeDefinitions = [
+          { from: 'oaa-c', to: 'malate-c', reaction: eventByKey.get('mdh1') },
+          { from: 'nadh-c', to: 'nad-c', reaction: eventByKey.get('mdh1'), className: 'mas-redox-edge' },
+          { from: 'malate-c', to: 'slc25a11', reaction: eventByKey.get('slc25a11'), className: 'transport' },
+          { from: 'slc25a11', to: 'malate-m', reaction: eventByKey.get('slc25a11'), className: 'transport' },
+          { from: 'alpha-kg-m', to: 'slc25a11', reaction: eventByKey.get('slc25a11'), className: 'mas-exchange-edge transport' },
+          { from: 'slc25a11', to: 'alpha-kg-c', reaction: eventByKey.get('slc25a11'), className: 'mas-exchange-edge transport' },
+          { from: 'malate-m', to: 'oaa-m', reaction: eventByKey.get('mdh2') },
+          { from: 'nad-m', to: 'nadh-m', reaction: eventByKey.get('mdh2'), className: 'mas-redox-edge' },
+          { from: 'oaa-m', to: 'aspartate-m', reaction: eventByKey.get('got2') },
+          { from: 'glutamate-m', to: 'alpha-kg-m', reaction: eventByKey.get('got2'), className: 'mas-companion-edge' },
+          { from: 'aspartate-m', to: 'slc25a12-13', reaction: eventByKey.get('slc25a12-13'), className: 'transport' },
+          { from: 'slc25a12-13', to: 'aspartate-c', reaction: eventByKey.get('slc25a12-13'), className: 'transport' },
+          { from: 'glutamate-c', to: 'slc25a12-13', reaction: eventByKey.get('slc25a12-13'), className: 'mas-exchange-edge transport' },
+          { from: 'slc25a12-13', to: 'glutamate-m', reaction: eventByKey.get('slc25a12-13'), className: 'mas-exchange-edge transport' },
+          { from: 'aspartate-c', to: 'oaa-c', reaction: eventByKey.get('got1'), path: 'M 852 140 C 770 72, 260 72, 178 140' },
+          { from: 'alpha-kg-c', to: 'glutamate-c', reaction: eventByKey.get('got1'), className: 'mas-companion-edge' }
+        ];
+
+        edgeDefinitions.forEach(definition => {
+          const source = nodeRecords.get(definition.from);
+          const target = nodeRecords.get(definition.to);
+          if (!source || !target) return;
+          const sourceWidth = source.width || nodeWidth;
+          const targetWidth = target.width || nodeWidth;
+          const edge = studentSvgElement('path', {
+            d: definition.path || studentMapEdgePath(source, target, Math.max(sourceWidth, targetWidth), nodeHeight),
+            class: `student-map-edge mas-edge ${definition.className || ''}`,
+            'data-edge-from': definition.from,
+            'data-edge-to': definition.to,
+            'data-reaction': definition.reaction?.id || ''
+          });
+          if (definition.reaction) {
+            const openReaction = () => renderStudentReactionDetail(definition.reaction, pathwayId, eventRows.indexOf(definition.reaction));
+            edge.setAttribute('role', 'button');
+            edge.tabIndex = 0;
+            edge.addEventListener('click', event => { event.stopPropagation(); openReaction(); });
+            edge.addEventListener('keydown', event => {
+              if (event.key !== 'Enter' && event.key !== ' ') return;
+              event.preventDefault();
+              openReaction();
+            });
+          }
+          studentMapEdges.appendChild(edge);
+          applyStudentReactionDirection(edge, definition.reaction);
+        });
+
+        nodeRecords.forEach(record => {
+          const width = record.width || nodeWidth;
+          const node = studentSvgElement('g', {
+            class: `student-map-node mas-node ${record.className || ''}`,
+            style: `--tone:${tone}`,
+            'data-map-key': record.key,
+            'data-entity-id': record.entityId,
+            'data-reaction': record.reaction?.id || '',
+            role: 'button', tabindex: '0',
+            'aria-label': `${record.label}，${record.meta}`
+          });
+          node.appendChild(studentSvgElement('title', {}, `${record.label} · ${record.meta}`));
+          node.appendChild(studentSvgElement('rect', {
+            x: record.x - width / 2, y: record.y - nodeHeight / 2, width, height: nodeHeight, rx: 14
+          }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 1, class: 'node-name' }, record.label);
+          node.appendChild(name);
+          node.appendChild(studentSvgElement('text', { x: record.x, y: record.y + 19, class: 'node-compartment' }, record.meta));
+          const selectNode = () => renderStudentNodeSelection(record.entity, record.reaction, pathwayId, eventRows.indexOf(record.reaction), 0);
+          node.addEventListener('click', event => { event.stopPropagation(); selectNode(); });
+          node.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            selectNode();
+          });
+          studentMapNodes.appendChild(node);
+          fitStudentMapText(name, width - 16, 15.5, 9.5);
+        });
+
+        [
+          { key: 'mdh1', label: 'MDH1', x: 245, y: 112 },
+          { key: 'slc25a11', label: 'SLC25A11', x: 515, y: 355 },
+          { key: 'mdh2', label: 'MDH2', x: 495, y: 608 },
+          { key: 'got2', label: 'GOT2', x: 770, y: 608 },
+          { key: 'slc25a12-13', label: 'SLC25A12/13', x: 1065, y: 355 },
+          { key: 'got1', label: 'GOT1', x: 650, y: 82 }
+        ].forEach(eventDefinition => {
+          const reaction = eventByKey.get(eventDefinition.key);
+          const eventLabel = studentSvgElement('text', {
+            x: eventDefinition.x, y: eventDefinition.y,
+            class: 'student-mas-event', 'data-mas-event': eventDefinition.key,
+            'text-anchor': 'middle', role: 'button', tabindex: '0'
+          }, eventDefinition.label);
+          const openReaction = () => reaction && renderStudentReactionDetail(reaction, pathwayId, eventRows.indexOf(reaction));
+          eventLabel.addEventListener('click', event => { event.stopPropagation(); openReaction(); });
+          eventLabel.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            openReaction();
+          });
+          studentMapNodes.appendChild(eventLabel);
+        });
+
+        [
+          { x: 245, y: 190, text: '胞质 NADH → NAD⁺', className: 'student-mas-redox-label' },
+          { x: 370, y: 470, text: '苹果酸入 · α-KG 出', className: 'student-mas-exchange-label' },
+          { x: 455, y: 700, text: '基质 NAD⁺ → NADH', className: 'student-mas-redox-label' },
+          { x: 920, y: 470, text: '天冬氨酸出 · 谷氨酸 + H⁺入', className: 'student-mas-exchange-label' }
+        ].forEach(item => studentMapNodes.appendChild(studentSvgElement('text', {
+          x: item.x, y: item.y, class: item.className, 'text-anchor': 'middle'
+        }, item.text)));
+
+        const summary = studentSvgElement('g', {
+          class: 'student-mas-summary',
+          'aria-label': '净效果：还原当量转移，胞质NADH的电子成为基质NADH，NADH不跨膜'
+        });
+        summary.appendChild(studentSvgElement('rect', { x: 48, y: 798, width: 820, height: 68, rx: 18 }));
+        summary.appendChild(studentSvgElement('text', { x: 458, y: 825, class: 'summary-main', 'text-anchor': 'middle' }, '还原当量转移 · NADH 不跨膜'));
+        summary.appendChild(studentSvgElement('text', { x: 458, y: 852, class: 'summary-note', 'text-anchor': 'middle' }, '胞质 NADH → NAD⁺　|　基质 NAD⁺ → NADH'));
+        studentMapNodes.appendChild(summary);
+
+        const nextPath = studentSvgElement('g', {
+          class: 'student-map-next-pathway mas-next-pathway',
+          'data-next-pathway': 'etc', role: 'button', tabindex: '0',
+          'aria-label': '基质NADH下一站：电子传递链复合体I'
+        });
+        nextPath.appendChild(studentSvgElement('rect', { x: 930, y: 798, width: 292, height: 68, rx: 16 }));
+        nextPath.appendChild(studentSvgElement('text', { x: 1076, y: 825, class: 'next-label' }, '电子传递链下一站'));
+        nextPath.appendChild(studentSvgElement('text', { x: 1076, y: 852, class: 'next-name' }, '基质 NADH → 复合体 I'));
+        const openEtc = () => renderStudentPathway('etc', { returnToPrimer: false });
+        nextPath.addEventListener('click', event => { event.stopPropagation(); openEtc(); });
+        nextPath.addEventListener('keydown', event => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          openEtc();
+        });
+        studentMapNodes.appendChild(nextPath);
+
+        studentMapBands.appendChild(studentSvgElement('text', {
+          x: 48, y: 918, class: 'student-map-pan-hint', 'data-map-hint': 'horizontal'
+        }, '横向查看：胞质半环 → 两台交换器 → 基质半环 →'));
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderGlycerolPhosphateStudentMap(pathwayId, pathwayReactions, tone) {
+        const viewWidth = 1280;
+        const viewHeight = 900;
+        const nodeWidth = 148;
+        const nodeHeight = 56;
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const eventRows = visibleReactionRows(pathwayId, ownReactions);
+        const eventByKey = new Map(eventRows.map(reaction => [glycerolPhosphateEventKey(reaction), reaction]));
+
+        studentPathwayMap.setAttribute('viewBox', `0 0 ${viewWidth} ${viewHeight}`);
+        studentPathwayMap.dataset.mapLayout = 'glycerol-phosphate-cycle';
+        studentPathwayMap.setAttribute('aria-label', '甘油-3-磷酸穿梭：胞质GPD1、外膜VDAC与内膜GPD2组成四事件闭环，把胞质NADH的还原当量交给CoQ池；NADH不跨膜，也不生成基质NADH');
+        studentMapBands.replaceChildren();
+        studentMapEdges.replaceChildren();
+        studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '4 个机制事件 · 2 次外膜通过 · 1 个 CoQ 入口';
+
+        [
+          { key: 'cytosol', y: 22, height: 214, className: 'gp-cytosol-band', label: '细胞质 · GPD1 用胞质 NADH 把 DHAP 还原为甘油-3-磷酸' },
+          { key: 'outer-membrane', y: 250, height: 94, className: 'gp-outer-band', label: '线粒体外膜 · VDAC 让两种三碳磷酸往返' },
+          { key: 'intermembrane', y: 358, height: 236, className: 'gp-ims-band', label: '膜间隙侧 · GPD2 活性位点接收甘油-3-磷酸' },
+          { key: 'inner-membrane', y: 608, height: 116, className: 'gp-inner-band', label: '线粒体内膜 · GPD2 的酶内 FAD 把电子送入 CoQ 池' },
+          { key: 'net', y: 740, height: 112, className: 'gp-net-band', label: '净效果 · 胞质 NADH 的还原当量进入 CoQ，不进入基质 NADH 池' }
+        ].forEach(zone => {
+          studentMapBands.appendChild(studentSvgElement('rect', {
+            x: 24, y: zone.y, width: 1232, height: zone.height,
+            class: `student-map-band ${zone.className}`, 'data-gp-zone': zone.key
+          }));
+          if (zone.key !== 'net') {
+            studentMapBands.appendChild(studentSvgElement('text', {
+              x: 48, y: zone.y + 29, class: 'student-map-band-label'
+            }, zone.label));
+          }
+        });
+
+        const nodeDefinitions = [
+          { key: 'dhap-c', entityId: '磷酸二羟丙酮@cytosol', label: 'DHAP', meta: '磷酸二羟丙酮 · 胞质', x: 126, y: 132, reaction: eventByKey.get('gpd1') },
+          { key: 'g3p-c', entityId: '甘油-3-磷酸@cytosol', label: '甘油-3-磷酸', meta: '胞质 · 携带电子', x: 420, y: 132, reaction: eventByKey.get('vdac-g3p') },
+          { key: 'nadh-c', entityId: 'NADH@cytosol', label: 'NADH + H⁺', meta: '胞质 · 交出电子', x: 126, y: 204, reaction: eventByKey.get('gpd1'), className: 'gp-redox-node' },
+          { key: 'nad-c', entityId: 'NAD⁺@cytosol', label: 'NAD⁺', meta: '胞质 · 再生', x: 420, y: 204, reaction: eventByKey.get('gpd1'), className: 'gp-redox-node' },
+          { key: 'vdac-g3p', entityId: '', label: 'VDAC', meta: '甘油-3-P 到膜间隙侧', x: 420, y: 297, reaction: eventByKey.get('vdac-g3p'), className: 'gp-carrier-node', width: 190 },
+          { key: 'vdac-dhap', entityId: '', label: 'VDAC', meta: 'DHAP 返回胞质', x: 126, y: 297, reaction: eventByKey.get('vdac-dhap'), className: 'gp-carrier-node', width: 178 },
+          { key: 'g3p-ims', entityId: '甘油-3-磷酸@mito-ims', label: '甘油-3-磷酸', meta: '膜间隙侧', x: 420, y: 470, reaction: eventByKey.get('gpd2') },
+          { key: 'gpd2', entityId: '', label: 'GPD2', meta: '内膜酶 · 活性位点朝膜间隙', x: 650, y: 470, reaction: eventByKey.get('gpd2'), className: 'gp-enzyme-node', width: 212 },
+          { key: 'dhap-ims', entityId: '磷酸二羟丙酮@mito-ims', label: 'DHAP', meta: '膜间隙侧 · 返回', x: 888, y: 470, reaction: eventByKey.get('vdac-dhap') },
+          { key: 'fad', entityId: '', label: 'FAD', meta: 'GPD2 酶内辅基', x: 565, y: 555, reaction: eventByKey.get('gpd2'), className: 'gp-flavin-node' },
+          { key: 'fadh2', entityId: '', label: 'FADH₂', meta: 'GPD2 酶内还原态', x: 742, y: 555, reaction: eventByKey.get('gpd2'), className: 'gp-flavin-node' },
+          { key: 'coq', entityId: '辅酶 Q@mito-inner-membrane', label: 'CoQ', meta: '内膜 Q 池', x: 930, y: 667, reaction: eventByKey.get('gpd2'), className: 'gp-q-node' },
+          { key: 'coqh2', entityId: '泛醇@mito-inner-membrane', label: 'CoQH₂', meta: '电子进入复合体 III', x: 1120, y: 667, reaction: eventByKey.get('gpd2'), className: 'gp-q-node' }
+        ];
+        const nodeRecords = new Map(nodeDefinitions.map(definition => [definition.key, {
+          ...definition,
+          entity: definition.entityId ? entityById[definition.entityId] || null : null
+        }]));
+
+        const edgeDefinitions = [
+          { from: 'dhap-c', to: 'g3p-c', reaction: eventByKey.get('gpd1') },
+          { from: 'nadh-c', to: 'nad-c', reaction: eventByKey.get('gpd1'), className: 'gp-redox-edge' },
+          { from: 'g3p-c', to: 'vdac-g3p', reaction: eventByKey.get('vdac-g3p'), className: 'transport' },
+          { from: 'vdac-g3p', to: 'g3p-ims', reaction: eventByKey.get('vdac-g3p'), className: 'transport' },
+          { from: 'g3p-ims', to: 'gpd2', reaction: eventByKey.get('gpd2') },
+          { from: 'gpd2', to: 'dhap-ims', reaction: eventByKey.get('gpd2') },
+          { from: 'fad', to: 'fadh2', reaction: eventByKey.get('gpd2'), className: 'gp-flavin-edge' },
+          { from: 'fadh2', to: 'coq', reaction: eventByKey.get('gpd2'), className: 'gp-electron-edge', path: 'M 816 555 C 870 570, 900 606, 926 640' },
+          { from: 'coq', to: 'coqh2', reaction: eventByKey.get('gpd2'), className: 'gp-electron-edge' },
+          { from: 'dhap-ims', to: 'vdac-dhap', reaction: eventByKey.get('vdac-dhap'), className: 'transport', path: 'M 814 470 C 630 398, 260 400, 142 269' },
+          { from: 'vdac-dhap', to: 'dhap-c', reaction: eventByKey.get('vdac-dhap'), className: 'transport' }
+        ];
+
+        edgeDefinitions.forEach(definition => {
+          const source = nodeRecords.get(definition.from);
+          const target = nodeRecords.get(definition.to);
+          if (!source || !target) return;
+          const edge = studentSvgElement('path', {
+            d: definition.path || studentMapEdgePath(source, target, Math.max(source.width || nodeWidth, target.width || nodeWidth), nodeHeight),
+            class: `student-map-edge gp-edge ${definition.className || ''}`,
+            'data-edge-from': definition.from,
+            'data-edge-to': definition.to,
+            'data-reaction': definition.reaction?.id || ''
+          });
+          if (definition.reaction) {
+            const openReaction = () => renderStudentReactionDetail(definition.reaction, pathwayId, eventRows.indexOf(definition.reaction));
+            edge.setAttribute('role', 'button');
+            edge.tabIndex = 0;
+            edge.addEventListener('click', event => { event.stopPropagation(); openReaction(); });
+            edge.addEventListener('keydown', event => {
+              if (event.key !== 'Enter' && event.key !== ' ') return;
+              event.preventDefault();
+              openReaction();
+            });
+          }
+          studentMapEdges.appendChild(edge);
+          applyStudentReactionDirection(edge, definition.reaction);
+        });
+
+        nodeRecords.forEach(record => {
+          const width = record.width || nodeWidth;
+          const node = studentSvgElement('g', {
+            class: `student-map-node gp-node ${record.className || ''}`,
+            style: `--tone:${tone}`,
+            'data-map-key': record.key,
+            'data-entity-id': record.entityId,
+            'data-reaction': record.reaction?.id || '',
+            role: 'button', tabindex: '0',
+            'aria-label': `${record.label}，${record.meta}`
+          });
+          node.appendChild(studentSvgElement('title', {}, `${record.label} · ${record.meta}`));
+          node.appendChild(studentSvgElement('rect', {
+            x: record.x - width / 2, y: record.y - nodeHeight / 2, width, height: nodeHeight, rx: 14
+          }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 1, class: 'node-name' }, record.label);
+          node.appendChild(name);
+          node.appendChild(studentSvgElement('text', { x: record.x, y: record.y + 19, class: 'node-compartment' }, record.meta));
+          const selectNode = () => renderStudentNodeSelection(record.entity, record.reaction, pathwayId, eventRows.indexOf(record.reaction), 0);
+          node.addEventListener('click', event => { event.stopPropagation(); selectNode(); });
+          node.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            selectNode();
+          });
+          studentMapNodes.appendChild(node);
+          fitStudentMapText(name, width - 16, 15.5, 9.5);
+        });
+
+        [
+          { key: 'gpd1', label: 'GPD1', x: 273, y: 102 },
+          { key: 'vdac-g3p', label: 'VDAC · 甘油-3-P', x: 560, y: 331 },
+          { key: 'gpd2', label: 'GPD2', x: 650, y: 425 },
+          { key: 'vdac-dhap', label: 'VDAC · DHAP', x: 270, y: 424 }
+        ].forEach(eventDefinition => {
+          const reaction = eventByKey.get(eventDefinition.key);
+          const eventLabel = studentSvgElement('text', {
+            x: eventDefinition.x, y: eventDefinition.y,
+            class: 'student-gp-event', 'data-gp-event': eventDefinition.key,
+            'text-anchor': 'middle', role: 'button', tabindex: '0'
+          }, eventDefinition.label);
+          const openReaction = () => reaction && renderStudentReactionDetail(reaction, pathwayId, eventRows.indexOf(reaction));
+          eventLabel.addEventListener('click', event => { event.stopPropagation(); openReaction(); });
+          eventLabel.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            openReaction();
+          });
+          studentMapNodes.appendChild(eventLabel);
+        });
+
+        [
+          { x: 273, y: 182, text: '胞质 NADH → NAD⁺', className: 'student-gp-redox-label' },
+          { x: 653, y: 595, text: '酶内 FAD → FADH₂', className: 'student-gp-flavin-label' },
+          { x: 1025, y: 628, text: 'CoQ → CoQH₂', className: 'student-gp-q-label' }
+        ].forEach(item => studentMapNodes.appendChild(studentSvgElement('text', {
+          x: item.x, y: item.y, class: item.className, 'text-anchor': 'middle'
+        }, item.text)));
+
+        const summary = studentSvgElement('g', {
+          class: 'student-gp-summary',
+          'aria-label': '净效果：还原当量进入CoQ，NADH不跨膜，不生成基质NADH，绕过复合体I'
+        });
+        summary.appendChild(studentSvgElement('rect', { x: 48, y: 760, width: 836, height: 70, rx: 18 }));
+        summary.appendChild(studentSvgElement('text', { x: 466, y: 787, class: 'summary-main', 'text-anchor': 'middle' }, '还原当量进入 CoQ · NADH 不跨膜'));
+        summary.appendChild(studentSvgElement('text', { x: 466, y: 814, class: 'summary-note', 'text-anchor': 'middle' }, '不生成基质 NADH · 绕过复合体 I'));
+        studentMapNodes.appendChild(summary);
+
+        const nextPath = studentSvgElement('g', {
+          class: 'student-map-next-pathway gp-next-pathway',
+          'data-next-pathway': 'etc', role: 'button', tabindex: '0',
+          'aria-label': 'CoQH2下一站：电子传递链复合体III'
+        });
+        nextPath.appendChild(studentSvgElement('rect', { x: 926, y: 760, width: 296, height: 70, rx: 16 }));
+        nextPath.appendChild(studentSvgElement('text', { x: 1074, y: 787, class: 'next-label' }, '电子传递链下一站'));
+        nextPath.appendChild(studentSvgElement('text', { x: 1074, y: 814, class: 'next-name' }, 'CoQH₂ → 复合体 III'));
+        const openEtc = () => renderStudentPathway('etc', { returnToPrimer: false });
+        nextPath.addEventListener('click', event => { event.stopPropagation(); openEtc(); });
+        nextPath.addEventListener('keydown', event => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          openEtc();
+        });
+        studentMapNodes.appendChild(nextPath);
+
+        studentMapBands.appendChild(studentSvgElement('text', {
+          x: 48, y: 882, class: 'student-map-pan-hint', 'data-map-hint': 'horizontal'
+        }, '横向查看：GPD1 → VDAC → GPD2 → CoQ 池 →'));
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderGlycolysisStudentMap(pathwayId, pathwayReactions, tone) {
+        const viewWidth = 1460;
+        const viewHeight = 900;
+        const nodeWidth = 154;
+        const nodeHeight = 58;
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const stepReactions = ownReactions.slice(0, 10);
+
+        studentPathwayMap.setAttribute('viewBox', `0 0 ${viewWidth} ${viewHeight}`);
+        studentPathwayMap.dataset.mapLayout = 'glycolysis-ten-step';
+        studentPathwayMap.setAttribute('aria-label', '糖酵解十步：投资两分子ATP，把六碳糖裂解为两份三碳骨架，后半程每步发生两次，产生四分子ATP和两分子NADH，净得两分子ATP、两分子NADH和两分子丙酮酸');
+        studentMapBands.replaceChildren();
+        studentMapEdges.replaceChildren();
+        studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '10 个酶步骤 · 3 个不可逆关卡 · 后半程 ×2';
+
+        [
+          { key: 'investment', y: 22, height: 210, className: 'gly-investment-band', label: '能量投资 · 六碳糖活化 · 消耗 2 ATP' },
+          { key: 'cleavage', y: 246, height: 166, className: 'gly-cleavage-band', label: '六碳裂解 · 醛缩酶生成 DHAP + GAP · TPI 汇合为 2 GAP' },
+          { key: 'payoff', y: 426, height: 292, className: 'gly-payoff-band', label: '能量收益 · 后半程每步 ×2 · 产生 4 ATP + 2 NADH' },
+          { key: 'net', y: 732, height: 116, className: 'gly-net-band', label: '净收支与丙酮酸出口' }
+        ].forEach(zone => {
+          studentMapBands.appendChild(studentSvgElement('rect', {
+            x: 24, y: zone.y, width: 1412, height: zone.height,
+            class: `student-map-band ${zone.className}`, 'data-glycolysis-zone': zone.key
+          }));
+          if (zone.key !== 'net') {
+            studentMapBands.appendChild(studentSvgElement('text', {
+              x: 48, y: zone.y + 30, class: 'student-map-band-label'
+            }, zone.label));
+          }
+        });
+
+        const nodeDefinitions = [
+          { key: 'glucose', entityId: '葡萄糖@cytosol', label: '葡萄糖', meta: '6C · 起点', x: 115, y: 138, reaction: stepReactions[0], stepIndex: 0 },
+          { key: 'g6p', entityId: '葡萄糖-6-磷酸@cytosol', label: '葡萄糖-6-磷酸', meta: 'G6P · 6C', x: 340, y: 138, reaction: stepReactions[1], stepIndex: 1 },
+          { key: 'f6p', entityId: '果糖-6-磷酸@cytosol', label: '果糖-6-磷酸', meta: 'F6P · 6C', x: 565, y: 138, reaction: stepReactions[2], stepIndex: 2 },
+          { key: 'f16bp', entityId: '果糖-1,6-二磷酸@cytosol', label: '果糖-1,6-二磷酸', meta: 'F-1,6-BP · 6C', x: 790, y: 138, reaction: stepReactions[3], width: 178, stepIndex: 3 },
+          { key: 'dhap', entityId: '磷酸二羟丙酮@cytosol', label: 'DHAP', meta: '3C · 经 TPI 汇合', x: 1030, y: 330, reaction: stepReactions[4], readingStepIndex: 4, className: 'gly-branch-node' },
+          { key: 'gap', entityId: '甘油醛-3-磷酸@cytosol', label: 'GAP ×2', meta: '3C ×2 · 收益起点', x: 1280, y: 330, reaction: stepReactions[5], stepIndex: 4, className: 'gly-double-node' },
+          { key: 'bpg13', entityId: '1,3-二磷酸甘油酸@cytosol', label: '1,3-BPG ×2', meta: '高能磷酸中间体', x: 1250, y: 565, reaction: stepReactions[6], stepIndex: 5, className: 'gly-double-node' },
+          { key: 'pg3', entityId: '3-磷酸甘油酸@cytosol', label: '3-PG ×2', meta: '形成第 1 批 ATP', x: 1010, y: 565, reaction: stepReactions[7], stepIndex: 6, className: 'gly-double-node' },
+          { key: 'pg2', entityId: '2-磷酸甘油酸@cytosol', label: '2-PG ×2', meta: '重排', x: 770, y: 565, reaction: stepReactions[8], stepIndex: 7, className: 'gly-double-node' },
+          { key: 'pep', entityId: '磷酸烯醇式丙酮酸@cytosol', label: 'PEP ×2', meta: '高能烯醇磷酸', x: 530, y: 565, reaction: stepReactions[9], stepIndex: 8, className: 'gly-double-node' },
+          { key: 'pyruvate', entityId: '丙酮酸@cytosol', label: '丙酮酸 ×2', meta: '3C ×2 · 出口', x: 250, y: 565, reaction: stepReactions[9], stepIndex: 9, className: 'gly-product-node' }
+        ];
+        const nodeRecords = new Map(nodeDefinitions.map(definition => [definition.key, {
+          ...definition,
+          entity: entityById[definition.entityId] || null
+        }]));
+
+        const edgeDefinitions = [
+          ['glucose', 'g6p', 0, 0], ['g6p', 'f6p', 1, 1], ['f6p', 'f16bp', 2, 2],
+          ['f16bp', 'dhap', 3, 3], ['f16bp', 'gap', 3, 3], ['dhap', 'gap', 4, 4],
+          ['gap', 'bpg13', 5, 4], ['bpg13', 'pg3', 6, 5], ['pg3', 'pg2', 7, 6],
+          ['pg2', 'pep', 8, 7], ['pep', 'pyruvate', 9, 8]
+        ];
+        edgeDefinitions.forEach(([from, to, reactionIndex, stepIndex], edgeIndex) => {
+          const source = nodeRecords.get(from);
+          const target = nodeRecords.get(to);
+          const reaction = stepReactions[reactionIndex];
+          const specialPath = from === 'f16bp' && to === 'dhap'
+            ? 'M 878 138 C 950 178, 990 246, 1020 300'
+            : from === 'f16bp' && to === 'gap'
+              ? 'M 878 138 C 1090 176, 1215 240, 1270 300'
+              : from === 'gap' && to === 'bpg13'
+                ? 'M 1280 359 C 1280 430, 1270 493, 1255 535'
+                : null;
+          const edge = studentSvgElement('path', {
+            d: specialPath || studentMapEdgePath(source, target, Math.max(source.width || nodeWidth, target.width || nodeWidth), nodeHeight),
+            class: `student-map-edge glycolysis-edge${reaction && !reaction.reversible ? ' irreversible' : ''}`,
+            'data-edge-from': from,
+            'data-edge-to': to,
+            'data-reaction': reaction?.id || '',
+            'data-step-index': String(stepIndex)
+          });
+          if (reaction) {
+            const openReaction = () => renderStudentReactionDetail(reaction, pathwayId, reactionIndex);
+            edge.setAttribute('role', 'button');
+            edge.tabIndex = 0;
+            edge.addEventListener('click', event => { event.stopPropagation(); openReaction(); });
+            edge.addEventListener('keydown', event => {
+              if (event.key !== 'Enter' && event.key !== ' ') return;
+              event.preventDefault();
+              openReaction();
+            });
+          }
+          studentMapEdges.appendChild(edge);
+          applyStudentReactionDirection(edge, reaction, {
+            showLabel: Boolean(reaction?.reversible),
+            labelOffsetY: edgeIndex % 2 === 0 ? -13 : 15
+          });
+        });
+
+        nodeRecords.forEach(record => {
+          const width = record.width || nodeWidth;
+          const nodeAttributes = {
+            class: `student-map-node glycolysis-node ${record.className || ''}`,
+            style: `--tone:${tone}`,
+            'data-map-key': record.key,
+            'data-entity-id': record.entityId,
+            'data-reaction': record.reaction?.id || '',
+            role: 'button', tabindex: '0',
+            'aria-label': `${record.label}，${record.meta}`
+          };
+          if (Number.isInteger(record.stepIndex)) nodeAttributes['data-step-index'] = String(record.stepIndex);
+          const node = studentSvgElement('g', nodeAttributes);
+          node.appendChild(studentSvgElement('title', {}, `${record.label} · ${record.meta}`));
+          node.appendChild(studentSvgElement('rect', {
+            x: record.x - width / 2, y: record.y - nodeHeight / 2, width, height: nodeHeight, rx: 14
+          }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 1, class: 'node-name' }, record.label);
+          node.appendChild(name);
+          node.appendChild(studentSvgElement('text', { x: record.x, y: record.y + 20, class: 'node-compartment' }, record.meta));
+          const reactionIndex = stepReactions.indexOf(record.reaction);
+          const readingStepIndex = Number.isInteger(record.stepIndex) ? record.stepIndex : record.readingStepIndex;
+          const selectNode = () => renderStudentNodeSelection(record.entity, record.reaction, pathwayId, reactionIndex, readingStepIndex);
+          node.addEventListener('click', event => { event.stopPropagation(); selectNode(); });
+          node.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            selectNode();
+          });
+          studentMapNodes.appendChild(node);
+          fitStudentMapText(name, width - 16, 15.5, 9.5);
+        });
+
+        const eventDefinitions = [
+          [1, '己糖激酶', 225, 102, true], [2, 'PGI', 452, 102, false], [3, 'PFK-1 · 承诺步骤', 678, 102, true],
+          [4, '醛缩酶', 918, 250, false], [5, 'TPI', 1155, 302, false], [6, 'GAPDH', 1260, 495, false],
+          [7, 'PGK', 1130, 530, false], [8, 'PGAM', 890, 530, false], [9, '烯醇化酶', 650, 530, false],
+          [10, '丙酮酸激酶', 390, 530, true]
+        ];
+        eventDefinitions.forEach(([step, labelText, x, y, irreversible]) => {
+          const reaction = stepReactions[step - 1];
+          const eventLabel = studentSvgElement('text', {
+            x, y,
+            class: `student-glycolysis-event${irreversible ? ' irreversible' : ''}`,
+            'data-glycolysis-event': String(step),
+            'text-anchor': 'middle', role: 'button', tabindex: '0'
+          }, `${step} · ${labelText}`);
+          const openReaction = () => reaction && renderStudentReactionDetail(reaction, pathwayId, step - 1);
+          eventLabel.addEventListener('click', event => { event.stopPropagation(); openReaction(); });
+          eventLabel.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            openReaction();
+          });
+          studentMapNodes.appendChild(eventLabel);
+        });
+
+        [
+          { x: 225, y: 190, text: 'ATP → ADP', className: 'student-gly-energy-cost' },
+          { x: 678, y: 190, text: 'ATP → ADP', className: 'student-gly-energy-cost' },
+          { x: 1170, y: 455, text: '后半程每步 ×2', className: 'student-gly-double-label' },
+          { x: 1260, y: 650, text: '2 NAD⁺ + 2 Pi → 2 NADH + 2 H⁺', className: 'student-gly-energy-gain' },
+          { x: 1010, y: 650, text: '2 ADP → 2 ATP', className: 'student-gly-energy-gain' },
+          { x: 250, y: 650, text: '2 ADP → 2 ATP', className: 'student-gly-energy-gain' }
+        ].forEach(item => studentMapNodes.appendChild(studentSvgElement('text', {
+          x: item.x, y: item.y, class: item.className, 'text-anchor': 'middle'
+        }, item.text)));
+
+        const summary = studentSvgElement('g', {
+          class: 'student-glycolysis-summary',
+          'aria-label': '糖酵解收支：投入2ATP，产生4ATP和2NADH，净得2ATP、2NADH和2丙酮酸'
+        });
+        summary.appendChild(studentSvgElement('rect', { x: 48, y: 750, width: 748, height: 76, rx: 18 }));
+        summary.appendChild(studentSvgElement('text', { x: 422, y: 778, class: 'summary-main', 'text-anchor': 'middle' }, '投入 2 ATP　→　产生 4 ATP + 2 NADH'));
+        summary.appendChild(studentSvgElement('text', { x: 422, y: 807, class: 'summary-note', 'text-anchor': 'middle' }, '净 2 ATP + 2 NADH + 2 丙酮酸'));
+        studentMapNodes.appendChild(summary);
+
+        const nextPath = studentSvgElement('g', {
+          class: 'student-map-next-pathway glycolysis-next-pathway',
+          'data-next-pathway': 'pdh', role: 'button', tabindex: '0',
+          'aria-label': '需氧条件下丙酮酸下一站：丙酮酸脱氢酶复合体'
+        });
+        nextPath.appendChild(studentSvgElement('rect', { x: 824, y: 750, width: 274, height: 76, rx: 16 }));
+        nextPath.appendChild(studentSvgElement('text', { x: 961, y: 778, class: 'next-label' }, '需氧：丙酮酸 → PDH'));
+        nextPath.appendChild(studentSvgElement('text', { x: 961, y: 807, class: 'next-name' }, '乙酰-CoA → TCA'));
+        const openPdh = () => renderStudentPathway('pdh', { returnToPrimer: false });
+        nextPath.addEventListener('click', event => { event.stopPropagation(); openPdh(); });
+        nextPath.addEventListener('keydown', event => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          openPdh();
+        });
+        studentMapNodes.appendChild(nextPath);
+
+        const altExit = studentSvgElement('g', {
+          class: 'student-glycolysis-alt-exit',
+          'aria-label': '缺氧或红细胞中，乳酸脱氢酶把丙酮酸还原为乳酸并再生NAD正'
+        });
+        altExit.appendChild(studentSvgElement('rect', { x: 1126, y: 750, width: 282, height: 76, rx: 16 }));
+        altExit.appendChild(studentSvgElement('text', { x: 1267, y: 778, class: 'exit-label', 'text-anchor': 'middle' }, '缺氧 / 红细胞：LDH 再生 NAD⁺'));
+        altExit.appendChild(studentSvgElement('text', { x: 1267, y: 807, class: 'exit-note', 'text-anchor': 'middle' }, '丙酮酸 → 乳酸，不属于十步主干'));
+        studentMapNodes.appendChild(altExit);
+
+        studentMapBands.appendChild(studentSvgElement('text', {
+          x: 48, y: 882, class: 'student-map-pan-hint', 'data-map-hint': 'horizontal'
+        }, '横向查看：投资 → 裂解 → 后半程 ×2 → 净收支 →'));
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderGluconeogenesisStudentMap(pathwayId, pathwayReactions, tone) {
+        const viewWidth = 1740;
+        const viewHeight = 1050;
+        const nodeWidth = 146;
+        const nodeHeight = 56;
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const byEnzyme = pattern => ownReactions.find(reaction => pattern.test(reaction.enzyme || '')) || null;
+        const reactions = {
+          lactate: byEnzyme(/乳酸脱氢酶/), alanine: byEnzyme(/丙氨酸转氨酶/), glycerol: byEnzyme(/甘油激酶/),
+          pc: byEnzyme(/丙酮酸羧化酶/), mdh2: byEnzyme(/MDH2/), carrier: byEnzyme(/苹果酸-α-KG/), mdh1: byEnzyme(/MDH1/),
+          pepck: byEnzyme(/磷酸烯醇式丙酮酸羧激酶/), enolase: byEnzyme(/烯醇化酶/), pgam: byEnzyme(/磷酸甘油酸变位酶/),
+          pgk: byEnzyme(/磷酸甘油酸激酶/), gapdh: byEnzyme(/甘油醛-3-磷酸脱氢酶/), tpi: byEnzyme(/磷酸丙糖异构酶/),
+          aldolase: byEnzyme(/醛缩酶/), fbp1: byEnzyme(/果糖-1,6-二磷酸酶/), gpi: byEnzyme(/磷酸葡萄糖异构酶/),
+          g6pTransport: byEnzyme(/葡萄糖-6-磷酸转位酶/), g6pase: byEnzyme(/^葡萄糖-6-磷酸酶$/), glucoseTransport: byEnzyme(/^葡萄糖转位酶$/)
+        };
+
+        studentPathwayMap.setAttribute('viewBox', `0 0 ${viewWidth} ${viewHeight}`);
+        studentPathwayMap.dataset.mapLayout = 'gluconeogenesis-three-bypass';
+        studentPathwayMap.setAttribute('aria-label', '糖异生三个绕行：线粒体基质内PC与苹果酸穿梭和胞质PEPCK共同绕过丙酮酸激酶，胞质FBP1绕过PFK-1，内质网腔G6Pase绕过己糖激酶；从两分子丙酮酸合成一分子葡萄糖消耗四ATP、二GTP和二NADH');
+        studentMapBands.replaceChildren();
+        studentMapEdges.replaceChildren();
+        studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '3 个绕行 · 4 个区室 · 22 个原始反应';
+
+        [
+          { key: 'inputs', y: 20, height: 130, className: 'gng-inputs-band', label: '前体入口 · 入口不同，前段成本不同' },
+          { key: 'matrix', y: 164, height: 192, className: 'gng-matrix-band', label: '线粒体基质 · PC 用 ATP 固定 HCO₃⁻，生成 OAA' },
+          { key: 'shuttle', y: 370, height: 144, className: 'gng-shuttle-band', label: '线粒体内膜 · OAA 不能直接跨内膜；代表性苹果酸路线搬运碳骨架与还原当量' },
+          { key: 'cytosol', y: 528, height: 330, className: 'gng-cytosol-band', label: '细胞质 · PEPCK 与逆糖酵解共享段' },
+          { key: 'er-ledger', y: 872, height: 142, className: 'gng-er-band', label: '内质网膜 / 腔 · G6P 转运入 ER 后水解释放葡萄糖' }
+        ].forEach(zone => {
+          studentMapBands.appendChild(studentSvgElement('rect', {
+            x: 22, y: zone.y, width: 1696, height: zone.height,
+            class: `student-map-band ${zone.className}`, 'data-gluconeogenesis-zone': zone.key
+          }));
+          studentMapBands.appendChild(studentSvgElement('text', {
+            x: 44, y: zone.y + 28, class: 'student-map-band-label'
+          }, zone.label));
+        });
+
+        const addEntry = ({ key, x, title, route, reaction }) => {
+          const entry = studentSvgElement('g', {
+            class: 'student-gluconeogenesis-entry', 'data-entry': key,
+            role: 'button', tabindex: '0', 'data-reaction': reaction?.id || '',
+            'aria-label': `${title}：${route}`
+          });
+          entry.appendChild(studentSvgElement('rect', { x: x - 126, y: 58, width: 252, height: 68, rx: 16 }));
+          entry.appendChild(studentSvgElement('text', { x, y: 84, class: 'entry-title', 'text-anchor': 'middle' }, title));
+          entry.appendChild(studentSvgElement('text', { x, y: 109, class: 'entry-route', 'text-anchor': 'middle' }, route));
+          const openReaction = () => reaction && renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction));
+          entry.addEventListener('click', event => { event.stopPropagation(); openReaction(); });
+          entry.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            openReaction();
+          });
+          studentMapNodes.appendChild(entry);
+        };
+        addEntry({ key: 'lactate', x: 190, title: '乳酸', route: 'LDH → 丙酮酸 + 胞质 NADH', reaction: reactions.lactate });
+        addEntry({ key: 'alanine', x: 480, title: '丙氨酸', route: 'ALT → 丙酮酸池', reaction: reactions.alanine });
+        addEntry({ key: 'glycerol', x: 770, title: '甘油', route: '甘油-3-P → DHAP 层进入', reaction: reactions.glycerol });
+
+        const nodeDefinitions = [
+          { key: 'glycerol3p', entityId: '甘油-3-磷酸@cytosol', label: '甘油-3-P', meta: '甘油入口中间体', x: 1110, y: 93, reaction: reactions.glycerol },
+          { key: 'pyruvate', entityId: '丙酮酸@mito-matrix', label: '丙酮酸 ×2', meta: '线粒体基质', x: 1030, y: 270, reaction: reactions.pc, stepIndex: 0 },
+          { key: 'oaa-matrix', entityId: '草酰乙酸@mito-matrix', label: 'OAA ×2', meta: 'PC · 2 ATP', x: 1270, y: 270, reaction: reactions.mdh2, readingStepIndex: 1 },
+          { key: 'malate-matrix', entityId: '苹果酸@mito-matrix', label: '苹果酸 ×2', meta: 'MDH2 · 2 NADH', x: 1510, y: 270, reaction: reactions.carrier, readingStepIndex: 1 },
+          { key: 'malate-cytosol', entityId: '苹果酸@cytosol', label: '苹果酸 ×2', meta: '跨内膜输出', x: 1510, y: 446, reaction: reactions.mdh1, readingStepIndex: 1 },
+          { key: 'oaa-cytosol', entityId: '草酰乙酸@cytosol', label: 'OAA ×2', meta: 'MDH1 · 产胞质 NADH', x: 1270, y: 446, reaction: reactions.pepck, stepIndex: 1 },
+          { key: 'pep', entityId: '磷酸烯醇式丙酮酸@cytosol', label: 'PEP ×2', meta: 'PCK1 · 2 GTP', x: 1450, y: 640, reaction: reactions.enolase, stepIndex: 2 },
+          { key: 'pg2', entityId: '2-磷酸甘油酸@cytosol', label: '2-PG ×2', meta: '烯醇化酶逆向', x: 1240, y: 640, reaction: reactions.pgam, readingStepIndex: 2 },
+          { key: 'pg3', entityId: '3-磷酸甘油酸@cytosol', label: '3-PG ×2', meta: 'PGAM 逆向', x: 1040, y: 640, reaction: reactions.pgk, readingStepIndex: 2 },
+          { key: 'bpg13', entityId: '1,3-二磷酸甘油酸@cytosol', label: '1,3-BPG ×2', meta: 'PGK · 2 ATP', x: 835, y: 640, reaction: reactions.gapdh, readingStepIndex: 2 },
+          { key: 'gap', entityId: '甘油醛-3-磷酸@cytosol', label: 'GAP ×2', meta: 'GAPDH · 2 NADH', x: 650, y: 605, reaction: reactions.tpi, readingStepIndex: 2 },
+          { key: 'dhap', entityId: '磷酸二羟丙酮@cytosol', label: 'DHAP', meta: 'TPI 提供第二份三碳', x: 650, y: 755, reaction: reactions.aldolase, readingStepIndex: 2 },
+          { key: 'f16bp', entityId: '果糖-1,6-二磷酸@cytosol', label: 'F-1,6-BP', meta: '醛缩酶汇合', x: 450, y: 680, reaction: reactions.fbp1, stepIndex: 3 },
+          { key: 'f6p', entityId: '果糖-6-磷酸@cytosol', label: 'F6P', meta: 'FBP1 · 水解', x: 270, y: 680, reaction: reactions.gpi, stepIndex: 4 },
+          { key: 'g6p-cytosol', entityId: '葡萄糖-6-磷酸@cytosol', label: 'G6P', meta: '细胞质', x: 100, y: 680, reaction: reactions.g6pTransport, stepIndex: 5 },
+          { key: 'g6p-er', entityId: '葡萄糖-6-磷酸@er-lumen', label: 'G6P', meta: '内质网腔', x: 260, y: 948, reaction: reactions.g6pase, readingStepIndex: 5 },
+          { key: 'glucose-er', entityId: '葡萄糖@er-lumen', label: '葡萄糖', meta: 'G6Pase 腔侧产物', x: 500, y: 948, reaction: reactions.glucoseTransport, readingStepIndex: 6 },
+          { key: 'glucose-cytosol', entityId: '葡萄糖@cytosol', label: '葡萄糖', meta: '肝 / 肾释糖出口', x: 740, y: 948, reaction: reactions.glucoseTransport, stepIndex: 6 }
+        ];
+        const nodeRecords = new Map(nodeDefinitions.map(definition => [definition.key, {
+          ...definition, entity: entityById[definition.entityId] || null
+        }]));
+
+        const edgeDefinitions = [
+          ['pyruvate', 'oaa-matrix', reactions.pc, 0], ['oaa-matrix', 'malate-matrix', reactions.mdh2, 1],
+          ['malate-matrix', 'malate-cytosol', reactions.carrier, 1, 'M 1510 298 L 1510 418'],
+          ['malate-cytosol', 'oaa-cytosol', reactions.mdh1, 1],
+          ['oaa-cytosol', 'pep', reactions.pepck, 1, 'M 1270 474 C 1320 530, 1385 585, 1435 615'],
+          ['pep', 'pg2', reactions.enolase, 2], ['pg2', 'pg3', reactions.pgam, 2], ['pg3', 'bpg13', reactions.pgk, 2],
+          ['bpg13', 'gap', reactions.gapdh, 2], ['gap', 'dhap', reactions.tpi, 2, 'M 650 633 L 650 727'],
+          ['gap', 'f16bp', reactions.aldolase, 2, 'M 577 605 C 535 615, 500 635, 470 658'],
+          ['dhap', 'f16bp', reactions.aldolase, 2, 'M 577 755 C 525 744, 490 715, 470 700'],
+          ['f16bp', 'f6p', reactions.fbp1, 3], ['f6p', 'g6p-cytosol', reactions.gpi, 4],
+          ['g6p-cytosol', 'g6p-er', reactions.g6pTransport, 5, 'M 100 708 C 105 820, 165 900, 232 936'],
+          ['g6p-er', 'glucose-er', reactions.g6pase, 5], ['glucose-er', 'glucose-cytosol', reactions.glucoseTransport, 6]
+        ];
+        edgeDefinitions.forEach(([from, to, reaction, stepIndex, specialPath], edgeIndex) => {
+          const source = nodeRecords.get(from);
+          const target = nodeRecords.get(to);
+          const edge = studentSvgElement('path', {
+            d: specialPath || studentMapEdgePath(source, target, nodeWidth, nodeHeight),
+            class: `student-map-edge gluconeogenesis-edge${reaction && !reaction.reversible ? ' irreversible' : ''}`,
+            'data-edge-from': from, 'data-edge-to': to,
+            'data-reaction': reaction?.id || '', 'data-step-index': String(stepIndex)
+          });
+          if (reaction) {
+            const reactionIndex = ownReactions.indexOf(reaction);
+            const openReaction = () => renderStudentReactionDetail(reaction, pathwayId, reactionIndex);
+            edge.setAttribute('role', 'button'); edge.tabIndex = 0;
+            edge.addEventListener('click', event => { event.stopPropagation(); openReaction(); });
+            edge.addEventListener('keydown', event => {
+              if (event.key !== 'Enter' && event.key !== ' ') return;
+              event.preventDefault(); openReaction();
+            });
+          }
+          studentMapEdges.appendChild(edge);
+          applyStudentReactionDirection(edge, reaction, { showLabel: false, labelOffsetY: edgeIndex % 2 ? 14 : -14 });
+        });
+
+        nodeRecords.forEach(record => {
+          const nodeAttributes = {
+            class: 'student-map-node gluconeogenesis-node', style: `--tone:${tone}`,
+            'data-map-key': record.key, 'data-entity-id': record.entityId,
+            'data-reaction': record.reaction?.id || '', role: 'button', tabindex: '0',
+            'aria-label': `${record.label}，${record.meta}`
+          };
+          if (Number.isInteger(record.stepIndex)) nodeAttributes['data-step-index'] = String(record.stepIndex);
+          const node = studentSvgElement('g', nodeAttributes);
+          node.appendChild(studentSvgElement('title', {}, `${record.label} · ${record.meta}`));
+          node.appendChild(studentSvgElement('rect', {
+            x: record.x - nodeWidth / 2, y: record.y - nodeHeight / 2, width: nodeWidth, height: nodeHeight, rx: 14
+          }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 1, class: 'node-name' }, record.label);
+          node.appendChild(name);
+          node.appendChild(studentSvgElement('text', { x: record.x, y: record.y + 20, class: 'node-compartment' }, record.meta));
+          const reactionIndex = ownReactions.indexOf(record.reaction);
+          const readingStepIndex = Number.isInteger(record.stepIndex) ? record.stepIndex : record.readingStepIndex;
+          const selectNode = () => renderStudentNodeSelection(record.entity, record.reaction, pathwayId, reactionIndex, readingStepIndex);
+          node.addEventListener('click', event => { event.stopPropagation(); selectNode(); });
+          node.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault(); selectNode();
+          });
+          studentMapNodes.appendChild(node);
+          fitStudentMapText(name, nodeWidth - 16, 15.5, 9.5);
+        });
+
+        const eventDefinitions = [
+          { key: 'pc', label: 'PC · 2 ATP · 生物素', x: 1150, y: 226, reaction: reactions.pc },
+          { key: 'shuttle', label: '苹果酸穿梭 · OAA 不直接跨膜', x: 1390, y: 400, reaction: reactions.carrier },
+          { key: 'pepck', label: 'PCK1 · 2 GTP → 2 GDP + 2 CO₂', x: 1390, y: 570, reaction: reactions.pepck },
+          { key: 'reverse', label: '逆向共享段 ×2 · PGK 2 ATP · GAPDH 2 NADH', x: 1000, y: 570, reaction: reactions.pgk },
+          { key: 'aldolase', label: '醛缩酶 · GAP + DHAP → F-1,6-BP', x: 540, y: 575, reaction: reactions.aldolase },
+          { key: 'fbp1', label: 'FBP1 · 水解绕行', x: 360, y: 635, reaction: reactions.fbp1 },
+          { key: 'g6p-transport', label: 'G6P 转运入 ER', x: 155, y: 835, reaction: reactions.g6pTransport },
+          { key: 'g6pase', label: 'G6Pase · 腔侧水解', x: 380, y: 908, reaction: reactions.g6pase }
+        ];
+        eventDefinitions.forEach(eventDefinition => {
+          const eventLabel = studentSvgElement('text', {
+            x: eventDefinition.x, y: eventDefinition.y,
+            class: 'student-gluconeogenesis-event',
+            'data-gluconeogenesis-event': eventDefinition.key,
+            'data-reaction': eventDefinition.reaction?.id || '',
+            'text-anchor': 'middle', role: 'button', tabindex: '0'
+          }, eventDefinition.label);
+          const openReaction = () => eventDefinition.reaction
+            && renderStudentReactionDetail(eventDefinition.reaction, pathwayId, ownReactions.indexOf(eventDefinition.reaction));
+          eventLabel.addEventListener('click', clickEvent => { clickEvent.stopPropagation(); openReaction(); });
+          eventLabel.addEventListener('keydown', keyEvent => {
+            if (keyEvent.key !== 'Enter' && keyEvent.key !== ' ') return;
+            keyEvent.preventDefault(); openReaction();
+          });
+          studentMapNodes.appendChild(eventLabel);
+        });
+
+        [
+          { key: 'pk', x: 1190, y: 320, width: 700, text: '绕过 PK：PC + 苹果酸穿梭 + PEPCK' },
+          { key: 'pfk1', x: 360, y: 810, width: 330, text: '绕过 PFK-1：FBP1' },
+          { key: 'hk-gk', x: 470, y: 990, width: 420, text: '绕过 HK / GK：ER 腔 G6Pase' }
+        ].forEach(bypass => {
+          const badge = studentSvgElement('g', {
+            class: 'student-gluconeogenesis-bypass', 'data-gluconeogenesis-bypass': bypass.key
+          });
+          badge.appendChild(studentSvgElement('rect', { x: bypass.x - bypass.width / 2, y: bypass.y - 22, width: bypass.width, height: 44, rx: 16 }));
+          badge.appendChild(studentSvgElement('text', { x: bypass.x, y: bypass.y + 6, 'text-anchor': 'middle' }, bypass.text));
+          studentMapNodes.appendChild(badge);
+        });
+
+        const ledger = studentSvgElement('g', {
+          class: 'student-gluconeogenesis-ledger',
+          'aria-label': '从2丙酮酸合成1葡萄糖，消耗4ATP、2GTP、2NADH，共6个高能磷酸键'
+        });
+        ledger.appendChild(studentSvgElement('rect', { x: 920, y: 900, width: 760, height: 90, rx: 18 }));
+        ledger.appendChild(studentSvgElement('text', { x: 1300, y: 935, class: 'ledger-main', 'text-anchor': 'middle' }, '2 丙酮酸 → 1 葡萄糖：4 ATP + 2 GTP + 2 NADH'));
+        ledger.appendChild(studentSvgElement('text', { x: 1300, y: 966, class: 'ledger-note', 'text-anchor': 'middle' }, '共 6 个高能磷酸键 · 代表性苹果酸路线；实际出口依前体 / 组织而变'));
+        studentMapNodes.appendChild(ledger);
+
+        studentMapBands.appendChild(studentSvgElement('text', {
+          x: 44, y: 1035, class: 'student-map-pan-hint', 'data-map-hint': 'horizontal'
+        }, '横向查看：前体入口 → 基质 PC → 苹果酸穿梭 → 胞质逆向主干 → ER 释糖 →'));
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderGlycogenesisStudentMap(pathwayId, pathwayReactions, tone) {
+        const viewWidth = 1500;
+        const viewHeight = 820;
+        const nodeWidth = 150;
+        const nodeHeight = 58;
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const reactions = {
+          hexokinase: ownReactions.find(reaction => /己糖激酶/.test(reaction.enzyme || '')) || null,
+          pgm: ownReactions.find(reaction => /磷酸葡萄糖变位酶/.test(reaction.enzyme || '')) || null,
+          ugp: ownReactions.find(reaction => /UDP-葡萄糖焦磷酸化酶/.test(reaction.enzyme || '')) || null,
+          synthase: ownReactions.find(reaction => /糖原合酶/.test(reaction.enzyme || '')) || null
+        };
+
+        studentPathwayMap.setAttribute('viewBox', `0 0 ${viewWidth} ${viewHeight}`);
+        studentPathwayMap.dataset.mapLayout = 'glycogenesis-branched-granule';
+        studentPathwayMap.setAttribute('aria-label', '糖原合成：葡萄糖活化为UDP-葡萄糖，糖原蛋白形成短引物，糖原合酶在非还原端形成α-1,4键，分支酶通过链段转移形成α-1,6分支和多个非还原端');
+        studentMapBands.replaceChildren();
+        studentMapEdges.replaceChildren();
+        studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '6 个教学事件 · 4 个原始反应 · 多分支颗粒';
+
+        [
+          { key: 'activation', y: 20, height: 205, className: 'ggs-activation-band', label: '糖核苷酸活化 · 葡萄糖 → G6P → G1P → UDP-葡萄糖' },
+          { key: 'primer', y: 239, height: 165, className: 'ggs-primer-band', label: '从零起始 · 糖原蛋白自糖基化形成短 α-1,4 引物' },
+          { key: 'elongation', y: 418, height: 165, className: 'ggs-elongation-band', label: '链延长 · 糖原合酶只能延长既有链的非还原端' },
+          { key: 'branching', y: 597, height: 185, className: 'ggs-branching-band', label: '分支成粒 · 分支酶转移链段形成 α-1,6 键与多个非还原端' }
+        ].forEach(zone => {
+          studentMapBands.appendChild(studentSvgElement('rect', {
+            x: 22, y: zone.y, width: 1456, height: zone.height,
+            class: `student-map-band ${zone.className}`, 'data-glycogenesis-zone': zone.key
+          }));
+          studentMapBands.appendChild(studentSvgElement('text', {
+            x: 44, y: zone.y + 29, class: 'student-map-band-label'
+          }, zone.label));
+        });
+
+        const nodeDefinitions = [
+          { key: 'glucose', entityId: '葡萄糖@cytosol', label: '葡萄糖', meta: '游离葡萄糖起点', x: 115, y: 132, reaction: reactions.hexokinase, stepIndex: 0 },
+          { key: 'g6p', entityId: '葡萄糖-6-磷酸@cytosol', label: 'G6P', meta: '己糖激酶 · 1 ATP', x: 335, y: 132, reaction: reactions.pgm, stepIndex: 1 },
+          { key: 'g1p', entityId: '葡萄糖-1-磷酸@cytosol', label: 'G1P', meta: 'PGM 可逆', x: 555, y: 132, reaction: reactions.ugp, stepIndex: 2 },
+          { key: 'utp', entityId: 'UTP@cytosol', label: 'UTP', meta: '活化能量', x: 690, y: 190, reaction: reactions.ugp, readingStepIndex: 2 },
+          { key: 'udp-glucose', entityId: 'UDP-葡萄糖@cytosol', label: 'UDP-葡萄糖', meta: '直接葡萄糖供体', x: 800, y: 132, reaction: reactions.synthase, stepIndex: 3 },
+          { key: 'ppi', entityId: '焦磷酸@cytosol', label: 'PPi', meta: '水解驱动活化', x: 930, y: 190, reaction: reactions.ugp, readingStepIndex: 3 },
+          { key: 'glycogenin', label: '糖原蛋白', meta: '自糖基化核心', x: 930, y: 322, reaction: reactions.synthase, readingStepIndex: 3 },
+          { key: 'primer', label: '短 α-1,4 引物', meta: '糖原合酶的起点', x: 1190, y: 322, reaction: reactions.synthase, readingStepIndex: 3 },
+          { key: 'linear-chain', label: 'α-1,4 线性链', meta: '非还原端不断延长', x: 940, y: 505, reaction: reactions.synthase, readingStepIndex: 4 },
+          { key: 'branch-point', label: 'α-1,6 分支点', meta: '链段转移，不新增葡萄糖', x: 1040, y: 685, readingStepIndex: 4 },
+          { key: 'granule', entityId: '糖原@cytosol', label: '多分支糖原颗粒', meta: '多个非还原端', x: 1320, y: 685, reaction: reactions.synthase, stepIndex: 4 }
+        ];
+        const nodeRecords = new Map(nodeDefinitions.map(definition => [definition.key, {
+          ...definition, entity: definition.entityId ? entityById[definition.entityId] || null : null
+        }]));
+
+        const edgeDefinitions = [
+          ['glucose', 'g6p', reactions.hexokinase, 0], ['g6p', 'g1p', reactions.pgm, 1],
+          ['g1p', 'udp-glucose', reactions.ugp, 2], ['utp', 'udp-glucose', reactions.ugp, 2, 'M 700 173 C 725 160, 750 148, 775 138'],
+          ['udp-glucose', 'ppi', reactions.ugp, 2, 'M 825 150 C 860 165, 890 180, 905 187'],
+          ['udp-glucose', 'glycogenin', reactions.synthase, 3, 'M 820 160 C 850 225, 890 270, 920 293'],
+          ['glycogenin', 'primer', reactions.synthase, 3],
+          ['primer', 'linear-chain', reactions.synthase, 3, 'M 1165 350 C 1110 400, 1030 460, 965 490'],
+          ['linear-chain', 'branch-point', null, 4, 'M 960 533 C 985 590, 1010 635, 1030 657'],
+          ['branch-point', 'granule', null, 4]
+        ];
+        edgeDefinitions.forEach(([from, to, reaction, stepIndex, specialPath]) => {
+          const source = nodeRecords.get(from);
+          const target = nodeRecords.get(to);
+          const edge = studentSvgElement('path', {
+            d: specialPath || studentMapEdgePath(source, target, nodeWidth, nodeHeight),
+            class: `student-map-edge glycogenesis-edge${reaction && !reaction.reversible ? ' irreversible' : ''}`,
+            'data-edge-from': from, 'data-edge-to': to,
+            'data-reaction': reaction?.id || '', 'data-step-index': String(stepIndex)
+          });
+          if (reaction) {
+            const reactionIndex = ownReactions.indexOf(reaction);
+            const openReaction = () => renderStudentReactionDetail(reaction, pathwayId, reactionIndex);
+            edge.setAttribute('role', 'button'); edge.tabIndex = 0;
+            edge.addEventListener('click', event => { event.stopPropagation(); openReaction(); });
+            edge.addEventListener('keydown', event => {
+              if (event.key !== 'Enter' && event.key !== ' ') return;
+              event.preventDefault(); openReaction();
+            });
+          }
+          studentMapEdges.appendChild(edge);
+          applyStudentReactionDirection(edge, reaction, { showLabel: Boolean(reaction?.reversible), labelOffsetY: -14 });
+        });
+
+        nodeRecords.forEach(record => {
+          const attributes = {
+            class: 'student-map-node glycogenesis-node', style: `--tone:${tone}`,
+            'data-map-key': record.key, 'data-entity-id': record.entityId || '',
+            'data-reaction': record.reaction?.id || '', 'aria-label': `${record.label}，${record.meta}`
+          };
+          if (record.entity || record.reaction) { attributes.role = 'button'; attributes.tabindex = '0'; }
+          if (Number.isInteger(record.stepIndex)) attributes['data-step-index'] = String(record.stepIndex);
+          const node = studentSvgElement('g', attributes);
+          node.appendChild(studentSvgElement('title', {}, `${record.label} · ${record.meta}`));
+          node.appendChild(studentSvgElement('rect', {
+            x: record.x - nodeWidth / 2, y: record.y - nodeHeight / 2, width: nodeWidth, height: nodeHeight, rx: 14
+          }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 1, class: 'node-name' }, record.label);
+          node.appendChild(name);
+          node.appendChild(studentSvgElement('text', { x: record.x, y: record.y + 20, class: 'node-compartment' }, record.meta));
+          if (record.entity || record.reaction) {
+            const reactionIndex = ownReactions.indexOf(record.reaction);
+            const readingStepIndex = Number.isInteger(record.stepIndex) ? record.stepIndex : record.readingStepIndex;
+            const selectNode = () => renderStudentNodeSelection(record.entity, record.reaction, pathwayId, reactionIndex, readingStepIndex);
+            node.addEventListener('click', event => { event.stopPropagation(); selectNode(); });
+            node.addEventListener('keydown', event => {
+              if (event.key !== 'Enter' && event.key !== ' ') return;
+              event.preventDefault(); selectNode();
+            });
+          }
+          studentMapNodes.appendChild(node);
+          fitStudentMapText(name, nodeWidth - 16, 15.5, 9.5);
+        });
+
+        const eventDefinitions = [
+          { key: 'hexokinase', label: '1 · HK / GK · ATP → ADP', x: 225, y: 90, reaction: reactions.hexokinase },
+          { key: 'pgm', label: '2 · 磷酸葡萄糖变位酶', x: 445, y: 90, reaction: reactions.pgm },
+          { key: 'ugp', label: '3 · UDP-葡萄糖焦磷酸化酶', x: 675, y: 90, reaction: reactions.ugp },
+          { key: 'glycogenin', label: '4 · 糖原蛋白 · 自糖基化', x: 1060, y: 280, reaction: reactions.synthase },
+          { key: 'synthase', label: '5 · 糖原合酶 · α-1,4 延长', x: 1060, y: 462, reaction: reactions.synthase },
+          { key: 'branching', label: '6 · 分支酶 · α-1,6 分支', x: 1180, y: 642, reaction: reactions.synthase }
+        ];
+        eventDefinitions.forEach(eventDefinition => {
+          const eventLabel = studentSvgElement('text', {
+            x: eventDefinition.x, y: eventDefinition.y,
+            class: 'student-glycogenesis-event', 'data-glycogenesis-event': eventDefinition.key,
+            'data-reaction': eventDefinition.reaction?.id || '',
+            'text-anchor': 'middle', role: 'button', tabindex: '0'
+          }, eventDefinition.label);
+          const openReaction = () => eventDefinition.reaction
+            && renderStudentReactionDetail(eventDefinition.reaction, pathwayId, ownReactions.indexOf(eventDefinition.reaction));
+          eventLabel.addEventListener('click', clickEvent => { clickEvent.stopPropagation(); openReaction(); });
+          eventLabel.addEventListener('keydown', keyEvent => {
+            if (keyEvent.key !== 'Enter' && keyEvent.key !== ' ') return;
+            keyEvent.preventDefault(); openReaction();
+          });
+          studentMapNodes.appendChild(eventLabel);
+        });
+
+        studentMapNodes.appendChild(studentSvgElement('text', {
+          x: 810, y: 229, class: 'student-glycogenesis-drive', 'text-anchor': 'middle'
+        }, 'UTP → UDP-葡萄糖 + PPi · PPi 水解驱动'));
+        studentMapNodes.appendChild(studentSvgElement('text', {
+          x: 1060, y: 380, class: 'student-glycogenesis-primer-note', 'text-anchor': 'middle'
+        }, '糖原合酶不能从零起始'));
+        studentMapNodes.appendChild(studentSvgElement('text', {
+          x: 1280, y: 750, class: 'student-glycogenesis-end-note', 'text-anchor': 'middle'
+        }, '高分支结构 → 多个非还原端'));
+
+        const energy = studentSvgElement('g', {
+          class: 'student-glycogenesis-energy',
+          'aria-label': '从游离葡萄糖起算消耗1 ATP和1 UTP；从G6P起算只消耗1 UTP'
+        });
+        energy.appendChild(studentSvgElement('rect', { x: 58, y: 640, width: 640, height: 92, rx: 18 }));
+        energy.appendChild(studentSvgElement('text', { x: 378, y: 675, class: 'energy-main', 'text-anchor': 'middle' }, '从游离葡萄糖：1 ATP + 1 UTP'));
+        energy.appendChild(studentSvgElement('text', { x: 378, y: 708, class: 'energy-note', 'text-anchor': 'middle' }, '从 G6P：1 UTP · 分支重排不再消耗 UDP-葡萄糖'));
+        studentMapNodes.appendChild(energy);
+
+        studentMapBands.appendChild(studentSvgElement('text', {
+          x: 44, y: 806, class: 'student-map-pan-hint', 'data-map-hint': 'horizontal'
+        }, '横向查看：活化 → 糖原蛋白引物 → 非还原端延长 → α-1,6 分支 →'));
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderGlycogenolysisStudentMap(pathwayId, pathwayReactions, tone) {
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const byEnzyme = pattern => ownReactions.find(reaction => pattern.test(reaction.enzyme || '')) || null;
+        const rx = {
+          phosphorylase: byEnzyme(/糖原磷酸化酶/), debranch: byEnzyme(/去分支酶/),
+          pgm: byEnzyme(/磷酸葡萄糖变位酶/), g6pt: byEnzyme(/葡萄糖-6-磷酸转位酶/),
+          g6pase: byEnzyme(/葡萄糖-6-磷酸酶$/), glucoseExport: byEnzyme(/葡萄糖转位酶/)
+        };
+        studentPathwayMap.setAttribute('viewBox', '0 0 1500 820');
+        studentPathwayMap.dataset.mapLayout = 'glycogenolysis-debranch-tissue-split';
+        studentPathwayMap.setAttribute('aria-label', '糖原分解：非还原端磷酸解形成G1P，去分支酶先转移三个残基再水解α-1,6分支，G6P随后分流到肌肉糖酵解或肝脏内质网释糖');
+        studentMapBands.replaceChildren(); studentMapEdges.replaceChildren(); studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '7 个教学事件 · 6 个原始反应 · 肌肉/肝脏双去向';
+        [
+          ['chain', 20, 190, 'ggl-chain-band', '外链磷酸解 · 多个非还原端同步动员'],
+          ['debranching', 224, 185, 'ggl-debranch-band', '极限糊精去分支 · AGL 的两种催化活性'],
+          ['conversion', 423, 120, 'ggl-conversion-band', '中央转换 · G1P ⇌ G6P，不消耗 ATP'],
+          ['tissue-fates', 557, 225, 'ggl-fates-band', '组织分工 · 肌肉就地供能；肝/肾经 ER 释糖']
+        ].forEach(([key, y, height, className, title]) => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x: 22, y, width: 1456, height, class: `student-map-band ${className}`, 'data-glycogenolysis-zone': key }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: 44, y: y + 29, class: 'student-map-band-label' }, title));
+        });
+        const defs = [
+          ['granule', '糖原颗粒', '多个非还原端', 110, 125, rx.phosphorylase, 0],
+          ['end', '非还原端', 'α-1,4 外链', 315, 125, rx.phosphorylase, 0],
+          ['limit', '极限糊精', '距分支还剩 4 个残基', 525, 125, rx.debranch, 1],
+          ['g1p-main', 'G1P', '磷酸解主产物', 790, 125, rx.pgm, 3],
+          ['transfer', '转移的 3 个残基', '接到邻近 α-1,4 链', 690, 315, rx.debranch, 1],
+          ['branch', '暴露的 α-1,6 点', '仅剩 1 个分支葡萄糖', 930, 315, rx.debranch, 2],
+          ['free', '游离葡萄糖', '分支点少量产物', 1165, 315, rx.debranch, 2],
+          ['reopened', '重新开放的外链', '磷酸化酶继续工作', 1350, 315, rx.phosphorylase, 2],
+          ['g1p', 'G1P', '进入 PGM', 505, 485, rx.pgm, 3],
+          ['g6p', 'G6P', '组织去向分叉点', 800, 485, rx.g6pt, 4],
+          ['muscle', '肌肉糖酵解', '缺少 G6Pase · 就地供能', 1100, 620, null, 4],
+          ['er-g6p', 'ER 腔 G6P', 'G6P 转运入 ER', 650, 740, rx.g6pase, 5],
+          ['er-glucose', 'ER 腔葡萄糖', '腔面 G6Pase 水解产物', 950, 740, rx.glucoseExport, 6],
+          ['blood', '血糖输出', '葡萄糖离开产糖细胞', 1250, 740, rx.glucoseExport, 6]
+        ];
+        const records = new Map(defs.map(([key, label, meta, x, y, reaction, stepIndex]) => [key, { key, label, meta, x, y, reaction, stepIndex }]));
+        const edge = (from, to, reaction, path = '') => {
+          const a = records.get(from), b = records.get(to);
+          const node = studentSvgElement('path', { d: path || studentMapEdgePath(a, b, 156, 60), class: `student-map-edge glycogenolysis-edge${reaction && !reaction.reversible ? ' irreversible' : ''}`, 'data-reaction': reaction?.id || '', 'data-step-index': String(a.stepIndex) });
+          studentMapEdges.appendChild(node); applyStudentReactionDirection(node, reaction, { showLabel: Boolean(reaction?.reversible), labelOffsetY: -14 });
+        };
+        edge('granule', 'end', rx.phosphorylase); edge('end', 'limit', rx.phosphorylase); edge('limit', 'g1p-main', rx.phosphorylase);
+        edge('limit', 'transfer', rx.debranch, 'M 545 153 C 575 220, 625 275, 670 305'); edge('transfer', 'branch', rx.debranch);
+        edge('branch', 'free', rx.debranch); edge('branch', 'reopened', rx.debranch); edge('g1p', 'g6p', rx.pgm);
+        edge('g6p', 'muscle', null, 'M 825 505 C 910 540, 1010 580, 1070 610');
+        edge('g6p', 'er-g6p', rx.g6pt, 'M 785 515 C 750 595, 700 690, 665 715');
+        edge('er-g6p', 'er-glucose', rx.g6pase); edge('er-glucose', 'blood', rx.glucoseExport);
+        records.forEach(record => {
+          const group = studentSvgElement('g', { class: 'student-map-node glycogenolysis-node', style: `--tone:${tone}`, 'data-map-key': record.key, 'data-reaction': record.reaction?.id || '', 'data-step-index': String(record.stepIndex), role: 'button', tabindex: '0' });
+          group.appendChild(studentSvgElement('rect', { x: record.x - 78, y: record.y - 30, width: 156, height: 60, rx: 14 }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 1, class: 'node-name' }, record.label);
+          group.append(name, studentSvgElement('text', { x: record.x, y: record.y + 21, class: 'node-compartment' }, record.meta));
+          if (record.reaction) group.addEventListener('click', () => renderStudentReactionDetail(record.reaction, pathwayId, ownReactions.indexOf(record.reaction)));
+          studentMapNodes.appendChild(group); fitStudentMapText(name, 140, 15.5, 9.5);
+        });
+        const events = [
+          ['phosphorolysis', '1 · 磷酸化酶 + Pi · α-1,4 磷酸解', 320, 78, rx.phosphorylase],
+          ['transferase', '2 · AGL 转移酶 · 转移 3 个残基', 700, 270, rx.debranch],
+          ['glucosidase', '3 · AGL 糖苷酶 · 水解 α-1,6', 1050, 270, rx.debranch],
+          ['pgm', '4 · 磷酸葡萄糖变位酶', 650, 450, rx.pgm],
+          ['muscle', '5 · 肌肉：就地进入糖酵解', 1100, 580, null],
+          ['g6pt', '6 · 肝：G6P 转运入 ER', 650, 690, rx.g6pt],
+          ['g6pase', '7 · 腔面 G6Pase → 葡萄糖输出', 1040, 690, rx.g6pase]
+        ];
+        events.forEach(([key, value, x, y, reaction]) => studentMapNodes.appendChild(studentSvgElement('text', { x, y, class: 'student-glycogenolysis-event', 'data-glycogenolysis-event': key, 'data-reaction': reaction?.id || '', 'text-anchor': 'middle' }, value)));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 525, y: 185, class: 'student-glycogenolysis-note', 'text-anchor': 'middle' }, '停在分支前 4 个残基'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 1060, y: 365, class: 'student-glycogenolysis-note', 'text-anchor': 'middle' }, '释放 1 个游离葡萄糖 · 主体仍为 G1P'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 1100, y: 665, class: 'student-glycogenolysis-note', 'text-anchor': 'middle' }, '肌肉缺少 G6Pase · 绕过己糖激酶，节省 1 ATP'));
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderPppStudentMap(pathwayId, pathwayReactions, tone) {
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const byEnzyme = pattern => ownReactions.find(reaction => pattern.test(reaction.enzyme || '')) || null;
+        const rx = {
+          g6pd: byEnzyme(/^葡萄糖-6-磷酸脱氢酶$/), lactonase: byEnzyme(/内酯酶/),
+          pgdh: byEnzyme(/^6-磷酸葡萄糖酸脱氢酶$/), rpi: byEnzyme(/核糖-5-磷酸异构酶/),
+          rpe: byEnzyme(/差向异构酶/), tkt1: ownReactions.filter(reaction => /转酮醇酶/.test(reaction.enzyme || ''))[0] || null,
+          tal: byEnzyme(/转醛醇酶/), tkt2: ownReactions.filter(reaction => /转酮醇酶/.test(reaction.enzyme || ''))[1] || null
+        };
+        studentPathwayMap.setAttribute('viewBox', '0 0 1500 820');
+        studentPathwayMap.dataset.mapLayout = 'ppp-demand-carbon-balance';
+        studentPathwayMap.setAttribute('aria-label', '磷酸戊糖途径：不可逆氧化支产生两个NADPH与二氧化碳，可逆非氧化支按细胞需求在核糖和糖酵解中间体之间重排十五个碳');
+        studentMapBands.replaceChildren(); studentMapEdges.replaceChildren(); studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '8 个教学事件 · 8 个原始反应 · 3 种需求模式';
+        [
+          ['oxidative', 20, 190, 'ppp-oxidative-band', '不可逆氧化支 · 每个 G6P 产生 2 NADPH + CO₂'],
+          ['pentose-hub', 224, 145, 'ppp-pentose-band', '五碳糖枢纽 · Ru5P 可逆分成 R5P 与 X5P'],
+          ['rearrangement', 383, 245, 'ppp-rearrangement-band', '可逆非氧化支 · TKT / TAL 重排 2C 与 3C 单元'],
+          ['demand-modes', 642, 140, 'ppp-demand-band', '按细胞需求选路线 · 不是固定单向通路']
+        ].forEach(([key, y, height, className, title]) => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x: 22, y, width: 1456, height, class: `student-map-band ${className}`, 'data-ppp-zone': key }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: 44, y: y + 29, class: 'student-map-band-label' }, title));
+        });
+        const defs = [
+          ['g6p', 'G6P', '6C · 氧化支入口', 105, 125, rx.g6pd, 0],
+          ['lactone', '6-P-葡萄糖酸内酯', '第 1 个 NADPH', 350, 125, rx.lactonase, 1],
+          ['sixpg', '6-磷酸葡萄糖酸', '水解开环', 600, 125, rx.pgdh, 2],
+          ['ru5p', 'Ru5P', '5C · 第 2 个 NADPH + CO₂', 850, 125, rx.rpi, 3],
+          ['r5p', 'R5P', '核苷酸骨架', 1080, 285, rx.tkt1, 4],
+          ['x5p', 'X5P', '差向异构产物', 760, 285, rx.tkt1, 4],
+          ['x5p-a', 'X5P', '5C · TKT1 供体', 155, 475, rx.tkt1, 5],
+          ['r5p-a', 'R5P', '5C · TKT1 受体', 155, 565, rx.tkt1, 5],
+          ['g3p-a', 'G3P', '3C', 500, 475, rx.tal, 6],
+          ['s7p', 'S7P', '7C', 500, 565, rx.tal, 6],
+          ['f6p-a', 'F6P', '6C', 850, 475, rx.tkt2, 7],
+          ['e4p', 'E4P', '4C', 850, 565, rx.tkt2, 7],
+          ['f6p-out', 'F6P', '6C · 回到糖酵解', 1235, 475, rx.tkt2, 7],
+          ['g3p-out', 'G3P', '3C · 回到糖酵解', 1235, 565, rx.tkt2, 7]
+        ];
+        const records = new Map(defs.map(([key, label, meta, x, y, reaction, stepIndex]) => [key, { key, label, meta, x, y, reaction, stepIndex }]));
+        const addEdge = (from, to, reaction, path = '') => {
+          const a = records.get(from), b = records.get(to);
+          const node = studentSvgElement('path', { d: path || studentMapEdgePath(a, b, 170, 60), class: `student-map-edge ppp-edge${reaction?.reversible ? ' reversible' : ' irreversible'}`, 'data-reaction': reaction?.id || '', 'data-step-index': String(a.stepIndex) });
+          studentMapEdges.appendChild(node); applyStudentReactionDirection(node, reaction, { showLabel: Boolean(reaction?.reversible), labelOffsetY: -13 });
+        };
+        addEdge('g6p', 'lactone', rx.g6pd); addEdge('lactone', 'sixpg', rx.lactonase); addEdge('sixpg', 'ru5p', rx.pgdh);
+        addEdge('ru5p', 'r5p', rx.rpi, 'M 875 140 C 935 190, 1010 245, 1055 270'); addEdge('ru5p', 'x5p', rx.rpe, 'M 840 155 C 815 205, 785 245, 770 265');
+        addEdge('x5p-a', 'g3p-a', rx.tkt1); addEdge('r5p-a', 's7p', rx.tkt1); addEdge('g3p-a', 'f6p-a', rx.tal); addEdge('s7p', 'e4p', rx.tal);
+        addEdge('e4p', 'f6p-out', rx.tkt2, 'M 875 550 C 980 520, 1110 490, 1205 480'); addEdge('f6p-a', 'g3p-out', rx.tkt2, 'M 875 490 C 980 520, 1110 550, 1205 560');
+        records.forEach(record => {
+          const group = studentSvgElement('g', { class: 'student-map-node ppp-node', style: `--tone:${tone}`, 'data-map-key': record.key, 'data-reaction': record.reaction?.id || '', 'data-step-index': String(record.stepIndex), role: 'button', tabindex: '0' });
+          group.appendChild(studentSvgElement('rect', { x: record.x - 85, y: record.y - 30, width: 170, height: 60, rx: 14 }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 1, class: 'node-name' }, record.label);
+          group.append(name, studentSvgElement('text', { x: record.x, y: record.y + 21, class: 'node-compartment' }, record.meta));
+          if (record.reaction) group.addEventListener('click', () => renderStudentReactionDetail(record.reaction, pathwayId, ownReactions.indexOf(record.reaction)));
+          studentMapNodes.appendChild(group); fitStudentMapText(name, 154, 15.5, 9.5);
+        });
+        [
+          ['g6pd', '1 · G6PD · 第 1 个 NADPH', 230, 78], ['lactonase', '2 · 6PGL · H₂O', 475, 78],
+          ['pgdh', '3 · 6PGDH · 第 2 个 NADPH + CO₂', 725, 78], ['rpi', '4 · RPI', 1000, 250],
+          ['rpe', '5 · RPE', 730, 250], ['tkt1', '6 · 转酮酶 1 · TPP · 转移 2C', 330, 430],
+          ['tal', '7 · 转醛酶 · 转移 3C', 675, 430], ['tkt2', '8 · 转酮酶 2 · TPP · 转移 2C', 1040, 430]
+        ].forEach(([key, value, x, y]) => studentMapNodes.appendChild(studentSvgElement('text', { x, y, class: 'student-ppp-event', 'data-ppp-event': key, 'text-anchor': 'middle' }, value)));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 475, y: 185, class: 'student-ppp-net', 'text-anchor': 'middle' }, '净：2 NADPH + CO₂ + Ru5P · PPP 不直接产生 ATP'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 820, y: 615, class: 'student-ppp-balance', 'text-anchor': 'middle' }, '3×5C ⇌ 2×6C + 1×3C · 15C ⇌ 15C'));
+        [
+          [270, 'R5P 优先', '糖酵解中间体反向重排 → R5P'],
+          [750, '同时需要 NADPH 与 R5P', '氧化支 → Ru5P → R5P'],
+          [1230, 'NADPH 优先', '多余五碳糖 → F6P / G3P 回流']
+        ].forEach(([x, title, note]) => {
+          const card = studentSvgElement('g', { class: 'student-ppp-demand-card' });
+          card.appendChild(studentSvgElement('rect', { x: x - 195, y: 680, width: 390, height: 70, rx: 16 }));
+          card.appendChild(studentSvgElement('text', { x, y: 708, class: 'demand-title', 'text-anchor': 'middle' }, title));
+          card.appendChild(studentSvgElement('text', { x, y: 733, class: 'demand-note', 'text-anchor': 'middle' }, note));
+          studentMapNodes.appendChild(card);
+        });
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderFaSynthesisStudentMap(pathwayId, pathwayReactions, tone) {
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const byEnzyme = pattern => ownReactions.find(reaction => pattern.test(reaction.enzyme || '')) || null;
+        const rx = {
+          acly: byEnzyme(/柠檬酸裂解酶/),
+          acc: byEnzyme(/羧化酶|\bACC\b/i),
+          fasCarbon: ownReactions.find(reaction => /脂肪酸合酶/.test(reaction.enzyme || '') && /丙二酰/.test(reaction.from || '')) || null,
+          fasNadph: ownReactions.find(reaction => /脂肪酸合酶/.test(reaction.enzyme || '') && /NADPH/.test(reaction.from || '')) || null
+        };
+        studentPathwayMap.setAttribute('viewBox', '0 0 1500 900');
+        studentPathwayMap.dataset.mapLayout = 'fa-synthesis-citrate-fas-cycle';
+        studentPathwayMap.setAttribute('aria-label', '脂肪酸合成：柠檬酸输出提供胞质乙酰辅酶A，ACC生成丙二酰辅酶A，FAS重复四步七轮生成棕榈酸');
+        studentMapBands.replaceChildren(); studentMapEdges.replaceChildren(); studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '7 个教学事件 · 4 个原始反应 · 7 轮延长至 C16';
+
+        [
+          ['carbon-export', 20, 185, 'fa-carbon-band', '① 碳源输出 · 乙酰-CoA不能直接穿过线粒体内膜'],
+          ['commitment', 218, 150, 'fa-commitment-band', '② 承诺步骤 · 两个 ATP 消耗点要分开'],
+          ['fas-cycle', 382, 282, 'fa-cycle-band', '③ FAS 七轮循环 · 每轮加 2C、用 2 NADPH'],
+          ['ledger-downstream', 678, 202, 'fa-ledger-band', '④ 总账与边界 · FAS 产物是 C16:0，ER 加工属于下游']
+        ].forEach(([key, y, height, className, title]) => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x: 22, y, width: 1456, height, class: `student-map-band ${className}`, 'data-fa-synthesis-zone': key }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: 44, y: y + 29, class: 'student-map-band-label' }, title));
+        });
+
+        const defs = [
+          ['matrix-acetyl', '乙酰-CoA', '线粒体基质 · 不能直接跨内膜', 105, 118, rx.acly, 0],
+          ['matrix-oaa', 'OAA', '线粒体基质', 105, 172, rx.acly, 0],
+          ['matrix-citrate', '柠檬酸', '把乙酰基装进可输出形式', 330, 145, rx.acly, 0],
+          ['slc25a1', 'SLC25A1', '内膜柠檬酸载体', 545, 145, rx.acly, 0],
+          ['cytosol-citrate', '柠檬酸', '细胞质', 760, 145, rx.acly, 1],
+          ['cytosol-acetyl', '乙酰-CoA', '细胞质 · 合成碳源', 1010, 115, rx.acc, 2],
+          ['cytosol-oaa', 'OAA', '细胞质 · ACLY 另一产物', 1010, 175, rx.acly, 1],
+          ['acetyl-commit', '乙酰-CoA', 'ACC 底物', 225, 300, rx.acc, 2],
+          ['acc', 'ACC', '生物素依赖', 500, 300, rx.acc, 2],
+          ['malonyl', '丙二酰-CoA', '二碳供体 · 抑制 CPT1', 775, 300, rx.fasCarbon, 3],
+          ['cpt1', 'CPT1', '长链脂酰基入线粒体关口', 1115, 300, rx.acc, 2],
+          ['primer', '乙酰基引物', '1 个 · 起始 2C', 125, 505, rx.fasCarbon, 3],
+          ['malonyl-seven', '丙二酰基 ×7', '每轮贡献 2C', 125, 600, rx.fasCarbon, 3],
+          ['acp', 'ACP', '携带生长中的脂酰链', 360, 550, rx.fasCarbon, 3],
+          ['beta-keto', 'β-酮脂酰-ACP', '缩合后', 580, 475, rx.fasCarbon, 3],
+          ['beta-hydroxy', 'β-羟脂酰-ACP', '第 1 次还原后', 800, 475, rx.fasNadph, 4],
+          ['enoyl', '烯脂酰-ACP', '脱水后', 1020, 475, rx.fasCarbon, 5],
+          ['acyl-plus-two', '饱和脂酰-ACP', '第 2 次还原 · 链长 +2C', 800, 600, rx.fasNadph, 6],
+          ['palmitate', '棕榈酸 C16:0', '7 轮后由硫酯酶释放', 1265, 550, rx.fasCarbon, 6]
+        ];
+        const records = new Map(defs.map(([key, label, meta, x, y, reaction, stepIndex]) => [key, { key, label, meta, x, y, reaction, stepIndex }]));
+        const addEdge = (from, to, reaction, path = '', className = '') => {
+          const a = records.get(from), b = records.get(to);
+          const edge = studentSvgElement('path', {
+            d: path || studentMapEdgePath(a, b, 170, 60),
+            class: `student-map-edge fa-synthesis-edge ${className}`.trim(),
+            'data-edge-from': from, 'data-edge-to': to, 'data-reaction': reaction?.id || '',
+            'data-step-index': String(a.stepIndex)
+          });
+          if (reaction) {
+            edge.addEventListener('click', event => { event.stopPropagation(); renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction)); });
+            edge.setAttribute('role', 'button'); edge.tabIndex = 0;
+          }
+          studentMapEdges.appendChild(edge);
+          applyStudentReactionDirection(edge, reaction, { showLabel: false });
+        };
+        addEdge('matrix-acetyl', 'matrix-citrate', rx.acly); addEdge('matrix-oaa', 'matrix-citrate', rx.acly);
+        addEdge('matrix-citrate', 'slc25a1', rx.acly, '', 'transport'); addEdge('slc25a1', 'cytosol-citrate', rx.acly, '', 'transport');
+        addEdge('cytosol-citrate', 'cytosol-acetyl', rx.acly); addEdge('cytosol-citrate', 'cytosol-oaa', rx.acly);
+        addEdge('acetyl-commit', 'acc', rx.acc); addEdge('acc', 'malonyl', rx.acc);
+        addEdge('malonyl', 'cpt1', rx.acc, '', 'inhibition');
+        addEdge('primer', 'acp', rx.fasCarbon); addEdge('malonyl-seven', 'acp', rx.fasCarbon);
+        addEdge('acp', 'beta-keto', rx.fasCarbon); addEdge('beta-keto', 'beta-hydroxy', rx.fasNadph);
+        addEdge('beta-hydroxy', 'enoyl', rx.fasCarbon); addEdge('enoyl', 'acyl-plus-two', rx.fasNadph, 'M 1040 495 C 1045 550, 950 600, 885 600');
+        addEdge('acyl-plus-two', 'beta-keto', rx.fasCarbon, 'M 715 600 C 635 600, 560 555, 565 505', 'cycle-return');
+        addEdge('acyl-plus-two', 'palmitate', rx.fasCarbon, 'M 885 600 C 1030 620, 1145 590, 1180 560');
+
+        records.forEach(record => {
+          const group = studentSvgElement('g', { class: 'student-map-node fa-synthesis-node', style: `--tone:${tone}`, 'data-map-key': record.key, 'data-reaction': record.reaction?.id || '', 'data-step-index': String(record.stepIndex), role: 'button', tabindex: '0' });
+          group.appendChild(studentSvgElement('rect', { x: record.x - 85, y: record.y - 30, width: 170, height: 60, rx: 14 }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 1, class: 'node-name' }, record.label);
+          group.append(name, studentSvgElement('text', { x: record.x, y: record.y + 21, class: 'node-compartment' }, record.meta));
+          if (record.reaction) {
+            const open = () => renderStudentReactionDetail(record.reaction, pathwayId, ownReactions.indexOf(record.reaction));
+            group.addEventListener('click', open);
+            group.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          }
+          studentMapNodes.appendChild(group); fitStudentMapText(name, 154, 15.5, 9.5);
+        });
+
+        const events = [
+          [0, '1 · SLC25A1 · 柠檬酸输出', 545, 82, rx.acly],
+          [1, '2 · ACLY · 消耗 1 ATP', 885, 82, rx.acly],
+          [2, '3 · ACC · HCO₃⁻ + 1 ATP · 生物素', 500, 246, rx.acc],
+          [3, '4 · 缩合 · 丙二酰基脱羧驱动', 470, 425, rx.fasCarbon],
+          [4, '5 · 还原 1 · NADPH', 690, 425, rx.fasNadph],
+          [5, '6 · 脱水', 910, 425, rx.fasCarbon],
+          [6, '7 · 还原 2 · NADPH', 1015, 635, rx.fasNadph]
+        ];
+        events.forEach(([stepIndex, value, x, y, reaction]) => {
+          const event = studentSvgElement('text', { x, y, class: 'student-fa-synthesis-event', 'data-fa-synthesis-event': String(stepIndex + 1), 'data-step-index': String(stepIndex), 'text-anchor': 'middle', role: 'button', tabindex: '0' }, value);
+          if (reaction) {
+            const open = () => renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction));
+            event.addEventListener('click', open);
+            event.addEventListener('keydown', keyEvent => { if (keyEvent.key === 'Enter' || keyEvent.key === ' ') { keyEvent.preventDefault(); open(); } });
+          }
+          studentMapNodes.appendChild(event);
+        });
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 500, y: 350, class: 'student-fa-synthesis-commitment', 'text-anchor': 'middle' }, '承诺 / 主要调控步骤'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 1115, y: 350, class: 'student-fa-synthesis-regulation', 'text-anchor': 'middle' }, 'malonyl-CoA 抑制 CPT1 · 协调合成与氧化'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 760, y: 648, class: 'student-fa-synthesis-cycle-ledger', 'text-anchor': 'middle' }, '每轮 +2C · 2 NADPH · 7 轮：C2 → C4 → C6 → C8 → C10 → C12 → C14 → C16'));
+
+        [
+          [270, 'FAS 净反应', '1 乙酰-CoA + 7 丙二酰-CoA + 14 NADPH', '→ 棕榈酸 C16:0 + 7 CO₂'],
+          [750, '从乙酰-CoA起算', '8 乙酰-CoA + 7 ATP + 14 NADPH', 'ACLY 的输出成本另计'],
+          [1230, '来源与下游', 'PPP / 苹果酸酶 → NADPH', 'ER · ELOVL / SCD → 延长 / 去饱和']
+        ].forEach(([x, title, line1, line2]) => {
+          const card = studentSvgElement('g', { class: 'student-fa-synthesis-ledger-card' });
+          card.appendChild(studentSvgElement('rect', { x: x - 205, y: 730, width: 410, height: 105, rx: 16 }));
+          card.appendChild(studentSvgElement('text', { x, y: 761, class: 'ledger-title', 'text-anchor': 'middle' }, title));
+          card.appendChild(studentSvgElement('text', { x, y: 790, class: 'ledger-line', 'text-anchor': 'middle' }, line1));
+          card.appendChild(studentSvgElement('text', { x, y: 817, class: 'ledger-note', 'text-anchor': 'middle' }, line2));
+          studentMapNodes.appendChild(card);
+        });
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderCarnitineStudentMap(pathwayId, pathwayReactions, tone) {
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const byEnzyme = pattern => ownReactions.find(reaction => pattern.test(reaction.enzyme || '')) || null;
+        const rx = {
+          cpt1: byEnzyme(/转移酶 1|CPT1/i),
+          vdac: byEnzyme(/VDAC/i),
+          cactIn: ownReactions.find(reaction => /CACT|SLC25A20/i.test(reaction.enzyme || '') && /脂酰肉碱/.test(reaction.from || '')) || null,
+          cactOut: ownReactions.find(reaction => /CACT|SLC25A20/i.test(reaction.enzyme || '') && /肉碱@/.test(reaction.from || '') && !/脂酰/.test(reaction.from || '')) || null,
+          cpt2: byEnzyme(/转移酶 2|CPT2/i)
+        };
+        studentPathwayMap.setAttribute('viewBox', '0 0 1500 900');
+        studentPathwayMap.dataset.mapLayout = 'carnitine-double-membrane-antiport';
+        studentPathwayMap.setAttribute('aria-label', '肉碱穿梭：CPT1在外膜胞质侧生成脂酰肉碱，CACT跨内膜反向交换，CPT2在基质侧再生脂酰辅酶A');
+        studentMapBands.replaceChildren(); studentMapEdges.replaceChildren(); studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '4 个核心事件 · 6 个原始反应 · 2 个独立 CoA 池';
+
+        [
+          ['cytosol-gate', 20, 185, 'carnitine-cytosol-band', '① 胞质侧入口 · 长链脂酰-CoA不跨内膜'],
+          ['outer-membrane', 218, 120, 'carnitine-outer-band', '② 外膜 / 膜间隙 · 项目数据以 VDAC 标记外膜通道'],
+          ['inner-membrane-exchange', 351, 212, 'carnitine-inner-band', '③ 内膜 · CACT 把脂酰肉碱输入与游离肉碱输出配成反向交换'],
+          ['matrix-handoff', 576, 154, 'carnitine-matrix-band', '④ 基质侧交接 · CPT2 再生脂酰-CoA，接入 β-氧化'],
+          ['net', 743, 137, 'carnitine-net-band', '净结果 · 搬运脂酰基，肉碱循环，两侧 CoA 池不混合']
+        ].forEach(([key, y, height, className, title]) => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x: 22, y, width: 1456, height, class: `student-map-band ${className}`, 'data-carnitine-zone': key }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: 44, y: y + 29, class: 'student-map-band-label' }, title));
+        });
+
+        const defs = [
+          ['malonyl', 'malonyl-CoA', '合成开启时抑制 CPT1', 1120, 82, rx.cpt1, 0],
+          ['acyl-coa-cyt', '长链脂酰-CoA', '胞质侧 · 不直接跨内膜', 155, 125, rx.cpt1, 0],
+          ['carnitine-cyt', '游离肉碱', '胞质侧载体', 155, 185, rx.cpt1, 0],
+          ['cpt1', 'CPT1', '外膜胞质侧', 470, 155, rx.cpt1, 0],
+          ['acyl-carnitine-cyt', '脂酰肉碱', '可跨膜形式', 770, 125, rx.vdac, 1],
+          ['coa-cyt', 'CoA-SH', '胞质 CoA 池', 770, 185, rx.cpt1, 0],
+          ['acyl-carnitine-outer', '脂酰肉碱', '外膜外侧', 260, 282, rx.vdac, 1],
+          ['vdac', 'VDAC', '外膜通道', 590, 282, rx.vdac, 1],
+          ['acyl-carnitine-ims', '脂酰肉碱', '膜间隙', 920, 282, rx.cactIn, 2],
+          ['acyl-carnitine-ims-antiport', '脂酰肉碱', '膜间隙侧 · 输入', 235, 425, rx.cactIn, 2],
+          ['carnitine-ims', '游离肉碱', '膜间隙侧 · 输出', 235, 520, rx.cactOut, 2],
+          ['cact', 'CACT / SLC25A20', '内膜反向交换器', 745, 470, rx.cactIn, 2],
+          ['acyl-carnitine-matrix', '脂酰肉碱', '基质侧 · 输入完成', 1250, 425, rx.cpt2, 3],
+          ['carnitine-matrix-return', '游离肉碱', '基质侧 · 向外交换', 1250, 520, rx.cactOut, 2],
+          ['acyl-carnitine-matrix-cpt2', '脂酰肉碱', '基质侧', 205, 638, rx.cpt2, 3],
+          ['coa-matrix', 'CoA-SH', '基质 CoA 池', 205, 700, rx.cpt2, 3],
+          ['cpt2', 'CPT2', '内膜基质侧', 560, 669, rx.cpt2, 3],
+          ['acyl-coa-matrix', '长链脂酰-CoA', '基质 · 进入 β-氧化', 900, 638, rx.cpt2, 3],
+          ['carnitine-matrix', '游离肉碱', '释放后循环再用', 900, 700, rx.cactOut, 2]
+        ];
+        const records = new Map(defs.map(([key, label, meta, x, y, reaction, stepIndex]) => [key, { key, label, meta, x, y, reaction, stepIndex }]));
+        const addEdge = (from, to, reaction, path = '', className = '') => {
+          const a = records.get(from), b = records.get(to);
+          const edge = studentSvgElement('path', {
+            d: path || studentMapEdgePath(a, b, 170, 60),
+            class: `student-map-edge carnitine-edge ${className}`.trim(),
+            'data-edge-from': from, 'data-edge-to': to, 'data-reaction': reaction?.id || '',
+            'data-step-index': String(a.stepIndex)
+          });
+          if (reaction) {
+            edge.addEventListener('click', event => { event.stopPropagation(); renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction)); });
+            edge.setAttribute('role', 'button'); edge.tabIndex = 0;
+          }
+          studentMapEdges.appendChild(edge); applyStudentReactionDirection(edge, reaction, { showLabel: false });
+        };
+        addEdge('acyl-coa-cyt', 'cpt1', rx.cpt1); addEdge('carnitine-cyt', 'cpt1', rx.cpt1);
+        addEdge('cpt1', 'acyl-carnitine-cyt', rx.cpt1); addEdge('cpt1', 'coa-cyt', rx.cpt1);
+        addEdge('malonyl', 'cpt1', rx.cpt1, 'M 1035 88 C 850 92, 650 115, 545 145', 'inhibition');
+        addEdge('acyl-carnitine-outer', 'vdac', rx.vdac, '', 'transport'); addEdge('vdac', 'acyl-carnitine-ims', rx.vdac, '', 'transport');
+        addEdge('acyl-carnitine-ims-antiport', 'cact', rx.cactIn, '', 'antiport-in'); addEdge('cact', 'acyl-carnitine-matrix', rx.cactIn, '', 'antiport-in');
+        addEdge('carnitine-matrix-return', 'cact', rx.cactOut, '', 'antiport-out'); addEdge('cact', 'carnitine-ims', rx.cactOut, '', 'antiport-out');
+        addEdge('acyl-carnitine-matrix-cpt2', 'cpt2', rx.cpt2); addEdge('coa-matrix', 'cpt2', rx.cpt2);
+        addEdge('cpt2', 'acyl-coa-matrix', rx.cpt2); addEdge('cpt2', 'carnitine-matrix', rx.cpt2);
+
+        records.forEach(record => {
+          const group = studentSvgElement('g', { class: 'student-map-node carnitine-node', style: `--tone:${tone}`, 'data-map-key': record.key, 'data-reaction': record.reaction?.id || '', 'data-step-index': String(record.stepIndex), role: 'button', tabindex: '0' });
+          group.appendChild(studentSvgElement('rect', { x: record.x - 86, y: record.y - 29, width: 172, height: 58, rx: 14 }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 1, class: 'node-name' }, record.label);
+          group.append(name, studentSvgElement('text', { x: record.x, y: record.y + 20, class: 'node-compartment' }, record.meta));
+          if (record.reaction) {
+            const open = () => renderStudentReactionDetail(record.reaction, pathwayId, ownReactions.indexOf(record.reaction));
+            group.addEventListener('click', open);
+            group.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          }
+          studentMapNodes.appendChild(group); fitStudentMapText(name, 156, 15.5, 9.5);
+        });
+
+        [
+          [0, '1 · CPT1 · 外膜胞质侧', 470, 88, rx.cpt1],
+          [1, '2 · VDAC · 外膜通道', 590, 245, rx.vdac],
+          [2, '3 · CACT / SLC25A20 · 内膜反向交换', 745, 386, rx.cactIn],
+          [3, '4 · CPT2 · 内膜基质侧', 560, 615, rx.cpt2]
+        ].forEach(([stepIndex, value, x, y, reaction]) => {
+          const event = studentSvgElement('text', { x, y, class: 'student-carnitine-event', 'data-carnitine-event': String(stepIndex + 1), 'data-step-index': String(stepIndex), 'text-anchor': 'middle', role: 'button', tabindex: '0' }, value);
+          if (reaction) event.addEventListener('click', () => renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction)));
+          studentMapNodes.appendChild(event);
+        });
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 470, y: 198, class: 'student-carnitine-regulation', 'text-anchor': 'middle' }, 'malonyl-CoA 抑制 CPT1'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 500, y: 548, class: 'student-carnitine-inflow', 'text-anchor': 'middle' }, '脂酰肉碱入基质 →'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 995, y: 548, class: 'student-carnitine-outflow', 'text-anchor': 'middle' }, '← 游离肉碱向外'));
+
+        const nextPath = studentSvgElement('g', { class: 'student-map-next-pathway carnitine-next-pathway', 'data-next-pathway': 'beta_oxidation', role: 'button', tabindex: '0', 'aria-label': '长链脂酰辅酶A下一站：脂肪酸β-氧化' });
+        nextPath.appendChild(studentSvgElement('rect', { x: 1130, y: 626, width: 280, height: 90, rx: 16 }));
+        nextPath.appendChild(studentSvgElement('text', { x: 1270, y: 660, class: 'next-label' }, '长链脂酰-CoA 下一站'));
+        nextPath.appendChild(studentSvgElement('text', { x: 1270, y: 694, class: 'next-name' }, '进入 β-氧化 →'));
+        const openBetaOxidation = () => renderStudentPathway('beta_oxidation', { returnToPrimer: false });
+        nextPath.addEventListener('click', event => { event.stopPropagation(); openBetaOxidation(); });
+        nextPath.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openBetaOxidation(); } });
+        studentMapNodes.appendChild(nextPath);
+
+        [
+          [270, '净搬运对象', '长链脂酰基 → 线粒体基质', '中短链依赖较低'],
+          [750, '池与循环', 'CoA 不跨内膜', '游离肉碱循环再用'],
+          [1230, '能量边界', '穿梭本身不额外耗 ATP', '上游 ACSL：ATP → AMP + PPi']
+        ].forEach(([x, title, line1, line2]) => {
+          const card = studentSvgElement('g', { class: 'student-carnitine-net-card' });
+          card.appendChild(studentSvgElement('rect', { x: x - 205, y: 780, width: 410, height: 82, rx: 16 }));
+          card.appendChild(studentSvgElement('text', { x, y: 807, class: 'net-title', 'text-anchor': 'middle' }, title));
+          card.appendChild(studentSvgElement('text', { x, y: 833, class: 'net-line', 'text-anchor': 'middle' }, line1));
+          card.appendChild(studentSvgElement('text', { x, y: 854, class: 'net-note', 'text-anchor': 'middle' }, line2));
+          studentMapNodes.appendChild(card);
+        });
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderBetaOxidationStudentMap(pathwayId, pathwayReactions, tone) {
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const byEnzyme = pattern => ownReactions.find(reaction => pattern.test(reaction.enzyme || '')) || null;
+        const rx = {
+          dehydrogenation: byEnzyme(/脂酰-CoA 脱氢酶/),
+          hydration: byEnzyme(/烯酰-CoA 水合酶/),
+          oxidation: byEnzyme(/β-羟脂酰-CoA 脱氢酶/),
+          thiolysis: byEnzyme(/β-酮硫解酶/)
+        };
+        studentPathwayMap.setAttribute('viewBox', '0 0 1500 900');
+        studentPathwayMap.dataset.mapLayout = 'beta-oxidation-four-step-spiral';
+        studentPathwayMap.setAttribute('aria-label', '脂肪酸β-氧化：基质脂酰辅酶A经过脱氢、水合、再脱氢和硫解，每轮缩短两个碳并输出乙酰辅酶A与还原当量');
+        studentMapBands.replaceChildren(); studentMapEdges.replaceChildren(); studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '4 个核心事件 · 4 个原始反应 · C16 完成 7 轮';
+
+        [
+          ['entry-boundary', 20, 145, 'beta-entry-band', '入口边界 · 上游活化与肉碱穿梭已经完成，本图从基质脂酰-CoA开始'],
+          ['four-step-cycle', 178, 390, 'beta-cycle-band', '四步螺旋 · 脱氢 → 水合 → 再脱氢 → 硫解 → 缩短链返回'],
+          ['spiral-ledger', 581, 150, 'beta-ledger-band', '每轮账本与 C16 总账 · 不把“每轮 1 个乙酰-CoA”误写成最终总产量'],
+          ['pathway-outputs', 744, 136, 'beta-output-band', '通路交接 · β-氧化本身不直接产生 ATP，产物进入 TCA 与呼吸链']
+        ].forEach(([key, y, height, className, title]) => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x: 22, y, width: 1456, height, class: `student-map-band ${className}`, 'data-beta-oxidation-zone': key }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: 44, y: y + 29, class: 'student-map-band-label' }, title));
+        });
+
+        const defs = [
+          ['activation', '脂肪酸活化', '上游 · ATP → AMP + PPi', 185, 105, rx.dehydrogenation, 0],
+          ['carnitine', '肉碱穿梭', '长链脂酰基跨内膜', 515, 105, rx.dehydrogenation, 0],
+          ['matrix-acyl-entry', '基质脂酰-CoA', '饱和偶数链主线入口', 845, 105, rx.dehydrogenation, 0],
+          ['spiral-start', '四步螺旋', '从此开始，不重复计算上游', 1175, 105, rx.dehydrogenation, 0],
+          ['acyl', '脂酰-CoA', '本轮 n 个碳', 105, 330, rx.dehydrogenation, 0],
+          ['acad', 'ACAD', '脂酰-CoA 脱氢酶', 345, 330, rx.dehydrogenation, 0],
+          ['enoyl', 'trans-Δ²-烯酰-CoA', '形成 α,β 双键', 585, 330, rx.hydration, 1],
+          ['hydratase', '烯酰-CoA 水合酶', '加入 H₂O', 825, 330, rx.hydration, 1],
+          ['hydroxy', 'L-β-羟脂酰-CoA', '立体专一的水合产物', 1065, 330, rx.oxidation, 2],
+          ['had', 'β-羟脂酰-CoA脱氢酶', 'NAD⁺依赖', 1065, 485, rx.oxidation, 2],
+          ['keto', 'β-酮脂酰-CoA', '准备发生硫解', 825, 485, rx.thiolysis, 3],
+          ['thiolase', 'β-酮硫解酶', 'CoA-SH 参与断键', 585, 485, rx.thiolysis, 3],
+          ['acetyl', '乙酰-CoA', '本轮释放 1 个', 345, 485, rx.thiolysis, 3],
+          ['shortened', '缩短脂酰-CoA', '链长 −2C，返回下一轮', 105, 485, rx.dehydrogenation, 0]
+        ];
+        const records = new Map(defs.map(([key, label, meta, x, y, reaction, stepIndex]) => [key, { key, label, meta, x, y, reaction, stepIndex }]));
+        const addEdge = (from, to, reaction, path = '', className = '') => {
+          const a = records.get(from), b = records.get(to);
+          const edge = studentSvgElement('path', {
+            d: path || studentMapEdgePath(a, b, 170, 60),
+            class: `student-map-edge beta-oxidation-edge ${className}`.trim(),
+            'data-edge-from': from, 'data-edge-to': to, 'data-reaction': reaction?.id || '',
+            'data-step-index': String(a.stepIndex)
+          });
+          if (reaction) {
+            const open = () => renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction));
+            edge.addEventListener('click', event => { event.stopPropagation(); open(); });
+            edge.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+            edge.setAttribute('role', 'button'); edge.tabIndex = 0;
+          }
+          studentMapEdges.appendChild(edge); applyStudentReactionDirection(edge, reaction, { showLabel: false });
+        };
+        addEdge('activation', 'carnitine', rx.dehydrogenation, '', 'boundary');
+        addEdge('carnitine', 'matrix-acyl-entry', rx.dehydrogenation, '', 'boundary');
+        addEdge('matrix-acyl-entry', 'spiral-start', rx.dehydrogenation, '', 'boundary');
+        addEdge('spiral-start', 'acyl', rx.dehydrogenation, 'M 1175 135 C 1080 195, 475 220, 105 298', 'boundary');
+        addEdge('acyl', 'acad', rx.dehydrogenation); addEdge('acad', 'enoyl', rx.dehydrogenation);
+        addEdge('enoyl', 'hydratase', rx.hydration); addEdge('hydratase', 'hydroxy', rx.hydration);
+        addEdge('hydroxy', 'had', rx.oxidation, 'M 1065 360 L 1065 454');
+        addEdge('had', 'keto', rx.oxidation); addEdge('keto', 'thiolase', rx.thiolysis);
+        addEdge('thiolase', 'acetyl', rx.thiolysis); addEdge('thiolase', 'shortened', rx.thiolysis, 'M 500 485 C 390 550, 215 550, 190 505');
+        addEdge('shortened', 'acyl', rx.dehydrogenation, 'M 105 455 C 32 435, 32 375, 105 360', 'cycle-return');
+
+        records.forEach(record => {
+          const group = studentSvgElement('g', { class: 'student-map-node beta-oxidation-node', style: `--tone:${tone}`, 'data-map-key': record.key, 'data-reaction': record.reaction?.id || '', 'data-step-index': String(record.stepIndex), role: 'button', tabindex: '0' });
+          group.appendChild(studentSvgElement('rect', { x: record.x - 88, y: record.y - 30, width: 176, height: 60, rx: 14 }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 1, class: 'node-name' }, record.label);
+          group.append(name, studentSvgElement('text', { x: record.x, y: record.y + 21, class: 'node-compartment' }, record.meta));
+          if (record.reaction) {
+            const open = () => renderStudentReactionDetail(record.reaction, pathwayId, ownReactions.indexOf(record.reaction));
+            group.addEventListener('click', open);
+            group.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          }
+          studentMapNodes.appendChild(group); fitStudentMapText(name, 160, 15.5, 9.5);
+        });
+
+        [
+          [0, '1 · 第一次脱氢', 345, 270, rx.dehydrogenation],
+          [1, '2 · 水合', 825, 270, rx.hydration],
+          [2, '3 · 第二次脱氢', 1165, 405, rx.oxidation],
+          [3, '4 · 硫解', 585, 540, rx.thiolysis]
+        ].forEach(([stepIndex, value, x, y, reaction]) => {
+          const event = studentSvgElement('text', { x, y, class: 'student-beta-oxidation-event', 'data-beta-oxidation-event': String(stepIndex + 1), 'data-step-index': String(stepIndex), 'text-anchor': 'middle', role: 'button', tabindex: '0' }, value);
+          if (reaction) event.addEventListener('click', () => renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction)));
+          studentMapNodes.appendChild(event);
+        });
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 345, y: 390, class: 'student-beta-oxidation-electron', 'text-anchor': 'middle' }, '酶内 FAD → ETF → ETF:QO → CoQ'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 825, y: 390, class: 'student-beta-oxidation-cofactor', 'text-anchor': 'middle' }, 'H₂O'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 1065, y: 548, class: 'student-beta-oxidation-electron', 'text-anchor': 'middle' }, 'NAD⁺ → NADH + H⁺'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 585, y: 455, class: 'student-beta-oxidation-cofactor', 'text-anchor': 'middle' }, 'CoA-SH'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 190, y: 555, class: 'student-beta-oxidation-return', 'text-anchor': 'middle' }, '缩短 2C，返回下一轮'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 750, y: 154, class: 'student-beta-oxidation-boundary', 'text-anchor': 'middle' }, '上游：活化 + 肉碱穿梭 · 本图范围：线粒体内饱和偶数链主线'));
+
+        [
+          [270, '每轮账本', '脂酰链 −2C', '每轮：1 乙酰-CoA + 1 NADH + 1 对电子进入 CoQ'],
+          [750, '棕榈酰-CoA 碳链', 'C16 → C14 → C12 → C10 → C8 → C6 → C4', '末轮 C4 → 2 乙酰-CoA'],
+          [1230, 'C16 完整总账', '7 轮 → 8 乙酰-CoA + 7 NADH + 7 对电子进入 CoQ', '活化成本与穿梭不在四步循环内']
+        ].forEach(([x, title, line1, line2]) => {
+          const card = studentSvgElement('g', { class: 'student-beta-oxidation-ledger-card' });
+          card.appendChild(studentSvgElement('rect', { x: x - 215, y: 625, width: 430, height: 82, rx: 16 }));
+          card.appendChild(studentSvgElement('text', { x, y: 653, class: 'ledger-title', 'text-anchor': 'middle' }, title));
+          card.appendChild(studentSvgElement('text', { x, y: 680, class: 'ledger-line', 'text-anchor': 'middle' }, line1));
+          card.appendChild(studentSvgElement('text', { x, y: 700, class: 'ledger-note', 'text-anchor': 'middle' }, line2));
+          studentMapNodes.appendChild(card);
+        });
+
+        const addNextPathway = (id, x, title, note) => {
+          const next = studentSvgElement('g', { class: 'student-map-next-pathway beta-oxidation-next-pathway', 'data-next-pathway': id, role: 'button', tabindex: '0', 'aria-label': `${title}：${note}` });
+          next.appendChild(studentSvgElement('rect', { x: x - 205, y: 795, width: 410, height: 64, rx: 16 }));
+          next.appendChild(studentSvgElement('text', { x, y: 822, class: 'next-label' }, title));
+          next.appendChild(studentSvgElement('text', { x, y: 847, class: 'next-name' }, note));
+          const open = () => renderStudentPathway(id, { returnToPrimer: false });
+          next.addEventListener('click', event => { event.stopPropagation(); open(); });
+          next.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          studentMapNodes.appendChild(next);
+        };
+        addNextPathway('tca', 380, '乙酰-CoA', '进入 TCA →');
+        addNextPathway('etc', 1120, 'NADH / CoQH₂', '进入呼吸链 →');
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 750, y: 775, class: 'student-beta-oxidation-atp', 'text-anchor': 'middle' }, 'β-氧化本身不直接产生 ATP'));
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderKetoneStudentMap(pathwayId, pathwayReactions, tone) {
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const byEnzyme = pattern => ownReactions.find(reaction => pattern.test(reaction.enzyme || '')) || null;
+        const rx = {
+          synthThiolase: ownReactions.find(reaction => /硫解酶/.test(reaction.enzyme || '') && reaction.reversible) || null,
+          hmgcs2: byEnzyme(/HMG-CoA 合成酶/),
+          hmgcl: byEnzyme(/HMG-CoA 裂解酶/),
+          bdhReduction: ownReactions.find(reaction => /β-羟丁酸脱氢酶/.test(reaction.enzyme || '') && /乙酰乙酸/.test(reaction.from || '')) || null,
+          scot: byEnzyme(/SCOT/),
+          useThiolase: ownReactions.find(reaction => /β-酮硫解酶/.test(reaction.enzyme || '')) || null,
+          bdhOxidation: ownReactions.find(reaction => /β-羟丁酸脱氢酶/.test(reaction.enzyme || '') && /β-羟丁酸/.test(reaction.from || '')) || null
+        };
+        studentPathwayMap.setAttribute('viewBox', '0 0 1500 900');
+        studentPathwayMap.dataset.mapLayout = 'ketone-liver-blood-periphery';
+        studentPathwayMap.setAttribute('aria-label', '酮体代谢：肝线粒体生成乙酰乙酸和D-β-羟丁酸，经血液送至外周线粒体，再由SCOT接入乙酰辅酶A与三羧酸循环');
+        studentMapBands.replaceChildren(); studentMapEdges.replaceChildren(); studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '7 个核心事件 · 7 个原始反应 · 肝生成 / 外周利用';
+
+        [
+          ['hepatic-ketogenesis', 22, 20, 560, 666, 'ketone-liver-band', '① 肝线粒体 · 生成'],
+          ['circulation-redox', 596, 20, 310, 666, 'ketone-blood-band', '② 血液运输 · 两种循环酮体'],
+          ['extrahepatic-ketolysis', 920, 20, 558, 666, 'ketone-periphery-band', '③ 外周线粒体 · 利用'],
+          ['tissue-boundary', 22, 700, 1456, 180, 'ketone-boundary-band', '④ 组织分工与化学边界']
+        ].forEach(([key, x, y, width, height, className, title]) => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x, y, width, height, class: `student-map-band ${className}`, 'data-ketone-zone': key }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: x + 22, y: y + 30, class: 'student-map-band-label' }, title));
+        });
+
+        const defs = [
+          ['beta-oxidation', 'β-氧化', '提供乙酰-CoA', 120, 82, rx.synthThiolase, 0],
+          ['acetyl-a', '乙酰-CoA', '第 1 个', 100, 150, rx.synthThiolase, 0],
+          ['acetyl-b', '乙酰-CoA', '第 2 个', 100, 215, rx.synthThiolase, 0],
+          ['liver-thiolase', '硫解酶', '可逆缩合', 330, 182, rx.synthThiolase, 0],
+          ['liver-acetoacetyl', '乙酰乙酰-CoA', '四碳中间体', 215, 285, rx.hmgcs2, 1],
+          ['acetyl-c', '乙酰-CoA', '第 3 个参与者', 100, 350, rx.hmgcs2, 1],
+          ['hmgcs2', 'HMGCS2', '线粒体 HMG-CoA合成酶', 455, 320, rx.hmgcs2, 1],
+          ['hmg-coa', 'HMG-CoA', '六碳中间体', 215, 415, rx.hmgcl, 2],
+          ['hmgcl', 'HMGCL', 'HMG-CoA裂解酶', 455, 415, rx.hmgcl, 2],
+          ['liver-acac', '乙酰乙酸', '肝输出 · 四碳', 240, 555, rx.bdhReduction, 3],
+          ['liver-bdh1', 'BDH1', '线粒体内膜相关酶', 455, 545, rx.bdhReduction, 3],
+          ['liver-bhb', 'D-β-羟丁酸', '主要循环还原型', 455, 635, rx.bdhReduction, 3],
+          ['acetone', '丙酮', '少量自发脱羧旁支', 110, 635, null, 2],
+          ['mct-out', 'MCT', '肝细胞膜输出', 660, 500, rx.bdhReduction, 3],
+          ['blood-acac', '乙酰乙酸', '血液', 750, 425, rx.scot, 4],
+          ['blood-bhb', 'D-β-羟丁酸', '血液', 750, 560, rx.bdhOxidation, 4],
+          ['mct-in', 'MCT', '外周细胞膜摄取', 840, 500, rx.bdhOxidation, 4],
+          ['periphery-bhb', 'D-β-羟丁酸', '外周线粒体', 1030, 120, rx.bdhOxidation, 4],
+          ['periphery-bdh1', 'BDH1', '氧化回乙酰乙酸', 1320, 120, rx.bdhOxidation, 4],
+          ['periphery-acac', '乙酰乙酸', '外周线粒体', 1030, 250, rx.scot, 5],
+          ['scot', 'SCOT / OXCT1', '肝细胞缺少此酶', 1320, 295, rx.scot, 5],
+          ['succinyl', '琥珀酰-CoA', 'CoA 供体', 1030, 375, rx.scot, 5],
+          ['succinate', '琥珀酸', 'SCOT 另一产物', 1320, 395, rx.scot, 5],
+          ['periphery-acetoacetyl', '乙酰乙酰-CoA', '已被 CoA 活化', 1030, 475, rx.useThiolase, 6],
+          ['periphery-thiolase', 'β-酮硫解酶', 'CoA-SH 参与', 1320, 510, rx.useThiolase, 6],
+          ['two-acetyl', '2 乙酰-CoA', '进入 TCA 氧化', 1030, 610, rx.useThiolase, 6]
+        ];
+        const records = new Map(defs.map(([key, label, meta, x, y, reaction, stepIndex]) => [key, { key, label, meta, x, y, reaction, stepIndex }]));
+        const addEdge = (from, to, reaction, path = '', className = '') => {
+          const a = records.get(from), b = records.get(to);
+          const edge = studentSvgElement('path', {
+            d: path || studentMapEdgePath(a, b, 170, 60),
+            class: `student-map-edge ketone-edge ${className}`.trim(),
+            'data-edge-from': from, 'data-edge-to': to, 'data-reaction': reaction?.id || '',
+            'data-step-index': String(a.stepIndex)
+          });
+          if (reaction) {
+            const open = () => renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction));
+            edge.addEventListener('click', event => { event.stopPropagation(); open(); });
+            edge.setAttribute('role', 'button'); edge.tabIndex = 0;
+          }
+          studentMapEdges.appendChild(edge); applyStudentReactionDirection(edge, reaction, { showLabel: false });
+        };
+        addEdge('beta-oxidation', 'acetyl-a', rx.synthThiolase, '', 'upstream');
+        addEdge('acetyl-a', 'liver-thiolase', rx.synthThiolase); addEdge('acetyl-b', 'liver-thiolase', rx.synthThiolase);
+        addEdge('liver-thiolase', 'liver-acetoacetyl', rx.synthThiolase, 'M 330 212 C 315 245, 260 275, 228 280');
+        addEdge('liver-acetoacetyl', 'hmgcs2', rx.hmgcs2); addEdge('acetyl-c', 'hmgcs2', rx.hmgcs2);
+        addEdge('hmgcs2', 'hmg-coa', rx.hmgcs2, 'M 440 345 C 390 375, 300 405, 228 410');
+        addEdge('hmg-coa', 'hmgcl', rx.hmgcl); addEdge('hmgcl', 'liver-acac', rx.hmgcl, 'M 440 440 C 390 475, 310 530, 253 548');
+        addEdge('liver-acac', 'liver-bdh1', rx.bdhReduction); addEdge('liver-bdh1', 'liver-bhb', rx.bdhReduction, 'M 455 575 L 455 605');
+        addEdge('liver-acac', 'acetone', null, 'M 230 575 C 210 600, 200 620, 192 630', 'minor');
+        addEdge('liver-acac', 'mct-out', rx.bdhReduction, 'M 325 555 C 450 545, 560 515, 575 502', 'transport');
+        addEdge('liver-bhb', 'mct-out', rx.bdhReduction, 'M 540 635 C 600 610, 645 550, 660 530', 'transport');
+        addEdge('mct-out', 'blood-acac', rx.scot, 'M 742 493 C 756 470, 758 450, 750 455', 'transport');
+        addEdge('mct-out', 'blood-bhb', rx.bdhOxidation, 'M 742 507 C 758 530, 760 548, 750 530', 'transport');
+        addEdge('blood-acac', 'mct-in', rx.scot, 'M 750 455 C 750 470, 755 490, 758 495', 'transport');
+        addEdge('blood-bhb', 'mct-in', rx.bdhOxidation, 'M 750 530 C 760 520, 760 505, 758 505', 'transport');
+        addEdge('mct-in', 'periphery-bhb', rx.bdhOxidation, 'M 922 480 C 965 390, 980 210, 1020 150', 'transport');
+        addEdge('periphery-bhb', 'periphery-bdh1', rx.bdhOxidation); addEdge('periphery-bdh1', 'periphery-acac', rx.bdhOxidation, 'M 1320 150 C 1280 195, 1110 230, 1040 245');
+        addEdge('periphery-acac', 'scot', rx.scot); addEdge('succinyl', 'scot', rx.scot, 'M 1115 375 C 1180 355, 1260 320, 1305 300');
+        addEdge('scot', 'succinate', rx.scot, 'M 1320 325 L 1320 365');
+        addEdge('scot', 'periphery-acetoacetyl', rx.scot, 'M 1305 315 C 1230 360, 1100 430, 1040 465');
+        addEdge('periphery-acetoacetyl', 'periphery-thiolase', rx.useThiolase); addEdge('periphery-thiolase', 'two-acetyl', rx.useThiolase, 'M 1305 530 C 1230 560, 1100 595, 1040 605');
+
+        records.forEach(record => {
+          const nodeAttrs = { class: 'student-map-node ketone-node', style: `--tone:${tone}`, 'data-map-key': record.key, 'data-reaction': record.reaction?.id || '', 'data-step-index': String(record.stepIndex) };
+          if (record.reaction) Object.assign(nodeAttrs, { role: 'button', tabindex: '0' });
+          const group = studentSvgElement('g', nodeAttrs);
+          group.appendChild(studentSvgElement('rect', { x: record.x - 82, y: record.y - 28, width: 164, height: 56, rx: 13 }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 1, class: 'node-name' }, record.label);
+          group.append(name, studentSvgElement('text', { x: record.x, y: record.y + 19, class: 'node-compartment' }, record.meta));
+          if (record.reaction) {
+            const open = () => renderStudentReactionDetail(record.reaction, pathwayId, ownReactions.indexOf(record.reaction));
+            group.addEventListener('click', open);
+            group.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          }
+          studentMapNodes.appendChild(group); fitStudentMapText(name, 148, 15, 9.5);
+        });
+
+        [
+          [0, '1 · 硫解酶 · 2 乙酰-CoA', 330, 125, rx.synthThiolase],
+          [1, '2 · HMGCS2 · 再加 1 乙酰-CoA', 385, 255, rx.hmgcs2],
+          [2, '3 · HMGCL · 返还 1 乙酰-CoA', 350, 385, rx.hmgcl],
+          [3, '4 · BDH1 · NADH + H⁺ → NAD⁺', 430, 505, rx.bdhReduction],
+          [4, '5 · BDH1 · NAD⁺ → NADH + H⁺', 1180, 82, rx.bdhOxidation],
+          [5, '6 · SCOT / OXCT1', 1180, 220, rx.scot],
+          [6, '7 · β-酮硫解酶', 1180, 445, rx.useThiolase]
+        ].forEach(([stepIndex, value, x, y, reaction]) => {
+          const event = studentSvgElement('text', { x, y, class: 'student-ketone-event', 'data-ketone-event': String(stepIndex + 1), 'data-step-index': String(stepIndex), 'text-anchor': 'middle', role: 'button', tabindex: '0' }, value);
+          if (reaction) event.addEventListener('click', () => renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction)));
+          studentMapNodes.appendChild(event);
+        });
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 260, y: 480, class: 'student-ketone-ledger', 'text-anchor': 'middle' }, '3 个乙酰-CoA参与，1 个返还；净耗 2 个'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 370, y: 680, class: 'student-ketone-redox', 'text-anchor': 'middle' }, '高 NADH/NAD⁺ 推动 D-β-羟丁酸'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 110, y: 680, class: 'student-ketone-minor', 'text-anchor': 'middle' }, '丙酮：少量自发脱羧，主要呼出'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 750, y: 355, class: 'student-ketone-transport', 'text-anchor': 'middle' }, 'MCT · 血液运输'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 1175, y: 350, class: 'student-ketone-scot', 'text-anchor': 'middle' }, '琥珀酰-CoA → 琥珀酸 · SCOT 不直接消耗 ATP'));
+
+        const next = studentSvgElement('g', { class: 'student-map-next-pathway ketone-next-pathway', 'data-next-pathway': 'tca', role: 'button', tabindex: '0', 'aria-label': '两个乙酰辅酶A进入三羧酸循环' });
+        next.appendChild(studentSvgElement('rect', { x: 1245, y: 590, width: 205, height: 72, rx: 15 }));
+        next.appendChild(studentSvgElement('text', { x: 1348, y: 618, class: 'next-label' }, '2 乙酰-CoA'));
+        next.appendChild(studentSvgElement('text', { x: 1348, y: 646, class: 'next-name' }, '进入 TCA →'));
+        const openTca = () => renderStudentPathway('tca', { returnToPrimer: false });
+        next.addEventListener('click', event => { event.stopPropagation(); openTca(); });
+        next.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openTca(); } });
+        studentMapNodes.appendChild(next);
+
+        [
+          [270, '肝的分工', '肝细胞缺少 SCOT，不能利用自己生成的酮体'],
+          [750, '组织边界', '红细胞没有线粒体，不能利用酮体'],
+          [1230, '可利用组织', '心 / 骨骼肌 / 肾 / 脑可利用']
+        ].forEach(([x, title, line]) => {
+          const card = studentSvgElement('g', { class: 'student-ketone-boundary-card' });
+          card.appendChild(studentSvgElement('rect', { x: x - 210, y: 755, width: 420, height: 82, rx: 16 }));
+          card.appendChild(studentSvgElement('text', { x, y: 785, class: 'boundary-title', 'text-anchor': 'middle' }, title));
+          card.appendChild(studentSvgElement('text', { x, y: 817, class: 'boundary-line', 'text-anchor': 'middle' }, line));
+          studentMapNodes.appendChild(card);
+        });
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 750, y: 860, class: 'student-ketone-chemistry', 'text-anchor': 'middle' }, 'D-β-羟丁酸不是化学意义的酮，但按代谢定义属于酮体'));
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderTransaminationStudentMap(pathwayId, pathwayReactions, tone) {
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const rx = {
+          transfer: ownReactions.find(reaction => /^氨基转移酶$/.test(reaction.enzyme || '')) || ownReactions[0] || null,
+          carrier: ownReactions.find(reaction => /SLC25A18\/22/.test(reaction.enzyme || '')) || null,
+          gdhAkg: ownReactions.find(reaction => /谷氨酸脱氢酶/.test(reaction.enzyme || '') && /α-酮戊二酸/.test(reaction.to || '')) || null,
+          gdhAmmonium: ownReactions.find(reaction => /谷氨酸脱氢酶/.test(reaction.enzyme || '') && /NH₄/.test(reaction.to || '')) || null
+        };
+        studentPathwayMap.setAttribute('viewBox', '0 0 1500 920');
+        studentPathwayMap.dataset.mapLayout = 'transamination-nitrogen-funnel';
+        studentPathwayMap.setAttribute('aria-label', '转氨与氧化脱氨：胞质氨基转移酶用PLP把氮汇入谷氨酸，谷氨酸经GC1或GC2进入线粒体基质，再由GDH释放铵离子并连接尿素循环');
+        studentMapBands.replaceChildren(); studentMapEdges.replaceChildren(); studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '4 个核心事件 · 4 个原始反应 · 氮汇聚 / 释放 / 排出';
+
+        [
+          ['amino-transfer', 22, 20, 650, 560, 'transamination-transfer-band', '① 细胞质 · PLP 依赖转氨'],
+          ['inner-membrane-entry', 688, 20, 220, 560, 'transamination-membrane-band', '② 线粒体内膜 · 载体输入'],
+          ['matrix-deamination', 924, 20, 554, 560, 'transamination-matrix-band', '③ 线粒体基质 · 氧化脱氨'],
+          ['urea-handoff', 22, 596, 1456, 304, 'transamination-handoff-band', '④ 氮与碳骨架的下游交接']
+        ].forEach(([key, x, y, width, height, className, title]) => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x, y, width, height, class: `student-map-band ${className}`, 'data-transamination-zone': key }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: x + 22, y: y + 31, class: 'student-map-band-label' }, title));
+        });
+
+        const defs = [
+          ['amino-acid', '氨基酸', '氨基供体类别', 115, 145, rx.transfer, 0],
+          ['akg-c', 'α-KG', '主要氨基受体', 115, 275, rx.transfer, 0],
+          ['aminotransferase', '氨基转移酶', '可逆 · 不释放游离氨', 335, 210, rx.transfer, 0],
+          ['keto-acid', '对应 α-酮酸', '保留原碳骨架', 555, 145, rx.transfer, 0],
+          ['glutamate-c', '谷氨酸', '胞质氮汇聚点', 555, 275, rx.transfer, 1],
+          ['plp', 'PLP', '酶结合辅酶 · 不被净消耗', 335, 325, null, 0],
+          ['gc-carrier', 'GC1 / GC2', 'SLC25A22 / SLC25A18', 798, 220, rx.carrier, 2],
+          ['proton', 'H⁺', '与谷氨酸同向输入', 798, 360, rx.carrier, 2],
+          ['glutamate-m', '谷氨酸', '线粒体基质', 1035, 145, rx.gdhAkg, 3],
+          ['gdh', 'GDH / GLUD', '谷氨酸脱氢酶', 1210, 235, rx.gdhAkg, 3],
+          ['nadp', 'NAD(P)⁺ + H₂O', '受体与水', 1370, 145, rx.gdhAkg, 3],
+          ['akg-m', 'α-KG', '返回碳骨架池', 1035, 405, rx.gdhAkg, 4],
+          ['ammonium', 'NH₄⁺', '真正释放的游离氨', 1370, 405, rx.gdhAmmonium, 4],
+          ['first-nitrogen', 'NH₄⁺', '尿素第 1 份氮', 165, 720, null, 4],
+          ['cps1', 'CPS1', '基质氨甲酰磷酸入口', 405, 720, null, 4],
+          ['aspartate', '天冬氨酸', '尿素第 2 份氮', 665, 720, null, 4],
+          ['urea-interface', '尿素循环', '两份氮在循环中汇合', 925, 720, null, 4],
+          ['akg-return', 'α-KG', 'TCA / 转氨受体池', 1210, 720, null, 4]
+        ];
+        const records = new Map(defs.map(([key, label, meta, x, y, reaction, stepIndex]) => [key, { key, label, meta, x, y, reaction, stepIndex }]));
+        const addEdge = (from, to, reaction, path = '', className = '') => {
+          const a = records.get(from), b = records.get(to);
+          const edge = studentSvgElement('path', {
+            d: path || studentMapEdgePath(a, b, 176, 60),
+            class: `student-map-edge transamination-edge ${className}`.trim(),
+            'data-edge-from': from, 'data-edge-to': to, 'data-reaction': reaction?.id || '',
+            'data-step-index': String(a.stepIndex)
+          });
+          if (reaction) {
+            const open = () => renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction));
+            edge.addEventListener('click', event => { event.stopPropagation(); open(); });
+            edge.setAttribute('role', 'button'); edge.tabIndex = 0;
+          }
+          studentMapEdges.appendChild(edge);
+          applyStudentReactionDirection(edge, reaction, { showLabel: Boolean(reaction?.reversible), labelOffsetY: -13 });
+        };
+        addEdge('amino-acid', 'aminotransferase', rx.transfer);
+        addEdge('akg-c', 'aminotransferase', rx.transfer);
+        addEdge('aminotransferase', 'keto-acid', rx.transfer);
+        addEdge('aminotransferase', 'glutamate-c', rx.transfer);
+        addEdge('glutamate-c', 'gc-carrier', rx.carrier, 'M 643 275 C 690 270, 735 240, 710 225', 'transport');
+        addEdge('proton', 'gc-carrier', rx.carrier, 'M 798 330 L 798 250', 'transport');
+        addEdge('gc-carrier', 'glutamate-m', rx.carrier, 'M 886 220 C 930 200, 975 165, 1015 150', 'transport');
+        addEdge('glutamate-m', 'gdh', rx.gdhAkg);
+        addEdge('nadp', 'gdh', rx.gdhAkg);
+        addEdge('gdh', 'akg-m', rx.gdhAkg, 'M 1190 265 C 1150 315, 1080 365, 1048 390');
+        addEdge('gdh', 'ammonium', rx.gdhAmmonium, 'M 1230 265 C 1270 315, 1330 365, 1355 390');
+        addEdge('ammonium', 'first-nitrogen', null, 'M 1370 435 C 1230 555, 460 615, 165 690', 'handoff');
+        addEdge('first-nitrogen', 'cps1', null, '', 'handoff');
+        addEdge('aspartate', 'urea-interface', null, '', 'handoff');
+        addEdge('cps1', 'urea-interface', null, '', 'handoff');
+        addEdge('akg-m', 'akg-return', null, 'M 1035 435 C 1080 525, 1175 610, 1210 690', 'carbon-return');
+
+        records.forEach(record => {
+          const attrs = {
+            class: 'student-map-node transamination-node', style: `--tone:${tone}`,
+            'data-map-key': record.key, 'data-reaction': record.reaction?.id || '',
+            'data-step-index': String(record.stepIndex)
+          };
+          if (record.reaction) Object.assign(attrs, { role: 'button', tabindex: '0' });
+          const group = studentSvgElement('g', attrs);
+          group.appendChild(studentSvgElement('rect', { x: record.x - 88, y: record.y - 30, width: 176, height: 60, rx: 14 }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 1, class: 'node-name' }, record.label);
+          group.append(name, studentSvgElement('text', { x: record.x, y: record.y + 21, class: 'node-compartment' }, record.meta));
+          if (record.reaction) {
+            const open = () => renderStudentReactionDetail(record.reaction, pathwayId, ownReactions.indexOf(record.reaction));
+            group.addEventListener('click', open);
+            group.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          }
+          studentMapNodes.appendChild(group); fitStudentMapText(name, 158, 15, 9.5);
+        });
+
+        [
+          [0, '1 · 氨基汇聚 · PLP', 335, 80, rx.transfer],
+          [1, '2 · GC1 / GC2 · 谷氨酸 + H⁺同向输入基质', 798, 80, rx.carrier],
+          [2, '3 · GDH / GLUD · 氧化脱氨', 1210, 80, rx.gdhAkg],
+          [3, '4 · 两份氮交给尿素循环', 750, 645, null]
+        ].forEach(([stepIndex, value, x, y, reaction]) => {
+          const attrs = { x, y, class: 'student-transamination-event', 'data-transamination-event': String(stepIndex + 1), 'data-step-index': String(stepIndex), 'text-anchor': 'middle' };
+          if (reaction) Object.assign(attrs, { role: 'button', tabindex: '0' });
+          const event = studentSvgElement('text', attrs, value);
+          if (reaction) event.addEventListener('click', () => renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction)));
+          studentMapNodes.appendChild(event);
+        });
+
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 335, y: 375, class: 'student-transamination-equation', 'text-anchor': 'middle' }, '氨基酸 + α-KG ⇌ 对应 α-酮酸 + 谷氨酸'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 335, y: 400, class: 'student-transamination-plp', 'text-anchor': 'middle' }, 'PLP · 维生素 B₆衍生辅酶 · 不被净消耗'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 335, y: 425, class: 'student-transamination-warning', 'text-anchor': 'middle' }, '转氨不释放游离 NH₄⁺'));
+
+        [
+          [60, 'ALT / GPT', '丙氨酸 ⇌ 丙酮酸', '其余共底物：α-KG ⇌ 谷氨酸'],
+          [360, 'AST / GOT', '天冬氨酸 ⇌ 草酰乙酸', '天冬氨酸还提供尿素第 2 份氮']
+        ].forEach(([x, title, equation, note]) => {
+          const card = studentSvgElement('g', { class: 'student-transamination-example-card' });
+          card.appendChild(studentSvgElement('rect', { x, y: 445, width: 260, height: 118, rx: 16 }));
+          card.appendChild(studentSvgElement('text', { x: x + 130, y: 478, class: 'example-title', 'text-anchor': 'middle' }, title));
+          card.appendChild(studentSvgElement('text', { x: x + 130, y: 510, class: 'example-equation', 'text-anchor': 'middle' }, equation));
+          card.appendChild(studentSvgElement('text', { x: x + 130, y: 538, class: 'example-note', 'text-anchor': 'middle' }, note));
+          studentMapNodes.appendChild(card);
+        });
+
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 1210, y: 305, class: 'student-transamination-gdh', 'text-anchor': 'middle' }, 'NAD(P)⁺ + H₂O → NAD(P)H + H⁺'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 1210, y: 335, class: 'student-transamination-regulation', 'text-anchor': 'middle' }, '能量状态调节：GTP抑制；ADP / 亮氨酸激活'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 285, y: 675, class: 'student-transamination-first-n', 'text-anchor': 'middle' }, 'NH₄⁺ → CPS1 · 尿素第 1 份氮'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 795, y: 675, class: 'student-transamination-second-n', 'text-anchor': 'middle' }, 'AST生成的天冬氨酸 · 尿素第 2 份氮'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 1210, y: 675, class: 'student-transamination-carbon', 'text-anchor': 'middle' }, 'α-KG 回到 TCA / 转氨受体池'));
+
+        const makeExit = (pathway, x, title, note) => {
+          const next = studentSvgElement('g', { class: 'student-map-next-pathway transamination-next-pathway', 'data-next-pathway': pathway, role: 'button', tabindex: '0', 'aria-label': `${title}${note}` });
+          next.appendChild(studentSvgElement('rect', { x, y: 800, width: 245, height: 72, rx: 15 }));
+          next.appendChild(studentSvgElement('text', { x: x + 122.5, y: 829, class: 'next-label' }, title));
+          next.appendChild(studentSvgElement('text', { x: x + 122.5, y: 854, class: 'next-name' }, note));
+          const open = () => renderStudentPathway(pathway, { returnToPrimer: false });
+          next.addEventListener('click', event => { event.stopPropagation(); open(); });
+          next.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          studentMapNodes.appendChild(next);
+        };
+        makeExit('urea', 805, '两份氮', '进入尿素循环 →');
+        makeExit('tca', 1120, 'α-KG', '进入 TCA / 碳骨架 →');
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderUreaStudentMap(pathwayId, pathwayReactions, tone) {
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const byEnzyme = pattern => ownReactions.find(reaction => pattern.test(reaction.enzyme || '')) || null;
+        const rx = {
+          cps1: byEnzyme(/氨甲酰磷酸合成酶 I/),
+          otc: byEnzyme(/鸟氨酸氨甲酰基转移酶/),
+          orntCit: ownReactions.find(reaction => /ORNT1/.test(reaction.enzyme || '') && /瓜氨酸@mito-matrix/.test(reaction.from || '')) || byEnzyme(/ORNT1/),
+          orntOrn: ownReactions.find(reaction => /ORNT1/.test(reaction.enzyme || '') && /鸟氨酸@cytosol/.test(reaction.from || '')) || byEnzyme(/ORNT1/),
+          ass1: byEnzyme(/精氨代琥珀酸合成酶/),
+          asl: byEnzyme(/精氨代琥珀酸裂解酶/),
+          arg1: byEnzyme(/精氨酸酶/)
+        };
+        studentPathwayMap.setAttribute('viewBox', '0 0 1500 940');
+        studentPathwayMap.dataset.mapLayout = 'urea-two-compartment-cycle';
+        studentPathwayMap.setAttribute('aria-label', '尿素循环：线粒体基质装入第一份氮，ORNT1交换鸟氨酸与瓜氨酸，胞质三步装入天冬氨酸的第二份氮并释放尿素，同时再生鸟氨酸');
+        studentMapBands.replaceChildren(); studentMapEdges.replaceChildren(); studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '5 个核心步骤 · 11 个原始反应 · 2 区室 / 2 载体 / 1 个循环';
+
+        [
+          ['matrix-entry', 22, 20, 510, 570, 'urea-matrix-band', '①–② 线粒体基质 · 装入第一份氮'],
+          ['inner-membrane-exchange', 548, 20, 260, 570, 'urea-membrane-band', '③ 线粒体内膜 · 两台载体'],
+          ['cytosolic-cycle', 824, 20, 654, 570, 'urea-cytosol-band', '④–⑤ 胞质 · 装入第二份氮并释放尿素'],
+          ['atom-energy-ledger', 22, 606, 1456, 314, 'urea-ledger-band', '原子来源、能量账与旁路接口']
+        ].forEach(([key, x, y, width, height, className, title]) => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x, y, width, height, class: `student-map-band ${className}`, 'data-urea-zone': key }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: x + 22, y: y + 31, class: 'student-map-band-label' }, title));
+        });
+
+        const defs = [
+          ['ammonium', 'NH₄⁺', '尿素第 1 份氮', 105, 170, rx.cps1, 0],
+          ['bicarbonate', 'HCO₃⁻', '尿素羰基碳', 105, 285, rx.cps1, 0],
+          ['nag', 'NAG', 'CPS1 必需激活因子', 105, 455, null, 0],
+          ['cps1', 'CPS1', '2 ATP · 基质入口', 295, 235, rx.cps1, 0],
+          ['carbamoyl-p', '氨甲酰磷酸', '第一份氮已被固定', 455, 235, rx.cps1, 0],
+          ['ornithine-m', '鸟氨酸', '线粒体基质', 295, 405, rx.otc, 1],
+          ['otc', 'OTC', '鸟氨酸氨甲酰基转移酶', 455, 405, rx.otc, 1],
+          ['citrulline-m', '瓜氨酸', '线粒体基质', 455, 525, rx.orntCit, 2],
+          ['ornt1', 'ORNT1', 'SLC25A15 · 反向交换', 678, 300, rx.orntCit, 2],
+          ['citrin', 'citrin', 'SLC25A13 · 天冬氨酸输出', 678, 485, null, 3],
+          ['citrulline-c', '瓜氨酸', '细胞质', 900, 170, rx.ass1, 3],
+          ['aspartate-c', '天冬氨酸', '尿素第 2 份氮', 900, 340, rx.ass1, 3],
+          ['ass1', 'ASS1', 'ATP → AMP + PPi', 1070, 255, rx.ass1, 3],
+          ['argininosuccinate', '精氨代琥珀酸', '两份氮已汇合', 1235, 255, rx.asl, 3],
+          ['asl', 'ASL', '精氨代琥珀酸裂解酶', 1390, 255, rx.asl, 3],
+          ['arginine', '精氨酸', '尿素直接前体', 1390, 425, rx.arg1, 4],
+          ['fumarate', '延胡索酸', '回到旁路 / TCA', 1235, 515, rx.asl, 3],
+          ['arg1', 'ARG1', '精氨酸酶 1', 1120, 425, rx.arg1, 4],
+          ['urea', '尿素', '交给血液与肾脏排出', 930, 515, rx.arg1, 4],
+          ['ornithine-c', '鸟氨酸', '胞质 · 循环再生', 930, 425, rx.orntOrn, 4]
+        ];
+        const records = new Map(defs.map(([key, label, meta, x, y, reaction, stepIndex]) => [key, { key, label, meta, x, y, reaction, stepIndex }]));
+        const addEdge = (from, to, reaction, path = '', className = '') => {
+          const a = records.get(from), b = records.get(to);
+          const edge = studentSvgElement('path', {
+            d: path || studentMapEdgePath(a, b, 176, 60),
+            class: `student-map-edge urea-edge ${className}`.trim(),
+            'data-edge-from': from, 'data-edge-to': to, 'data-reaction': reaction?.id || '',
+            'data-step-index': String(a.stepIndex)
+          });
+          if (reaction) {
+            const open = () => renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction));
+            edge.addEventListener('click', event => { event.stopPropagation(); open(); });
+            edge.setAttribute('role', 'button'); edge.tabIndex = 0;
+          }
+          studentMapEdges.appendChild(edge);
+          applyStudentReactionDirection(edge, reaction, { showLabel: Boolean(reaction?.reversible), labelOffsetY: -13 });
+        };
+        addEdge('ammonium', 'cps1', rx.cps1);
+        addEdge('bicarbonate', 'cps1', rx.cps1);
+        addEdge('nag', 'cps1', null, 'M 190 455 C 235 420, 270 330, 288 265', 'activation');
+        addEdge('cps1', 'carbamoyl-p', rx.cps1);
+        addEdge('carbamoyl-p', 'otc', rx.otc, 'M 455 265 L 455 375');
+        addEdge('ornithine-m', 'otc', rx.otc);
+        addEdge('otc', 'citrulline-m', rx.otc, 'M 455 435 L 455 495');
+        addEdge('citrulline-m', 'ornt1', rx.orntCit, 'M 543 525 C 590 500, 640 390, 675 330', 'transport');
+        addEdge('ornt1', 'citrulline-c', rx.orntCit, 'M 681 270 C 720 220, 795 180, 812 175', 'transport');
+        addEdge('ornithine-c', 'ornt1', rx.orntOrn, 'M 842 425 C 790 400, 730 350, 681 310', 'transport');
+        addEdge('ornt1', 'ornithine-m', rx.orntOrn, 'M 675 310 C 600 330, 470 370, 383 400', 'transport');
+        addEdge('citrin', 'aspartate-c', null, 'M 766 485 C 810 455, 850 390, 893 370', 'transport');
+        addEdge('citrulline-c', 'ass1', rx.ass1);
+        addEdge('aspartate-c', 'ass1', rx.ass1);
+        addEdge('ass1', 'argininosuccinate', rx.ass1);
+        addEdge('argininosuccinate', 'asl', rx.asl);
+        addEdge('asl', 'arginine', rx.asl, 'M 1390 285 L 1390 395');
+        addEdge('asl', 'fumarate', rx.asl, 'M 1365 280 C 1320 350, 1260 440, 1240 485');
+        addEdge('arginine', 'arg1', rx.arg1);
+        addEdge('arg1', 'urea', rx.arg1, 'M 1090 445 C 1030 465, 970 495, 948 505');
+        addEdge('arg1', 'ornithine-c', rx.arg1);
+
+        records.forEach(record => {
+          const attrs = {
+            class: 'student-map-node urea-node', style: `--tone:${tone}`,
+            'data-map-key': record.key, 'data-reaction': record.reaction?.id || '',
+            'data-step-index': String(record.stepIndex)
+          };
+          if (record.reaction) Object.assign(attrs, { role: 'button', tabindex: '0' });
+          const group = studentSvgElement('g', attrs);
+          group.appendChild(studentSvgElement('rect', { x: record.x - 86, y: record.y - 30, width: 172, height: 60, rx: 14 }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 1, class: 'node-name' }, record.label);
+          group.append(name, studentSvgElement('text', { x: record.x, y: record.y + 21, class: 'node-compartment' }, record.meta));
+          if (record.reaction) {
+            const open = () => renderStudentReactionDetail(record.reaction, pathwayId, ownReactions.indexOf(record.reaction));
+            group.addEventListener('click', open);
+            group.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          }
+          studentMapNodes.appendChild(group); fitStudentMapText(name, 154, 15, 9.5);
+        });
+
+        [
+          [1, '1 · CPS1 固定第一份氮', 295, 78, rx.cps1],
+          [2, '2 · OTC 生成瓜氨酸', 455, 350, rx.otc],
+          [3, '3 · ORNT1 反向交换', 678, 78, rx.orntCit],
+          [4, '4 · ASS1 + ASL 装入第二份氮', 1150, 78, rx.ass1],
+          [5, '5 · ARG1 释放尿素并再生鸟氨酸', 1180, 385, rx.arg1]
+        ].forEach(([number, value, x, y, reaction]) => {
+          const attrs = { x, y, class: 'student-urea-event', 'data-urea-step': String(number), 'data-step-index': String(number - 1), 'text-anchor': 'middle', role: 'button', tabindex: '0' };
+          const event = studentSvgElement('text', attrs, value);
+          event.addEventListener('click', () => renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction)));
+          studentMapNodes.appendChild(event);
+        });
+
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 210, y: 525, class: 'student-urea-activation', 'text-anchor': 'middle' }, 'NAGS → NAG'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 295, y: 320, class: 'student-urea-equation', 'text-anchor': 'middle' }, 'NH₄⁺ + HCO₃⁻ + 2 ATP'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 295, y: 345, class: 'student-urea-activation', 'text-anchor': 'middle' }, 'NAG · CPS1 必需激活因子'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 678, y: 355, class: 'student-urea-transport', 'text-anchor': 'middle' }, 'ORNT1 / SLC25A15'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 678, y: 382, class: 'student-urea-exchange', 'text-anchor': 'middle' }, '鸟氨酸入基质 · 瓜氨酸出胞质'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 678, y: 540, class: 'student-urea-transport', 'text-anchor': 'middle' }, 'citrin / SLC25A13'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 678, y: 565, class: 'student-urea-exchange', 'text-anchor': 'middle' }, '天冬氨酸出基质'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 1070, y: 325, class: 'student-urea-energy', 'text-anchor': 'middle' }, 'ASS1 · ATP → AMP + PPi'));
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 1180, y: 475, class: 'student-urea-regeneration', 'text-anchor': 'middle' }, '尿素 + 鸟氨酸 · 鸟氨酸循环再生'));
+
+        [
+          [45, 655, 270, '第 1 份氮：NH₄⁺', 'CPS1 装入'],
+          [335, 655, 270, '第 2 份氮：天冬氨酸', 'ASS1 装入'],
+          [625, 655, 250, '羰基碳：HCO₃⁻', 'CPS1 装入'],
+          [895, 655, 275, '3 ATP · 4 个高能磷酸键', 'CPS1: 2 ATP；ASS1: ATP→AMP'],
+          [1190, 655, 265, '天冬氨酸—精氨代琥珀酸旁路', '延胡索酸 → 苹果酸 → OAA → 天冬氨酸']
+        ].forEach(([x, y, width, title, note]) => {
+          const card = studentSvgElement('g', { class: 'student-urea-ledger-card' });
+          card.appendChild(studentSvgElement('rect', { x, y, width, height: 112, rx: 16 }));
+          card.appendChild(studentSvgElement('text', { x: x + width / 2, y: y + 40, class: 'ledger-title', 'text-anchor': 'middle' }, title));
+          card.appendChild(studentSvgElement('text', { x: x + width / 2, y: y + 76, class: 'ledger-note', 'text-anchor': 'middle' }, note));
+          studentMapNodes.appendChild(card);
+        });
+
+        const makeExit = (pathway, x, title, note) => {
+          const next = studentSvgElement('g', { class: 'student-map-next-pathway urea-next-pathway', 'data-next-pathway': pathway, role: 'button', tabindex: '0', 'aria-label': `${title}${note}` });
+          next.appendChild(studentSvgElement('rect', { x, y: 805, width: 260, height: 76, rx: 15 }));
+          next.appendChild(studentSvgElement('text', { x: x + 130, y: 835, class: 'next-label' }, title));
+          next.appendChild(studentSvgElement('text', { x: x + 130, y: 862, class: 'next-name' }, note));
+          const open = () => renderStudentPathway(pathway, { returnToPrimer: false });
+          next.addEventListener('click', event => { event.stopPropagation(); open(); });
+          next.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          studentMapNodes.appendChild(next);
+        };
+        makeExit('transamination', 895, '氮从哪里来', '返回转氨 / 氧化脱氨 →');
+        makeExit('tca', 1190, '延胡索酸旁路', '进入 TCA 接口 →');
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderAaCarbonStudentMap(pathwayId, pathwayReactions, tone) {
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const rx = {
+          pyruvate: ownReactions[0] || null,
+          acetyl: ownReactions[1] || null,
+          acetoacetate: ownReactions[2] || null,
+          akg: ownReactions[3] || null,
+          succinyl: ownReactions[4] || null,
+          fumarate: ownReactions[5] || null,
+          oaa: ownReactions[6] || null
+        };
+        studentPathwayMap.setAttribute('viewBox', '0 0 1500 980');
+        studentPathwayMap.dataset.mapLayout = 'aa-carbon-seven-gateways';
+        studentPathwayMap.setAttribute('aria-label', '氨基酸去氮后经不同多步分解路径汇入七类中央代谢入口；五类入口生糖，两类入口生酮，亮氨酸和赖氨酸为纯生酮氨基酸');
+        studentMapBands.replaceChildren(); studentMapEdges.replaceChildren(); studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '7 类中央代谢入口 · 7 个原始分类记录 · 3 类代谢命运';
+
+        [
+          ['nitrogen-handoff', 22, 20, 302, 585, 'aa-carbon-nitrogen-band', '① 去氮 · 氮与碳分流'],
+          ['seven-gateways', 340, 20, 744, 585, 'aa-carbon-gateway-band', '② 七类中央代谢入口 · 不同多步路径'],
+          ['metabolic-fates', 1100, 20, 378, 585, 'aa-carbon-fate-band', '③ 中央代谢命运'],
+          ['classification-ledger', 22, 621, 1456, 337, 'aa-carbon-ledger-band', '分类账与边界 · 先判入口，再判生糖 / 生酮']
+        ].forEach(([key, x, y, width, height, className, title]) => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x, y, width, height, class: `student-map-band ${className}`, 'data-aa-carbon-zone': key }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: x + 22, y: y + 31, class: 'student-map-band-label' }, title));
+        });
+
+        const addNode = ({ key, label, meta, x, y, width = 240, reaction = null, stepIndex = 0, className = '', entry = '' }) => {
+          const attrs = {
+            class: `student-map-node aa-carbon-node ${className}`.trim(), style: `--tone:${tone}`,
+            'data-map-key': key, 'data-reaction': reaction?.id || '', 'data-step-index': String(stepIndex)
+          };
+          if (entry) attrs['data-aa-carbon-entry'] = entry;
+          if (reaction) Object.assign(attrs, { role: 'button', tabindex: '0' });
+          const group = studentSvgElement('g', attrs);
+          group.appendChild(studentSvgElement('rect', { x: x - width / 2, y: y - 38, width, height: 76, rx: 15 }));
+          const name = studentSvgElement('text', { x, y: y - 5, class: 'node-name' }, label);
+          const detail = studentSvgElement('text', { x, y: y + 20, class: 'node-compartment' }, meta);
+          group.append(name, detail);
+          fitStudentMapText(name, width - 24, 15.5, 9.5);
+          fitStudentMapText(detail, width - 20, 12.5, 8.5);
+          if (reaction) {
+            const open = () => renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction));
+            group.addEventListener('click', open);
+            group.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          }
+          studentMapNodes.appendChild(group);
+          return { key, x, y, width };
+        };
+
+        const source = addNode({ key: 'amino-pool', label: '20 种蛋白质氨基酸', meta: '先处理氨基，再利用碳骨架', x: 173, y: 130, width: 246 });
+        const nitrogen = addNode({ key: 'nitrogen', label: '转氨 / 脱氨', meta: '氮 → 尿素循环', x: 173, y: 265, width: 246 });
+        const carbon = addNode({ key: 'carbon-skeleton', label: 'α-酮酸与其他碳骨架', meta: '不是一种统一底物', x: 173, y: 400, width: 246 });
+        const routing = addNode({ key: 'multi-route', label: '不同多步分解路径', meta: '区室依具体路径而异', x: 173, y: 535, width: 246 });
+
+        const gateways = [
+          addNode({ key: 'pyruvate', label: '丙酮酸', meta: '丙氨酸 · 半胱氨酸 · 甘氨酸 · 丝氨酸 · 苏氨酸 · 色氨酸', x: 525, y: 130, width: 322, reaction: rx.pyruvate, stepIndex: 0, className: 'is-glucogenic', entry: '1' }),
+          addNode({ key: 'akg', label: 'α-酮戊二酸', meta: '精氨酸 · 谷氨酸 · 谷氨酰胺 · 组氨酸 · 脯氨酸', x: 895, y: 130, width: 322, reaction: rx.akg, stepIndex: 3, className: 'is-glucogenic', entry: '4' }),
+          addNode({ key: 'succinyl', label: '琥珀酰-CoA', meta: '异亮氨酸 · 蛋氨酸 · 苏氨酸 · 缬氨酸', x: 525, y: 265, width: 322, reaction: rx.succinyl, stepIndex: 4, className: 'is-glucogenic', entry: '5' }),
+          addNode({ key: 'fumarate', label: '延胡索酸', meta: '苯丙氨酸 · 酪氨酸', x: 895, y: 265, width: 322, reaction: rx.fumarate, stepIndex: 5, className: 'is-dual', entry: '6' }),
+          addNode({ key: 'oaa', label: '草酰乙酸', meta: '天冬氨酸 · 天冬酰胺', x: 525, y: 400, width: 322, reaction: rx.oaa, stepIndex: 6, className: 'is-glucogenic', entry: '7' }),
+          addNode({ key: 'acetyl', label: '乙酰-CoA', meta: '亮氨酸 · 异亮氨酸 · 苏氨酸 · 色氨酸等', x: 895, y: 400, width: 322, reaction: rx.acetyl, stepIndex: 1, className: 'is-ketogenic', entry: '2' }),
+          addNode({ key: 'acetoacetate', label: '乙酰乙酸 / 乙酰乙酰-CoA', meta: '亮氨酸 · 赖氨酸 · 苯丙氨酸 · 酪氨酸 · 色氨酸', x: 710, y: 535, width: 430, reaction: rx.acetoacetate, stepIndex: 2, className: 'is-ketogenic', entry: '3' })
+        ];
+
+        const glucogenic = addNode({ key: 'glucose-fate', label: '生糖入口', meta: '丙酮酸 + 4 个 TCA 中间体', x: 1289, y: 150, width: 310, className: 'is-glucogenic' });
+        const oxidation = addNode({ key: 'oxidation-fate', label: '氧化供能 / 补充 TCA', meta: '实际流向依组织与代谢状态', x: 1289, y: 305, width: 310, className: 'is-oxidative' });
+        const ketogenic = addNode({ key: 'ketone-fate', label: '生酮入口', meta: '乙酰-CoA + 乙酰乙酸方向', x: 1289, y: 460, width: 310, className: 'is-ketogenic' });
+
+        const edge = (from, to, className = '') => studentMapEdges.appendChild(studentSvgElement('path', {
+          d: `M ${from.x + Math.min(from.width / 2, 150)} ${from.y} C ${(from.x + to.x) / 2} ${from.y}, ${(from.x + to.x) / 2} ${to.y}, ${to.x - Math.min(to.width / 2, 150)} ${to.y}`,
+          class: `student-map-edge aa-carbon-edge ${className}`.trim()
+        }));
+        studentMapEdges.appendChild(studentSvgElement('path', { d: 'M 173 168 L 173 227', class: 'student-map-edge aa-carbon-edge nitrogen-route' }));
+        studentMapEdges.appendChild(studentSvgElement('path', { d: 'M 173 303 L 173 362', class: 'student-map-edge aa-carbon-edge' }));
+        studentMapEdges.appendChild(studentSvgElement('path', { d: 'M 173 438 L 173 497', class: 'student-map-edge aa-carbon-edge' }));
+        gateways.forEach(gateway => edge(routing, gateway, gateway.key === 'acetyl' || gateway.key === 'acetoacetate' ? 'ketogenic-route' : 'glucogenic-route'));
+        gateways.slice(0, 5).forEach(gateway => edge(gateway, glucogenic, 'glucogenic-route'));
+        gateways.forEach(gateway => edge(gateway, oxidation, 'oxidative-route'));
+        gateways.slice(5).forEach(gateway => edge(gateway, ketogenic, 'ketogenic-route'));
+
+        [
+          [45, 672, 330, '生糖入口：丙酮酸 + 4 个 TCA 中间体', '可形成糖异生前体'],
+          [393, 672, 310, '生酮入口：乙酰-CoA + 乙酰乙酸方向', '乙酰-CoA不能净生糖'],
+          [721, 672, 300, '纯生酮：亮氨酸 · 赖氨酸', '只有这 2 种'],
+          [1039, 672, 394, '兼具两类：异亮氨酸 · 苯丙氨酸 · 苏氨酸 · 色氨酸 · 酪氨酸', '同时有生糖与生酮产物']
+        ].forEach(([x, y, width, title, note], index) => {
+          const card = studentSvgElement('g', { class: `student-map-node aa-carbon-node aa-carbon-ledger-card ledger-${index + 1}` });
+          card.appendChild(studentSvgElement('rect', { x, y, width, height: 108, rx: 16 }));
+          const titleText = studentSvgElement('text', { x: x + width / 2, y: y + 42, class: 'ledger-title', 'text-anchor': 'middle' }, title);
+          const noteText = studentSvgElement('text', { x: x + width / 2, y: y + 76, class: 'ledger-note', 'text-anchor': 'middle' }, note);
+          card.append(titleText, noteText); studentMapNodes.appendChild(card);
+          fitStudentMapText(titleText, width - 26, 14, 8.5); fitStudentMapText(noteText, width - 26, 12, 8.5);
+        });
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 750, y: 817, class: 'student-aa-carbon-boundary', 'text-anchor': 'middle' }, '分类映射，不是单一反应或统一计量 · 所有入口都可参与氧化，但只有五类入口可净生糖'));
+
+        const makeExit = (pathway, x, title, note) => {
+          const next = studentSvgElement('g', { class: 'student-map-next-pathway aa-carbon-next-pathway', 'data-next-pathway': pathway, role: 'button', tabindex: '0', 'aria-label': `${title}${note}` });
+          next.appendChild(studentSvgElement('rect', { x, y: 850, width: 330, height: 76, rx: 15 }));
+          next.appendChild(studentSvgElement('text', { x: x + 165, y: 880, class: 'next-label' }, title));
+          next.appendChild(studentSvgElement('text', { x: x + 165, y: 907, class: 'next-name' }, note));
+          const open = () => renderStudentPathway(pathway, { returnToPrimer: false });
+          next.addEventListener('click', event => { event.stopPropagation(); open(); });
+          next.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          studentMapNodes.appendChild(next);
+        };
+        makeExit('transamination', 45, '氮与碳怎样分开', '转氨 / 氧化脱氨 →');
+        makeExit('tca', 393, '五类入口怎样供能', '进入 TCA →');
+        makeExit('gluconeogenesis', 741, '生糖入口怎样产糖', '进入糖异生 →');
+        makeExit('ketone', 1089, '生酮入口怎样利用', '进入酮体代谢 →');
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderPurineStudentMap(pathwayId, pathwayReactions, tone) {
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        studentPathwayMap.setAttribute('viewBox', '0 0 1600 1050');
+        studentPathwayMap.dataset.mapLayout = 'purine-imp-two-branch';
+        studentPathwayMap.setAttribute('aria-label', '嘌呤核苷酸从头合成：核糖-5-磷酸活化为PRPP，六个酶完成十步形成IMP，再分别以GTP或ATP驱动AMP与GMP分支');
+        studentMapBands.replaceChildren(); studentMapEdges.replaceChildren(); studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '10 步成 IMP · 2 个核苷酸分支 · 9 个原始反应记录';
+
+        [
+          ['prpp-entry', 22, 20, 298, 560, 'purine-entry-band', '① PRPP入口 · 第一承诺步骤'],
+          ['imp-assembly', 336, 20, 832, 560, 'purine-assembly-band', '② 六个酶 · 十步逐片搭建 IMP'],
+          ['amp-gmp-branch', 1184, 20, 394, 560, 'purine-branch-band', '③ IMP共同分叉 · AMP / GMP'],
+          ['atom-energy-regulation', 22, 596, 1556, 432, 'purine-ledger-band', '④ 原子来源、能量、反馈与补救边界']
+        ].forEach(([key, x, y, width, height, className, title]) => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x, y, width, height, class: `student-map-band ${className}`, 'data-purine-zone': key }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: x + 22, y: y + 31, class: 'student-map-band-label' }, title));
+        });
+
+        const records = new Map();
+        const addNode = ({ key, label, title = '', meta, x, y, width = 240, reaction = null, step = 0, className = '' }) => {
+          const attrs = {
+            class: `student-map-node purine-node ${className}`.trim(), style: `--tone:${tone}`,
+            'data-map-key': key, 'data-reaction': reaction?.id || '', 'data-step-index': String(Math.max(0, step - 1))
+          };
+          if (step) attrs['data-purine-step'] = String(step);
+          if (reaction) Object.assign(attrs, { role: 'button', tabindex: '0' });
+          const accessibleName = title ? `${title}（${label}）` : label;
+          attrs['aria-label'] = `${accessibleName}，${meta}`;
+          const group = studentSvgElement('g', attrs);
+          group.appendChild(studentSvgElement('title', {}, `${accessibleName} · ${meta}`));
+          group.appendChild(studentSvgElement('rect', { x: x - width / 2, y: y - 37, width, height: 74, rx: 15 }));
+          const name = studentSvgElement('text', { x, y: y - 5, class: 'node-name' }, label);
+          const detail = studentSvgElement('text', { x, y: y + 20, class: 'node-compartment' }, meta);
+          group.append(name, detail); fitStudentMapText(name, width - 24, 15.5, 9.5); fitStudentMapText(detail, width - 20, 12, 8.3);
+          if (reaction) {
+            const open = () => renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction));
+            group.addEventListener('click', open);
+            group.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          }
+          studentMapNodes.appendChild(group);
+          const record = { key, x, y, width, reaction, step };
+          records.set(key, record); return record;
+        };
+        const reactionAt = index => ownReactions[index] || null;
+
+        addNode({ key: 'r5p', label: 'R5P · 核糖-5-磷酸', meta: '来自磷酸戊糖途径', x: 171, y: 115, width: 246, reaction: reactionAt(0) });
+        addNode({ key: 'prpp-synthetase', label: 'PRPP synthetase', meta: 'R5P + ATP → PRPP + AMP', x: 171, y: 245, width: 246, reaction: reactionAt(0) });
+        addNode({ key: 'prpp', label: 'PRPP', meta: '活化核糖骨架', x: 171, y: 375, width: 246, reaction: reactionAt(1) });
+        addNode({ key: 'ppat', label: 'PPAT · 第一承诺步骤', meta: 'Gln → Glu + PPi', x: 171, y: 505, width: 246, reaction: reactionAt(1) });
+
+        const impSteps = [
+          ['pra', '5-PRA', '5-磷酸核糖胺', '1 · PPAT', 505, 112, reactionAt(1), 1],
+          ['gar', 'GAR', '甘氨酰胺核糖核苷酸', '2 · GART · GAR synthetase', 995, 112, reactionAt(2), 2],
+          ['fgar', 'FGAR', 'N¹⁰-甲酰-GAR', '3 · GART · GAR transformylase', 995, 210, reactionAt(3), 3],
+          ['fgam', 'FGAM', '甲酰甘氨脒核糖核苷酸', '4 · PFAS · FGAM synthetase', 505, 210, reactionAt(3), 4],
+          ['air', 'AIR', '5-氨基咪唑核糖核苷酸', '5 · GART · AIR synthetase', 505, 308, reactionAt(3), 5],
+          ['cair', 'CAIR', '5-氨基咪唑-4-羧酸核糖核苷酸', '6 · PAICS · AIR carboxylase', 995, 308, reactionAt(3), 6],
+          ['saicar', 'SAICAR', '琥珀酰-AICAR', '7 · PAICS · SAICAR synthetase', 995, 406, reactionAt(3), 7],
+          ['aicar', 'AICAR', '5-氨基咪唑-4-甲酰胺核糖核苷酸', '8 · ADSL · SAICAR lyase', 505, 406, reactionAt(3), 8],
+          ['faicar', 'FAICAR', '5-甲酰氨基咪唑-4-甲酰胺核糖核苷酸', '9 · ATIC · AICAR transformylase', 505, 504, reactionAt(4), 9],
+          ['imp', 'IMP', '次黄嘌呤核苷酸', '10 · ATIC · IMP cyclohydrolase', 995, 504, reactionAt(4), 10]
+        ];
+        impSteps.forEach(([key, label, title, meta, x, y, reaction, step]) => addNode({ key, label, title, meta, x, y, width: 320, reaction, step, className: 'purine-imp-node' }));
+
+        addNode({ key: 'branch-imp', label: 'IMP · AMP / GMP共同分叉', meta: '两条分支交叉使用 GTP / ATP', x: 1381, y: 110, width: 330, reaction: reactionAt(5) });
+        addNode({ key: 'adenylosuccinate', label: '腺苷代琥珀酸', meta: 'ADSS · Asp + GTP', x: 1280, y: 270, width: 182, reaction: reactionAt(5), className: 'is-amp' });
+        addNode({ key: 'amp', label: 'AMP', meta: 'ADSL · AMP + 延胡索酸', x: 1280, y: 455, width: 182, reaction: reactionAt(5), className: 'is-amp' });
+        addNode({ key: 'xmp', label: 'XMP', meta: 'IMPDH · NAD⁺ → NADH', x: 1482, y: 270, width: 182, reaction: reactionAt(6), className: 'is-gmp' });
+        addNode({ key: 'gmp', label: 'GMP', meta: 'GMPS · Gln + ATP → AMP + PPi', x: 1482, y: 455, width: 182, reaction: reactionAt(6), className: 'is-gmp' });
+
+        const addEdge = (fromKey, toKey, className = '', path = '') => {
+          const from = records.get(fromKey), to = records.get(toKey);
+          if (!from || !to) return;
+          const edge = studentSvgElement('path', {
+            d: path || studentMapEdgePath(from, to, Math.min(from.width, 220), 74),
+            class: `student-map-edge purine-edge ${className}`.trim(),
+            'data-edge-from': fromKey, 'data-edge-to': toKey
+          });
+          studentMapEdges.appendChild(edge);
+        };
+        addEdge('r5p', 'prpp-synthetase'); addEdge('prpp-synthetase', 'prpp'); addEdge('prpp', 'ppat');
+        addEdge('ppat', 'pra', 'commitment', 'M 294 505 C 350 505, 390 150, 345 112');
+        for (let index = 0; index < impSteps.length - 1; index += 1) addEdge(impSteps[index][0], impSteps[index + 1][0], 'imp-route');
+        addEdge('imp', 'branch-imp', 'branch-route');
+        addEdge('branch-imp', 'adenylosuccinate', 'amp-route'); addEdge('adenylosuccinate', 'amp', 'amp-route');
+        addEdge('branch-imp', 'xmp', 'gmp-route'); addEdge('xmp', 'gmp', 'gmp-route');
+
+        [
+          [44, 648, 286, 'N3/N9：谷氨酰胺', '两次提供酰胺氮'],
+          [350, 648, 286, 'C4/C5/N7：甘氨酸', '整段并入嘌呤环'],
+          [656, 648, 286, 'C2/C8：10-甲酰-THF', '两次提供一碳单位'],
+          [962, 648, 286, 'C6：CO₂', 'PAICS 羧化步骤'],
+          [1268, 648, 286, 'N1：天冬氨酸', '随后释放延胡索酸']
+        ].forEach(([x, y, width, title, note]) => {
+          const card = studentSvgElement('g', { class: 'student-map-node purine-node purine-ledger-card' });
+          card.appendChild(studentSvgElement('rect', { x, y, width, height: 106, rx: 16 }));
+          const titleText = studentSvgElement('text', { x: x + width / 2, y: y + 40, class: 'ledger-title', 'text-anchor': 'middle' }, title);
+          const noteText = studentSvgElement('text', { x: x + width / 2, y: y + 75, class: 'ledger-note', 'text-anchor': 'middle' }, note);
+          card.append(titleText, noteText); studentMapNodes.appendChild(card);
+          fitStudentMapText(titleText, width - 24, 14, 8.5); fitStudentMapText(noteText, width - 24, 11.5, 8.2);
+        });
+
+        [
+          [44, 780, 480, '从 R5P 到 IMP：5 个 ATP分子', 'PRPP: ATP→AMP；其余四步 ATP→ADP'],
+          [542, 780, 490, 'AMP分支用 GTP · GMP分支用 ATP', '交叉供能帮助平衡两类核苷酸池'],
+          [1050, 780, 504, 'AMP抑制 ADSS · GMP抑制 IMPDH', 'IMP / AMP / GMP反馈上游 PPAT']
+        ].forEach(([x, y, width, title, note]) => {
+          const card = studentSvgElement('g', { class: 'student-map-node purine-node purine-regulation-card' });
+          card.appendChild(studentSvgElement('rect', { x, y, width, height: 100, rx: 16 }));
+          const titleText = studentSvgElement('text', { x: x + width / 2, y: y + 38, class: 'reg-title', 'text-anchor': 'middle' }, title);
+          const noteText = studentSvgElement('text', { x: x + width / 2, y: y + 71, class: 'reg-note', 'text-anchor': 'middle' }, note);
+          card.append(titleText, noteText); studentMapNodes.appendChild(card);
+          fitStudentMapText(titleText, width - 24, 14, 8.5); fitStudentMapText(noteText, width - 24, 11.5, 8.2);
+        });
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 800, y: 904, class: 'student-purine-salvage', 'text-anchor': 'middle' }, 'APRT / HGPRT · 补救合成使用 PRPP · 补救合成不属于十步从头主干'));
+
+        const makeExit = (pathway, x, title, note) => {
+          const next = studentSvgElement('g', { class: 'student-map-next-pathway purine-next-pathway', 'data-next-pathway': pathway, role: 'button', tabindex: '0', 'aria-label': `${title}${note}` });
+          next.appendChild(studentSvgElement('rect', { x, y: 934, width: 410, height: 72, rx: 15 }));
+          next.appendChild(studentSvgElement('text', { x: x + 205, y: 963, class: 'next-label' }, title));
+          next.appendChild(studentSvgElement('text', { x: x + 205, y: 989, class: 'next-name' }, note));
+          const open = () => renderStudentPathway(pathway, { returnToPrimer: false });
+          next.addEventListener('click', event => { event.stopPropagation(); open(); });
+          next.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          studentMapNodes.appendChild(next);
+        };
+        makeExit('ppp', 340, '核糖骨架从哪里来', '返回磷酸戊糖途径 →');
+        makeExit('nucleotide_degradation', 850, '碱基怎样回收', '进入降解与补救合成 →');
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderPyrimidineStudentMap(pathwayId, pathwayReactions, tone) {
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        studentPathwayMap.setAttribute('viewBox', '0 0 1600 1120');
+        studentPathwayMap.dataset.mapLayout = 'pyrimidine-ring-first-branch';
+        studentPathwayMap.setAttribute('aria-label', '嘧啶从头合成：CAD先在胞质组装嘧啶环，DHODH在线粒体内膜以辅酶Q氧化，UMPS再把乳清酸接到PRPP形成UMP，随后分流为RNA和DNA前体');
+        studentMapBands.replaceChildren(); studentMapEdges.replaceChildren(); studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '6 步成 UMP · 2 条核苷酸分支 · 11 个原始反应记录';
+
+        [
+          ['cad-ring', 22, 20, 558, 370, 'pyrimidine-cad-band', '① 胞质 CAD · 三步先造嘧啶环'],
+          ['dhodh-interface', 596, 20, 310, 370, 'pyrimidine-dhodh-band', '② 线粒体内膜外侧 · DHODH 接 CoQ'],
+          ['umps-ump', 922, 20, 656, 370, 'pyrimidine-umps-band', '③ 回到胞质 · UMPS 两步接上 PRPP'],
+          ['rna-dna-branch', 22, 408, 1556, 408, 'pyrimidine-branch-band', '④ UMP 共同入口 · RNA / DNA 双分支'],
+          ['atom-energy-regulation', 22, 834, 1556, 264, 'pyrimidine-ledger-band', '⑤ 原子来源、能量、反馈与旁路边界']
+        ].forEach(([key, x, y, width, height, className, title]) => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x, y, width, height, class: `student-map-band ${className}`, 'data-pyrimidine-zone': key }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: x + 22, y: y + 31, class: 'student-map-band-label' }, title));
+        });
+
+        const records = new Map();
+        const addNode = ({ key, label, meta, x, y, width = 210, height = 72, reaction = null, step = 0, className = '' }) => {
+          const attrs = {
+            class: `student-map-node pyrimidine-node ${className}`.trim(), style: `--tone:${tone}`,
+            'data-map-key': key, 'data-reaction': reaction?.id || '', 'data-step-index': String(Math.max(0, step - 1)),
+            'aria-label': `${label}，${meta}`
+          };
+          if (step) attrs['data-pyrimidine-step'] = String(step);
+          if (reaction) Object.assign(attrs, { role: 'button', tabindex: '0' });
+          const group = studentSvgElement('g', attrs);
+          group.appendChild(studentSvgElement('title', {}, `${label} · ${meta}`));
+          group.appendChild(studentSvgElement('rect', { x: x - width / 2, y: y - height / 2, width, height, rx: 15 }));
+          const name = studentSvgElement('text', { x, y: y - 4, class: 'node-name' }, label);
+          const detail = studentSvgElement('text', { x, y: y + 21, class: 'node-compartment' }, meta);
+          group.append(name, detail); fitStudentMapText(name, width - 22, 15.5, 9.2); fitStudentMapText(detail, width - 18, 11.8, 8.1);
+          if (reaction) {
+            const open = () => renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction));
+            group.addEventListener('click', open);
+            group.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          }
+          studentMapNodes.appendChild(group);
+          const record = { key, x, y, width, height, reaction, step };
+          records.set(key, record); return record;
+        };
+        const reactionAt = index => ownReactions[index] || null;
+        const addEdge = (fromKey, toKey, className = '', path = '') => {
+          const from = records.get(fromKey), to = records.get(toKey);
+          if (!from || !to) return;
+          studentMapEdges.appendChild(studentSvgElement('path', {
+            d: path || studentMapEdgePath(from, to, Math.min(from.width, 190), Math.min(from.height, 72)),
+            class: `student-map-edge pyrimidine-edge ${className}`.trim(),
+            'data-edge-from': fromKey, 'data-edge-to': toKey
+          }));
+        };
+
+        addNode({ key: 'carbamoyl-phosphate', label: '氨甲酰磷酸', meta: '1 · CAD · CPS II', x: 118, y: 150, width: 174, reaction: reactionAt(0), step: 1, className: 'is-cad' });
+        addNode({ key: 'carbamoyl-aspartate', label: '氨甲酰天冬氨酸', meta: '2 · CAD · ATCase', x: 302, y: 150, width: 190, reaction: reactionAt(1), step: 2, className: 'is-cad' });
+        addNode({ key: 'dihydroorotate', label: '二氢乳清酸', meta: '3 · CAD · DHOase', x: 492, y: 150, width: 170, reaction: reactionAt(2), step: 3, className: 'is-cad' });
+        addNode({ key: 'orotate', label: '乳清酸', meta: '4 · DHODH · FMN', x: 752, y: 150, width: 180, reaction: reactionAt(3), step: 4, className: 'is-dhodh' });
+        addNode({ key: 'omp', label: 'OMP', meta: '5 · UMPS · OPRTase', x: 1090, y: 150, width: 205, reaction: reactionAt(4), step: 5, className: 'is-umps' });
+        addNode({ key: 'ump', label: 'UMP', meta: '6 · UMPS · OMP decarboxylase', x: 1420, y: 150, width: 244, reaction: reactionAt(4), step: 6, className: 'is-umps' });
+
+        addNode({ key: 'cad-input', label: 'Gln + HCO₃⁻ + 2 ATP', meta: '形成氨甲酰磷酸', x: 118, y: 300, width: 220, className: 'pyrimidine-input-card' });
+        addNode({ key: 'aspartate-input', label: '天冬氨酸', meta: '加入 N1 / C4 / C5 / C6', x: 302, y: 300, width: 210, className: 'pyrimidine-input-card' });
+        addNode({ key: 'coq-redox', label: 'CoQ → CoQH₂', meta: '不使用 NAD⁺', x: 752, y: 300, width: 210, className: 'pyrimidine-redox-card' });
+        addNode({ key: 'prpp-input', label: '乳清酸 + PRPP → OMP + PPi', meta: '环先合成，再接 PRPP', x: 1090, y: 300, width: 290, className: 'pyrimidine-input-card' });
+        addNode({ key: 'co2-output', label: 'OMP → UMP + CO₂', meta: 'UMPS 脱羧活性', x: 1420, y: 300, width: 230, className: 'pyrimidine-output-card' });
+
+        addEdge('carbamoyl-phosphate', 'carbamoyl-aspartate', 'cad-route');
+        addEdge('carbamoyl-aspartate', 'dihydroorotate', 'cad-route');
+        addEdge('dihydroorotate', 'orotate', 'dhodh-route');
+        addEdge('orotate', 'omp', 'umps-route');
+        addEdge('omp', 'ump', 'umps-route');
+        addEdge('cad-input', 'carbamoyl-phosphate', 'input-route');
+        addEdge('aspartate-input', 'carbamoyl-aspartate', 'input-route');
+        addEdge('coq-redox', 'orotate', 'redox-route');
+        addEdge('prpp-input', 'omp', 'input-route');
+
+        addNode({ key: 'udp', label: 'UDP', meta: 'UMP-CMP kinase', x: 300, y: 520, width: 170, reaction: reactionAt(5), className: 'is-rna' });
+        addNode({ key: 'utp', label: 'UTP', meta: 'NDPK · ATP→ADP', x: 520, y: 520, width: 170, reaction: reactionAt(5), className: 'is-rna' });
+        addNode({ key: 'ctp', label: 'CTP', meta: 'CTPS · Gln + ATP', x: 760, y: 520, width: 190, reaction: reactionAt(6), className: 'is-rna' });
+        addNode({ key: 'dudp', label: 'dUDP', meta: 'RNR · thioredoxin(red)', x: 300, y: 690, width: 205, reaction: reactionAt(7), className: 'is-dna' });
+        addNode({ key: 'dutp', label: 'dUTP', meta: 'NDPK', x: 520, y: 690, width: 170, reaction: reactionAt(8), className: 'is-dna' });
+        addNode({ key: 'dump', label: 'dUMP', meta: 'DUT · dUTPase', x: 760, y: 690, width: 190, reaction: reactionAt(9), className: 'is-dna' });
+        addNode({ key: 'dtmp', label: 'dTMP', meta: 'TYMS · 5,10-亚甲基-THF', x: 1020, y: 690, width: 235, reaction: reactionAt(10), className: 'is-dna' });
+        addNode({ key: 'dhf', label: 'DHF', meta: 'TYMS 的一碳输出', x: 1020, y: 520, width: 190, className: 'pyrimidine-folate-card' });
+        addNode({ key: 'dttp', label: 'dTTP', meta: 'TMPK + NDPK', x: 1320, y: 690, width: 190, className: 'is-dna' });
+
+        addEdge('ump', 'udp', 'rna-route', 'M 1420 186 C 1290 430, 530 430, 300 484');
+        addEdge('udp', 'utp', 'rna-route'); addEdge('utp', 'ctp', 'rna-route');
+        addEdge('udp', 'dudp', 'dna-route'); addEdge('dudp', 'dutp', 'dna-route');
+        addEdge('dutp', 'dump', 'dna-route'); addEdge('dump', 'dtmp', 'dna-route'); addEdge('dtmp', 'dttp', 'dna-route');
+        addEdge('dtmp', 'dhf', 'folate-route');
+
+        [
+          ['atom-gln', 'N3：谷氨酰胺', '提供酰胺氮', 155, 900, 220, 'pyrimidine-ledger-card'],
+          ['atom-carbon', 'C2：HCO₃⁻', '来自碳酸氢根', 405, 900, 220, 'pyrimidine-ledger-card'],
+          ['atom-asp', 'N1/C4/C5/C6：天冬氨酸', '四个环原子来自 Asp', 675, 900, 270, 'pyrimidine-ledger-card'],
+          ['energy', '形成 UMP：CAD/CPS II 直接消耗 2 ATP', 'PRPP 的活化成本另计', 1040, 900, 390, 'pyrimidine-regulation-card'],
+          ['regulation', 'UTP抑制 CAD/CPS II · PRPP激活', '入口按嘧啶池需求调节', 1400, 900, 300, 'pyrimidine-regulation-card'],
+          ['dhodh-boundary', 'DHODH锚定线粒体内膜外侧 · 不需要专用转运体', '胞质底物和产物可接近催化域', 260, 992, 450, 'pyrimidine-boundary-card'],
+          ['dctp-boundary', 'dCTP 分支：CDP 经 RNR', '与 UDP 还原遵循同类逻辑', 655, 992, 300, 'pyrimidine-boundary-card'],
+          ['dcmp-boundary', 'dCMP 脱氨也可形成 dUMP', '本图主线采用 dUTPase 路径', 970, 992, 300, 'pyrimidine-boundary-card'],
+          ['folate-boundary', '5,10-亚甲基-THF → DHF', 'DHFR / SHMT 负责一碳循环补充', 1305, 992, 330, 'pyrimidine-folate-card']
+        ].forEach(([key, label, meta, x, y, width, className]) => addNode({ key, label, meta, x, y, width, height: 72, className }));
+
+        const makeExit = (pathway, x, title, note) => {
+          const next = studentSvgElement('g', { class: 'student-map-next-pathway pyrimidine-next-pathway', 'data-next-pathway': pathway, role: 'button', tabindex: '0', 'aria-label': `${title}${note}` });
+          next.appendChild(studentSvgElement('rect', { x, y: 1050, width: 350, height: 58, rx: 14 }));
+          next.appendChild(studentSvgElement('text', { x: x + 175, y: 1075, class: 'next-label' }, title));
+          next.appendChild(studentSvgElement('text', { x: x + 175, y: 1096, class: 'next-name' }, note));
+          const open = () => renderStudentPathway(pathway, { returnToPrimer: false });
+          next.addEventListener('click', event => { event.stopPropagation(); open(); });
+          next.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          studentMapNodes.appendChild(next);
+        };
+        makeExit('ppp', 235, 'PRPP 从哪里来', '进入磷酸戊糖途径 →');
+        makeExit('etc', 625, 'CoQH₂ 去哪里', '进入电子传递链 →');
+        makeExit('nucleotide_degradation', 1015, '核苷酸怎样回收', '进入降解与补救合成 →');
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderNucleotideDegradationStudentMap(pathwayId, pathwayReactions, tone) {
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const reactionAt = index => ownReactions[index] || null;
+        studentPathwayMap.setAttribute('viewBox', '0 0 1500 980');
+        studentPathwayMap.dataset.mapLayout = 'nucleotide-degradation-branch-ledger';
+        studentPathwayMap.setAttribute('aria-label', '核苷酸降解：核苷酸先去磷酸成为核苷，再裂解为碱基；嘌呤支路形成尿酸，嘧啶支路形成可进一步代谢的小分子，能回收的碱基通过补救接口回到核苷酸池');
+        studentMapBands.replaceChildren(); studentMapEdges.replaceChildren(); studentMapNodes.replaceChildren();
+        studentMapCount.textContent = `${ownReactions.length} 个终审反应 · 2 段共同前处理 · 嘌呤 / 嘧啶双分支`;
+
+        [
+          ['phosphate-release', 22, 20, 420, 390, 'nucleotide-degradation-release-band', '① 去磷酸 · 核苷酸 → 核苷'],
+          ['nucleoside-cleavage', 462, 20, 420, 390, 'nucleotide-degradation-cleavage-band', '② 裂解 · 核苷 ⇌ 碱基 + 核糖-1-P'],
+          ['purine-branch', 902, 20, 576, 390, 'nucleotide-degradation-purine-band', '③ 嘌呤支路 · 最终到尿酸'],
+          ['pyrimidine-branch', 22, 430, 1456, 310, 'nucleotide-degradation-pyrimidine-band', '④ 嘧啶支路 · 进入小分子代谢'],
+          ['salvage-ledger', 22, 760, 1456, 190, 'nucleotide-degradation-salvage-band', '⑤ 补救接口、区室与终产物边界']
+        ].forEach(([key, x, y, width, height, className, title]) => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x, y, width, height, class: `student-map-band ${className}`, 'data-nucleotide-degradation-zone': key }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: x + 22, y: y + 30, class: 'student-map-band-label' }, title));
+        });
+
+        const records = new Map();
+        const addNode = ({ key, label, meta, x, y, width = 220, height = 78, reaction = null, step = 0, className = '' }) => {
+          const attrs = {
+            class: `student-map-node nucleotide-degradation-node ${className}`.trim(), style: `--tone:${tone}`,
+            'data-map-key': key, 'data-reaction': reaction?.id || '', 'data-step-index': String(Math.max(0, step - 1)),
+            'aria-label': `${label}，${meta}`
+          };
+          if (step) attrs['data-nucleotide-degradation-step'] = String(step);
+          if (reaction) Object.assign(attrs, { role: 'button', tabindex: '0' });
+          const group = studentSvgElement('g', attrs);
+          group.appendChild(studentSvgElement('title', {}, `${label} · ${meta}`));
+          group.appendChild(studentSvgElement('rect', { x: x - width / 2, y: y - height / 2, width, height, rx: 15 }));
+          const name = studentSvgElement('text', { x, y: y - 5, class: 'node-name' }, label);
+          const detail = studentSvgElement('text', { x, y: y + 21, class: 'node-compartment' }, meta);
+          group.append(name, detail); fitStudentMapText(name, width - 22, 15.5, 9.2); fitStudentMapText(detail, width - 18, 11.8, 8.1);
+          if (reaction) {
+            const open = () => renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction));
+            group.addEventListener('click', open);
+            group.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+          }
+          studentMapNodes.appendChild(group);
+          const record = { key, x, y, width, height, reaction, step };
+          records.set(key, record); return record;
+        };
+        const addEdge = (fromKey, toKey, className = '', path = '') => {
+          const from = records.get(fromKey), to = records.get(toKey);
+          if (!from || !to) return;
+          const edge = studentSvgElement('path', {
+            d: path || studentMapEdgePath(from, to, Math.min(from.width, 190), Math.min(from.height, 72)),
+            class: `student-map-edge nucleotide-degradation-edge ${className}`.trim(),
+            'data-edge-from': fromKey, 'data-edge-to': toKey, 'data-step-index': String(Math.max(0, (from.step || 1) - 1))
+          });
+          if (from.reaction || to.reaction) {
+            const reaction = from.reaction || to.reaction;
+            edge.dataset.reaction = reaction.id;
+            edge.setAttribute('role', 'button'); edge.tabIndex = 0;
+            edge.addEventListener('click', event => { event.stopPropagation(); renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction)); });
+            edge.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); renderStudentReactionDetail(reaction, pathwayId, ownReactions.indexOf(reaction)); } });
+          }
+          studentMapEdges.appendChild(edge);
+        };
+
+        addNode({ key: 'nucleotide', label: '核苷酸', meta: 'AMP / GMP / UMP / TMP · 核苷酸酶 · 细胞质', x: 130, y: 150, width: 230, reaction: reactionAt(0), step: 1, className: 'is-input' });
+        addNode({ key: 'nucleoside', label: '核苷', meta: '去掉 Pi · 核苷磷酸化酶 · 共同中间体', x: 330, y: 150, width: 220, reaction: reactionAt(1), step: 2, className: 'is-cleavage' });
+        addNode({ key: 'base', label: '碱基', meta: '嘌呤或嘧啶碱基', x: 530, y: 150, width: 220, step: 3, className: 'is-cleavage' });
+        addNode({ key: 'phosphate', label: 'Pi', meta: '核苷酸酶释放的磷酸', x: 130, y: 315, width: 180, className: 'is-byproduct' });
+        addNode({ key: 'ribose', label: '核糖-1-磷酸', meta: '可进入糖代谢接口', x: 530, y: 315, width: 220, className: 'is-byproduct' });
+        addNode({ key: 'hypoxanthine', label: '次黄嘌呤', meta: '嘌呤碱基 · 黄嘌呤氧化酶', x: 1030, y: 145, width: 230, reaction: reactionAt(2), step: 4, className: 'is-purine' });
+        addNode({ key: 'guanine', label: '鸟嘌呤', meta: '鸟嘌呤脱氨酶 · 再由黄嘌呤氧化酶', x: 1030, y: 300, width: 230, reaction: reactionAt(3), step: 5, className: 'is-purine' });
+        addNode({ key: 'uric-acid', label: '尿酸', meta: '人类嘌呤主要终产物', x: 1320, y: 220, width: 250, className: 'is-terminal' });
+        addNode({ key: 'uracil', label: '尿嘧啶', meta: '嘧啶碱基 · 还原后开环', x: 250, y: 565, width: 240, reaction: reactionAt(4), step: 6, className: 'is-pyrimidine' });
+        addNode({ key: 'beta-alanine', label: 'β-丙氨酸', meta: '进入后续小分子代谢', x: 600, y: 565, width: 250, className: 'is-terminal' });
+        addNode({ key: 'thymine', label: '胸腺嘧啶', meta: '嘧啶碱基 · DNA 周转', x: 950, y: 565, width: 240, reaction: reactionAt(5), step: 7, className: 'is-pyrimidine' });
+        addNode({ key: 'beta-aminoisobutyrate', label: 'β-氨基异丁酸', meta: '进入后续小分子代谢', x: 1300, y: 565, width: 270, className: 'is-terminal' });
+
+        addEdge('nucleotide', 'nucleoside', 'release');
+        addEdge('nucleoside', 'base', 'cleavage');
+        addEdge('nucleotide', 'phosphate', 'byproduct', 'M 130 189 C 130 235, 130 260, 130 276');
+        addEdge('base', 'ribose', 'byproduct', 'M 530 189 C 530 235, 530 260, 530 276');
+        addEdge('base', 'hypoxanthine', 'purine-route', 'M 640 150 C 760 125, 860 125, 910 145');
+        addEdge('base', 'guanine', 'purine-route', 'M 640 165 C 760 235, 860 290, 910 300');
+        addEdge('hypoxanthine', 'uric-acid', 'purine-route');
+        addEdge('guanine', 'uric-acid', 'purine-route', 'M 1145 300 C 1210 295, 1260 260, 1320 240');
+        addEdge('base', 'uracil', 'pyrimidine-route', 'M 530 189 C 460 320, 350 410, 250 526');
+        addEdge('uracil', 'beta-alanine', 'pyrimidine-route');
+        addEdge('base', 'thymine', 'pyrimidine-route', 'M 580 189 C 690 320, 800 430, 950 526');
+        addEdge('thymine', 'beta-aminoisobutyrate', 'pyrimidine-route');
+
+        [
+          [70, 825, 430, '补救回收接口', '可回收碱基 / 核苷重新接回核苷酸池；APRT / HGPRT 不属于本图主干'],
+          [520, 825, 430, '区室边界', '主干按细胞质简化；核酸输入可先经溶酶体处理'],
+          [970, 825, 430, '终产物去向', '尿酸、β-丙氨酸和 β-氨基异丁酸进入组织特异的后续处理']
+        ].forEach(([x, y, width, title, note]) => {
+          const card = studentSvgElement('g', { class: 'student-map-node nucleotide-degradation-ledger-card' });
+          card.appendChild(studentSvgElement('rect', { x, y, width, height: 92, rx: 15 }));
+          card.appendChild(studentSvgElement('text', { x: x + width / 2, y: y + 35, class: 'ledger-title', 'text-anchor': 'middle' }, title));
+          const noteText = studentSvgElement('text', { x: x + width / 2, y: y + 66, class: 'ledger-note', 'text-anchor': 'middle' }, note);
+          card.appendChild(noteText); fitStudentMapText(noteText, width - 24, 12, 8.2); studentMapNodes.appendChild(card);
+        });
+        studentMapNodes.appendChild(studentSvgElement('text', { x: 750, y: 948, class: 'student-nucleotide-degradation-boundary', 'text-anchor': 'middle' }, '降解释放的碱基不必全部排出：能回收的部分优先节省从头合成成本'));
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderTcaStudentMap(pathwayId, pathwayReactions, tone) {
+        const viewWidth = 1280;
+        const viewHeight = 820;
+        const nodeWidth = 142;
+        const nodeHeight = 60;
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const byEnzyme = pattern => ownReactions.find(reaction => pattern.test(reaction.enzyme || '')) || null;
+        const citrateFromAcetyl = ownReactions.find(reaction => reaction.from === '乙酰辅酶 A@mito-matrix') || byEnzyme(/柠檬酸合酶/);
+        const citrateFromOaa = ownReactions.find(reaction => reaction.from === '草酰乙酸@mito-matrix' && reaction.to === '柠檬酸@mito-matrix') || citrateFromAcetyl;
+        const aconitase = byEnzyme(/顺乌头酸酶/);
+        const idh = byEnzyme(/异柠檬酸脱氢酶/);
+        const ogdh = byEnzyme(/α-酮戊二酸脱氢酶/);
+        const sucl = byEnzyme(/琥珀酰-CoA 合成酶/);
+        const sdh = byEnzyme(/琥珀酸脱氢酶/);
+        const fumarase = byEnzyme(/延胡索酸酶/);
+        const mdh = byEnzyme(/苹果酸脱氢酶|MDH2/);
+
+        studentPathwayMap.setAttribute('viewBox', `0 0 ${viewWidth} ${viewHeight}`);
+        studentPathwayMap.dataset.mapLayout = 'tca-yield-cycle';
+        studentPathwayMap.setAttribute('aria-label', '三羧酸循环：乙酰辅酶A进入八个经典酶步骤，产生三分子NADH、一分子GTP、两分子二氧化碳，并由内膜复合体II把电子送给辅酶Q，同时再生草酰乙酸');
+        studentMapBands.replaceChildren();
+        studentMapEdges.replaceChildren();
+        studentMapNodes.replaceChildren();
+        studentMapCount.textContent = '8 个酶步骤 · 9 个循环节点';
+
+        studentMapBands.appendChild(studentSvgElement('rect', {
+          x: 24, y: 22, width: 1232, height: 620, class: 'student-map-band tca-matrix-band'
+        }));
+        studentMapBands.appendChild(studentSvgElement('text', {
+          x: 48, y: 54, class: 'student-map-band-label'
+        }, '线粒体基质 · 八个经典酶步骤把乙酰基氧化，并再生 OAA'));
+        studentMapBands.appendChild(studentSvgElement('rect', {
+          x: 24, y: 656, width: 1232, height: 118, class: 'student-map-band tca-inner-membrane-band'
+        }));
+        studentMapBands.appendChild(studentSvgElement('text', {
+          x: 48, y: 686, class: 'student-map-band-label'
+        }, '线粒体内膜接口 · 琥珀酸脱氢酶 = 呼吸链复合体 II'));
+
+        const nodeDefinitions = [
+          { key: 'acetyl-coa', entityId: '乙酰辅酶 A@mito-matrix', label: '乙酰-CoA', meta: '2C 输入', x: 105, y: 265, stepIndex: 0, reaction: citrateFromAcetyl, className: 'tca-input-node' },
+          { key: 'citrate', entityId: '柠檬酸@mito-matrix', label: '柠檬酸', meta: '6C', x: 300, y: 135, stepIndex: 1, reaction: aconitase },
+          { key: 'isocitrate', entityId: '异柠檬酸@mito-matrix', label: '异柠檬酸', meta: '6C', x: 535, y: 115, stepIndex: 2, reaction: idh },
+          { key: 'alpha-ketoglutarate', entityId: 'α-酮戊二酸@mito-matrix', label: 'α-酮戊二酸', meta: '5C', x: 790, y: 135, stepIndex: 3, reaction: ogdh },
+          { key: 'succinyl-coa', entityId: '琥珀酰辅酶 A@mito-matrix', label: '琥珀酰-CoA', meta: '4C', x: 1040, y: 220, stepIndex: 4, reaction: sucl },
+          { key: 'succinate', entityId: '琥珀酸@mito-matrix', label: '琥珀酸', meta: '4C', x: 1080, y: 500, stepIndex: 5, reaction: sdh },
+          { key: 'fumarate', entityId: '延胡索酸@mito-matrix', label: '延胡索酸', meta: '4C', x: 850, y: 585, stepIndex: 6, reaction: fumarase },
+          { key: 'malate', entityId: '苹果酸@mito-matrix', label: '苹果酸', meta: '4C', x: 580, y: 585, stepIndex: 7, reaction: mdh },
+          { key: 'oaa', entityId: '草酰乙酸@mito-matrix', label: '草酰乙酸', meta: 'OAA 再生 · 4C', x: 300, y: 505, stepIndex: 8, reaction: mdh, className: 'tca-regenerated-node' }
+        ];
+        const nodeRecords = new Map(nodeDefinitions.map(definition => [definition.key, {
+          ...definition,
+          entity: entityById[definition.entityId] || null
+        }]));
+
+        const edgeDefinitions = [
+          { from: 'acetyl-coa', to: 'citrate', reaction: citrateFromAcetyl, className: 'tca-carbon-entry', path: 'M 170 245 C 205 215, 250 170, 285 155' },
+          { from: 'oaa', to: 'citrate', reaction: citrateFromOaa, className: 'tca-regeneration-edge', path: 'M 278 475 C 205 430, 205 230, 282 158' },
+          { from: 'citrate', to: 'isocitrate', reaction: aconitase },
+          { from: 'isocitrate', to: 'alpha-ketoglutarate', reaction: idh, className: 'tca-oxidation-edge' },
+          { from: 'alpha-ketoglutarate', to: 'succinyl-coa', reaction: ogdh, className: 'tca-oxidation-edge' },
+          { from: 'succinyl-coa', to: 'succinate', reaction: sucl, className: 'tca-phosphorylation-edge' },
+          { from: 'succinate', to: 'fumarate', reaction: sdh, className: 'tca-sdh-edge' },
+          { from: 'fumarate', to: 'malate', reaction: fumarase },
+          { from: 'malate', to: 'oaa', reaction: mdh, className: 'tca-oxidation-edge' }
+        ];
+
+        edgeDefinitions.forEach((definition, edgeIndex) => {
+          const source = nodeRecords.get(definition.from);
+          const target = nodeRecords.get(definition.to);
+          if (!source || !target) return;
+          const edge = studentSvgElement('path', {
+            d: definition.path || studentMapEdgePath(source, target, nodeWidth, nodeHeight),
+            class: `student-map-edge tca-edge ${definition.className || ''}`,
+            'data-edge-from': definition.from,
+            'data-edge-to': definition.to,
+            'data-reaction': definition.reaction?.id || '',
+            'data-step-index': String(Math.min(source.stepIndex, target.stepIndex))
+          });
+          if (definition.reaction) {
+            const openReaction = () => renderStudentReactionDetail(definition.reaction, pathwayId, ownReactions.indexOf(definition.reaction));
+            edge.setAttribute('role', 'button');
+            edge.tabIndex = 0;
+            edge.addEventListener('click', event => { event.stopPropagation(); openReaction(); });
+            edge.addEventListener('keydown', event => {
+              if (event.key !== 'Enter' && event.key !== ' ') return;
+              event.preventDefault();
+              openReaction();
+            });
+          }
+          studentMapEdges.appendChild(edge);
+          applyStudentReactionDirection(edge, definition.reaction, {
+            showLabel: true,
+            labelOffsetY: edgeIndex % 2 === 0 ? -14 : 14
+          });
+        });
+
+        nodeRecords.forEach(record => {
+          const node = studentSvgElement('g', {
+            class: `student-map-node tca-node ${record.className || ''}`,
+            style: `--tone:${tone}`,
+            'data-map-key': record.key,
+            'data-entity-id': record.entityId,
+            'data-step-index': String(record.stepIndex),
+            'data-reaction': record.reaction?.id || '',
+            role: 'button',
+            tabindex: '0',
+            'aria-label': `${record.label}，${record.meta}`
+          });
+          node.appendChild(studentSvgElement('title', {}, `${record.label} · ${record.meta}`));
+          node.appendChild(studentSvgElement('rect', {
+            x: record.x - nodeWidth / 2, y: record.y - nodeHeight / 2, width: nodeWidth, height: nodeHeight
+          }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 2, class: 'node-name' }, record.label);
+          node.appendChild(name);
+          node.appendChild(studentSvgElement('text', { x: record.x, y: record.y + 21, class: 'node-compartment' }, record.meta));
+          const selectNode = () => renderStudentNodeSelection(record.entity, record.reaction, pathwayId, ownReactions.indexOf(record.reaction), record.stepIndex);
+          node.addEventListener('click', event => { event.stopPropagation(); selectNode(); });
+          node.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            selectNode();
+          });
+          studentMapNodes.appendChild(node);
+          fitStudentMapText(name, nodeWidth - 16, 15.5, 9.5);
+        });
+
+        [
+          { x: 215, y: 198, label: '柠檬酸合酶', reaction: citrateFromAcetyl },
+          { x: 420, y: 82, label: '顺乌头酸酶', reaction: aconitase },
+          { x: 660, y: 82, label: '异柠檬酸脱氢酶', reaction: idh },
+          { x: 920, y: 130, label: 'α-酮戊二酸脱氢酶复合体', reaction: ogdh },
+          { x: 1115, y: 350, label: '琥珀酰-CoA 合成酶', reaction: sucl },
+          { x: 965, y: 555, label: '琥珀酸脱氢酶', reaction: sdh },
+          { x: 715, y: 632, label: '延胡索酸酶', reaction: fumarase },
+          { x: 435, y: 555, label: 'MDH2', reaction: mdh }
+        ].forEach(record => {
+          const enzyme = studentSvgElement('text', {
+            x: record.x, y: record.y, class: 'student-tca-enzyme', 'data-tca-enzyme': '', 'text-anchor': 'middle'
+          }, record.label);
+          if (record.reaction) {
+            enzyme.setAttribute('role', 'button');
+            enzyme.tabIndex = 0;
+            const openReaction = () => renderStudentReactionDetail(record.reaction, pathwayId, ownReactions.indexOf(record.reaction));
+            enzyme.addEventListener('click', event => { event.stopPropagation(); openReaction(); });
+            enzyme.addEventListener('keydown', event => {
+              if (event.key !== 'Enter' && event.key !== ' ') return;
+              event.preventDefault();
+              openReaction();
+            });
+          }
+          studentMapNodes.appendChild(enzyme);
+        });
+
+        const addYield = ({ key, x, y, label, className = '' }) => {
+          const width = Math.max(86, label.length * 15 + 24);
+          const yieldNode = studentSvgElement('g', {
+            class: `student-tca-yield ${className}`,
+            'data-tca-yield': key,
+            'aria-label': label
+          });
+          yieldNode.appendChild(studentSvgElement('rect', { x: x - width / 2, y: y - 20, width, height: 40, rx: 16 }));
+          yieldNode.appendChild(studentSvgElement('text', { x, y: y + 5, 'text-anchor': 'middle' }, label));
+          studentMapNodes.appendChild(yieldNode);
+        };
+        addYield({ key: 'nadh-idh', x: 660, y: 220, label: 'NADH + H⁺' });
+        addYield({ key: 'co2-idh', x: 790, y: 220, label: 'CO₂', className: 'carbon-output' });
+        addYield({ key: 'nadh-ogdh', x: 915, y: 315, label: 'NADH + H⁺' });
+        addYield({ key: 'co2-ogdh', x: 1045, y: 315, label: 'CO₂', className: 'carbon-output' });
+        addYield({ key: 'gtp', x: 1130, y: 405, label: 'GTP', className: 'energy-output' });
+        addYield({ key: 'nadh-mdh', x: 430, y: 620, label: 'NADH + H⁺' });
+        addYield({ key: 'coqh2', x: 890, y: 718, label: '酶内 FAD → CoQH₂', className: 'membrane-output' });
+
+        const summary = studentSvgElement('g', {
+          class: 'student-tca-summary', 'aria-label': '每轮净收支：3 NADH，1 CoQH₂，1 GTP，2 CO₂，草酰乙酸再生'
+        });
+        summary.appendChild(studentSvgElement('rect', { x: 440, y: 278, width: 430, height: 158, rx: 22 }));
+        summary.appendChild(studentSvgElement('text', { x: 655, y: 315, class: 'summary-kicker', 'text-anchor': 'middle' }, '每轮净收支'));
+        summary.appendChild(studentSvgElement('text', { x: 655, y: 352, class: 'summary-main', 'text-anchor': 'middle' }, '3 NADH · 1 CoQH₂ · 1 GTP · 2 CO₂'));
+        summary.appendChild(studentSvgElement('text', { x: 655, y: 386, class: 'summary-note', 'text-anchor': 'middle' }, 'OAA 再生，不计入净消耗'));
+        summary.appendChild(studentSvgElement('text', { x: 655, y: 415, class: 'summary-note', 'text-anchor': 'middle' }, 'SDH：内膜复合体 II · 电子进入 CoQ 池'));
+        studentMapNodes.appendChild(summary);
+
+        const nextPath = studentSvgElement('g', {
+          class: 'student-map-next-pathway tca-next-pathway',
+          'data-next-pathway': 'etc',
+          role: 'button',
+          tabindex: '0',
+          'aria-label': '还原当量下一站：电子传递链'
+        });
+        nextPath.appendChild(studentSvgElement('rect', { x: 1030, y: 690, width: 210, height: 64, rx: 14 }));
+        nextPath.appendChild(studentSvgElement('text', { x: 1135, y: 715, class: 'next-label' }, 'NADH / CoQH₂ 下一站'));
+        nextPath.appendChild(studentSvgElement('text', { x: 1135, y: 741, class: 'next-name' }, '电子传递链 →'));
+        const openEtc = () => renderStudentPathway('etc', { returnToPrimer: false });
+        nextPath.addEventListener('click', event => { event.stopPropagation(); openEtc(); });
+        nextPath.addEventListener('keydown', event => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          openEtc();
+        });
+        studentMapNodes.appendChild(nextPath);
+
+        studentMapBands.appendChild(studentSvgElement('text', {
+          x: 48, y: 806, class: 'student-map-pan-hint', 'data-map-hint': 'horizontal'
+        }, '横向查看：碳进入 → 两次脱羧 → 产能 → OAA 再生 →'));
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderPdhStudentMap(pathwayId, pathwayReactions, tone) {
+        const viewWidth = 1280;
+        const viewHeight = 720;
+        const nodeWidth = 126;
+        const nodeHeight = 58;
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        const vdacReaction = ownReactions.find(reaction => /VDAC/.test(reaction.enzyme || '')) || null;
+        const mpcReaction = ownReactions.find(reaction => /MPC|丙酮酸载体/.test(reaction.enzyme || '')) || null;
+        const pdhReaction = ownReactions.find(reaction => /丙酮酸脱氢酶复合体/.test(reaction.enzyme || '')) || null;
+
+        studentPathwayMap.setAttribute('viewBox', `0 0 ${viewWidth} ${viewHeight}`);
+        studentPathwayMap.dataset.mapLayout = 'pdh-entry-handoff';
+        studentPathwayMap.setAttribute('aria-label', '丙酮酸脱氢酶复合体：丙酮酸依次经VDAC和MPC进入基质，再由E1、E2、E3与五种辅酶完成不可逆氧化脱羧');
+        studentMapBands.replaceChildren();
+        studentMapEdges.replaceChildren();
+        studentMapNodes.replaceChildren();
+        studentMapCount.textContent = `${ownReactions.length} 个反应 · 14 个教学节点`;
+
+        [
+          { y: 22, height: 88, className: 'student-map-band pdh-cytosol-band', label: '细胞质 · 糖酵解产生丙酮酸', labelY: 48 },
+          { y: 122, height: 48, className: 'student-map-band pdh-outer-membrane-band', label: '线粒体外膜 · VDAC 低选择性通道', labelY: 152 },
+          { y: 182, height: 88, className: 'student-map-band pdh-ims-band', label: '膜间隙 · 两层膜之间的丙酮酸池', labelY: 210 },
+          { y: 282, height: 54, className: 'student-map-band pdh-inner-membrane-band', label: '线粒体内膜 · MPC1/2 与 H⁺同向输入', labelY: 315 },
+          { y: 348, height: 328, className: 'student-map-band pdh-matrix-band', label: '线粒体基质 · PDH 不可逆氧化脱羧与五辅酶接力', labelY: 378 }
+        ].forEach(band => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x: 24, y: band.y, width: 1232, height: band.height, class: band.className }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: 48, y: band.labelY, class: 'student-map-band-label' }, band.label));
+        });
+
+        const nodeDefinitions = [
+          { key: 'pyruvate-cytosol', entityId: '丙酮酸@cytosol', label: '丙酮酸', meta: '胞质 · 3C', x: 120, y: 76, stepIndex: 0, reaction: vdacReaction },
+          { key: 'vdac', entityId: '', label: 'VDAC', title: '电压依赖性阴离子通道（VDAC）', meta: '外膜可逆通道', x: 300, y: 146, stepIndex: 1, reaction: vdacReaction, className: 'pdh-carrier-node' },
+          { key: 'pyruvate-ims', entityId: '丙酮酸@mito-ims', label: '丙酮酸', meta: '膜间隙', x: 455, y: 230, stepIndex: 2, reaction: mpcReaction },
+          { key: 'mpc', entityId: '', label: 'MPC1/2', title: '线粒体丙酮酸载体（MPC1/2）', meta: 'H⁺同向输入', x: 610, y: 308, stepIndex: 3, reaction: mpcReaction, className: 'pdh-carrier-node' },
+          { key: 'pyruvate-matrix', entityId: '丙酮酸@mito-matrix', label: '丙酮酸', meta: '基质 · 3C', x: 730, y: 424, stepIndex: 4, reaction: pdhReaction },
+          { key: 'e1', entityId: '', label: 'E1 · TPP', meta: '脱羧 · 放出 CO₂', x: 870, y: 424, stepIndex: 4, reaction: pdhReaction, className: 'pdh-enzyme-node' },
+          { key: 'hydroxyethyl-tpp', entityId: '', label: '羟乙基-TPP', meta: '2C 中间体', x: 1010, y: 424, stepIndex: 4, reaction: pdhReaction, className: 'pdh-intermediate-node' },
+          { key: 'e2', entityId: '', label: 'E2 · 硫辛酰胺摆臂', meta: '接收并转移乙酰基', x: 1140, y: 424, stepIndex: 4, reaction: pdhReaction, className: 'pdh-enzyme-node' },
+          { key: 'co2', entityId: '', label: 'CO₂', meta: '第 3 个碳离开', x: 840, y: 535, stepIndex: 4, reaction: pdhReaction, className: 'pdh-output-node' },
+          { key: 'coa', entityId: '', label: 'CoA-SH', meta: '接收乙酰基', x: 980, y: 535, stepIndex: 4, reaction: pdhReaction, className: 'pdh-input-node' },
+          { key: 'acetyl-coa', entityId: '乙酰辅酶 A@mito-matrix', label: '乙酰-CoA', meta: '2C · 进入 TCA', x: 1140, y: 535, stepIndex: 5, reaction: pdhReaction, className: 'pdh-output-node' },
+          { key: 'e3', entityId: '', label: 'E3 · FAD', meta: '再氧化硫辛酰胺', x: 820, y: 625, stepIndex: 5, reaction: pdhReaction, className: 'pdh-enzyme-node' },
+          { key: 'nad', entityId: '', label: 'NAD⁺', meta: '最终电子受体', x: 650, y: 625, stepIndex: 5, reaction: pdhReaction, className: 'pdh-input-node' },
+          { key: 'nadh', entityId: '', label: 'NADH + H⁺', meta: '送往呼吸链', x: 970, y: 625, stepIndex: 5, reaction: pdhReaction, className: 'pdh-output-node' }
+        ];
+        const nodeRecords = new Map(nodeDefinitions.map(definition => [definition.key, {
+          ...definition,
+          entity: definition.entityId ? entityById[definition.entityId] || null : null
+        }]));
+
+        const edgeDefinitions = [
+          { from: 'pyruvate-cytosol', to: 'vdac', reaction: vdacReaction, className: 'transport' },
+          { from: 'vdac', to: 'pyruvate-ims', reaction: vdacReaction, className: 'transport' },
+          { from: 'pyruvate-ims', to: 'mpc', reaction: mpcReaction, className: 'transport' },
+          { from: 'mpc', to: 'pyruvate-matrix', reaction: mpcReaction, className: 'transport', label: 'H⁺同向输入' },
+          { from: 'pyruvate-matrix', to: 'e1', reaction: pdhReaction },
+          { from: 'e1', to: 'hydroxyethyl-tpp', reaction: pdhReaction },
+          { from: 'e1', to: 'co2', reaction: pdhReaction, className: 'pdh-product-edge', label: '脱羧' },
+          { from: 'hydroxyethyl-tpp', to: 'e2', reaction: pdhReaction },
+          { from: 'coa', to: 'e2', reaction: pdhReaction, className: 'pdh-cofactor-edge' },
+          { from: 'e2', to: 'acetyl-coa', reaction: pdhReaction, className: 'pdh-product-edge' },
+          { from: 'e2', to: 'e3', reaction: pdhReaction, className: 'pdh-cofactor-edge', path: 'M 1100 450 C 1045 510, 920 575, 850 602' },
+          { from: 'nad', to: 'e3', reaction: pdhReaction, className: 'pdh-cofactor-edge' },
+          { from: 'e3', to: 'nadh', reaction: pdhReaction, className: 'pdh-product-edge' },
+          { from: 'e3', to: 'e2', reaction: pdhReaction, className: 'pdh-regeneration-edge', path: 'M 850 642 C 970 680, 1185 605, 1140 455', label: '硫辛酰胺再生' }
+        ];
+
+        edgeDefinitions.forEach((definition, edgeIndex) => {
+          const source = nodeRecords.get(definition.from);
+          const target = nodeRecords.get(definition.to);
+          if (!source || !target) return;
+          const edge = studentSvgElement('path', {
+            d: definition.path || studentMapEdgePath(source, target, nodeWidth, nodeHeight),
+            class: `student-map-edge pdh-edge ${definition.className || ''}`,
+            'data-edge-from': definition.from,
+            'data-edge-to': definition.to,
+            'data-reaction': definition.reaction?.id || '',
+            'data-step-index': String(Math.min(source.stepIndex, target.stepIndex))
+          });
+          if (definition.reaction) {
+            const openReaction = () => renderStudentReactionDetail(definition.reaction, pathwayId, ownReactions.indexOf(definition.reaction));
+            edge.setAttribute('role', 'button');
+            edge.tabIndex = 0;
+            edge.addEventListener('click', event => { event.stopPropagation(); openReaction(); });
+            edge.addEventListener('keydown', event => {
+              if (event.key !== 'Enter' && event.key !== ' ') return;
+              event.preventDefault();
+              openReaction();
+            });
+          }
+          studentMapEdges.appendChild(edge);
+          applyStudentReactionDirection(edge, definition.reaction, {
+            showLabel: Boolean(definition.label),
+            labelOffsetY: -10 - (edgeIndex % 2) * 8
+          });
+          if (definition.label) edge.setAttribute('aria-label', `${definition.label}：${source.label}到${target.label}`);
+        });
+
+        nodeRecords.forEach(record => {
+          const node = studentSvgElement('g', {
+            class: `student-map-node pdh-node ${record.className || ''}`,
+            style: `--tone:${tone}`,
+            'data-map-key': record.key,
+            'data-entity-id': record.entityId,
+            'data-step-index': String(record.stepIndex),
+            'data-reaction': record.reaction?.id || '',
+            role: 'button',
+            tabindex: '0',
+            'aria-label': `${record.title || record.label}，${record.meta}`
+          });
+          node.appendChild(studentSvgElement('title', {}, `${record.title || record.label} · ${record.meta}`));
+          node.appendChild(studentSvgElement('rect', { x: record.x - nodeWidth / 2, y: record.y - nodeHeight / 2, width: nodeWidth, height: nodeHeight }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 2, class: 'node-name' }, record.label);
+          node.appendChild(name);
+          node.appendChild(studentSvgElement('text', { x: record.x, y: record.y + 20, class: 'node-compartment' }, record.meta));
+          const selectNode = () => renderStudentNodeSelection(record.entity, record.reaction, pathwayId, ownReactions.indexOf(record.reaction), record.stepIndex);
+          node.addEventListener('click', event => { event.stopPropagation(); selectNode(); });
+          node.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            selectNode();
+          });
+          studentMapNodes.appendChild(node);
+          fitStudentMapText(name, nodeWidth - 14, 15.5, 9.5);
+        });
+
+        const nextPath = studentSvgElement('g', {
+          class: 'student-map-next-pathway pdh-next-pathway',
+          'data-next-pathway': 'tca',
+          role: 'button',
+          tabindex: '0',
+          'aria-label': '下一站：三羧酸循环'
+        });
+        nextPath.appendChild(studentSvgElement('rect', { x: 1060, y: 590, width: 190, height: 58, rx: 14 }));
+        nextPath.appendChild(studentSvgElement('text', { x: 1155, y: 614, class: 'next-label' }, '乙酰-CoA 下一站'));
+        nextPath.appendChild(studentSvgElement('text', { x: 1155, y: 636, class: 'next-name' }, '三羧酸循环 →'));
+        const openTca = () => renderStudentPathway('tca', { returnToPrimer: false });
+        nextPath.addEventListener('click', event => { event.stopPropagation(); openTca(); });
+        nextPath.addEventListener('keydown', event => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          openTca();
+        });
+        studentMapNodes.appendChild(nextPath);
+
+        studentMapBands.appendChild(studentSvgElement('text', {
+          x: 48,
+          y: 704,
+          class: 'student-map-pan-hint',
+          'data-map-hint': 'horizontal'
+        }, '横向查看：跨膜进入 → 三酶接力 → TCA →'));
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderEtcStudentMap(pathwayId, pathwayReactions, tone) {
+        const viewWidth = 1180;
+        const viewHeight = 600;
+        const nodeWidth = 126;
+        const nodeHeight = 62;
+        studentPathwayMap.setAttribute('viewBox', `0 0 ${viewWidth} ${viewHeight}`);
+        studentPathwayMap.dataset.mapLayout = 'etc-electron-flow';
+        studentPathwayMap.setAttribute('aria-label', '呼吸电子传递链：NADH与琥珀酸双入口在辅酶Q池汇合，并建立质子动力势');
+        studentMapBands.replaceChildren();
+        studentMapEdges.replaceChildren();
+        studentMapNodes.replaceChildren();
+        studentMapCount.textContent = `${pathwayReactions.length} 个反应 · 12 个教学节点`;
+
+        [
+          { y: 28, height: 150, className: 'student-map-band etc-ims-band', label: '膜间隙侧 · H⁺积累形成电化学势', labelY: 55 },
+          { y: 190, height: 165, className: 'student-map-band etc-membrane-band', label: '线粒体内膜 · 电子沿载体复合体传递', labelY: 217 },
+          { y: 368, height: 170, className: 'student-map-band etc-matrix-band', label: '基质侧 · 两个电子入口', labelY: 395 }
+        ].forEach(band => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x: 25, y: band.y, width: 1130, height: band.height, class: band.className }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: 48, y: band.labelY, class: 'student-map-band-label' }, band.label));
+        });
+
+        const nodeDefinitions = [
+          { key: 'nadh', entityId: 'NADH@mito-matrix', label: 'NADH', meta: '基质电子入口', x: 92, y: 438, stepIndex: 0 },
+          { key: 'complex-i', entityId: '复合体 I@mito-inner-membrane', label: '复合体 I', meta: '泵出 4 H⁺', x: 258, y: 286, stepIndex: 1 },
+          { key: 'succinate', entityId: '琥珀酸@mito-matrix', label: '琥珀酸', meta: '经酶内 FAD/FADH₂', x: 92, y: 500, stepIndex: 0 },
+          { key: 'complex-ii', entityId: '复合体 II@mito-inner-membrane', label: '复合体 II', meta: '不泵质子', x: 258, y: 452, stepIndex: 1 },
+          { key: 'coq', entityId: '泛醇@mito-inner-membrane', label: 'CoQ 池', meta: 'Q / QH₂汇合', x: 438, y: 364, stepIndex: 2 },
+          { key: 'complex-iii', entityId: '复合体 III@mito-inner-membrane', label: '复合体 III', meta: 'Q循环 · 4 H⁺', x: 616, y: 286, stepIndex: 3 },
+          { key: 'cyt-c', entityId: '细胞色素 c@mito-ims', label: '细胞色素 c', meta: '膜间隙侧载体', x: 758, y: 214, stepIndex: 4 },
+          { key: 'complex-iv', entityId: '复合体 IV@mito-inner-membrane', label: '复合体 IV', meta: '泵出 2 H⁺', x: 874, y: 286, stepIndex: 5 },
+          { key: 'oxygen', entityId: '氧@mito-matrix', label: 'O₂', meta: '末端电子受体', x: 874, y: 462, stepIndex: 6 },
+          { key: 'water', entityId: '水@mito-matrix', label: 'H₂O', meta: '末端还原产物', x: 1042, y: 394, stepIndex: 6 },
+          { key: 'hplus', entityId: '膜间隙 H⁺@mito-ims', label: '膜间隙 H⁺', meta: 'I、III、IV共同建立', x: 900, y: 104, stepIndex: 6 },
+          { key: 'pmf', entityId: '质子动力势@mito-inner-membrane', label: '质子动力势 Δp', meta: 'ETC 的能量输出', x: 1050, y: 104, stepIndex: 6 }
+        ];
+        const nodeRecords = new Map(nodeDefinitions.map(definition => [definition.key, {
+          ...definition,
+          entity: entityById[definition.entityId] || null,
+          reactions: []
+        }]));
+
+        const reactionFor = (from, to, match = null) => {
+          const source = nodeRecords.get(from)?.entityId;
+          const target = nodeRecords.get(to)?.entityId;
+          return pathwayReactions.find(reaction => reaction.from === source && reaction.to === target)
+            || pathwayReactions.find(reaction => match && match(reaction))
+            || null;
+        };
+        const edgeDefinitions = [
+          { from: 'nadh', to: 'complex-i' },
+          { from: 'succinate', to: 'complex-ii' },
+          { from: 'complex-i', to: 'coq' },
+          { from: 'complex-ii', to: 'coq' },
+          { from: 'coq', to: 'complex-iii' },
+          { from: 'complex-iii', to: 'cyt-c' },
+          { from: 'cyt-c', to: 'complex-iv' },
+          { from: 'oxygen', to: 'complex-iv', className: 'substrate-input' },
+          { from: 'complex-iv', to: 'water' },
+          { from: 'complex-i', to: 'hplus', className: 'proton', label: '4 H⁺' },
+          { from: 'complex-iii', to: 'hplus', className: 'proton', label: '4 H⁺' },
+          { from: 'complex-iv', to: 'hplus', className: 'proton', label: '2 H⁺' },
+          { from: 'hplus', to: 'pmf', className: 'proton-output' }
+        ];
+
+        edgeDefinitions.forEach((definition, edgeIndex) => {
+          const source = nodeRecords.get(definition.from);
+          const target = nodeRecords.get(definition.to);
+          if (!source || !target) return;
+          const reaction = reactionFor(definition.from, definition.to, candidate => {
+            if (definition.from === 'coq' && definition.to === 'complex-iii') return candidate.from === source.entityId && /复合体 III/.test(candidate.enzyme || '');
+            return false;
+          });
+          if (reaction) {
+            source.reactions.push(reaction);
+            target.reactions.push(reaction);
+          }
+          const edge = studentSvgElement('path', {
+            d: studentMapEdgePath(source, target, nodeWidth, nodeHeight),
+            class: `student-map-edge etc-edge${definition.className ? ` ${definition.className}` : ''}`,
+            'data-edge-from': definition.from,
+            'data-edge-to': definition.to,
+            'data-reaction': reaction?.id || '',
+            'data-step-index': String(Math.min(source.stepIndex, target.stepIndex))
+          });
+          if (reaction) {
+            const openReaction = () => renderStudentReactionDetail(reaction, pathwayId, pathwayReactions.indexOf(reaction));
+            edge.setAttribute('role', 'button');
+            edge.tabIndex = 0;
+            edge.addEventListener('click', event => { event.stopPropagation(); openReaction(); });
+            edge.addEventListener('keydown', event => {
+              if (event.key !== 'Enter' && event.key !== ' ') return;
+              event.preventDefault();
+              openReaction();
+            });
+          }
+          studentMapEdges.appendChild(edge);
+          applyStudentReactionDirection(edge, reaction, {
+            showLabel: Boolean(definition.label),
+            labelOffsetY: definition.className === 'proton' ? -10 - (edgeIndex % 2) * 9 : -12
+          });
+          if (definition.label) {
+            edge.setAttribute('aria-label', `${definition.label}：${source.label}到${target.label}`);
+          }
+        });
+
+        nodeRecords.forEach(record => {
+          const node = studentSvgElement('g', {
+            class: `student-map-node etc-node${record.key === 'pmf' ? ' etc-output-node' : ''}`,
+            style: `--tone:${tone}`,
+            'data-map-key': record.key,
+            'data-entity-id': record.entityId,
+            'data-step-index': String(record.stepIndex),
+            role: 'button',
+            tabindex: '0',
+            'aria-label': `${record.label}，${record.meta}`
+          });
+          node.appendChild(studentSvgElement('title', {}, `${record.label} · ${record.meta}`));
+          node.appendChild(studentSvgElement('rect', { x: record.x - nodeWidth / 2, y: record.y - nodeHeight / 2, width: nodeWidth, height: nodeHeight }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 2, class: 'node-name' }, record.label);
+          node.appendChild(name);
+          node.appendChild(studentSvgElement('text', { x: record.x, y: record.y + 21, class: 'node-compartment' }, record.meta));
+          const reaction = record.reactions[0] || null;
+          if (reaction) node.dataset.reaction = reaction.id;
+          const selectNode = () => renderStudentNodeSelection(record.entity, reaction, pathwayId, pathwayReactions.indexOf(reaction), record.stepIndex);
+          node.addEventListener('click', event => { event.stopPropagation(); selectNode(); });
+          node.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            selectNode();
+          });
+          studentMapNodes.appendChild(node);
+          fitStudentMapText(name, nodeWidth - 16, 15.5, 10);
+        });
+
+        const nextPath = studentSvgElement('g', {
+          class: 'student-map-next-pathway',
+          'data-next-pathway': 'oxphos',
+          role: 'button',
+          tabindex: '0',
+          'aria-label': '下一站：氧化磷酸化'
+        });
+        nextPath.appendChild(studentSvgElement('rect', { x: 930, y: 246, width: 220, height: 58, rx: 14 }));
+        nextPath.appendChild(studentSvgElement('text', { x: 1040, y: 270, class: 'next-label' }, '下一站'));
+        nextPath.appendChild(studentSvgElement('text', { x: 1040, y: 290, class: 'next-name' }, '氧化磷酸化 →'));
+        const openOxphos = () => renderStudentPathway('oxphos', { returnToPrimer: false });
+        nextPath.addEventListener('click', event => { event.stopPropagation(); openOxphos(); });
+        nextPath.addEventListener('keydown', event => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          openOxphos();
+        });
+        studentMapNodes.appendChild(nextPath);
+
+        studentMapBands.appendChild(studentSvgElement('text', {
+          x: 48,
+          y: 575,
+          class: 'student-map-pan-hint',
+          'data-map-hint': 'horizontal'
+        }, '横向查看完整主线 →'));
+        setStudentReadingStep(pathwayId, 0);
+      }
+
+      function renderOxphosStudentMap(pathwayId, pathwayReactions, tone) {
+        const viewWidth = 1200;
+        const viewHeight = 660;
+        const nodeWidth = 126;
+        const nodeHeight = 58;
+        const ownReactions = pathwayReactions.filter(reaction => groupsFor(reaction).includes(pathwayId));
+        studentPathwayMap.setAttribute('viewBox', `0 0 ${viewWidth} ${viewHeight}`);
+        studentPathwayMap.dataset.mapLayout = 'oxphos-coupling';
+        studentPathwayMap.setAttribute('aria-label', '氧化磷酸化：质子回流驱动ATP合成，并由ANT、磷酸载体和VDAC完成底物与产物交换');
+        studentMapBands.replaceChildren();
+        studentMapEdges.replaceChildren();
+        studentMapNodes.replaceChildren();
+        studentMapCount.textContent = `${ownReactions.length} 个反应 · 15 个教学节点`;
+
+        [
+          { y: 22, height: 105, className: 'student-map-band ox-cytosol-band', label: '细胞质 · ADP 与 Pi 输入，ATP 输出', labelY: 48 },
+          { y: 140, height: 48, className: 'student-map-band ox-outer-membrane-band', label: '线粒体外膜 · VDAC 通道', labelY: 170 },
+          { y: 202, height: 105, className: 'student-map-band ox-ims-band', label: '膜间隙 · H⁺梯度与交换池', labelY: 228 },
+          { y: 322, height: 132, className: 'student-map-band ox-inner-membrane-band', label: '线粒体内膜 · 三个独立机制通道', labelY: 349 },
+          { y: 468, height: 145, className: 'student-map-band ox-matrix-band', label: '基质 · F₁催化侧生成 ATP', labelY: 496 }
+        ].forEach(band => {
+          studentMapBands.appendChild(studentSvgElement('rect', { x: 25, y: band.y, width: 1150, height: band.height, class: band.className }));
+          studentMapBands.appendChild(studentSvgElement('text', { x: 48, y: band.labelY, class: 'student-map-band-label' }, band.label));
+        });
+
+        const nodeDefinitions = [
+          { key: 'h-ims', entityId: '膜间隙 H⁺@mito-ims', label: '膜间隙 H⁺', meta: '质子动力势', x: 250, y: 263, stepIndex: 0, className: 'ox-proton-node' },
+          { key: 'atp-synthase', entityId: 'ATP 合酶@mito-inner-membrane', label: 'F₀F₁-ATP 合酶', meta: 'H⁺回流驱动旋转', x: 430, y: 398, stepIndex: 1, className: 'ox-carrier-node' },
+          { key: 'h-matrix', entityId: '', label: '基质 H⁺', meta: '回流终点', x: 250, y: 558, stepIndex: 1, className: 'ox-proton-node' },
+          { key: 'adp-matrix', entityId: 'ADP@mito-matrix', label: 'ADP', meta: '基质底物', x: 420, y: 558, stepIndex: 2, className: 'ox-input-node' },
+          { key: 'pi-matrix', entityId: '无机磷酸@mito-matrix', label: 'Pi', meta: '基质底物', x: 570, y: 558, stepIndex: 2, className: 'ox-input-node' },
+          { key: 'atp-matrix', entityId: 'ATP@mito-matrix', label: 'ATP', meta: '基质产物', x: 720, y: 558, stepIndex: 2, className: 'ox-product-node' },
+          { key: 'ant', entityId: '', label: 'ANT / SLC25A4', meta: 'ATP⁴⁻出 · ADP³⁻入', x: 720, y: 398, stepIndex: 3, className: 'ox-carrier-node' },
+          { key: 'atp-ims', entityId: 'ATP@mito-ims', label: 'ATP', meta: '膜间隙输出池', x: 650, y: 263, stepIndex: 3 },
+          { key: 'adp-ims', entityId: 'ADP@mito-ims', label: 'ADP', meta: '膜间隙输入池', x: 800, y: 263, stepIndex: 3 },
+          { key: 'phosphate-carrier', entityId: '', label: 'SLC25A3', meta: 'Pi/H⁺同向输入', x: 1010, y: 398, stepIndex: 3, className: 'ox-carrier-node' },
+          { key: 'pi-ims', entityId: '无机磷酸@mito-ims', label: 'Pi + H⁺', meta: '膜间隙输入池', x: 1010, y: 263, stepIndex: 3 },
+          { key: 'vdac', entityId: '', label: 'VDAC', meta: '外膜开放通道', x: 850, y: 164, stepIndex: 4, className: 'ox-carrier-node' },
+          { key: 'atp-cytosol', entityId: 'ATP@cytosol', label: 'ATP', meta: '输出到细胞质', x: 650, y: 82, stepIndex: 4, className: 'ox-product-node' },
+          { key: 'adp-cytosol', entityId: 'ADP@cytosol', label: 'ADP', meta: '从细胞质输入', x: 850, y: 82, stepIndex: 4, className: 'ox-input-node' },
+          { key: 'pi-cytosol', entityId: '无机磷酸@cytosol', label: 'Pi', meta: '从细胞质输入', x: 1050, y: 82, stepIndex: 4, className: 'ox-input-node' }
+        ];
+        const nodeRecords = new Map(nodeDefinitions.map(definition => [definition.key, {
+          ...definition,
+          entity: definition.entityId ? entityById[definition.entityId] || null : null,
+          reactions: []
+        }]));
+
+        const reactionMatching = match => ownReactions.find(match) || null;
+        const edgeDefinitions = [
+          { from: 'h-ims', to: 'atp-synthase', className: 'proton', match: r => r.from === '膜间隙 H⁺@mito-ims' && r.to === 'ATP 合酶@mito-inner-membrane' },
+          { from: 'atp-synthase', to: 'h-matrix', className: 'proton', label: 'H⁺回流', match: r => r.from === '膜间隙 H⁺@mito-ims' && r.to === 'ATP 合酶@mito-inner-membrane' },
+          { from: 'adp-matrix', to: 'atp-synthase', className: 'synthesis-input', match: r => r.from === 'ADP@mito-matrix' && r.to === 'ATP@mito-matrix' },
+          { from: 'pi-matrix', to: 'atp-synthase', className: 'synthesis-input', match: r => r.from === '无机磷酸@mito-matrix' && r.to === 'ATP@mito-matrix' },
+          { from: 'atp-synthase', to: 'atp-matrix', className: 'synthesis-output', label: 'ADP + Pi → ATP', match: r => r.from === 'ATP 合酶@mito-inner-membrane' && r.to === 'ATP@mito-matrix' },
+          { from: 'atp-matrix', to: 'ant', className: 'nucleotide-transport', match: r => r.from === 'ATP@mito-matrix' && /ANT|SLC25A4/.test(r.enzyme || '') },
+          { from: 'ant', to: 'atp-ims', className: 'nucleotide-transport', label: 'ATP⁴⁻出', match: r => r.from === 'ATP@mito-matrix' && /ANT|SLC25A4/.test(r.enzyme || '') },
+          { from: 'adp-ims', to: 'ant', className: 'nucleotide-transport', label: 'ADP³⁻入', match: r => r.from === 'ADP@mito-ims' && /ANT|SLC25A4/.test(r.enzyme || '') },
+          { from: 'ant', to: 'adp-matrix', className: 'nucleotide-transport', match: r => r.from === 'ADP@mito-ims' && /ANT|SLC25A4/.test(r.enzyme || '') },
+          { from: 'pi-ims', to: 'phosphate-carrier', className: 'phosphate-transport', label: 'Pi + H⁺入', match: r => r.from === '无机磷酸@mito-ims' && /SLC25A3|磷酸载体/.test(r.enzyme || '') },
+          { from: 'phosphate-carrier', to: 'pi-matrix', className: 'phosphate-transport', match: r => r.from === '无机磷酸@mito-ims' && /SLC25A3|磷酸载体/.test(r.enzyme || '') },
+          { from: 'atp-ims', to: 'vdac', className: 'outer-transport', match: r => r.from === 'ATP@mito-ims' && /VDAC/.test(r.enzyme || '') },
+          { from: 'vdac', to: 'atp-cytosol', className: 'outer-transport', match: r => r.from === 'ATP@mito-ims' && /VDAC/.test(r.enzyme || '') },
+          { from: 'adp-cytosol', to: 'vdac', className: 'outer-transport', match: r => r.from === 'ADP@cytosol' && /VDAC/.test(r.enzyme || '') },
+          { from: 'vdac', to: 'adp-ims', className: 'outer-transport', match: r => r.from === 'ADP@cytosol' && /VDAC/.test(r.enzyme || '') },
+          { from: 'pi-cytosol', to: 'vdac', className: 'outer-transport', match: r => r.from === '无机磷酸@cytosol' && /VDAC/.test(r.enzyme || '') },
+          { from: 'vdac', to: 'pi-ims', className: 'outer-transport', match: r => r.from === '无机磷酸@cytosol' && /VDAC/.test(r.enzyme || '') }
+        ];
+
+        edgeDefinitions.forEach((definition, edgeIndex) => {
+          const source = nodeRecords.get(definition.from);
+          const target = nodeRecords.get(definition.to);
+          if (!source || !target) return;
+          const reaction = reactionMatching(definition.match);
+          if (reaction) {
+            source.reactions.push(reaction);
+            target.reactions.push(reaction);
+          }
+          const edge = studentSvgElement('path', {
+            d: studentMapEdgePath(source, target, nodeWidth, nodeHeight),
+            class: `student-map-edge oxphos-edge ${definition.className || ''}`,
+            'data-edge-from': definition.from,
+            'data-edge-to': definition.to,
+            'data-reaction': reaction?.id || '',
+            'data-step-index': String(Math.min(source.stepIndex, target.stepIndex))
+          });
+          if (reaction) {
+            const openReaction = () => renderStudentReactionDetail(reaction, pathwayId, pathwayReactions.indexOf(reaction));
+            edge.setAttribute('role', 'button');
+            edge.tabIndex = 0;
+            edge.addEventListener('click', event => { event.stopPropagation(); openReaction(); });
+            edge.addEventListener('keydown', event => {
+              if (event.key !== 'Enter' && event.key !== ' ') return;
+              event.preventDefault();
+              openReaction();
+            });
+          }
+          studentMapEdges.appendChild(edge);
+          applyStudentReactionDirection(edge, reaction, {
+            showLabel: Boolean(definition.label),
+            labelOffsetY: -10 - (edgeIndex % 2) * 8
+          });
+          if (definition.label) edge.setAttribute('aria-label', `${definition.label}：${source.label}到${target.label}`);
+        });
+
+        nodeRecords.forEach(record => {
+          const node = studentSvgElement('g', {
+            class: `student-map-node oxphos-node ${record.className || ''}`,
+            style: `--tone:${tone}`,
+            'data-map-key': record.key,
+            'data-entity-id': record.entityId,
+            'data-step-index': String(record.stepIndex),
+            role: 'button',
+            tabindex: '0',
+            'aria-label': `${record.label}，${record.meta}`
+          });
+          node.appendChild(studentSvgElement('title', {}, `${record.label} · ${record.meta}`));
+          node.appendChild(studentSvgElement('rect', { x: record.x - nodeWidth / 2, y: record.y - nodeHeight / 2, width: nodeWidth, height: nodeHeight }));
+          const name = studentSvgElement('text', { x: record.x, y: record.y + 2, class: 'node-name' }, record.label);
+          node.appendChild(name);
+          node.appendChild(studentSvgElement('text', { x: record.x, y: record.y + 20, class: 'node-compartment' }, record.meta));
+          const reaction = record.reactions[0] || null;
+          if (reaction) node.dataset.reaction = reaction.id;
+          const selectNode = () => renderStudentNodeSelection(record.entity, reaction, pathwayId, pathwayReactions.indexOf(reaction), record.stepIndex);
+          node.addEventListener('click', event => { event.stopPropagation(); selectNode(); });
+          node.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            selectNode();
+          });
+          studentMapNodes.appendChild(node);
+          fitStudentMapText(name, nodeWidth - 14, 15.5, 9.5);
+        });
+
+        const previousPath = studentSvgElement('g', {
+          class: 'student-map-next-pathway oxphos-previous-pathway',
+          'data-previous-pathway': 'etc',
+          role: 'button',
+          tabindex: '0',
+          'aria-label': '梯度来源：电子传递链'
+        });
+        previousPath.appendChild(studentSvgElement('rect', { x: 40, y: 238, width: 145, height: 50, rx: 14 }));
+        previousPath.appendChild(studentSvgElement('text', { x: 112.5, y: 259, class: 'next-label' }, '梯度来源'));
+        previousPath.appendChild(studentSvgElement('text', { x: 112.5, y: 277, class: 'next-name' }, '← 电子传递链'));
+        const openEtc = () => renderStudentPathway('etc', { returnToPrimer: false });
+        previousPath.addEventListener('click', event => { event.stopPropagation(); openEtc(); });
+        previousPath.addEventListener('keydown', event => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          openEtc();
+        });
+        studentMapNodes.appendChild(previousPath);
+
+        studentMapBands.appendChild(studentSvgElement('text', {
+          x: 48,
+          y: 642,
+          class: 'student-map-pan-hint',
+          'data-map-hint': 'horizontal'
+        }, '横向查看三条机制通道：ATP 合成 · ANT 交换 · Pi/H⁺输入 →'));
+        setStudentReadingStep(pathwayId, 0);
       }
 
       const studentMetaboliteFacts = new Map(Object.entries({
@@ -4066,13 +7364,16 @@
         setStudentReadingStep(pathwayId, 0);
         flowLoop.textContent = /循环|cycle/i.test(pathway.name) ? '循环通路：末端中间体回到入口受体。' : '';
 
-        const pathwayReactions = studentReactionsFor(pathwayId);
+        const allPathwayReactions = studentReactionsFor(pathwayId);
+        const pathwayReactions = visibleReactionRows(pathwayId, allPathwayReactions);
         studentReactionCount.textContent = `${pathwayReactions.length} 个反应`;
         studentReactions.innerHTML = '';
         pathwayReactions.forEach((reaction, index) => {
           const button = document.createElement('button');
           const substrate = entityById[reaction.from], product = entityById[reaction.to];
           button.type = 'button'; button.className = 'student-reaction'; button.dataset.reaction = reaction.id;
+          const aliases = visibleReactionAliases(pathwayId, reaction, allPathwayReactions);
+          if (aliases.length) button.dataset.reactionAliases = aliases.map(candidate => candidate.id).join(' ');
           const isComposite = isStudentCompositeReaction(reaction);
           const directionLabel = isComposite ? '净方向' : (reaction.reversible ? '可逆' : '单向');
           const directionSymbol = reaction.reversible ? '⇌' : '→';
@@ -4779,7 +8080,7 @@
         updateExpertPathPreview(pathwayId);
         const routeGroup = routeGroupForPathway(pathwayId, pathway);
         if (routeGroup && pathwayMeta[routeGroup]) highlightFor([routeGroup], null);
-        // 从自由探索中的通路入口进入时，同样直达第 3 层机制图；
+        // 从自由探索中的通路入口进入时，同样直达通路机制图；
         // 空间位置由单独的“查看区室结构”入口提供。
         const mechanismScene = expertMechanismSceneForPathway(pathway);
         if (currentSceneId && currentSceneId !== mechanismScene) {
@@ -4847,7 +8148,7 @@
 
       function sceneEntryLabel(hotspot) {
         const target = hotspot?.target ? atlas.scenes[hotspot.target] : null;
-        return target?.parent ? `${hotspot.label || target.title}（进入第 3 层）` : (hotspot.label || hotspot.target);
+        return target?.parent ? `${hotspot.label || target.title}（进入区室结构）` : (hotspot.label || hotspot.target);
       }
 
       function renderSceneRouteLanes(scene, hotspots = [], selectedPathwayId = null) {
@@ -4923,7 +8224,7 @@
           });
           const caption = document.createElement('small'); caption.className = 'scene-route-caption';
           caption.textContent = entersChild
-            ? `${displayText(childScene.title)} · 进入第 3 层区室`
+              ? `${displayText(childScene.title)} · 进入子区室`
             : `${displayText(pathway.compartment || scene.title || '')} · 点击查看通路详情`;
           lane.append(head, line, caption);
           sceneRouteLanes.appendChild(lane);
@@ -4993,8 +8294,8 @@
         // 步骤列表必须与机制图一致：优先取本通路自身的反应。
         // routeGroup（etc/transport 等）只是视觉分组，把兄弟通路的反应
         // 一并列进来会让氧化磷酸化混入整条呼吸链、穿梭混入全部转运。
-        const own = reactions.filter(reaction => groupsFor(reaction).includes(pathwayId)
-          && Boolean(expertReactionEndpoints(reaction)));
+        const own = visibleReactionRows(pathwayId, reactions.filter(reaction => groupsFor(reaction).includes(pathwayId)
+          && Boolean(expertReactionEndpoints(reaction))));
         if (own.length) return own;
         const routeGroup = routeGroupForPathway(pathwayId, pathway);
         return reactions.filter(reaction => {
@@ -5030,9 +8331,9 @@
         sceneDeck.dataset.reaction = reaction.id;
         requestAnimationFrame(syncSceneExpertOverlayGeometry);
         sceneTitle.textContent = `${displayText(pathway.name)} · 第 ${stepIndex + 1} 步`;
-        sceneSubtitle.textContent = '第 4 层 · 单步反应';
+        sceneSubtitle.textContent = '单步反应';
         sceneDescription.textContent = `${displayText(substrate.name)} ${direction} ${displayText(product.name)} · ${displayText(reaction.enzyme || '反应机制')}`;
-        if (sceneLevelHint) sceneLevelHint.textContent = '第 4 层 · 单步反应 · 查看底物、产物与酶';
+        if (sceneLevelHint) sceneLevelHint.textContent = '单步反应 · 查看底物、产物与酶';
         openInspector({
           ...reaction,
           pathwayId,
@@ -5129,7 +8430,7 @@
       function setSceneMechanismHeader(scene, pathway) {
         if (!scene || !pathway) return;
         sceneTitle.textContent = displayText(pathway.name || scene.title);
-        sceneSubtitle.textContent = '第 3 层 · 通路机制图';
+        sceneSubtitle.textContent = `通路机制 · ${displayText(pathway.compartment || scene.title || '')}`;
         const scope = displayText(pathway.compartment || scene.title || '');
         const summary = displayText(pathway.summary || '按箭头追踪反应节点、酶与跨区室连接。');
         sceneDescription.textContent = scope ? `${scope} · ${summary}` : summary;
@@ -5164,7 +8465,7 @@
         sceneDeck.dataset.sceneLevel = '3';
         sceneDeck.dataset.pathway = pathwayId;
         delete sceneDeck.dataset.reaction;
-        if (sceneLevelHint) sceneLevelHint.textContent = '第 3 层 · 通路机制图 · 选择反应步骤';
+        if (sceneLevelHint) sceneLevelHint.textContent = '通路机制 · 选择反应步骤';
         setSceneMechanismHeader(scene, pathway);
         const sceneView = sceneViewEntry(scene, currentSceneView);
         const visual = expertPathwayVisualSources[pathwayId]
@@ -5193,7 +8494,7 @@
         }
         if (sceneDeck.classList.contains('pathway-visual-active')) {
           sceneBack.textContent = '← 返回通路总览';
-          sceneBack.setAttribute('aria-label', '返回当前通路的第 2 层总览');
+        sceneBack.setAttribute('aria-label', '返回当前通路总览');
           return;
         }
         const current = atlas.scenes[currentSceneId];
@@ -5284,6 +8585,17 @@
             return routePath(`M ${sx} ${sy} L ${ex} ${ey}`, reversible, className);
           };
           const label = (x, y, value, className = 'schematic-label', attrs = {}) => add('text', { x, y, 'text-anchor': 'middle', class: className, ...attrs }, value);
+          const stackedLabel = (x, y, lines, className, lineGap = 3.25, attrs = {}) => {
+            const node = add('text', { x, y, 'text-anchor': 'middle', class: className, ...attrs });
+            lines.forEach((lineValue, index) => {
+              const tspan = document.createElementNS(svg, 'tspan');
+              tspan.setAttribute('x', x);
+              tspan.setAttribute('dy', index === 0 ? '0' : String(lineGap));
+              tspan.textContent = lineValue;
+              node.appendChild(tspan);
+            });
+            return node;
+          };
           const metabolite = (x, y, value) => {
             add('circle', { cx: x, cy: y, r: .95, class: 'schematic-node-halo' });
             add('circle', { cx: x, cy: y, r: .52, class: 'schematic-node' });
@@ -5301,113 +8613,157 @@
             add('circle', { cx: x, cy: y, r: .72, class: 'schematic-step-disc' });
             label(x, y + .34, String(value), 'schematic-step-number');
           };
-          if (pathwayId === 'malate_aspartate' || pathwayId === 'glycerol_phosphate') {
-            label(67, 24, `${pathway.name}机制图`, 'schematic-title');
-            label(31, 25, '细胞质侧', 'schematic-compartment-title');
-            label(61.5, 48, '线粒体内膜', 'schematic-compartment-title');
-            label(32, 69, '基质侧', 'schematic-compartment-title');
-          }
-
           if (pathwayId === 'tca') {
-            const p = {
-              citrate: [60, 36], isocitrate: [78, 45], alphaKg: [82, 61], succinyl: [73, 75],
-              succinate: [56, 80], fumarate: [41, 74], malate: [34, 58], oaa: [40, 43], acetyl: [26, 48]
+            const tcaPoint = (x, y, value, labelY) => {
+              add('circle', { cx: x, cy: y, r: 1.05, class: 'schematic-node-halo' });
+              add('circle', { cx: x, cy: y, r: .52, class: 'schematic-node', 'aria-label': value });
+              label(x, labelY, value, 'schematic-label');
             };
-            label(63, 25, '线粒体基质 · 三羧酸循环', 'schematic-title');
-            label(48, 29, '柠檬酸合酶：乙酰-CoA + OAA → 柠檬酸', 'schematic-enzyme');
-            metabolite(...p.citrate, '柠檬酸'); metabolite(...p.isocitrate, '异柠檬酸');
-            metabolite(...p.alphaKg, 'α-酮戊二酸'); metabolite(...p.succinyl, '琥珀酰-CoA');
-            metabolite(...p.succinate, '琥珀酸'); metabolite(...p.fumarate, '延胡索酸');
-            metabolite(...p.malate, '苹果酸'); metabolite(...p.oaa, '草酰乙酸');
-            metabolite(...p.acetyl, '乙酰-CoA');
-            routePath('M 41.6 43 C 47 34, 53 34, 58.6 36', false, 'schematic-route');
-            routePath('M 61.4 36 C 69 36, 76 40, 77 44', false, 'schematic-route');
-            routePath('M 78.8 46 C 84 50, 85 55, 81.5 59.5', false, 'schematic-route');
-            routePath('M 81 62 C 79 69, 76 72, 74 74', false, 'schematic-route');
-            routePath('M 71.5 76 C 65 82, 61 83, 57.5 80', false, 'schematic-route');
-            routePath('M 54.5 79 C 47 79, 43 77, 41.8 75', false, 'schematic-route');
-            routePath('M 40 73 C 34 68, 32 63, 33.2 59.5', false, 'schematic-route');
-            routePath('M 34 56 C 34 50, 35 46, 39 44', false, 'schematic-route');
+            const p = {
+              acetyl: [12, 30], citrate: [34, 28], isocitrate: [58, 28], alphaKg: [82, 35],
+              succinyl: [86, 53], succinate: [72, 68], fumarate: [50, 72], malate: [29, 69], oaa: [14, 52]
+            };
+            label(50, 15, '线粒体基质 · 三羧酸循环八步与每轮收支', 'schematic-title');
+            add('rect', { x: 4, y: 19, width: 92, height: 59, rx: 3, class: 'schematic-tca-zone schematic-tca-cycle-zone', 'data-tca-zone': 'cycle' });
+            add('rect', { x: 4, y: 80, width: 92, height: 16, rx: 3, class: 'schematic-tca-zone schematic-tca-yield-zone', 'data-tca-zone': 'yield' });
+
+            tcaPoint(...p.acetyl, '乙酰-CoA', 24);
+            tcaPoint(...p.citrate, '柠檬酸', 23);
+            tcaPoint(...p.isocitrate, '异柠檬酸', 23);
+            tcaPoint(...p.alphaKg, 'α-KG', 29);
+            tcaPoint(...p.succinyl, '琥珀酰-CoA', 58);
+            tcaPoint(...p.succinate, '琥珀酸', 75);
+            tcaPoint(...p.fumarate, '延胡索酸', 77);
+            tcaPoint(...p.malate, '苹果酸', 75);
+            tcaPoint(...p.oaa, 'OAA', 57);
+
             line(...p.acetyl, ...p.citrate);
-            stepBadge(54, 33, 1); stepBadge(70, 40, 2); stepBadge(84, 52, 3); stepBadge(77, 69, 4);
-            stepBadge(65, 82, 5); stepBadge(48, 80, 6); stepBadge(34, 67, 7); stepBadge(34, 49, 8);
-            label(68, 40, '顺乌头酸酶', 'schematic-enzyme');
-            label(87, 54, '异柠檬酸脱氢酶', 'schematic-enzyme');
-            label(87, 56, 'NADH + CO₂', 'schematic-cofactor');
-            label(76, 66, 'α-KGDH', 'schematic-enzyme');
-            label(76, 68, 'NADH + CO₂', 'schematic-cofactor');
-            label(63, 86, '琥珀酰-CoA 合成酶', 'schematic-enzyme');
-            label(63, 88, 'GTP', 'schematic-cofactor');
-            label(47, 87, '琥珀酸脱氢酶 · 复合体 II', 'schematic-enzyme');
-            label(47, 89, 'FADH₂ → CoQH₂', 'schematic-cofactor');
-            label(30, 69, '延胡索酸酶 · H₂O', 'schematic-enzyme');
-            label(28, 52, '苹果酸脱氢酶', 'schematic-enzyme');
-            label(28, 54, 'NADH', 'schematic-cofactor');
-            label(61, 95, '每一轮：3 NADH · 1 FADH₂ · 1 GTP · 2 CO₂', 'schematic-output');
+            line(...p.oaa, ...p.citrate);
+            line(...p.citrate, ...p.isocitrate, true);
+            line(...p.isocitrate, ...p.alphaKg);
+            line(...p.alphaKg, ...p.succinyl);
+            line(...p.succinyl, ...p.succinate, true);
+            line(...p.succinate, ...p.fumarate);
+            line(...p.fumarate, ...p.malate, true);
+            line(...p.malate, ...p.oaa, true);
+
+            label(22, 35, 'CS', 'schematic-enzyme');
+            label(46, 35, 'ACO2', 'schematic-enzyme');
+            label(70, 36, 'IDH3', 'schematic-enzyme');
+            label(84, 44, 'OGDH', 'schematic-enzyme');
+            label(82, 64, 'SUCL', 'schematic-enzyme');
+            label(61, 65, 'SDH / CII', 'schematic-enzyme');
+            label(39, 65, 'FH', 'schematic-enzyme');
+            label(22, 61, 'MDH2', 'schematic-enzyme');
+
+            label(16, 86, '每轮净收支', 'schematic-title');
+            label(40, 86, '3 NADH · 2 CO₂', 'schematic-output');
+            label(65, 86, '1 GTP', 'schematic-output');
+            label(84, 86, '1 CoQH₂', 'schematic-output');
+            label(23, 93, 'OAA 再生', 'schematic-output');
+            label(66, 93, '内膜复合体 II · 酶内 FAD → CoQH₂', 'schematic-output');
           } else if (pathwayId === 'pdh') {
-            const p = {
-              pyruvate: [25, 50], hydroxyethyl: [40, 50], acetylLipo: [56, 50], acetylCoa: [78, 50],
-              e1: [34, 63], e2: [55, 63], e3: [68, 68], nad: [82, 68], nadh: [82, 80]
+            const pdhPoint = (x, y, value, labelY, className = 'schematic-node-label') => {
+              add('circle', { cx: x, cy: y, r: 1.05, class: 'schematic-node-halo' });
+              add('circle', { cx: x, cy: y, r: .52, class: 'schematic-node', 'aria-label': value });
+              label(x, labelY, value, className);
             };
-            label(61, 25, '线粒体基质 · 丙酮酸脱氢酶复合体', 'schematic-title');
-            label(50, 30, '不可逆氧化脱羧：丙酮酸 → 乙酰-CoA', 'schematic-enzyme');
-            metabolite(...p.pyruvate, '丙酮酸');
-            metabolite(...p.hydroxyethyl, '羟乙基-TPP');
-            metabolite(...p.acetylLipo, '乙酰-硫辛酰胺');
-            metabolite(...p.acetylCoa, '乙酰-CoA');
-            add('circle', { cx: p.e1[0], cy: p.e1[1], r: 1.65, class: 'schematic-enzyme-node' });
-            add('circle', { cx: p.e2[0], cy: p.e2[1], r: 1.65, class: 'schematic-enzyme-node' });
-            add('circle', { cx: p.e3[0], cy: p.e3[1], r: 1.65, class: 'schematic-enzyme-node' });
-            label(...p.e1, 'E1 · 脱羧酶', 'schematic-enzyme');
-            label(...p.e2, 'E2 · 转乙酰酶', 'schematic-enzyme');
-            label(...p.e3, 'E3 · 脱氢酶', 'schematic-enzyme');
-            label(34, 68, 'TPP · 脱羧', 'schematic-cofactor');
-            label(55, 68, '硫辛酰胺 · 接收乙酰基', 'schematic-cofactor');
-            label(68, 76, 'FAD → FADH₂', 'schematic-cofactor');
-            label(82, 76, 'NAD⁺', 'schematic-cofactor');
-            label(82, 83, 'NADH + H⁺', 'schematic-cofactor');
-            label(58, 39, 'CO₂', 'schematic-output');
-            label(78, 39, 'CoA-SH', 'schematic-cofactor');
-            line(...p.pyruvate, ...p.hydroxyethyl);
-            line(...p.hydroxyethyl, ...p.acetylLipo);
-            line(...p.acetylLipo, ...p.acetylCoa);
-            routePath('M 25 48 C 28 42, 36 40, 40 48', false, 'schematic-route schematic-cofactor-route');
-            routePath('M 56 52 C 59 58, 63 63, 67 66', false, 'schematic-route schematic-cofactor-route');
-            routePath('M 70 68 C 75 65, 79 66, 81 68', false, 'schematic-route schematic-cofactor-route');
-            routePath('M 82 70 C 86 73, 86 77, 82 80', false, 'schematic-route schematic-cofactor-route');
-            routePath('M 68 66 C 63 63, 59 61, 56 61', true, 'schematic-route schematic-cofactor-route');
-            line(58, 48, 58, 40, false, 'schematic-route schematic-cofactor-route');
-            line(78, 48, 78, 40, false, 'schematic-route schematic-cofactor-route');
-            stepBadge(32, 46, 1); stepBadge(48, 46, 2); stepBadge(67, 46, 3); stepBadge(84, 68, 4);
-            label(51, 94, '总反应：丙酮酸 + CoA-SH + NAD⁺ → 乙酰-CoA + CO₂ + NADH + H⁺', 'schematic-output');
+
+            label(50, 20, '胞质丙酮酸进入基质，再由 PDH 复合体完成氧化脱羧', 'schematic-title');
+            add('rect', { x: 8, y: 27, width: 84, height: 23, rx: 3, class: 'schematic-pdh-zone schematic-pdh-transport-zone', 'data-pdh-zone': 'transport' });
+            label(50, 27, '跨膜输入 · VDAC 外膜通道 + MPC/H⁺同向输入', 'schematic-transporter');
+            const transport = {
+              cytosol: [14, 41], vdac: [32, 41], ims: [50, 41], mpc: [68, 41], matrix: [86, 41]
+            };
+            pdhPoint(...transport.cytosol, '胞质丙酮酸', 35);
+            pdhPoint(...transport.vdac, 'VDAC', 47, 'schematic-transporter');
+            pdhPoint(...transport.ims, '膜间隙丙酮酸', 35);
+            pdhPoint(...transport.mpc, 'MPC1/2', 47, 'schematic-transporter');
+            pdhPoint(...transport.matrix, '基质丙酮酸', 35);
+            line(...transport.cytosol, ...transport.vdac, true, 'schematic-route schematic-transporter-route');
+            line(...transport.vdac, ...transport.ims, true, 'schematic-route schematic-transporter-route');
+            line(...transport.ims, ...transport.mpc, false, 'schematic-route schematic-transporter-route');
+            line(...transport.mpc, ...transport.matrix, false, 'schematic-route schematic-transporter-route');
+            label(68, 37, 'H⁺', 'schematic-cofactor');
+
+            add('rect', { x: 8, y: 53, width: 84, height: 40, rx: 3, class: 'schematic-pdh-zone schematic-pdh-complex-zone', 'data-pdh-zone': 'complex' });
+            label(50, 57, '基质 PDH · 3C → 2C + CO₂ · 不可逆', 'schematic-title');
+            const complex = {
+              pyruvate: [15, 70], e1: [33, 70], e2: [52, 70], acetylCoa: [72, 70], coa: [86, 58],
+              co2: [16, 86], e3: [52, 86], nad: [70, 86], nadh: [88, 86]
+            };
+            pdhPoint(...complex.pyruvate, '丙酮酸', 64);
+            pdhPoint(...complex.e1, 'E1 · TPP', 77, 'schematic-enzyme');
+            pdhPoint(...complex.e2, 'E2 · 硫辛酰胺', 64, 'schematic-enzyme');
+            pdhPoint(...complex.acetylCoa, '乙酰-CoA', 64);
+            pdhPoint(...complex.coa, 'CoA-SH', 63, 'schematic-cofactor');
+            pdhPoint(...complex.co2, 'CO₂', 92, 'schematic-output');
+            pdhPoint(...complex.e3, 'E3 · FAD', 92, 'schematic-enzyme');
+            pdhPoint(...complex.nad, 'NAD⁺', 80, 'schematic-cofactor');
+            pdhPoint(...complex.nadh, 'NADH + H⁺', 92, 'schematic-output');
+            line(...complex.pyruvate, ...complex.e1);
+            line(...complex.e1, ...complex.e2);
+            line(...complex.e2, ...complex.acetylCoa);
+            line(...complex.coa, ...complex.e2, false, 'schematic-route schematic-cofactor-route');
+            routePath('M 33 71 C 30 78, 24 84, 17 86', false, 'schematic-route schematic-cofactor-route');
+            routePath('M 52 71 C 57 77, 57 81, 53 85', false, 'schematic-route schematic-cofactor-route');
+            line(...complex.nad, ...complex.e3, false, 'schematic-route schematic-cofactor-route');
+            line(...complex.e3, ...complex.nadh, false, 'schematic-route schematic-cofactor-route');
+            routePath('M 53 84 C 62 80, 63 74, 53 71', false, 'schematic-route schematic-cofactor-route');
+            stepBadge(24, 70, 1); stepBadge(43, 70, 2); stepBadge(62, 70, 3); stepBadge(61, 86, 4);
+            label(50, 98, '净：CoA-SH + NAD⁺ → 乙酰-CoA + CO₂ + NADH + H⁺', 'schematic-output');
           } else if (pathwayId === 'beta_oxidation') {
             const p = {
-              acyl: [25, 52], enoyl: [49, 40], hydroxy: [74, 52], keto: [74, 72],
-              acetyl: [54, 84], shortened: [29, 71]
+              upstream: [10, 18], carnitine: [34, 18], matrixAcyl: [63, 18], spiral: [88, 18],
+              acyl: [8, 42], acad: [25, 42], enoyl: [44, 42], hydratase: [63, 42], hydroxy: [84, 42],
+              had: [84, 61], keto: [64, 61], thiolase: [44, 61], acetyl: [25, 61], shortened: [8, 61],
+              tca: [25, 98], etc: [52, 98], scope: [82, 98]
             };
-            label(61, 25, '线粒体基质 · 脂肪酸 β-氧化四步循环', 'schematic-title');
-            label(50, 30, '每轮切下 2 个碳：脂酰-CoA → 乙酰-CoA + 缩短脂酰-CoA', 'schematic-enzyme');
-            metabolite(...p.acyl, '脂酰-CoA');
-            metabolite(...p.enoyl, 'trans-Δ²-烯酰-CoA');
-            metabolite(...p.hydroxy, 'L-β-羟脂酰-CoA');
-            metabolite(...p.keto, 'β-酮脂酰-CoA');
-            metabolite(...p.acetyl, '乙酰-CoA');
-            metabolite(...p.shortened, '缩短脂酰-CoA');
-            routePath('M 27 51 C 34 44, 41 41, 47.5 40', false, 'schematic-route');
-            routePath('M 51 40 C 61 40, 68 44, 72.5 51', false, 'schematic-route');
-            routePath('M 74 54 L 74 69', false, 'schematic-route');
-            routePath('M 72 73 C 66 79, 60 82, 55.5 83', false, 'schematic-route');
-            routePath('M 71 73 C 60 76, 43 76, 31 71', false, 'schematic-route');
-            routePath('M 27 69 C 22 63, 22 56, 24 53', false, 'schematic-route');
-            stepBadge(37, 43, 1); stepBadge(62, 43, 2); stepBadge(79, 61, 3); stepBadge(64, 77, 4);
-            label(37, 35, '脂酰-CoA 脱氢酶', 'schematic-enzyme');
-            label(37, 33, 'FAD → FADH₂ → ETF → CoQ', 'schematic-cofactor');
-            label(62, 47, '烯酰-CoA 水合酶 · H₂O', 'schematic-enzyme');
-            label(83, 63, 'β-羟脂酰-CoA 脱氢酶', 'schematic-enzyme');
-            label(83, 65, 'NAD⁺ → NADH + H⁺', 'schematic-cofactor');
-            label(64, 80, 'β-酮硫解酶 · CoA-SH', 'schematic-enzyme');
-            label(54, 90, '乙酰-CoA → TCA；NADH 与 FADH₂ → 呼吸链', 'schematic-output');
-            label(29, 78, '缩短 2C，进入下一轮', 'schematic-cofactor');
+            label(50, 4.2, '脂肪酸 β-氧化：四步螺旋、电子去向与 C16 碳账本', 'schematic-title');
+            [
+              [3, 7, 94, 16, 'schematic-beta-zone schematic-beta-entry-zone', 'entry-boundary'],
+              [3, 24, 94, 46, 'schematic-beta-zone schematic-beta-cycle-zone', 'four-step-cycle'],
+              [3, 71, 94, 21, 'schematic-beta-zone schematic-beta-ledger-zone', 'spiral-ledger'],
+              [3, 93, 94, 6, 'schematic-beta-zone schematic-beta-output-zone', 'pathway-outputs']
+            ].forEach(([x, y, width, height, className, zone]) => add('rect', { x, y, width, height, rx: 3, class: className, 'data-beta-oxidation-zone': zone }));
+            label(6, 10.5, '入口边界 · 基质侧', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(6, 27.5, '四步螺旋 · 每轮链长 −2C', 'schematic-compartment-title', { 'text-anchor': 'start' });
+
+            namedNode(...p.upstream, '上游边界', 'upstream'); namedNode(...p.carnitine, '肉碱穿梭', 'carnitine');
+            metabolite(...p.matrixAcyl, '基质脂酰-CoA'); namedNode(...p.spiral, '四步螺旋', 'spiral');
+            line(...p.upstream, ...p.carnitine, false, 'schematic-route schematic-transporter-route');
+            line(...p.carnitine, ...p.matrixAcyl, false, 'schematic-route schematic-transporter-route');
+            line(...p.matrixAcyl, ...p.spiral);
+            label(50, 22.3, '上游：活化 + 肉碱穿梭 · ATP→AMP+PPi 不计入本循环', 'schematic-note');
+
+            metabolite(...p.acyl, '脂酰-CoA'); namedNode(...p.acad, 'ACAD', 'acad');
+            metabolite(...p.enoyl, 'trans-Δ²-烯酰-CoA'); namedNode(...p.hydratase, '水合酶', 'hydratase');
+            metabolite(...p.hydroxy, 'L-β-羟脂酰-CoA'); namedNode(...p.had, 'HAD', 'had');
+            metabolite(...p.keto, 'β-酮脂酰-CoA'); namedNode(...p.thiolase, '硫解酶', 'thiolase');
+            metabolite(...p.acetyl, '乙酰-CoA'); metabolite(...p.shortened, '缩短脂酰-CoA');
+            line(...p.acyl, ...p.acad); line(...p.acad, ...p.enoyl);
+            line(...p.enoyl, ...p.hydratase); line(...p.hydratase, ...p.hydroxy);
+            line(...p.hydroxy, ...p.had); line(...p.had, ...p.keto);
+            line(...p.keto, ...p.thiolase); line(...p.thiolase, ...p.acetyl);
+            line(...p.thiolase, ...p.shortened);
+            routePath('M 7 60 C 1 55, 1 48, 7 43', false, 'schematic-route schematic-cycle-route');
+            label(27, 34.2, '脂酰-CoA 脱氢酶 · 酶内 FAD → ETF → ETF:QO → CoQ', 'schematic-cofactor');
+            label(76, 34.2, '烯酰-CoA 水合酶 · H₂O', 'schematic-cofactor');
+            label(78, 68.2, 'β-羟脂酰-CoA 脱氢酶 · NAD⁺ → NADH + H⁺', 'schematic-cofactor');
+            label(39, 68.2, 'β-酮硫解酶 · CoA-SH', 'schematic-cofactor');
+            label(10, 68.2, '缩短 2C，返回下一轮', 'schematic-output');
+            stepBadge(34, 45.5, 1); stepBadge(72, 45.5, 2); stepBadge(75, 58, 3); stepBadge(53, 58, 4);
+
+            stackedLabel(50, 74.1, [
+              '每轮与 C16 总账',
+              '每轮：1 乙酰-CoA + 1 NADH + 1 对电子进入 CoQ',
+              'C16 → C14 → C12 → C10 → C8 → C6 → C4',
+              '末轮 C4 → 2 乙酰-CoA',
+              '7 轮 → 8 乙酰-CoA + 7 NADH + 7 对电子进入 CoQ',
+              'β-氧化本身不直接产生 ATP'
+            ], 'schematic-output', 3.35);
+
+            namedNode(...p.tca, '→ TCA', 'tca'); namedNode(...p.etc, '→ 呼吸链', 'etc'); namedNode(...p.scope, '饱和偶数链主线', 'scope');
           } else if (pathwayId === 'etc') {
             const p = {
               nadh: [16, 69], c1: [29, 58], succinate: [16, 84], c2: [29, 78], coq: [45, 68],
@@ -5433,7 +8789,7 @@
             routePath('M 61 56 C 61 47, 61 41, 61 35', false, 'schematic-route schematic-cofactor-route');
             routePath('M 84 56 C 84 47, 84 41, 84 35', false, 'schematic-route schematic-cofactor-route');
             label(29, 49, '4H⁺', 'schematic-cofactor'); label(61, 49, '4H⁺', 'schematic-cofactor'); label(84, 49, '2H⁺', 'schematic-cofactor');
-            label(25, 54, 'NADH 脱氢', 'schematic-enzyme'); label(23, 91, 'FADH₂ 入口', 'schematic-cofactor');
+            label(25, 54, 'NADH 脱氢', 'schematic-enzyme'); label(23, 91, '琥珀酸脱氢 · 酶内 FAD', 'schematic-cofactor');
             label(38, 62, 'CoQ 还原', 'schematic-cofactor'); label(67, 52, 'Q循环', 'schematic-enzyme');
             label(78, 39, '可移动电子载体', 'schematic-cofactor'); label(91, 62, '末端受体', 'schematic-enzyme');
             stepBadge(23, 61, 1); stepBadge(38, 70, 2); stepBadge(55, 62, 3); stepBadge(78, 54, 4);
@@ -5441,15 +8797,15 @@
           } else if (pathwayId === 'oxphos') {
             const p = {
               // viewBox 是 0 0 100 100：任何 x>100 的节点和居中标签都会被裁掉，
-              // 因此最右 ATP 合酶列压在 x=90，标签全部留在 100 以内。
-              hHigh: [90, 35], hLow: [90, 75], atpSynthase: [90, 55],
-              adpMatrix: [87, 66], piMatrix: [74, 78], atpMatrix: [81, 72],
-              ant: [80, 55], atpIms: [84, 36], adpIms: [77, 36],
-              piCarrier: [70, 55], piIms: [66, 36], piImported: [72, 69]
+              // ATP 合酶保留在最右侧，其余两种载体向左拉开，避免名称与方向标注重叠。
+              hHigh: [94, 36], hLow: [92, 78], atpSynthase: [90, 56],
+              adpMatrix: [84, 70], piMatrix: [68, 78], atpMatrix: [77, 72],
+              ant: [74, 56], atpIms: [82, 24], adpIms: [68, 36],
+              piCarrier: [56, 56], piIms: [48, 24], piImported: [60, 70]
             };
-            label(62, 24, '线粒体内膜 · 氧化磷酸化', 'schematic-title');
-            label(36, 29, '膜间隙：质子动力势（Δψ + ΔpH）', 'schematic-enzyme');
-            label(36, 89, '基质：F₁ 催化侧', 'schematic-enzyme');
+            label(58, 7, '线粒体内膜 · 氧化磷酸化', 'schematic-title');
+            label(25, 17, '膜间隙：质子动力势（Δψ + ΔpH）', 'schematic-enzyme');
+            label(22, 88, '基质：F₁ 催化侧', 'schematic-enzyme');
 
             metabolite(...p.hHigh, 'H⁺'); metabolite(...p.hLow, 'H⁺');
             metabolite(...p.adpMatrix, 'ADP'); metabolite(...p.piMatrix, 'Pi'); metabolite(...p.atpMatrix, 'ATP');
@@ -5476,421 +8832,714 @@
             line(...p.piMatrix, ...p.atpMatrix, false, 'schematic-route');
             // F₁ 生成的 ATP 沿右侧绕行进入 ATP 库，再交给 ANT 输出；
             // 不与 ANT/磷酸载体的转运线交叉。
-            routePath('M 91.5 57 C 91.5 65, 89 69.5, 82.5 71.6', false, 'schematic-route');
+            routePath('M 91.5 58 C 91 65, 86 69, 78.5 71.6', false, 'schematic-route');
 
-            label(90, 30, 'H⁺回流驱动转子', 'schematic-cofactor');
-            label(80, 44, 'ATP⁴⁻出 / ADP³⁻入', 'schematic-exchange');
-            label(70, 44, 'Pi + H⁺入基质', 'schematic-exchange');
-            label(86, 78, 'ADP + Pi → ATP', 'schematic-output');
-            stepBadge(92.5, 44, 1); stepBadge(92, 78, 2); stepBadge(84, 48, 3); stepBadge(73, 48, 4);
-            label(61, 94, '化学渗透偶联：质子回流、ATP 合成与核苷酸/磷酸转运分开定位', 'schematic-output');
+            label(91, 16, 'H⁺回流驱动转子', 'schematic-cofactor');
+            label(74, 48, 'ATP⁴⁻出 / ADP³⁻入', 'schematic-exchange');
+            label(56, 41, 'Pi + H⁺入基质', 'schematic-exchange');
+            label(81, 84, 'ADP + Pi → ATP', 'schematic-output');
+            stepBadge(96, 46, 1); stepBadge(92, 82, 2); stepBadge(78, 51, 3); stepBadge(59, 48, 4);
+            label(55, 97, '化学渗透偶联：质子回流、ATP 合成与核苷酸/磷酸转运分开定位', 'schematic-output');
           } else if (pathwayId === 'carnitine') {
             const p = {
-              acylCoaCyt: [26, 36], carnitineCyt: [26, 46], acylCarnIms: [48, 42], coaCyt: [47, 33],
-              acylCarnMatrix: [68, 61], coaMatrix: [76, 69], acylCoaMatrix: [88, 59],
-              carnitineMatrix: [86, 74], carnitineReturn: [64, 65], carnitineCytReturn: [43, 52],
-              cpt1: [39, 40], cact: [59, 50], cpt2: [78, 58]
+              malonyl: [10, 18], acylCoaCyt: [28, 18], carnitineCyt: [28, 25], cpt1: [52, 18],
+              acylCarnCyt: [77, 18], coaCyt: [77, 25], outerAcylCarn: [25, 38], vdac: [50, 38], acylCarnIms: [75, 38],
+              antiportAcylIms: [12, 54], cact: [50, 54], antiportAcylMatrix: [88, 53],
+              carnitineMatrixReturn: [88, 61], carnitineImsReturn: [12, 62],
+              cpt2AcylCarn: [10, 77], coaMatrix: [28, 82], cpt2: [48, 77],
+              acylCoaMatrix: [72, 74], carnitineMatrix: [72, 82], betaOxidation: [93, 74]
             };
-            label(61, 24, '线粒体双膜 · 肉碱穿梭', 'schematic-title');
-            label(27, 29, '细胞质侧', 'schematic-compartment-title');
-            label(47, 37, '外膜 / 膜间隙', 'schematic-compartment-title');
-            label(72, 48, '内膜', 'schematic-compartment-title');
-            label(88, 82, '基质侧', 'schematic-compartment-title');
+            label(50, 4.2, '肉碱穿梭：长链脂酰-CoA不跨内膜；跨膜形式是脂酰肉碱', 'schematic-title');
+            [
+              [3, 7, 94, 20, 'schematic-carnitine-zone schematic-carnitine-cytosol-zone', 'cytosol-gate'],
+              [3, 28, 94, 14, 'schematic-carnitine-zone schematic-carnitine-outer-zone', 'outer-membrane'],
+              [3, 43, 94, 22, 'schematic-carnitine-zone schematic-carnitine-inner-zone', 'inner-membrane-exchange'],
+              [3, 66, 94, 19, 'schematic-carnitine-zone schematic-carnitine-matrix-zone', 'matrix-handoff'],
+              [3, 86, 94, 13, 'schematic-carnitine-zone schematic-carnitine-net-zone', 'net']
+            ].forEach(([x, y, width, height, className, zone]) => add('rect', { x, y, width, height, rx: 3, class: className, 'data-carnitine-zone': zone }));
+            label(6, 10.5, '① 胞质侧 CPT1 门控', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(75, 10.5, 'malonyl-CoA ┤ CPT1', 'schematic-note');
+            label(6, 30.5, '② 外膜 / 膜间隙', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(6, 46.5, '③ CACT / SLC25A20 · 内膜反向交换', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(6, 69.5, '④ 基质侧 CPT2 交接', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(6, 88.5, '净账与能量边界', 'schematic-compartment-title', { 'text-anchor': 'start' });
 
-            metabolite(...p.acylCoaCyt, '长链脂酰-CoA'); metabolite(...p.carnitineCyt, '肉碱');
-            metabolite(...p.acylCarnIms, '脂酰肉碱'); metabolite(...p.coaCyt, 'CoA-SH · 胞质池');
-            metabolite(...p.acylCarnMatrix, '脂酰肉碱'); metabolite(...p.coaMatrix, 'CoA-SH · 基质池');
-            metabolite(...p.acylCoaMatrix, '脂酰-CoA'); metabolite(...p.carnitineMatrix, '游离肉碱');
-            metabolite(...p.carnitineReturn, '肉碱'); metabolite(...p.carnitineCytReturn, '肉碱');
-            namedNode(...p.cpt1, 'CPT1', 'cpt1');
-            namedNode(...p.cact, 'CACT', 'cact');
-            namedNode(...p.cpt2, 'CPT2', 'cpt2');
+            metabolite(...p.malonyl, 'malonyl-CoA'); metabolite(...p.acylCoaCyt, '长链脂酰-CoA');
+            metabolite(...p.carnitineCyt, '游离肉碱'); namedNode(...p.cpt1, 'CPT1', 'cpt1');
+            metabolite(...p.acylCarnCyt, '脂酰肉碱'); metabolite(...p.coaCyt, '胞质 CoA 池');
+            line(...p.acylCoaCyt, ...p.cpt1); routePath('M 29 24 C 37 23, 44 20, 51 18.5', true, 'schematic-route');
+            line(...p.cpt1, ...p.acylCarnCyt); routePath('M 53 18.5 C 61 22, 69 25, 76 25', true, 'schematic-route');
+            routePath('M 11 18 C 24 13, 39 13, 51 17', false, 'schematic-route schematic-inhibition-route');
+            label(52, 25.2, 'CPT1 · 外膜胞质侧', 'schematic-transporter');
 
-            // CPT1 位于外膜胞质侧：脂酰基转给肉碱，CoA 留在胞质池。
-            routePath('M 27 36 C 31 37, 35 39, 38 40', false, 'schematic-route');
-            routePath('M 27 45 C 32 44, 35 42, 38 40', false, 'schematic-route');
-            routePath('M 40 40 C 43 40, 46 41, 47 42', false, 'schematic-route');
-            routePath('M 39 39 C 42 36, 44 34, 46 33', false, 'schematic-route');
+            metabolite(...p.outerAcylCarn, '脂酰肉碱'); namedNode(...p.vdac, 'VDAC', 'vdac'); metabolite(...p.acylCarnIms, '脂酰肉碱');
+            line(...p.outerAcylCarn, ...p.vdac, true, 'schematic-route schematic-transporter-route');
+            line(...p.vdac, ...p.acylCarnIms, true, 'schematic-route schematic-transporter-route');
+            label(50, 41, 'VDAC · 外膜通道', 'schematic-transporter');
 
-            // CACT 是严格的反向交换：脂酰肉碱入基质，同时游离肉碱出基质。
-            routePath('M 49 43 C 53 45, 56 48, 58 50 C 61 54, 64 58, 67 60', false, 'schematic-route schematic-transporter-route');
-            routePath('M 85 73 C 77 70, 70 67, 65 65 C 62 60, 60 55, 59 51 C 54 51, 49 51, 44 52', false, 'schematic-route schematic-transporter-route');
-            routePath('M 42 51 C 36 50, 31 48, 27 46', false, 'schematic-route');
+            metabolite(...p.antiportAcylIms, '脂酰肉碱'); namedNode(...p.cact, 'CACT', 'cact');
+            metabolite(...p.antiportAcylMatrix, '脂酰肉碱'); metabolite(...p.carnitineMatrixReturn, '游离肉碱');
+            metabolite(...p.carnitineImsReturn, '游离肉碱');
+            line(...p.antiportAcylIms, ...p.cact, true, 'schematic-route schematic-transporter-route');
+            line(...p.cact, ...p.antiportAcylMatrix, true, 'schematic-route schematic-transporter-route');
+            routePath('M 87 60 C 75 62, 63 60, 51 55', true, 'schematic-route schematic-transporter-route schematic-carnitine-return-route');
+            routePath('M 49 55 C 37 60, 25 62, 13 62', true, 'schematic-route schematic-transporter-route schematic-carnitine-return-route');
+            label(31, 58.2, '脂酰肉碱入基质', 'schematic-output');
+            label(69, 63, '游离肉碱向外', 'schematic-output');
 
-            // CPT2 位于内膜基质侧：使用独立基质 CoA 池再生脂酰-CoA。
-            routePath('M 69 61 C 72 60, 75 59, 77 58', false, 'schematic-route');
-            routePath('M 76 68 C 77 64, 78 61, 78 59', false, 'schematic-route');
-            routePath('M 79 58 C 82 58, 85 59, 87 59', false, 'schematic-route');
-            routePath('M 79 59 C 81 65, 83 70, 85 73', false, 'schematic-route');
+            metabolite(...p.cpt2AcylCarn, '脂酰肉碱'); metabolite(...p.coaMatrix, '基质 CoA 池'); namedNode(...p.cpt2, 'CPT2', 'cpt2');
+            metabolite(...p.acylCoaMatrix, '长链脂酰-CoA'); metabolite(...p.carnitineMatrix, '游离肉碱'); namedNode(...p.betaOxidation, 'β-氧化', 'beta-oxidation');
+            line(...p.cpt2AcylCarn, ...p.cpt2, true); routePath('M 29 81 C 36 80, 42 78, 47 77.5', true, 'schematic-route');
+            line(...p.cpt2, ...p.acylCoaMatrix, true); routePath('M 49 77.5 C 57 80, 64 82, 71 82', true, 'schematic-route');
+            line(...p.acylCoaMatrix, ...p.betaOxidation);
+            label(48, 83.2, 'CPT2 · 内膜基质侧', 'schematic-transporter');
+            label(86, 82.5, '→ β-氧化', 'schematic-output');
 
-            label(39, 45, 'CPT1 · 外膜胞质侧', 'schematic-transporter');
-            label(59, 55, 'CACT · 内膜反向交换', 'schematic-transporter');
-            label(78, 63, 'CPT2 · 内膜基质侧', 'schematic-transporter');
-            label(54, 78, 'CoA 不跨内膜', 'schematic-cofactor');
-            stepBadge(35, 37, 1); stepBadge(55, 46, 2); stepBadge(74, 56, 3);
-            label(61, 94, '脂酰基借助肉碱跨内膜；胞质 CoA 池与基质 CoA 池彼此分开', 'schematic-output');
+            label(18, 93.8, 'CoA 不跨内膜', 'schematic-cofactor');
+            label(48, 93.8, '游离肉碱循环再用', 'schematic-output');
+            label(82, 93.8, '穿梭本身不额外耗 ATP', 'schematic-output');
+            label(25, 99.1, 'ACSL 激活：ATP → AMP + PPi', 'schematic-note');
+            label(75, 99.1, '净：长链脂酰基 → 基质', 'schematic-output');
+            stepBadge(52, 21.2, 1); stepBadge(50, 34.2, 2); stepBadge(50, 58.2, 3); stepBadge(48, 80.2, 4);
           } else if (pathwayId === 'ketone') {
-            const p = { acetyl1: [20, 47], acetyl2: [20, 62], acoa: [37, 54], hmgcoa: [55, 54], acac: [72, 54], bhb: [88, 43], acetone: [88, 67], scot: [57, 79], succinyl: [43, 79], acetoacetylUse: [72, 79], acetylUse: [91, 79] };
-            label(61, 24, '线粒体基质 · 酮体生成与利用', 'schematic-title');
-            label(48, 30, '肝线粒体：乙酰-CoA 过剩时转成可输出酮体', 'schematic-enzyme');
-            metabolite(...p.acetyl1, '乙酰-CoA'); metabolite(...p.acetyl2, '乙酰-CoA'); metabolite(...p.acoa, '乙酰乙酰-CoA');
-            metabolite(...p.hmgcoa, 'HMG-CoA'); metabolite(...p.acac, '乙酰乙酸'); metabolite(...p.bhb, 'β-羟丁酸'); metabolite(...p.acetone, '丙酮');
-            metabolite(...p.succinyl, '琥珀酰-CoA'); metabolite(...p.acetoacetylUse, '乙酰乙酰-CoA'); metabolite(...p.acetylUse, '2 乙酰-CoA');
-            namedNode(...p.scot, 'SCOT', 'scot');
-            routePath('M 22 48 C 27 48, 31 51, 35 53', false, 'schematic-route'); routePath('M 22 61 C 28 61, 31 58, 35 55', false, 'schematic-route');
-            routePath('M 39 54 L 53 54', false, 'schematic-route'); routePath('M 57 54 L 70 54', false, 'schematic-route');
-            routePath('M 74 53 C 79 49, 83 45, 86 44', false, 'schematic-route'); routePath('M 74 55 C 80 59, 83 64, 86 66', false, 'schematic-route');
-            routePath('M 72 56 C 69 66, 63 75, 58 78', false, 'schematic-route schematic-transporter-route');
-            routePath('M 45 79 L 56 79', false, 'schematic-route schematic-cofactor-route');
-            routePath('M 58 79 L 70 79', false, 'schematic-route');
-            routePath('M 74 79 L 89 79', false, 'schematic-route');
-            label(29, 44, '硫解酶 · 2 个乙酰-CoA', 'schematic-enzyme'); label(46, 50, 'HMGCS2', 'schematic-enzyme');
-            label(64, 50, 'HMG-CoA 裂解酶', 'schematic-enzyme'); label(84, 38, 'BDH1 · NADH', 'schematic-cofactor');
-            label(85, 73, '自发脱羧', 'schematic-cofactor');
-            label(57, 75, '外周组织 SCOT：琥珀酰-CoA → 琥珀酸', 'schematic-enzyme');
-            label(82, 75, '硫解酶', 'schematic-enzyme');
-            label(59, 89, '肝缺少 SCOT，只输出酸体；外周线粒体再生乙酰-CoA', 'schematic-note');
-            stepBadge(30, 50, 1); stepBadge(46, 57, 2); stepBadge(64, 57, 3); stepBadge(80, 48, 4);
-            label(60, 95, '乙酰乙酸 / β-羟丁酸经血液输出，外周组织再生乙酰-CoA', 'schematic-output');
+            const p = {
+              acetyl2: [8, 19], thiolaseL: [22, 19], acetoacetylL: [38, 19], hmgcs2: [54, 19],
+              hmgcoa: [70, 19], hmgcl: [86, 19], acacL: [68, 37], bdh1L: [82, 37], bhbL: [94, 37],
+              mctOut: [16, 55], bloodKetones: [50, 55], mctIn: [84, 55],
+              bhbP: [8, 72], bdh1P: [21, 72], acacP: [34, 72], scot: [52, 72],
+              acetoacetylP: [69, 72], thiolaseP: [84, 72], acetyl2P: [95, 72]
+            };
+            label(50, 4.2, '酮体代谢：肝线粒体生成 → 血液运输 → 外周线粒体利用', 'schematic-title');
+            [
+              [3, 7, 94, 37, 'schematic-ketone-zone schematic-ketone-liver-zone', 'hepatic-ketogenesis'],
+              [3, 45, 94, 15, 'schematic-ketone-zone schematic-ketone-blood-zone', 'circulation-redox'],
+              [3, 61, 94, 26, 'schematic-ketone-zone schematic-ketone-periphery-zone', 'extrahepatic-ketolysis'],
+              [3, 88, 94, 11, 'schematic-ketone-zone schematic-ketone-boundary-zone', 'tissue-boundary']
+            ].forEach(([x, y, width, height, className, zone]) => add('rect', { x, y, width, height, rx: 3, class: className, 'data-ketone-zone': zone }));
+            label(6, 10.5, '肝线粒体 · 生成', 'schematic-compartment-title', { 'text-anchor': 'start' });
+
+            metabolite(...p.acetyl2, '2 乙酰-CoA'); namedNode(...p.thiolaseL, '硫解酶', 'liver-thiolase');
+            metabolite(...p.acetoacetylL, '乙酰乙酰-CoA'); namedNode(...p.hmgcs2, 'HMGCS2', 'hmgcs2');
+            metabolite(...p.hmgcoa, 'HMG-CoA'); namedNode(...p.hmgcl, 'HMGCL', 'hmgcl');
+            metabolite(...p.acacL, '乙酰乙酸'); namedNode(...p.bdh1L, 'BDH1', 'liver-bdh1'); metabolite(...p.bhbL, 'D-β-羟丁酸');
+            line(...p.acetyl2, ...p.thiolaseL); line(...p.thiolaseL, ...p.acetoacetylL);
+            line(...p.acetoacetylL, ...p.hmgcs2); line(...p.hmgcs2, ...p.hmgcoa); line(...p.hmgcoa, ...p.hmgcl);
+            routePath('M 86 20 C 84 27, 77 34, 69 36', false, 'schematic-route');
+            line(...p.acacL, ...p.bdh1L, true); line(...p.bdh1L, ...p.bhbL, true);
+            stepBadge(22, 23.2, 1); stepBadge(54, 23.2, 2); stepBadge(86, 23.2, 3); stepBadge(82, 40.8, 4);
+            label(50, 29.5, 'HMGCS2 加入第 3 个乙酰-CoA；HMGCL 返还 1 个 · 净耗 2 乙酰-CoA', 'schematic-enzyme');
+            label(50, 42.3, 'BDH1 · NADH + H⁺ → NAD⁺ · 丙酮 · 少量旁支', 'schematic-cofactor');
+
+            label(50, 47.2, 'MCT · 血液运输', 'schematic-transporter');
+            namedNode(...p.mctOut, 'MCT 输出', 'mct-out'); namedNode(...p.bloodKetones, 'AcAc / D-βOHB', 'blood-ketones'); namedNode(...p.mctIn, 'MCT 摄取', 'mct-in');
+            line(...p.mctOut, ...p.bloodKetones, true, 'schematic-route schematic-transporter-route');
+            line(...p.bloodKetones, ...p.mctIn, true, 'schematic-route schematic-transporter-route');
+
+            label(6, 64.5, '外周线粒体 · 利用', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            metabolite(...p.bhbP, 'D-βOHB'); namedNode(...p.bdh1P, 'BDH1', 'periphery-bdh1');
+            metabolite(...p.acacP, '乙酰乙酸'); namedNode(...p.scot, 'SCOT / OXCT1', 'scot');
+            metabolite(...p.acetoacetylP, '乙酰乙酰-CoA'); namedNode(...p.thiolaseP, '硫解酶', 'periphery-thiolase'); metabolite(...p.acetyl2P, '2 乙酰-CoA');
+            line(...p.bhbP, ...p.bdh1P, true); line(...p.bdh1P, ...p.acacP, true);
+            line(...p.acacP, ...p.scot); line(...p.scot, ...p.acetoacetylP); line(...p.acetoacetylP, ...p.thiolaseP); line(...p.thiolaseP, ...p.acetyl2P);
+            stepBadge(21, 75.8, 5); stepBadge(52, 75.8, 6); stepBadge(84, 75.8, 7);
+            stackedLabel(50, 79.2, [
+              'BDH1 · NAD⁺ → NADH + H⁺',
+              'SCOT / OXCT1 · 琥珀酰-CoA → 琥珀酸 · SCOT 不直接耗 ATP',
+              '2 乙酰-CoA → TCA'
+            ], 'schematic-output', 3.35);
+
+            stackedLabel(50, 91.2, [
+              '肝缺少 SCOT · 只净输出，不消费自己生成的酮体',
+              '红细胞无线粒体，不能利用',
+              '心 / 肌 / 肾 / 脑可利用'
+            ], 'schematic-note', 3.25);
           } else if (pathwayId === 'urea') {
             const p = {
-              ammonia: [95, 38], bicarbonate: [86, 38], carbamoylP: [92, 49], ornM: [95, 61], citM: [86, 58],
-              citC: [68, 58], asp: [54, 48], argSucc: [57, 69], fumarate: [70, 80],
-              arginine: [43, 76], urea: [28, 84], ornC: [43, 88]
+              ammonia: [7, 16], bicarbonate: [19, 16], nag: [32, 16], cps1: [47, 16], carbamoylP: [64, 16],
+              ornM: [69, 22.5], otc: [83, 22.5], citM: [95, 22.5],
+              ornCExchange: [10, 40], ornt1: [28, 40], citCExchange: [45, 40],
+              glutamateH: [58, 46], citrin: [73, 39], aspExchange: [92, 39],
+              citC: [7, 63.5], asp: [19, 63.5], ass1: [32, 63.5], argSucc: [50, 63.5], asl: [68, 63.5], arginine: [86, 63.5],
+              fumarate: [44, 77], ornC: [62, 77], urea: [80, 77], arg1: [94, 77]
             };
-            label(61, 24, '细胞质—线粒体基质 · 尿素循环', 'schematic-title');
-            label(34, 30, '细胞质：ASS1 / ASL / ARG1', 'schematic-compartment-title');
-            label(87, 30, '线粒体基质：CPS I / OTC', 'schematic-compartment-title');
-            metabolite(...p.ammonia, 'NH₄⁺'); metabolite(...p.bicarbonate, 'HCO₃⁻'); metabolite(...p.carbamoylP, '氨甲酰磷酸');
-            metabolite(...p.ornM, '鸟氨酸'); metabolite(...p.citM, '瓜氨酸'); metabolite(...p.citC, '瓜氨酸'); metabolite(...p.asp, '天冬氨酸');
-            metabolite(...p.argSucc, '精氨代琥珀酸'); metabolite(...p.fumarate, '延胡索酸');
-            metabolite(...p.arginine, '精氨酸'); metabolite(...p.urea, '尿素'); metabolite(...p.ornC, '鸟氨酸');
+            label(50, 3.7, '尿素循环 · 两区室五步 · 两台内膜载体', 'schematic-title');
+            [
+              [3, 6, 94, 23, 'schematic-urea-zone schematic-urea-matrix-zone', 'matrix-entry'],
+              [3, 31, 94, 18, 'schematic-urea-zone schematic-urea-membrane-zone', 'inner-membrane-exchange'],
+              [3, 51, 94, 30, 'schematic-urea-zone schematic-urea-cytosol-zone', 'cytosolic-cycle'],
+              [3, 83, 94, 16, 'schematic-urea-zone schematic-urea-ledger-zone', 'atom-energy-ledger']
+            ].forEach(([x, y, width, height, className, zone]) => add('rect', { x, y, width, height, rx: 3, class: className, 'data-urea-zone': zone }));
 
-            // 基质内装入第一份氮：CPS I 合成氨甲酰磷酸，OTC 生成瓜氨酸。
-            routePath('M 94 39 C 93.5 42, 93 46, 92.5 48', false, 'schematic-route');
-            routePath('M 87 39 C 88 42, 90 46, 91 48', false, 'schematic-route');
-            routePath('M 94 60.5 C 91 60, 89 59.5, 87 58.5', false, 'schematic-route');
-            routePath('M 92 51 C 91 54, 89 56, 87 57', false, 'schematic-route');
+            label(6, 7.9, '线粒体基质 · 入口两步', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            metabolite(...p.ammonia, 'NH₄⁺'); metabolite(...p.bicarbonate, 'HCO₃⁻'); namedNode(...p.nag, 'NAG', 'nag');
+            namedNode(...p.cps1, 'CPS1', 'cps1'); metabolite(...p.carbamoylP, '氨甲酰磷酸');
+            metabolite(...p.ornM, '鸟氨酸'); namedNode(...p.otc, 'OTC', 'otc'); metabolite(...p.citM, '瓜氨酸');
+            line(...p.ammonia, ...p.cps1); line(...p.bicarbonate, ...p.cps1);
+            line(...p.nag, ...p.cps1, false, 'schematic-route schematic-cofactor-route');
+            line(...p.cps1, ...p.carbamoylP); line(...p.carbamoylP, ...p.otc); line(...p.ornM, ...p.otc); line(...p.otc, ...p.citM);
+            label(25, 27, 'NH₄⁺ + HCO₃⁻ + 2 ATP', 'schematic-enzyme', { 'data-role': 'cps1-label' });
+            label(50, 27, 'NAGS / NAG · NAG 必需变构激活', 'schematic-cofactor');
+            label(79, 27, '鸟氨酸 + 氨甲酰磷酸 → 瓜氨酸', 'schematic-enzyme');
+            stepBadge(47, 20.5, 1); stepBadge(83, 26.1, 2);
 
-            // ORNT1 在内膜上交换瓜氨酸与鸟氨酸；两条路线分开绘制。
-            routePath('M 84 58 C 79 58, 74 58, 69 58', false, 'schematic-route schematic-transporter-route');
-            routePath('M 44 87 C 60 88, 80 78, 94 62', false, 'schematic-route schematic-transporter-route');
+            label(6, 32.5, '线粒体内膜 · 两台载体', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            metabolite(...p.ornCExchange, '鸟氨酸'); namedNode(...p.ornt1, 'ORNT1', 'ornt1'); metabolite(...p.citCExchange, '瓜氨酸');
+            metabolite(...p.glutamateH, '谷氨酸 + H⁺'); namedNode(...p.citrin, 'citrin', 'citrin'); metabolite(...p.aspExchange, '天冬氨酸');
+            line(...p.ornCExchange, ...p.ornt1, true, 'schematic-route schematic-transporter-route');
+            line(...p.ornt1, ...p.citCExchange, true, 'schematic-route schematic-transporter-route');
+            routePath('M 28 40 C 40 44, 55 45, 68 40', true, 'schematic-route schematic-transporter-route');
+            line(...p.citrin, ...p.aspExchange, true, 'schematic-route schematic-transporter-route');
+            label(26, 44.4, 'ORNT1 / SLC25A15', 'schematic-transporter', { 'data-role': 'ornt1-label' });
+            label(26, 47.7, '鸟氨酸入 / 瓜氨酸出', 'schematic-exchange', { 'data-role': 'ornt1-exchange' });
+            label(75, 44.4, 'citrin / SLC25A13', 'schematic-transporter', { 'data-role': 'citrin-label' });
+            label(75, 47.7, '天冬氨酸出 / 谷氨酸 + H⁺入', 'schematic-exchange');
+            stepBadge(28, 43, 3);
 
-            // 细胞质阶段：第二份氮来自天冬氨酸，ASL 分出延胡索酸，ARG1 释放尿素。
-            routePath('M 67 59 C 63 62, 60 66, 58 68', false, 'schematic-route');
-            routePath('M 55 50 C 56 56, 57 63, 57 68', false, 'schematic-route');
-            routePath('M 55 70 C 51 72, 47 74, 44 75', false, 'schematic-route');
-            routePath('M 59 70 C 63 73, 67 77, 69 79', false, 'schematic-route');
-            routePath('M 41 77 C 36 79, 32 82, 29 83', false, 'schematic-route');
-            routePath('M 43 78 L 43 86', false, 'schematic-route');
+            label(6, 54.3, '胞质 · 循环后三步', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            metabolite(...p.citC, '瓜氨酸'); metabolite(...p.asp, '天冬氨酸'); namedNode(...p.ass1, 'ASS1', 'ass1');
+            metabolite(...p.argSucc, '精氨代琥珀酸'); namedNode(...p.asl, 'ASL', 'asl'); metabolite(...p.arginine, '精氨酸');
+            metabolite(...p.fumarate, '延胡索酸'); metabolite(...p.ornC, '鸟氨酸'); metabolite(...p.urea, '尿素'); namedNode(...p.arg1, 'ARG1', 'arg1');
+            line(...p.citC, ...p.ass1); line(...p.asp, ...p.ass1); line(...p.ass1, ...p.argSucc); line(...p.argSucc, ...p.asl);
+            line(...p.asl, ...p.arginine); routePath('M 68 62 C 62 68, 54 74, 45 76', false, 'schematic-route');
+            routePath('M 86 62 C 90 66, 92 71, 94 76', false, 'schematic-route');
+            line(...p.arg1, ...p.urea); routePath('M 93 77 C 82 81, 73 80, 63 78', false, 'schematic-route');
+            routePath('M 61 76 C 48 70, 34 58, 29 40', false, 'schematic-route schematic-transporter-route');
+            label(28, 69.2, 'ASS1 · ATP → AMP + PPi', 'schematic-enzyme', { 'data-role': 'ass1-label' });
+            label(65, 69.2, 'ASL · 精氨酸 + 延胡索酸', 'schematic-enzyme');
+            label(78, 80.5, 'ARG1 · H₂O → 尿素 + 鸟氨酸', 'schematic-enzyme');
+            stepBadge(32, 64.9, 4); stepBadge(94, 72.3, 5);
 
-            label(88, 43, 'CPS I · 2 ATP · NAG 激活', 'schematic-enzyme', { 'data-role': 'cps1-label' });
-            label(94, 55, 'OTC', 'schematic-enzyme');
-            // 把两个长标签从瓜氨酸节点上下移开：ORNT1 靠近内膜交换线，
-            // ASS1 放到细胞质侧的空白带，节点名称仍紧贴各自代谢物。
-            label(73, 41, 'ORNT1', 'schematic-transporter', { 'data-role': 'ornt1-label' });
-            label(73, 44, '瓜氨酸出 · 鸟氨酸入', 'schematic-exchange', { 'data-role': 'ornt1-exchange' });
-            label(45, 57, 'ASS1 · ATP→AMP + PPi', 'schematic-enzyme', { 'data-role': 'ass1-label' });
-            label(50, 72, 'ASL', 'schematic-enzyme');
-            label(34, 78, 'ARG1', 'schematic-enzyme');
-            stepBadge(91, 46, 1); stepBadge(91, 57, 2); stepBadge(62, 64, 3); stepBadge(51, 71, 4); stepBadge(36, 80, 5);
-            label(61, 95, '两份氮：NH₄⁺ + 天冬氨酸 → 尿素；鸟氨酸被再生', 'schematic-output');
+            label(6, 84, '原子来源 · 能量账 · 旁路', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(50, 89.5, '第 1 份氮 · NH₄⁺    第 2 份氮 · 天冬氨酸    羰基碳 · HCO₃⁻', 'schematic-output');
+            label(20, 95.2, '3 ATP / 4 个高能磷酸键', 'schematic-cofactor');
+            label(68, 95.2, '天冬氨酸—精氨代琥珀酸旁路', 'schematic-note');
           } else if (pathwayId === 'aa_carbon') {
-            const p = { amino: [18, 51], carbon: [36, 51], pyruvate: [58, 34], acetyl: [77, 38], acetoacetyl: [88, 52], akg: [77, 66], succinyl: [58, 78], fumarate: [39, 76], oaa: [24, 66] };
-            const q = {
-              amino: [21, 48], carbon: [38, 48], interface: [65, 52],
-              pyruvate: [75, 36], acetyl: [91, 38], acetoacetyl: [93, 52],
-              akg: [92, 66], succinyl: [81, 79], fumarate: [69, 76], oaa: [71, 63]
-            };
-            label(61, 24, '细胞质—线粒体 · 氨基酸碳骨架归宿', 'schematic-title');
-            label(31, 31, '细胞质：转氨 / 脱氨后得到碳骨架', 'schematic-compartment-title');
-            label(86, 30, '线粒体基质：7 类中央代谢入口', 'schematic-compartment-title');
-            metabolite(...q.amino, '氨基酸'); metabolite(...q.carbon, '碳骨架');
-            metabolite(...q.pyruvate, '丙酮酸'); metabolite(...q.acetyl, '乙酰-CoA');
-            metabolite(...q.acetoacetyl, '乙酰乙酰-CoA'); metabolite(...q.akg, 'α-酮戊二酸');
-            metabolite(...q.succinyl, '琥珀酰-CoA'); metabolite(...q.fumarate, '延胡索酸'); metabolite(...q.oaa, '草酰乙酸');
-            namedNode(...q.interface, '碳骨架跨区室接口', 'carbon-interface');
-            line(...q.amino, ...q.carbon);
-            routePath('M 40 48 C 49 48, 57 50, 64 52', false, 'schematic-route schematic-transporter-route');
-            routePath('M 66 51 C 69 45, 72 40, 74 37', false, 'schematic-route');
-            routePath('M 66 51 C 74 44, 82 40, 90 38', false, 'schematic-route');
-            routePath('M 66 52 C 77 51, 85 51, 92 52', false, 'schematic-route');
-            routePath('M 66 53 C 75 58, 84 63, 91 66', false, 'schematic-route');
-            routePath('M 65 54 C 70 64, 76 74, 80 78', false, 'schematic-route');
-            routePath('M 64 54 C 65 63, 67 70, 69 75', false, 'schematic-route');
-            routePath('M 64 53 C 67 57, 69 60, 70 62', false, 'schematic-route');
-            label(29, 44, 'PLP 转氨 / 氧化脱氨', 'schematic-enzyme');
-            label(54, 45, '按碳骨架种类分流', 'schematic-transporter');
-            label(83, 33, '生酮入口', 'schematic-output');
-            label(84, 72, 'TCA 补充入口', 'schematic-cofactor');
-            label(60, 94, '生糖：丙酮酸或 TCA 中间体 · 生酮：乙酰-CoA / 乙酰乙酰-CoA', 'schematic-output');
-            if (false) {
-            label(61, 24, '细胞质—线粒体 · 氨基酸碳骨架归宿', 'schematic-title');
-            label(43, 30, '脱去氨基后，碳骨架汇入 7 类中央代谢入口', 'schematic-enzyme');
-            metabolite(...p.amino, '氨基酸'); metabolite(...p.carbon, '碳骨架'); metabolite(...p.pyruvate, '丙酮酸');
-            metabolite(...p.acetyl, '乙酰-CoA'); metabolite(...p.acetoacetyl, '乙酰乙酰-CoA'); metabolite(...p.akg, 'α-KG');
-            metabolite(...p.succinyl, '琥珀酰-CoA'); metabolite(...p.fumarate, '延胡索酸'); metabolite(...p.oaa, '草酰乙酸');
-            line(...p.amino, ...p.carbon);
-            routePath('M 38 50 C 45 43, 51 37, 56 35', false, 'schematic-route');
-            routePath('M 38 50 C 51 44, 64 40, 75 38', false, 'schematic-route');
-            routePath('M 38 51 C 58 50, 76 50, 86 52', false, 'schematic-route');
-            routePath('M 38 52 C 52 58, 65 63, 75 66', false, 'schematic-route');
-            routePath('M 37 53 C 45 63, 52 73, 57 77', false, 'schematic-route');
-            routePath('M 35 53 C 36 62, 38 69, 39 74', false, 'schematic-route');
-            routePath('M 34 52 C 30 57, 27 62, 25 65', false, 'schematic-route');
-            label(27, 47, '转氨 / 脱氨', 'schematic-enzyme'); label(68, 30, '生糖入口', 'schematic-cofactor');
-            label(84, 34, '生酮入口', 'schematic-output'); label(66, 72, 'TCA 补充入口', 'schematic-cofactor');
-            label(61, 94, '生糖：丙酮酸或 TCA 中间体 · 生酮：乙酰-CoA / 乙酰乙酰-CoA', 'schematic-output');
-            }
+            const cards = [
+              { key: 'pyruvate', x: 5, y: 27, source: [13, 32], target: [39, 32], sourceLabel: '6 种', targetLabel: '丙酮酸', mapping: 'Ala · Cys · Gly · Ser · Thr · Trp', step: 1, kind: 'glucogenic' },
+              { key: 'akg', x: 52, y: 27, source: [60, 32], target: [87, 32], sourceLabel: '5 种', targetLabel: 'α-酮戊二酸', mapping: 'Arg · Glu · Gln · His · Pro', step: 4, kind: 'glucogenic' },
+              { key: 'succinyl', x: 5, y: 38, source: [13, 43], target: [39, 43], sourceLabel: '4 种', targetLabel: '琥珀酰-CoA', mapping: 'Ile · Met · Thr · Val', step: 5, kind: 'glucogenic' },
+              { key: 'fumarate', x: 52, y: 38, source: [60, 43], target: [87, 43], sourceLabel: '2 种', targetLabel: '延胡索酸', mapping: 'Phe · Tyr', step: 6, kind: 'dual' },
+              { key: 'oaa', x: 5, y: 49, source: [13, 54], target: [39, 54], sourceLabel: '2 种', targetLabel: '草酰乙酸', mapping: 'Asp · Asn', step: 7, kind: 'glucogenic' },
+              { key: 'acetyl', x: 52, y: 49, source: [60, 54], target: [87, 54], sourceLabel: '生酮支路', targetLabel: '乙酰-CoA', mapping: 'Leu · Ile · Thr · Trp 等', step: 2, kind: 'ketogenic' },
+              { key: 'acetoacetate', x: 28.5, y: 60, source: [37, 65], target: [64, 65], sourceLabel: '生酮支路', targetLabel: '乙酰乙酸 / 乙酰乙酰-CoA', mapping: 'Leu · Lys · Phe · Tyr · Trp', step: 3, kind: 'ketogenic' }
+            ];
+            label(50, 4.4, '氨基酸碳骨架归宿 · 7 类中央代谢入口与生糖 / 生酮边界', 'schematic-title');
+            [
+              [3, 7, 94, 14, 'schematic-aa-carbon-zone schematic-aa-carbon-nitrogen-zone', 'nitrogen-handoff'],
+              [3, 23, 94, 47, 'schematic-aa-carbon-zone schematic-aa-carbon-gateway-zone', 'seven-gateways'],
+              [3, 72, 94, 11, 'schematic-aa-carbon-zone schematic-aa-carbon-fate-zone', 'metabolic-fates'],
+              [3, 85, 94, 13, 'schematic-aa-carbon-zone schematic-aa-carbon-ledger-zone', 'classification-ledger']
+            ].forEach(([x, y, width, height, className, zone]) => add('rect', { x, y, width, height, rx: 3, class: className, 'data-aa-carbon-zone': zone }));
+
+            namedNode(11, 14, '氨基酸', 'amino-acids');
+            namedNode(29, 14, '转氨 / 脱氨', 'nitrogen-removal');
+            namedNode(48, 14, '碳骨架', 'carbon-skeleton');
+            namedNode(68, 14, '多条分解路径 · 非统一载体', 'multiple-pathways');
+            namedNode(90, 14, '七入口', 'seven-gateways');
+            line(11, 14, 29, 14); line(29, 14, 48, 14); line(48, 14, 68, 14); line(68, 14, 90, 14);
+            label(29, 20, '氮 → 尿素循环', 'schematic-enzyme');
+            label(68, 20, '区室依具体路径而异', 'schematic-note');
+
+            cards.forEach(card => {
+              add('rect', { x: card.x, y: card.y, width: 43, height: 10, rx: 2, class: `schematic-aa-carbon-card is-${card.kind}`, 'data-aa-carbon-card': card.key });
+              namedNode(...card.source, card.sourceLabel, `${card.key}-source`);
+              namedNode(...card.target, card.targetLabel, `${card.key}-target`);
+              line(...card.source, ...card.target, false, card.kind === 'ketogenic' ? 'schematic-route schematic-cofactor-route' : 'schematic-route');
+              label(card.x + 21.5, card.y + 8.8, card.mapping, card.kind === 'ketogenic' ? 'schematic-output' : card.kind === 'dual' ? 'schematic-cofactor' : 'schematic-note');
+              stepBadge(card.x + 2.7, card.y + 2.5, card.step);
+            });
+
+            label(5, 73.8, '③ 三类代谢命运', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            namedNode(18, 81, '生糖 · 可形成糖异生前体', 'glucogenic-fate');
+            namedNode(50, 81, 'TCA 氧化 / 补充循环', 'oxidative-fate');
+            namedNode(82, 81, '生酮 · 乙酰-CoA不能净生糖', 'ketogenic-fate');
+
+            namedNode(18, 91, '纯生酮 · Leu / Lys', 'ketogenic-only');
+            namedNode(53, 91, '兼具两类 · Ile / Phe / Thr / Trp / Tyr', 'dual-class');
+            namedNode(86, 91, '其余为生糖', 'glucogenic-only');
+            label(50, 96, '教学分类映射 · 不表示单一反应或统一计量', 'schematic-output');
           } else if (pathwayId === 'transamination') {
-            const p = { amino: [20, 43], akg: [20, 67], keto: [47, 43], glutamate: [47, 67], matrixGlu: [69, 67], ammonia: [86, 55], urea: [86, 78] };
             const q = {
-              amino: [21, 39], akgC: [21, 58], keto: [43, 39], glutamateC: [43, 58], carrier: [66, 57],
-              glutamateM: [78, 57], akgM: [92, 67], ammonia: [92, 43], urea: [92, 80]
+              amino: [7, 21], akgC: [7, 30], transferase: [29, 25.5], keto: [52, 21], glutamateC: [52, 30],
+              glutamateTransportC: [12, 46], carrier: [50, 46], proton: [50, 41], glutamateTransportM: [88, 46],
+              glutamateM: [9, 64], gdh: [30, 64], akgM: [52, 60], ammonia: [52, 72], nadp: [72, 60], nadh: [72, 72],
+              firstNitrogen: [8, 89], cps1: [25, 89], aspartate: [47, 89], urea: [68, 89], tca: [91, 89]
             };
-            label(61, 24, '细胞质—线粒体 · 转氨与氧化脱氨', 'schematic-title');
-            label(31, 30, '细胞质：转氨酶用 PLP 转移氨基', 'schematic-compartment-title');
-            label(86, 30, '线粒体基质：谷氨酸氧化脱氨', 'schematic-compartment-title');
+            label(50, 4.2, '转氨与氧化脱氨：氨基汇聚 → 基质释放 → 尿素交接', 'schematic-title');
+            [
+              [3, 7, 94, 28, 'schematic-transamination-zone schematic-transamination-transfer-zone', 'amino-transfer'],
+              [3, 37, 94, 14, 'schematic-transamination-zone schematic-transamination-membrane-zone', 'inner-membrane-entry'],
+              [3, 53, 94, 24, 'schematic-transamination-zone schematic-transamination-matrix-zone', 'matrix-deamination'],
+              [3, 79, 94, 19, 'schematic-transamination-zone schematic-transamination-handoff-zone', 'urea-handoff']
+            ].forEach(([x, y, width, height, className, zone]) => add('rect', { x, y, width, height, rx: 3, class: className, 'data-transamination-zone': zone }));
+
+            label(5, 56.5, '③ 基质 · GDH 氧化脱氨', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(50, 81.5, '④ 尿素两份氮与 α-KG 碳骨架交接', 'schematic-compartment-title');
+
             metabolite(...q.amino, '氨基酸'); metabolite(...q.akgC, 'α-酮戊二酸');
             metabolite(...q.keto, '对应 α-酮酸'); metabolite(...q.glutamateC, '谷氨酸（胞质）');
-            metabolite(...q.glutamateM, '谷氨酸（基质）'); metabolite(...q.akgM, 'α-酮戊二酸');
-            metabolite(...q.ammonia, 'NH₄⁺'); metabolite(...q.urea, '尿素循环第一步');
-            namedNode(...q.carrier, '谷氨酸载体', 'glutamate-carrier');
+            namedNode(...q.transferase, '氨基转移酶', 'aminotransferase');
+            metabolite(...q.glutamateTransportC, '谷氨酸（胞质）'); namedNode(...q.carrier, 'GC1 / GC2', 'glutamate-carrier');
+            metabolite(...q.glutamateTransportM, '谷氨酸（基质）');
+            metabolite(...q.glutamateM, '谷氨酸'); metabolite(...q.akgM, 'α-KG');
+            metabolite(...q.ammonia, 'NH₄⁺');
+            namedNode(...q.gdh, 'GDH / GLUD', 'glutamate-dehydrogenase');
+            metabolite(...q.firstNitrogen, 'NH₄⁺'); namedNode(...q.cps1, 'CPS1', 'cps1');
+            metabolite(...q.aspartate, '天冬氨酸'); namedNode(...q.urea, '尿素循环', 'urea-cycle');
+            metabolite(...q.tca, 'α-KG');
 
-            routePath('M 23 39 C 30 38, 36 38, 41 39', true, 'schematic-route');
-            routePath('M 23 57 C 30 55, 36 55, 42 57', true, 'schematic-route');
-            routePath('M 42 41 C 38 46, 38 52, 42 56', true, 'schematic-route schematic-cofactor-route');
-            routePath('M 45 58 C 53 58, 59 58, 65 57', false, 'schematic-route schematic-transporter-route');
-            routePath('M 67 57 C 71 57, 74 57, 77 57', false, 'schematic-route schematic-transporter-route');
-            routePath('M 80 56 C 84 51, 88 46, 91 44', false, 'schematic-route');
-            routePath('M 80 58 C 84 61, 88 65, 91 66', false, 'schematic-route');
-            routePath('M 92 45 L 92 78', false, 'schematic-route schematic-cofactor-route');
+            line(...q.amino, ...q.transferase, true); line(...q.akgC, ...q.transferase, true);
+            line(...q.transferase, ...q.keto, true); line(...q.transferase, ...q.glutamateC, true);
+            line(...q.glutamateTransportC, ...q.carrier, false, 'schematic-route schematic-transporter-route');
+            line(...q.carrier, ...q.glutamateTransportM, false, 'schematic-route schematic-transporter-route');
+            line(...q.glutamateM, ...q.gdh);
+            line(...q.gdh, ...q.akgM); line(...q.gdh, ...q.ammonia);
+            line(...q.firstNitrogen, ...q.cps1); line(...q.aspartate, ...q.urea); line(...q.cps1, ...q.urea);
 
-            label(32, 35, 'ALT / AST · PLP', 'schematic-enzyme');
-            label(32, 63, '氨基集中到谷氨酸', 'schematic-cofactor');
-            label(59, 53, '谷氨酸载体', 'schematic-transporter');
-            label(85, 52, '谷氨酸脱氢酶', 'schematic-enzyme');
-            label(85, 61, 'NAD(P)⁺ → NAD(P)H', 'schematic-cofactor');
-            label(94, 72, '基质排氮入口', 'schematic-output');
-            stepBadge(32, 42, 1); stepBadge(66, 54, 2); stepBadge(86, 47, 3);
-            label(60, 94, '转氨反应不释放游离氨；基质 GDH 产生 NH₄⁺，再交给 CPS I', 'schematic-output');
-            if (false) {
-            label(61, 24, '细胞质—线粒体 · 转氨与氧化脱氨', 'schematic-title');
-            label(34, 31, '细胞质转氨：PLP 暂时接收并转移氨基', 'schematic-enzyme');
-            metabolite(...p.amino, '氨基酸'); metabolite(...p.akg, 'α-KG'); metabolite(...p.keto, 'α-酮酸'); metabolite(...p.glutamate, '谷氨酸');
-            metabolite(...p.matrixGlu, '谷氨酸基质'); metabolite(...p.ammonia, 'NH₄⁺'); metabolite(...p.urea, '尿素循环');
-            routePath('M 22 43 C 31 42, 39 42, 45 43', false, 'schematic-route');
-            routePath('M 22 66 C 31 63, 39 62, 45 66', false, 'schematic-route');
-            routePath('M 45 45 C 40 51, 40 58, 46 65', true, 'schematic-route');
-            routePath('M 49 67 L 67 67', false, 'schematic-route schematic-transporter-route');
-            routePath('M 71 66 C 77 61, 81 57, 84 56', false, 'schematic-route');
-            routePath('M 86 57 L 86 76', false, 'schematic-route');
-            label(34, 39, 'ALT / AST · PLP', 'schematic-enzyme'); label(34, 72, '氨基集中到谷氨酸', 'schematic-cofactor');
-            label(59, 63, '进入线粒体基质', 'schematic-transporter'); label(77, 63, '谷氨酸脱氢酶', 'schematic-enzyme');
-            label(78, 69, 'NAD(P)⁺ → NAD(P)H', 'schematic-cofactor'); label(87, 70, '排氮入口', 'schematic-output');
-            stepBadge(34, 46, 1); stepBadge(58, 67, 2); stepBadge(78, 59, 3);
-            label(60, 94, '氨基被集中到谷氨酸，再以 NH₄⁺送入尿素循环', 'schematic-output');
-            }
+            label(29, 13.5, '① 胞质转氨：氨基酸 + α-KG ⇌ α-酮酸 + 谷氨酸', 'schematic-output');
+            stackedLabel(76, 13.5, ['ALT / GPT', '丙氨酸氨基转移酶', '丙氨酸 ⇌ 丙酮酸'], 'schematic-enzyme', 3.25);
+            stackedLabel(76, 25.5, ['AST / GOT', '天冬氨酸氨基转移酶', '天冬氨酸 ⇌ 草酰乙酸'], 'schematic-enzyme', 3.25);
+            label(29, 33.5, 'PLP · 酶结合辅酶 · 转氨不释放游离 NH₄⁺', 'schematic-cofactor');
+            label(75, 49.5, 'SLC25A22 / SLC25A18', 'schematic-transporter');
+            label(32, 49.5, '② 谷氨酸 + H⁺入基质', 'schematic-transporter');
+            stackedLabel(82, 58.5, ['谷氨酸脱氢酶', 'GTP 抑制', 'ADP / 亮氨酸激活'], 'schematic-note', 5.5);
+            label(45, 76, 'NAD(P)⁺ + H₂O → NAD(P)H + H⁺', 'schematic-cofactor');
+            label(16, 97, 'NH₄⁺ → CPS1 · 尿素第 1 份氮', 'schematic-output');
+            label(55, 97, '天冬氨酸 · 尿素第 2 份氮', 'schematic-output');
+            label(86, 97, 'α-KG → TCA / 转氨受体池', 'schematic-output');
+            stepBadge(29, 18, 1); stepBadge(50, 43, 2); stepBadge(30, 59, 3); stepBadge(68, 84, 4);
           } else if (pathwayId === 'glycolysis') {
-            const p = { glucose: [22, 34], g6p: [41, 34], f6p: [59, 34], f16bp: [78, 34], g3p: [84, 51], bpg: [76, 68], pg3: [60, 78], pg2: [43, 78], pep: [27, 68], pyruvate: [20, 51] };
-            label(61, 24, '细胞质 · 糖酵解十步主干', 'schematic-title');
+            const p = {
+              glucose: [9, 31], g6p: [25, 31], f6p: [41, 31], f16bp: [58, 31],
+              dhap: [73, 27], gap: [89, 34], bpg: [88, 54], pg3: [72, 67],
+              pg2: [55, 67], pep: [38, 56], pyruvate: [18, 52]
+            };
+            label(50, 13, '细胞质 · 糖酵解十步 · 一分子葡萄糖的能量账', 'schematic-title');
+            add('rect', { x: 4, y: 18, width: 62, height: 22, rx: 3, class: 'schematic-glycolysis-zone schematic-gly-investment-zone', 'data-glycolysis-zone': 'investment' });
+            add('rect', { x: 68, y: 18, width: 28, height: 22, rx: 3, class: 'schematic-glycolysis-zone schematic-gly-cleavage-zone', 'data-glycolysis-zone': 'cleavage' });
+            add('rect', { x: 4, y: 42, width: 92, height: 38, rx: 3, class: 'schematic-glycolysis-zone schematic-gly-payoff-zone', 'data-glycolysis-zone': 'payoff' });
+            add('rect', { x: 4, y: 82, width: 92, height: 14, rx: 3, class: 'schematic-glycolysis-zone schematic-gly-net-zone', 'data-glycolysis-zone': 'net' });
+            label(8, 22, '投资阶段 · 投入 2 ATP', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(71, 22, '裂解 · 2 GAP', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(8, 46, '收益阶段 · 后半程每步 ×2 · 产生 4 ATP + 2 NADH', 'schematic-compartment-title', { 'text-anchor': 'start' });
+
             metabolite(...p.glucose, '葡萄糖'); metabolite(...p.g6p, 'G6P'); metabolite(...p.f6p, 'F6P'); metabolite(...p.f16bp, 'F-1,6-BP');
-            metabolite(...p.g3p, 'G3P ×2'); metabolite(...p.bpg, '1,3-BPG'); metabolite(...p.pg3, '3-PG'); metabolite(...p.pg2, '2-PG'); metabolite(...p.pep, 'PEP'); metabolite(...p.pyruvate, '丙酮酸 ×2');
-            line(...p.glucose, ...p.g6p); line(...p.g6p, ...p.f6p, true); line(...p.f6p, ...p.f16bp); routePath('M 79 36 C 83 40, 85 45, 84 49', false, 'schematic-route');
-            routePath('M 83 53 C 82 59, 79 64, 77 67', false, 'schematic-route'); line(...p.bpg, ...p.pg3); line(...p.pg3, ...p.pg2, true); line(...p.pg2, ...p.pep, true);
-            routePath('M 26 67 C 22 63, 20 57, 20 53', false, 'schematic-route');
-            label(31, 30, '己糖激酶 · ATP→ADP', 'schematic-enzyme'); label(69, 30, 'PFK-1 · ATP→ADP', 'schematic-enzyme');
-            label(82, 43, '醛缩酶 / TPI', 'schematic-enzyme'); label(84, 60, 'GAPDH · NAD⁺→NADH', 'schematic-cofactor');
-            label(68, 73, 'PGK · ADP→ATP', 'schematic-cofactor'); label(35, 73, '烯醇化酶 · H₂O', 'schematic-enzyme'); label(21, 60, '丙酮酸激酶 · ADP→ATP', 'schematic-cofactor');
-            stepBadge(31, 37, 1); stepBadge(68, 37, 3); stepBadge(83, 58, 6); stepBadge(68, 80, 7); stepBadge(23, 61, 10);
-            label(61, 94, '净反应：葡萄糖 → 2 丙酮酸 + 2 ATP + 2 NADH', 'schematic-output');
+            metabolite(...p.dhap, 'DHAP'); metabolite(...p.gap, 'GAP ×2'); metabolite(...p.bpg, '1,3-BPG');
+            metabolite(...p.pg3, '3-PG'); metabolite(...p.pg2, '2-PG'); metabolite(...p.pep, 'PEP'); metabolite(...p.pyruvate, '丙酮酸 ×2');
+            line(...p.glucose, ...p.g6p); line(...p.g6p, ...p.f6p, true); line(...p.f6p, ...p.f16bp);
+            line(...p.f16bp, ...p.dhap, true); line(...p.f16bp, ...p.gap, true); line(...p.dhap, ...p.gap, true);
+            routePath('M 89 36 C 90 42, 90 48, 88.5 52', false, 'schematic-route');
+            line(...p.bpg, ...p.pg3); line(...p.pg3, ...p.pg2, true); line(...p.pg2, ...p.pep, true);
+            routePath('M 36.5 55 C 30 54, 24 53, 19.5 52', false, 'schematic-route');
+
+            label(17, 27, 'HK · ATP→ADP', 'schematic-enzyme');
+            label(50, 27, 'PFK-1 · 承诺步骤 · ATP→ADP', 'schematic-enzyme');
+            label(81, 24, '醛缩酶', 'schematic-enzyme'); label(81, 39, 'TPI · DHAP→GAP', 'schematic-enzyme');
+            label(88, 48, 'GAPDH · 2 NAD⁺→2 NADH', 'schematic-cofactor');
+            label(80, 63, 'PGK · 2 ADP→2 ATP', 'schematic-cofactor');
+            label(46, 62, '烯醇化酶 · 2 H₂O', 'schematic-enzyme');
+            label(24, 58, 'PK · 2 ADP→2 ATP', 'schematic-cofactor');
+
+            stepBadge(17, 34, 1); stepBadge(33, 34, 2); stepBadge(50, 34, 3);
+            stepBadge(66, 29, 4); stepBadge(81, 32, 5); stepBadge(91, 45, 6);
+            stepBadge(80, 69, 7); stepBadge(63, 69, 8); stepBadge(46, 56, 9); stepBadge(28, 52, 10);
+            label(24, 87, '3 个不可逆关卡：HK · PFK-1 · PK', 'schematic-note');
+            label(68, 87, '净 2 ATP + 2 NADH + 2 丙酮酸', 'schematic-output');
+            label(50, 93, '需氧：丙酮酸→PDH；缺氧 / 红细胞：LDH 再生 NAD⁺', 'schematic-note');
           } else if (pathwayId === 'gluconeogenesis') {
-            const p = { pyruvate: [18, 78], oaa: [31, 67], pep: [47, 57], f16bp: [62, 47], f6p: [74, 47], g6p: [85, 36], glucose: [95, 36] };
-            const q = { pyruvate: [96, 77], oaa: [91, 67], pep: [73, 57], f16bp: [55, 48], f6p: [44, 48], g6p: [31, 40], glucose: [20, 36], g6pase: [27, 32] };
-            label(61, 22, '线粒体—细胞质—内质网 · 糖异生', 'schematic-title');
-            label(91, 87, '线粒体基质：PC 生成 OAA', 'schematic-compartment-title');
-            label(59, 31, '细胞质：PEPCK 与逆糖酵解主干', 'schematic-compartment-title');
-            label(39, 27, 'ER 膜 / 腔：G6Pase', 'schematic-compartment-title', { 'data-role': 'er-title' });
-            metabolite(...q.pyruvate, '丙酮酸'); metabolite(...q.oaa, '草酰乙酸'); metabolite(...q.pep, 'PEP');
-            metabolite(...q.f16bp, 'F-1,6-BP'); metabolite(...q.f6p, 'F6P'); metabolite(...q.g6p, 'G6P'); metabolite(...q.glucose, '葡萄糖');
-            namedNode(...q.g6pase, 'G6P 转位酶', 'g6pase-er');
-            line(...q.pyruvate, ...q.oaa);
-            routePath('M 90 66 C 84 63, 78 60, 74 58', false, 'schematic-route schematic-transporter-route');
-            line(...q.pep, ...q.f16bp); line(...q.f16bp, ...q.f6p);
-            routePath('M 43 47 C 39 44, 35 42, 32 41', false, 'schematic-route');
-            routePath('M 30 39 C 29 36, 28 34, 27 33', false, 'schematic-route schematic-transporter-route');
-            routePath('M 26 31 C 24 32, 22 34, 21 35', false, 'schematic-route');
-            label(86, 73, '丙酮酸羧化酶 · ATP · 生物素', 'schematic-enzyme');
-            label(81, 58, 'OAA 以苹果酸 / 天冬氨酸形式出基质', 'schematic-transporter');
-            label(67, 53, 'PEPCK · GTP → GDP', 'schematic-enzyme');
-            label(51, 44, '果糖-1,6-二磷酸酶', 'schematic-enzyme');
-            label(30, 36, 'G6P 转运入 ER', 'schematic-transporter');
-            label(22, 31, '葡萄糖-6-磷酸酶', 'schematic-enzyme');
-            stepBadge(96, 73, 1); stepBadge(81, 61, 2); stepBadge(52, 51, 3); stepBadge(25, 36, 4);
-            label(61, 94, '三个不可逆关卡分属基质、细胞质与 ER；肝肾可释放游离葡萄糖', 'schematic-output');
-            if (false) {
-            label(61, 22, '线粒体—细胞质—内质网 · 糖异生', 'schematic-title');
-            add('line', { x1: 14, y1: 63, x2: 96, y2: 63, class: 'schematic-boundary' }); add('line', { x1: 61, y1: 31, x2: 97, y2: 31, class: 'schematic-boundary' });
-            label(23, 87, '线粒体基质', 'schematic-compartment-title'); label(55, 60, '细胞质', 'schematic-compartment-title'); label(83, 28, '内质网腔侧', 'schematic-compartment-title');
-            metabolite(...p.pyruvate, '丙酮酸'); metabolite(...p.oaa, '草酰乙酸'); metabolite(...p.pep, 'PEP'); metabolite(...p.f16bp, 'F-1,6-BP'); metabolite(...p.f6p, 'F6P'); metabolite(...p.g6p, 'G6P'); metabolite(...p.glucose, '葡萄糖');
-            line(...p.pyruvate, ...p.oaa); line(...p.oaa, ...p.pep); line(...p.pep, ...p.f16bp); line(...p.f16bp, ...p.f6p); routePath('M 76 46 C 79 42, 82 39, 84 37', false, 'schematic-route'); line(...p.g6p, ...p.glucose);
-            label(24, 72, '丙酮酸羧化酶 · ATP · 生物素', 'schematic-enzyme'); label(39, 61, 'PEPCK · GTP→GDP', 'schematic-enzyme');
-            label(54, 52, '逆糖酵解可逆步骤', 'schematic-cofactor'); label(68, 43, '果糖-1,6-二磷酸酶', 'schematic-enzyme'); label(90, 32, '葡萄糖-6-磷酸酶', 'schematic-enzyme');
-            stepBadge(25, 72, 1); stepBadge(40, 62, 2); stepBadge(68, 50, 3); stepBadge(90, 39, 4);
-            label(61, 94, '绕过三个不可逆关卡；肝肾通过 ER 内 G6Pase 释放葡萄糖', 'schematic-output');
-            }
+            const p = {
+              pyruvate: [94, 72], oaaMatrix: [87, 72], malateMatrix: [81, 66],
+              malateCytosol: [74, 57], oaaCytosol: [63, 57], pep: [55, 57],
+              pg3: [47, 68], bpg: [39, 68], triose: [31, 60], f16bp: [30, 47],
+              f6p: [24, 47], g6pCytosol: [24, 38], g6pEr: [16, 38], glucoseEr: [8.5, 32], glucoseCytosol: [8.5, 47]
+            };
+            label(50, 12, '线粒体—细胞质—内质网 · 糖异生三个绕行', 'schematic-title');
+            add('rect', { x: 79, y: 57, width: 18, height: 27, rx: 3, class: 'schematic-gluconeogenesis-zone schematic-gng-matrix-zone', 'data-gluconeogenesis-zone': 'matrix' });
+            add('rect', { x: 65, y: 50, width: 14, height: 34, rx: 3, class: 'schematic-gluconeogenesis-zone schematic-gng-shuttle-zone', 'data-gluconeogenesis-zone': 'shuttle' });
+            add('rect', { x: 22, y: 22, width: 43, height: 60, rx: 3, class: 'schematic-gluconeogenesis-zone schematic-gng-cytosol-zone', 'data-gluconeogenesis-zone': 'cytosol' });
+            add('rect', { x: 3, y: 20, width: 19, height: 44, rx: 3, class: 'schematic-gluconeogenesis-zone schematic-gng-er-zone', 'data-gluconeogenesis-zone': 'er' });
+            add('rect', { x: 3, y: 85, width: 94, height: 12, rx: 3, class: 'schematic-gluconeogenesis-zone schematic-gng-ledger-zone', 'data-gluconeogenesis-zone': 'ledger' });
+            label(88, 61, '线粒体基质 · PC', 'schematic-compartment-title');
+            label(72, 54, '内膜穿梭', 'schematic-compartment-title');
+            label(43, 27, '细胞质 · PCK1 与逆糖酵解主干', 'schematic-compartment-title');
+            label(12.5, 24, 'ER 膜 / 腔 · G6Pase', 'schematic-compartment-title', { 'data-role': 'er-title' });
+
+            metabolite(...p.pyruvate, '丙酮酸 ×2'); metabolite(...p.oaaMatrix, 'OAA ×2'); metabolite(...p.malateMatrix, '苹果酸');
+            metabolite(...p.malateCytosol, '苹果酸'); metabolite(...p.oaaCytosol, 'OAA'); metabolite(...p.pep, 'PEP ×2');
+            metabolite(...p.pg3, '3-PG'); metabolite(...p.bpg, '1,3-BPG'); metabolite(...p.triose, 'GAP / DHAP');
+            metabolite(...p.f16bp, 'F-1,6-BP'); metabolite(...p.f6p, 'F6P'); metabolite(...p.g6pCytosol, 'G6P 胞质');
+            metabolite(...p.g6pEr, 'G6P 腔内'); metabolite(...p.glucoseEr, '葡萄糖 腔内'); metabolite(...p.glucoseCytosol, '葡萄糖');
+
+            line(...p.pyruvate, ...p.oaaMatrix);
+            routePath('M 86 71 C 84 69, 82 67, 82 66', false, 'schematic-route');
+            routePath('M 80 65 C 78 62, 76 59, 75 58', false, 'schematic-route schematic-transporter-route');
+            line(...p.malateCytosol, ...p.oaaCytosol, true); line(...p.oaaCytosol, ...p.pep);
+            routePath('M 54 58 C 52 61, 49 65, 48 67', true, 'schematic-route');
+            line(...p.pg3, ...p.bpg, true); routePath('M 38 67 C 36 64, 33 62, 32 61', true, 'schematic-route');
+            routePath('M 30 59 C 30 55, 30 51, 30 48', true, 'schematic-route');
+            line(...p.f16bp, ...p.f6p); routePath('M 24 46 L 24 39', true, 'schematic-route');
+            line(...p.g6pCytosol, ...p.g6pEr, true, 'schematic-route schematic-transporter-route');
+            routePath('M 15 37 C 13 35, 11 33, 9.5 32', false, 'schematic-route'); routePath('M 8.5 33 L 8.5 46', true, 'schematic-route schematic-transporter-route');
+
+            label(91, 68, 'PC · 丙酮酸羧化酶 · 2 ATP', 'schematic-enzyme');
+            label(72, 74, 'MDH2 / 载体 / MDH1', 'schematic-transporter');
+            label(72, 80, 'OAA 不能直接跨内膜', 'schematic-note');
+            label(59, 53, 'PCK1 · 2 GTP → 2 GDP + 2 CO₂', 'schematic-enzyme');
+            label(44, 74, 'PGK · 2 ATP', 'schematic-cofactor'); label(35, 74, 'GAPDH · 2 NADH', 'schematic-cofactor');
+            label(27, 42, 'FBP1 · 水解', 'schematic-enzyme');
+            label(19, 35, 'G6P 转运入 ER', 'schematic-transporter'); label(10, 28, '葡萄糖-6-磷酸酶 G6Pase', 'schematic-enzyme', { 'data-role': 'g6pase-er' });
+
+            add('rect', { x: 80, y: 77, width: 16, height: 5, rx: 2, class: 'schematic-gng-bypass', 'data-gluconeogenesis-bypass': 'pk' });
+            label(88, 80.5, 'PC + 穿梭 + PEPCK', 'schematic-note');
+            add('rect', { x: 22.5, y: 34, width: 15, height: 5, rx: 2, class: 'schematic-gng-bypass', 'data-gluconeogenesis-bypass': 'pfk1' });
+            label(30, 37.5, '绕过 PFK-1', 'schematic-note');
+            add('rect', { x: 3.5, y: 55, width: 17, height: 5, rx: 2, class: 'schematic-gng-bypass', 'data-gluconeogenesis-bypass': 'hk-gk' });
+            label(12, 58.5, '绕过 HK / GK', 'schematic-note');
+
+            label(24, 89, '代表性苹果酸路线；实际出口依前体 / 组织而变', 'schematic-note');
+            label(70, 89, '2 丙酮酸 → 1 葡萄糖：4 ATP + 2 GTP + 2 NADH', 'schematic-output');
+            label(70, 94, '共 6 个高能磷酸键 · 三个绕行跨越基质、胞质与 ER', 'schematic-note');
           } else if (pathwayId === 'glycogenesis') {
-            const p = { glucose: [19, 48], g6p: [35, 48], g1p: [51, 48], udpGlc: [62, 48], glycogenin: [69, 60], glycogen: [76, 48], branch: [76, 70] };
-            label(61, 24, '细胞质 · 糖原合成', 'schematic-title');
-            metabolite(...p.glucose, '葡萄糖'); metabolite(...p.g6p, 'G6P'); metabolite(...p.g1p, 'G1P'); metabolite(...p.udpGlc, 'UDP-葡萄糖'); metabolite(...p.glycogenin, '糖原蛋白'); metabolite(...p.glycogen, '糖原主链'); metabolite(...p.branch, '分支糖原');
-            line(...p.glucose, ...p.g6p); line(...p.g6p, ...p.g1p, true); line(...p.g1p, ...p.udpGlc); routePath('M 64 49 C 66 52, 67 55, 68 58', false, 'schematic-route'); routePath('M 71 58 C 73 54, 74 51, 75 50', false, 'schematic-route'); line(...p.glycogen, ...p.branch);
-            label(27, 44, '己糖激酶', 'schematic-enzyme'); label(43, 44, '磷酸葡萄糖变位酶', 'schematic-enzyme'); label(54, 44, 'UTP · UDP-葡萄糖焦磷酸化酶', 'schematic-cofactor');
-            label(63, 65, '自糖基化引物', 'schematic-enzyme'); label(69, 52, '糖原合酶 · α-1,4', 'schematic-enzyme'); label(76, 74, '分支酶 · α-1,6', 'schematic-enzyme');
-            stepBadge(27, 51, 1); stepBadge(43, 51, 2); stepBadge(54, 51, 3); stepBadge(71, 49, 4); stepBadge(80, 62, 5);
-            label(60, 89, '储存方向：G6P → UDP-葡萄糖 → 多分支糖原颗粒', 'schematic-output');
+            const p = {
+              glucose: [10, 39], g6p: [24, 39], g1p: [38, 39], utp: [48, 52],
+              udpGlc: [52, 39], ppi: [52, 24], glycogenin: [65, 39], primer: [84, 39],
+              linear: [68, 63], branchPoint: [84, 62], granule: [92, 76]
+            };
+            label(50, 8, '细胞质 · 糖原合成：先活化、再起始、后延长与分支', 'schematic-title');
+            add('rect', { x: 3, y: 12, width: 53, height: 47, rx: 3, class: 'schematic-glycogenesis-zone schematic-glycogenesis-activation-zone', 'data-glycogenesis-zone': 'activation' });
+            add('rect', { x: 58, y: 12, width: 38, height: 34, rx: 3, class: 'schematic-glycogenesis-zone schematic-glycogenesis-primer-zone', 'data-glycogenesis-zone': 'primer' });
+            add('rect', { x: 58, y: 48, width: 18, height: 31, rx: 3, class: 'schematic-glycogenesis-zone schematic-glycogenesis-elongation-zone', 'data-glycogenesis-zone': 'elongation' });
+            add('rect', { x: 78, y: 48, width: 18, height: 31, rx: 3, class: 'schematic-glycogenesis-zone schematic-glycogenesis-branching-zone', 'data-glycogenesis-zone': 'branching' });
+            add('rect', { x: 3, y: 82, width: 93, height: 14, rx: 3, class: 'schematic-glycogenesis-zone schematic-glycogenesis-energy-zone', 'data-glycogenesis-zone': 'energy' });
+            label(7, 17, '① 核苷酸糖活化', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(62, 17, '② 糖原蛋白起始', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(62, 53, '③ 主链延长', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(81, 53, '④ 分支', 'schematic-compartment-title', { 'text-anchor': 'start' });
+
+            metabolite(...p.glucose, '葡萄糖'); metabolite(...p.g6p, 'G6P');
+            metabolite(...p.g1p, 'G1P'); metabolite(...p.utp, 'UTP');
+            metabolite(...p.udpGlc, 'UDP-葡萄糖'); metabolite(...p.ppi, 'PPi');
+            namedNode(...p.glycogenin, '糖原蛋白', 'glycogenin');
+            metabolite(...p.primer, '短 α-1,4 引物'); metabolite(...p.linear, '延长中的主链');
+            namedNode(...p.branchPoint, 'α-1,6 分支点', 'branch-point');
+            metabolite(...p.granule, '多分支糖原颗粒');
+
+            line(...p.glucose, ...p.g6p); line(...p.g6p, ...p.g1p, true);
+            line(...p.g1p, ...p.udpGlc); routePath('M 48 50 C 49 46, 50 43, 51 40', false, 'schematic-route schematic-cofactor-route');
+            routePath('M 52 38 C 52 34, 52 29, 52 25.5', false, 'schematic-route schematic-cofactor-route');
+            line(...p.udpGlc, ...p.glycogenin); line(...p.glycogenin, ...p.primer);
+            routePath('M 83.5 41 C 80 48, 73 56, 69 61.5', false, 'schematic-route');
+            line(...p.linear, ...p.branchPoint);
+            routePath('M 89 64 C 92 67, 93.5 71, 94 75.5', false, 'schematic-route');
+
+            label(17, 34, '己糖激酶 · ATP→ADP', 'schematic-enzyme');
+            label(31, 34, '磷酸葡萄糖变位酶', 'schematic-enzyme');
+            label(45, 32, 'UDP-葡萄糖焦磷酸化酶', 'schematic-enzyme');
+            label(47, 56, 'UTP → UDP-葡萄糖 + PPi', 'schematic-cofactor');
+            label(52, 20, 'PPi 水解驱动', 'schematic-cofactor');
+            label(76, 28, '糖原蛋白自糖基化，形成短引物', 'schematic-enzyme');
+            label(76, 44, '糖原合酶不能从零起始', 'schematic-note');
+            label(68, 70, '糖原合酶 · α-1,4 延长', 'schematic-enzyme');
+            label(87, 67, '分支酶 · 链段转移', 'schematic-enzyme');
+            label(87, 71, '形成 α-1,6 分支', 'schematic-note');
+            label(92, 79, '多个非还原端', 'schematic-output');
+            stepBadge(17, 42, 1); stepBadge(31, 42, 2); stepBadge(45, 42, 3);
+            stepBadge(74, 36, 4); stepBadge(63, 62, 5); stepBadge(80, 62, 6);
+            label(28, 88, '从游离葡萄糖：1 ATP + 1 UTP / 加入单位', 'schematic-output');
+            label(72, 88, '从 G6P 起算只需 1 UTP / 加入单位', 'schematic-output');
+            label(50, 93, '分支酶只重排链段，不额外加入葡萄糖', 'schematic-note');
           } else if (pathwayId === 'glycogenolysis') {
-            const p = { glycogen: [20, 44], branch: [14, 36], freeGlucose: [24, 28], g1p: [48, 48], g6p: [67, 48], glycolysis: [87, 40], glucose: [87, 68] };
-            label(61, 24, '细胞质 · 糖原分解', 'schematic-title');
-            metabolite(...p.glycogen, '糖原非还原端'); metabolite(...p.branch, 'α-1,6 分支'); metabolite(...p.freeGlucose, '少量游离葡萄糖'); metabolite(...p.g1p, 'G1P'); metabolite(...p.g6p, 'G6P'); metabolite(...p.glycolysis, '肌肉糖酵解'); metabolite(...p.glucose, '肝血糖输出');
-            routePath('M 22 45 C 30 46, 39 47, 46 47.5', false, 'schematic-route');
-            routePath('M 15 35 C 17 33, 20 30.5, 22 29.5', false, 'schematic-route schematic-cofactor-route');
-            routePath('M 15 37 C 24 41, 36 45, 46 47.5', false, 'schematic-route');
-            line(...p.g1p, ...p.g6p, true);
-            routePath('M 69 47 C 76 44, 81 42, 85 41', false, 'schematic-route'); routePath('M 69 49 C 76 55, 82 62, 85 67', false, 'schematic-route');
-            label(28, 43, '糖原磷酸化酶 · Pi', 'schematic-enzyme'); label(30, 31, '去分支酶：转移酶 + α-1,6-糖苷酶', 'schematic-enzyme', { 'data-role': 'debranching-label' }); label(57, 45.5, '磷酸葡萄糖变位酶', 'schematic-enzyme');
-            label(78, 45, '肌：直接供能', 'schematic-cofactor'); label(79, 63, '肝：ER 内 G6Pase', 'schematic-cofactor');
-            stepBadge(36, 46.5, 1); stepBadge(10, 38, 2); stepBadge(62, 51, 3); stepBadge(78, 52, 4);
-            label(60, 89, '磷酸解节省 1 个 ATP；肝可释糖，肌肉主要自用', 'schematic-output');
+            const p = {
+              granule: [8, 26.5], end: [34, 26.5], limit: [60, 26.5], g1pMain: [87, 26.5],
+              transfer: [12, 54], branch: [50, 54], free: [88, 52],
+              g1p: [10, 77], g6p: [39, 77], muscle: [80, 75.5],
+              g6pC: [10, 95], g6pEr: [35, 95], glucoseEr: [61, 95], blood: [89, 95]
+            };
+            label(50, 7, '糖原分解：外链磷酸解、去分支双活性与组织分流', 'schematic-title');
+            add('rect', { x: 3, y: 10, width: 94, height: 23.5, rx: 3, class: 'schematic-glycogenolysis-zone schematic-ggl-chain-zone', 'data-glycogenolysis-zone': 'chain' });
+            add('rect', { x: 3, y: 35, width: 94, height: 25, rx: 3, class: 'schematic-glycogenolysis-zone schematic-ggl-debranch-zone', 'data-glycogenolysis-zone': 'debranching' });
+            add('rect', { x: 3, y: 62, width: 44, height: 18, rx: 3, class: 'schematic-glycogenolysis-zone schematic-ggl-conversion-zone', 'data-glycogenolysis-zone': 'conversion' });
+            add('rect', { x: 49, y: 62, width: 48, height: 18, rx: 3, class: 'schematic-glycogenolysis-zone schematic-ggl-muscle-zone', 'data-glycogenolysis-zone': 'muscle' });
+            add('rect', { x: 3, y: 81.5, width: 94, height: 17.5, rx: 3, class: 'schematic-glycogenolysis-zone schematic-ggl-liver-zone', 'data-glycogenolysis-zone': 'liver-er' });
+            label(6, 14, '① 外链磷酸解', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(6, 38, '② 去分支酶 AGL · 双催化活性', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(6, 63.5, '③ G1P → G6P', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(53, 63.5, '④ 肌肉：本地供能', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(6, 83.5, '⑤ 肝 / 肾：ER 释糖', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            metabolite(...p.granule, '糖原颗粒'); metabolite(...p.end, '非还原端'); metabolite(...p.limit, '极限糊精'); metabolite(...p.g1pMain, 'G1P');
+            metabolite(...p.transfer, '转移的 3 个残基'); namedNode(...p.branch, '暴露 α-1,6 点', 'debranching-label'); metabolite(...p.free, '少量游离葡萄糖');
+            metabolite(...p.g1p, 'G1P'); metabolite(...p.g6p, 'G6P'); metabolite(...p.muscle, '肌肉糖酵解');
+            metabolite(...p.g6pC, '胞质 G6P'); namedNode(...p.g6pEr, 'ER 腔 G6P', 'g6p-er'); metabolite(...p.glucoseEr, 'ER 腔葡萄糖'); metabolite(...p.blood, '血糖输出');
+            line(...p.granule, ...p.end); line(...p.end, ...p.limit); line(...p.limit, ...p.g1pMain);
+            line(...p.transfer, ...p.branch); line(...p.branch, ...p.free); line(...p.g1p, ...p.g6p, true); line(...p.g6p, ...p.muscle);
+            line(...p.g6pC, ...p.g6pEr, true, 'schematic-route schematic-transporter-route'); line(...p.g6pEr, ...p.glucoseEr); line(...p.glucoseEr, ...p.blood, true, 'schematic-route schematic-transporter-route');
+            stackedLabel(50, 16.5, ['糖原磷酸化酶 · Pi', '· α-1,4 磷酸解'], 'schematic-enzyme');
+            label(50, 32, '停在分支前 4 个残基', 'schematic-note');
+            stackedLabel(27, 43.5, ['4-α-葡聚糖转移酶', '· 转移 3 个残基'], 'schematic-enzyme');
+            stackedLabel(73, 43.5, ['α-1,6-糖苷酶活性', '· 水解 α-1,6'], 'schematic-enzyme');
+            label(86, 59, '释放 1 个游离葡萄糖', 'schematic-note');
+            stackedLabel(25, 68.5, ['磷酸葡萄糖变位酶', '· 不耗 ATP'], 'schematic-enzyme', 3.1);
+            label(74, 68.5, '肌肉缺少 G6Pase', 'schematic-note'); label(80, 79.5, '就地进入糖酵解', 'schematic-output');
+            label(23, 88.2, 'G6P 转运入 ER', 'schematic-transporter'); label(48, 88.2, '腔面 G6Pase', 'schematic-enzyme'); label(75, 88.2, '葡萄糖输出', 'schematic-transporter');
+            label(50, 98.8, '糖原来源 G6P 绕过己糖激酶，节省 1 ATP', 'schematic-output');
+            stepBadge(21, 29.5, 1); stepBadge(27, 56.5, 2); stepBadge(73, 56.5, 3); stepBadge(25, 78.5, 4);
+            stepBadge(69, 78.5, 5); stepBadge(23, 96.8, 6); stepBadge(48, 96.8, 7);
           } else if (pathwayId === 'ppp') {
-            const p = { g6p: [18, 50], pgl: [34, 50], pg6: [49, 50], ru5p: [65, 50], r5p: [82, 37], x5p: [82, 62], f6p: [92, 76], g3p: [70, 78] };
-            label(61, 24, '细胞质 · 磷酸戊糖途径', 'schematic-title');
-            metabolite(...p.g6p, 'G6P'); metabolite(...p.pgl, '6-P-葡萄糖酸内酯'); metabolite(...p.pg6, '6-磷酸葡萄糖酸'); metabolite(...p.ru5p, 'Ru5P');
-            metabolite(...p.r5p, 'R5P'); metabolite(...p.x5p, 'X5P'); metabolite(...p.f6p, 'F6P'); metabolite(...p.g3p, 'G3P');
-            line(...p.g6p, ...p.pgl); line(...p.pgl, ...p.pg6); line(...p.pg6, ...p.ru5p); routePath('M 67 49 C 72 44, 77 39, 80 38', false, 'schematic-route'); routePath('M 67 51 C 72 55, 77 59, 80 61', false, 'schematic-route');
-            routePath('M 83 63 C 87 68, 90 73, 91 75', true, 'schematic-route'); routePath('M 81 63 C 77 69, 73 74, 71 77', true, 'schematic-route');
-            label(26, 45, 'G6PD · NADP⁺→NADPH', 'schematic-cofactor'); label(42, 45, '内酯酶 · H₂O', 'schematic-enzyme'); label(57, 45, '6PGDH · NADPH + CO₂', 'schematic-cofactor');
-            label(75, 34, '核糖-5-P · 核苷酸', 'schematic-output'); label(82, 68, '转酮酶(TPP) / 转醛酶', 'schematic-enzyme');
-            stepBadge(26, 53, 1); stepBadge(42, 53, 2); stepBadge(57, 53, 3); stepBadge(74, 53, 4);
-            label(61, 91, '氧化支产生 NADPH；非氧化支在 R5P 与 F6P/G3P 间可逆转换', 'schematic-output');
+            const p = {
+              g6p: [8, 31.5], lactone: [34, 31.5], sixpg: [60, 31.5], ru5p: [87, 31.5],
+              r5p: [45, 53], x5p: [67, 53], nucleotide: [88, 53],
+              x5pA: [10, 78], r5pA: [10, 83.5], g3pA: [34, 78], s7p: [34, 83.5],
+              f6pA: [58, 78], e4p: [58, 83.5], f6pOut: [85, 78], g3pOut: [85, 83.5]
+            };
+            label(50, 7, '磷酸戊糖途径：氧化产 NADPH，可逆重排按需求分配碳', 'schematic-title');
+            add('rect', { x: 3, y: 10, width: 94, height: 31, rx: 3, class: 'schematic-ppp-zone schematic-ppp-oxidative-zone', 'data-ppp-zone': 'oxidative' });
+            add('rect', { x: 3, y: 41, width: 94, height: 18.5, rx: 3, class: 'schematic-ppp-zone schematic-ppp-pentose-zone', 'data-ppp-zone': 'pentose-hub' });
+            add('rect', { x: 3, y: 61, width: 94, height: 28.5, rx: 3, class: 'schematic-ppp-zone schematic-ppp-rearrangement-zone', 'data-ppp-zone': 'rearrangement' });
+            add('rect', { x: 3, y: 89, width: 94, height: 10, rx: 3, class: 'schematic-ppp-zone schematic-ppp-demand-zone', 'data-ppp-zone': 'demand-modes' });
+            label(6, 13, '① 不可逆氧化支', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(6, 44, '② 五碳糖枢纽', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(6, 63.5, '③ 可逆非氧化支 · 15C 碳重排', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            metabolite(...p.g6p, 'G6P'); metabolite(...p.lactone, '6-P-葡萄糖酸内酯'); metabolite(...p.sixpg, '6-磷酸葡萄糖酸'); metabolite(...p.ru5p, 'Ru5P');
+            metabolite(...p.r5p, 'R5P'); metabolite(...p.x5p, 'X5P'); metabolite(...p.nucleotide, '核苷酸');
+            metabolite(...p.x5pA, 'X5P'); metabolite(...p.r5pA, 'R5P'); metabolite(...p.g3pA, 'G3P'); metabolite(...p.s7p, 'S7P');
+            metabolite(...p.f6pA, 'F6P'); metabolite(...p.e4p, 'E4P'); metabolite(...p.f6pOut, 'F6P'); metabolite(...p.g3pOut, 'G3P');
+            line(...p.g6p, ...p.lactone); line(...p.lactone, ...p.sixpg, true); line(...p.sixpg, ...p.ru5p);
+            routePath('M 87 32.5 C 80 39, 60 45, 46 52', true, 'schematic-route'); routePath('M 87 32.5 C 82 40, 73 46, 68 52', true, 'schematic-route'); line(...p.r5p, ...p.nucleotide);
+            line(...p.x5pA, ...p.g3pA, true); line(...p.r5pA, ...p.s7p, true); line(...p.g3pA, ...p.f6pA, true); line(...p.s7p, ...p.e4p, true);
+            routePath('M 59 83 C 68 81.5, 76 79, 83.5 78.3', true, 'schematic-route'); routePath('M 59 78.5 C 68 80, 76 82.5, 83.5 83.2', true, 'schematic-route');
+            stackedLabel(21, 19.5, ['G6PD · ', '第 1 个 NADPH'], 'schematic-cofactor');
+            label(47, 21, '6PGL · H₂O', 'schematic-enzyme');
+            stackedLabel(73, 19.5, ['6PGDH · ', '第 2 个 NADPH + CO₂'], 'schematic-cofactor');
+            label(50, 39.5, '净：2 NADPH + CO₂ + Ru5P · PPP 不直接产生 ATP', 'schematic-output');
+            label(62, 45, 'RPI / RPE 可逆分流', 'schematic-enzyme'); label(75, 58, 'R5P → 核苷酸合成', 'schematic-output');
+            stackedLabel(21, 68.5, ['转酮酶 1 · TPP ', '· 转移 2C'], 'schematic-enzyme');
+            stackedLabel(47, 68.5, ['转醛酶 ', '· 转移 3C'], 'schematic-enzyme');
+            stackedLabel(74, 68.5, ['转酮酶 2 · TPP ', '· 转移 2C'], 'schematic-enzyme');
+            label(50, 86.8, '3×5C ⇌ 2×6C + 1×3C · 15C ⇌ 15C', 'schematic-output');
+            label(18, 92.3, 'R5P 优先', 'schematic-compartment-title'); label(18, 97.8, '糖酵解中间体 → R5P', 'schematic-note');
+            label(50, 92.3, '同时需要 NADPH 与 R5P', 'schematic-compartment-title'); label(50, 97.8, '氧化支后保留 R5P', 'schematic-note');
+            label(82, 92.3, 'NADPH 优先', 'schematic-compartment-title'); label(82, 97.8, '五碳糖回流糖酵解', 'schematic-note');
+            stepBadge(21, 35, 1); stepBadge(47, 35, 2); stepBadge(73, 35, 3); stepBadge(45, 56, 4);
+            stepBadge(67, 56, 5); stepBadge(21, 80.7, 6); stepBadge(47, 80.7, 7); stepBadge(74, 80.7, 8);
           } else if (pathwayId === 'fa_synthesis') {
             const p = {
-              citrate: [23, 42], acetyl: [38, 42], malonyl: [54, 42], fas: [67, 54],
-              palmitate: [79, 54], erEnzyme: [88, 68], elongation: [96, 78], nadph: [52, 72]
+              matrixAcetyl: [7, 18], matrixOaa: [7, 25], matrixCitrate: [22, 18], carrier: [38, 18],
+              cytosolCitrate: [55, 18], acly: [72, 18], cytosolAcetyl: [90, 18], cytosolOaa: [90, 25],
+              commitmentAcetyl: [8, 38], acc: [33, 38], malonyl: [59, 38], cpt1: [87, 38],
+              primer: [8, 57], malonylSeven: [8, 70], acp: [25, 63.5], keto: [43, 57],
+              hydroxy: [61, 57], enoyl: [79, 57], acylPlusTwo: [79, 70], palmitate: [94, 63.5]
             };
-            label(61, 24, '细胞质—平滑内质网 · 脂肪酸合成', 'schematic-title');
-            label(38, 31, '细胞质：棕榈酸主干合成', 'schematic-compartment-title');
-            label(91, 85, '平滑 ER：延长 / 去饱和', 'schematic-compartment-title');
-            metabolite(...p.citrate, '柠檬酸（胞质）'); metabolite(...p.acetyl, '乙酰-CoA');
-            metabolite(...p.malonyl, '丙二酰-CoA'); metabolite(...p.fas, '脂肪酸合酶 FAS');
-            metabolite(...p.palmitate, '棕榈酸 C16'); metabolite(...p.elongation, '长链 / 不饱和脂肪酸');
-            metabolite(...p.nadph, 'NADPH');
-            namedNode(...p.erEnzyme, 'ELOVL / 去饱和酶', 'er-elongation');
+            label(50, 4.2, '脂肪酸合酶 FAS：上游先输出碳，四步循环七轮生成 C16:0', 'schematic-title');
+            [
+              [3, 7, 94, 20, 'schematic-fa-zone schematic-fa-carbon-zone', 'carbon-export'],
+              [3, 28, 94, 18, 'schematic-fa-zone schematic-fa-commitment-zone', 'commitment'],
+              [3, 47, 94, 32, 'schematic-fa-zone schematic-fa-cycle-zone', 'fas-cycle'],
+              [3, 80, 94, 19, 'schematic-fa-zone schematic-fa-ledger-zone', 'ledger-downstream']
+            ].forEach(([x, y, width, height, className, zone]) => add('rect', { x, y, width, height, rx: 3, class: className, 'data-fa-synthesis-zone': zone }));
+            label(6, 10.5, '① 柠檬酸输出', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(68, 10.5, '乙酰-CoA不能直接跨内膜', 'schematic-note');
+            label(6, 31.5, '② ACC 承诺步骤', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(6, 50.5, '③ FAS 四步循环 ×7', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(6, 83.2, '④ 净账 / 调控 / 下游', 'schematic-compartment-title', { 'text-anchor': 'start' });
 
-            line(...p.citrate, ...p.acetyl); line(...p.acetyl, ...p.malonyl);
-            // 乙酰-CoA 作为引物、丙二酰-CoA 作为 2C 供体，分别进入 FAS，不再画成单一直线反应。
-            routePath('M 37 43 C 44 49, 55 52, 65 54', false, 'schematic-route schematic-cofactor-route');
-            routePath('M 53 43 C 58 47, 62 51, 65 53', false, 'schematic-route');
-            line(...p.fas, ...p.palmitate);
-            routePath('M 80 55 C 83 59, 86 63, 87.5 67', false, 'schematic-route');
-            routePath('M 88.7 69 C 91 72, 93 75, 95 77', false, 'schematic-route');
-            routePath('M 54 71 C 58 65, 62 59, 65 56', false, 'schematic-route schematic-cofactor-route');
+            metabolite(...p.matrixAcetyl, '乙酰-CoA'); metabolite(...p.matrixOaa, 'OAA');
+            metabolite(...p.matrixCitrate, '柠檬酸'); namedNode(...p.carrier, 'SLC25A1', 'citrate-carrier');
+            metabolite(...p.cytosolCitrate, '柠檬酸'); namedNode(...p.acly, 'ACLY', 'acly');
+            metabolite(...p.cytosolAcetyl, '乙酰-CoA'); metabolite(...p.cytosolOaa, 'OAA');
+            line(...p.matrixAcetyl, ...p.matrixCitrate); line(...p.matrixOaa, ...p.matrixCitrate);
+            line(...p.matrixCitrate, ...p.carrier, true, 'schematic-route schematic-transporter-route');
+            line(...p.carrier, ...p.cytosolCitrate, true, 'schematic-route schematic-transporter-route');
+            line(...p.cytosolCitrate, ...p.acly); line(...p.acly, ...p.cytosolAcetyl); line(...p.acly, ...p.cytosolOaa);
+            label(55, 25.7, 'ACLY · 1 ATP', 'schematic-enzyme');
 
-            label(27, 38, 'ATP-柠檬酸裂解酶', 'schematic-enzyme');
-            label(45, 38, 'ACC · ATP + HCO₃⁻ · 生物素', 'schematic-enzyme');
-            label(48, 49, '乙酰-CoA 引物', 'schematic-cofactor');
-            label(62, 48, '缩合→还原→脱水→还原 ×7', 'schematic-enzyme');
-            label(54, 76, '每轮 2 NADPH', 'schematic-cofactor');
-            label(88, 64, 'ER 膜 ELOVL / 去饱和酶', 'schematic-transporter');
-            stepBadge(27, 45, 1); stepBadge(45, 45, 2); stepBadge(61, 51, 3); stepBadge(75, 51, 4); stepBadge(91, 72, 5);
-            label(61, 93, '乙酰-CoA 提供引物，丙二酰-CoA 每轮增加 2C，NADPH 提供还原力', 'schematic-output');
+            metabolite(...p.commitmentAcetyl, '乙酰-CoA'); namedNode(...p.acc, 'ACC', 'acc');
+            metabolite(...p.malonyl, '丙二酰-CoA'); namedNode(...p.cpt1, 'CPT1', 'cpt1');
+            line(...p.commitmentAcetyl, ...p.acc); line(...p.acc, ...p.malonyl);
+            routePath('M 60 38 C 69 38, 77 38, 86 38', false, 'schematic-route schematic-inhibition-route');
+            label(30, 44, 'ACC · HCO₃⁻ + 1 ATP · 生物素', 'schematic-enzyme');
+            label(74, 44, '承诺 / 主要调控步骤', 'schematic-output');
+
+            metabolite(...p.primer, '乙酰基引物'); metabolite(...p.malonylSeven, '丙二酰基 ×7');
+            namedNode(...p.acp, 'ACP', 'acp'); metabolite(...p.keto, 'β-酮脂酰');
+            metabolite(...p.hydroxy, 'β-羟脂酰'); metabolite(...p.enoyl, '烯脂酰');
+            metabolite(...p.acylPlusTwo, '饱和脂酰 +2C'); metabolite(...p.palmitate, 'C16:0');
+            line(...p.primer, ...p.acp); line(...p.malonylSeven, ...p.acp);
+            line(...p.acp, ...p.keto); line(...p.keto, ...p.hydroxy, false, 'schematic-route schematic-cofactor-route');
+            line(...p.hydroxy, ...p.enoyl); routePath('M 79 58 C 86 61, 86 67, 80 69', false, 'schematic-route schematic-cofactor-route');
+            routePath('M 78 70 C 63 76, 45 74, 27 65', false, 'schematic-route schematic-cycle-route');
+            routePath('M 80 70 C 86 69, 90 66, 93 64', false, 'schematic-route');
+            label(34, 62.5, '缩合', 'schematic-enzyme'); label(52, 62.5, '还原 1', 'schematic-cofactor');
+            label(70, 62.5, '脱水', 'schematic-enzyme'); label(88, 62.5, '还原 2', 'schematic-cofactor');
+            stackedLabel(18, 74, ['ACP 携带', '中间体'], 'schematic-note', 3.2);
+            stackedLabel(50, 74, ['每轮 +2C ', '· 2 NADPH'], 'schematic-output', 3.2);
+            stackedLabel(82, 74, ['×7 → ', '棕榈酸 C16:0'], 'schematic-output', 3.2);
+
+            stackedLabel(26, 89.5, ['FAS净：1 acetyl + 7 malonyl ', '+ 14 NADPH → C16'], 'schematic-output', 3.2);
+            stackedLabel(74, 89.5, ['总成本：8 acetyl + 7 ATP ', '+ 14 NADPH'], 'schematic-output', 3.2);
+            label(17, 98.1, 'PPP / 苹果酸酶', 'schematic-cofactor');
+            label(49, 98.1, 'malonyl-CoA ┤ CPT1', 'schematic-note');
+            label(82, 98.1, 'ER · ELOVL / SCD', 'schematic-transporter');
+            stepBadge(38, 24.3, 1); stepBadge(72, 24.3, 2); stepBadge(33, 41.6, 3);
+            stepBadge(34, 66, 4); stepBadge(52, 66, 5); stepBadge(70, 66, 6); stepBadge(88, 66, 7);
           } else if (pathwayId === 'purine') {
-            const p = { r5p: [13, 51], prpp: [26, 51], pra: [39, 51], gar: [52, 51], aicar: [64, 51], imp: [75, 51], amp: [78, 38], gmp: [78, 66] };
-            label(61, 24, '细胞质 / 细胞核 · 嘌呤核苷酸从头合成', 'schematic-title');
-            group.lastChild.textContent = '细胞质（核旁供给）· \u560c呤核苷酸从头合成';
-            metabolite(...p.r5p, 'R5P'); metabolite(...p.prpp, 'PRPP'); metabolite(...p.pra, '5-P-核糖胺'); metabolite(...p.gar, 'GAR'); metabolite(...p.aicar, 'AICAR'); metabolite(...p.imp, 'IMP'); metabolite(...p.amp, 'AMP'); metabolite(...p.gmp, 'GMP');
-            line(...p.r5p, ...p.prpp); line(...p.prpp, ...p.pra); line(...p.pra, ...p.gar); line(...p.gar, ...p.aicar); line(...p.aicar, ...p.imp);
-            routePath('M 76 49 C 76 45, 77 41, 77.5 39.5', false, 'schematic-route'); routePath('M 76 53 C 76 58, 77 62, 77.5 64.5', false, 'schematic-route');
-            label(19, 47, 'PRPP 合成酶 · ATP', 'schematic-enzyme'); label(31, 47, '谷氨酰胺-PRPP 酰胺转移酶', 'schematic-enzyme');
-            label(51, 46, '甘氨酸 · 甲酰-THF · 谷氨酰胺 · CO₂ · 天冬氨酸', 'schematic-cofactor'); label(70, 47, '共同分叉点', 'schematic-enzyme');
-            label(73, 33, 'GTP + 天冬氨酸', 'schematic-cofactor'); label(73, 70, 'ATP + 谷氨酰胺', 'schematic-cofactor');
-            stepBadge(19, 54, 1); stepBadge(32, 54, 2); stepBadge(57, 54, 3); stepBadge(79, 53, 4);
-            label(61, 91, '嘌呤环逐步搭建在核糖上；IMP 分流为 AMP 与 GMP', 'schematic-output');
-          } else if (pathwayId === 'pyrimidine') {
-            const p = {
-              carbP: [23, 38], carbAsp: [37, 38], dihydro: [51, 38], dhodh: [79, 52],
-              orotate: [56, 62], omp: [42, 62], ump: [28, 62], udp: [38, 72],
-              utp: [49, 79], ctp: [61, 79], dump: [27, 79], dtmp: [38, 83]
+            const entry = { r5p: [8, 15], prpps: [24, 15], prpp: [40, 15], ppat: [59, 15], pra: [78, 15] };
+            const spine = {
+              pra: [8, 33], gar: [27, 33], fgar: [46, 33], fgam: [65, 33], air: [84, 33],
+              cair: [84, 52], saicar: [65, 52], aicar: [46, 52], faicar: [27, 52], imp: [8, 52]
             };
-            label(61, 24, '细胞质—线粒体内膜 · 嘧啶从头合成', 'schematic-title');
-            label(34, 29, '细胞质：CAD、UMP 合酶与核苷酸分支', 'schematic-compartment-title');
-            label(82, 39, '线粒体内膜', 'schematic-compartment-title');
+            const branch = { imp: [50, 67], adss: [25, 74], amp: [25, 80], xmp: [75, 74], gmp: [75, 80] };
+            label(50, 4.3, '嘌呤从头合成 · PRPP上十步搭环 → IMP → AMP / GMP', 'schematic-title');
+            [
+              [3, 7, 94, 15, 'schematic-purine-zone schematic-purine-entry-zone', 'prpp-entry'],
+              [3, 24, 94, 36, 'schematic-purine-zone schematic-purine-assembly-zone', 'imp-assembly'],
+              [3, 62, 94, 19, 'schematic-purine-zone schematic-purine-branch-zone', 'amp-gmp-branch'],
+              [3, 83, 94, 15, 'schematic-purine-zone schematic-purine-ledger-zone', 'atom-energy-regulation']
+            ].forEach(([x, y, width, height, className, zone]) => add('rect', { x, y, width, height, rx: 3, class: className, 'data-purine-zone': zone }));
 
-            metabolite(...p.carbP, '氨甲酰磷酸'); metabolite(...p.carbAsp, '氨甲酰天冬氨酸');
-            metabolite(...p.dihydro, '二氢乳清酸'); metabolite(...p.orotate, '乳清酸');
-            metabolite(...p.omp, 'OMP'); metabolite(...p.ump, 'UMP'); metabolite(...p.udp, 'UDP');
-            metabolite(...p.utp, 'UTP'); metabolite(...p.ctp, 'CTP'); metabolite(...p.dump, 'dUMP'); metabolite(...p.dtmp, 'dTMP');
-            namedNode(...p.dhodh, 'DHODH', 'dhodh');
+            namedNode(...entry.r5p, 'R5P', 'r5p'); namedNode(...entry.prpps, 'PRPP-S', 'prpp-synthetase');
+            namedNode(...entry.prpp, 'PRPP', 'prpp'); namedNode(...entry.ppat, 'PPAT · 第一承诺步骤', 'ppat'); namedNode(...entry.pra, '5-PRA', 'pra-entry');
+            line(...entry.r5p, ...entry.prpps); line(...entry.prpps, ...entry.prpp); line(...entry.prpp, ...entry.ppat); line(...entry.ppat, ...entry.pra);
+            label(24, 20.3, 'PRPP synthetase · ATP → AMP', 'schematic-enzyme');
+            label(72, 20.3, 'Gln → Glu + PPi', 'schematic-cofactor');
 
-            // CAD 的三种活性都在细胞质：CPS II → ATCase → 二氢乳清酸酶。
-            line(...p.carbP, ...p.carbAsp); line(...p.carbAsp, ...p.dihydro);
-            label(30, 34, 'CAD · CPS II / ATCase', 'schematic-enzyme');
-            label(44, 34, '二氢乳清酸酶', 'schematic-enzyme');
-            label(30, 43, 'Gln + HCO₃⁻ + 2 ATP；再加入天冬氨酸', 'schematic-cofactor');
+            [
+              [spine.pra, '5-PRA', 'pra'], [spine.gar, 'GAR', 'gar'], [spine.fgar, 'FGAR', 'fgar'], [spine.fgam, 'FGAM', 'fgam'], [spine.air, 'AIR', 'air'],
+              [spine.cair, 'CAIR', 'cair'], [spine.saicar, 'SAICAR', 'saicar'], [spine.aicar, 'AICAR', 'aicar'], [spine.faicar, 'FAICAR', 'faicar'], [spine.imp, 'IMP', 'imp']
+            ].forEach(([point, value, role]) => namedNode(...point, value, role));
+            line(...spine.pra, ...spine.gar); line(...spine.gar, ...spine.fgar); line(...spine.fgar, ...spine.fgam); line(...spine.fgam, ...spine.air);
+            line(...spine.air, ...spine.cair); line(...spine.cair, ...spine.saicar); line(...spine.saicar, ...spine.aicar); line(...spine.aicar, ...spine.faicar); line(...spine.faicar, ...spine.imp);
+            routePath('M 78 16 C 60 23, 28 27, 9 32', false, 'schematic-route');
+            [
+              [8, 38.5, 'PPAT'], [27, 38.5, 'GART · GAR-S'], [46, 38.5, 'GART · GAR-T'], [65, 38.5, 'PFAS · FGAM-S'], [84, 38.5, 'GART · AIR-S'],
+              [84, 57.5, 'PAICS · AIR-C'], [65, 57.5, 'PAICS · SAICAR-S'], [46, 57.5, 'ADSL'], [27, 57.5, 'ATIC · AICAR-T'], [8, 57.5, 'ATIC · IMP-C']
+            ].forEach(([x, y, value]) => label(x, y, value, 'schematic-enzyme'));
+            [spine.pra, spine.gar, spine.fgar, spine.fgam, spine.air, spine.cair, spine.saicar, spine.aicar, spine.faicar, spine.imp]
+              .forEach((point, index) => stepBadge(point[0], point[1] + 3.05, index + 1));
 
-            // 二氢乳清酸离开胞质主线，到真实线粒体内膜完成唯一的膜上步骤，
-            // 生成乳清酸后再返回胞质继续接 PRPP。
-            routePath('M 52 39 C 61 41, 70 46, 78 51', false, 'schematic-route schematic-transporter-route');
-            routePath('M 78 53 C 72 56, 64 59, 57 61', false, 'schematic-route schematic-transporter-route');
-            label(79, 48, 'DHODH · CoQ → CoQH₂', 'schematic-transporter');
-            label(84, 55, '内膜外侧催化', 'schematic-cofactor');
-            stepBadge(62, 43, 3);
+            namedNode(...branch.imp, 'IMP', 'branch-imp');
+            namedNode(...branch.adss, 'ADSS · Asp + GTP', 'adss');
+            namedNode(...branch.amp, 'ADSL · AMP + fumarate', 'amp');
+            namedNode(...branch.xmp, 'XMP · IMPDH · NAD⁺ → NADH', 'xmp');
+            namedNode(...branch.gmp, 'GMP · GMPS · Gln + ATP → AMP + PPi', 'gmp');
+            line(...branch.imp, ...branch.adss); line(...branch.adss, ...branch.amp);
+            line(...branch.imp, ...branch.xmp, false, 'schematic-route schematic-cofactor-route'); line(...branch.xmp, ...branch.gmp, false, 'schematic-route schematic-cofactor-route');
 
-            // 乳清酸在胞质接上 PRPP 形成 OMP，再脱羧为 UMP。
-            line(...p.orotate, ...p.omp); line(...p.omp, ...p.ump);
-            label(49, 58, 'UMP 合酶 · PRPP', 'schematic-enzyme');
-            label(35, 58, 'OMP 脱羧', 'schematic-enzyme');
+            [
+              [10, 87, 'N3/N9 · Gln', 'atom-gln'], [29, 87, 'C4/C5/N7 · Gly', 'atom-gly'], [49, 87, 'C2/C8 · 10-formyl-THF', 'atom-formyl'],
+              [69, 87, 'C6 · CO₂', 'atom-carbon'], [88, 87, 'N1 · Asp', 'atom-asp']
+            ].forEach(([x, y, value, role]) => namedNode(x, y, value, role));
+            stackedLabel(25, 92, [
+              'R5P→IMP · 5 ATP分子',
+              'AMP用GTP · GMP用ATP',
+              'AMP⊣ADSS · GMP⊣IMPDH'
+            ], 'schematic-output', 2.75);
+            stackedLabel(74, 92, [
+              'APRT / HGPRT · salvage uses PRPP',
+              'salvage不属于十步从头主干'
+            ], 'schematic-note', 3.1);
+          } else if (pathwayId === 'pyrimidine') {
+            const cad = { carbP: [8, 18], carbAsp: [21, 18], dho: [34, 18], gln: [8, 35], hco3: [21, 35], atp: [34, 35] };
+            const dh = { dho: [44, 17], enzyme: [52, 26], orotate: [60, 35], coq: [45, 41], coqh2: [58, 41] };
+            const umps = { orotate: [69, 17], prpp: [70, 36], omp: [81, 22], ppi: [82, 37], ump: [93, 29], co2: [93, 39] };
+            const branch = { ump: [8, 53], udp: [24, 53], utp: [40, 53], ctp: [56, 53], dudp: [24, 70], dutp: [40, 70], dump: [56, 70], dtmp: [72, 70], dttp: [88, 70] };
 
-            // UMP 的 RNA 与 DNA 去向分开，避免把 UTP 直接画成 dTMP。
-            routePath('M 29 64 C 31 67, 34 70, 37 71', false, 'schematic-route');
-            line(...p.udp, ...p.utp); line(...p.utp, ...p.ctp);
-            routePath('M 37 73 C 33 75, 30 77, 28 78', false, 'schematic-route');
-            line(...p.dump, ...p.dtmp);
-            label(44, 68, '核苷酸激酶', 'schematic-enzyme');
-            label(55, 75, 'CTP 合成酶 · Gln + ATP', 'schematic-enzyme');
-            label(29, 75, 'RNR → dUMP', 'schematic-enzyme');
-            label(39, 80, '胸苷酸合酶 · N⁵,N¹⁰-亚甲基-THF', 'schematic-cofactor');
-            stepBadge(30, 41, 1); stepBadge(44, 41, 2); stepBadge(49, 65, 4); stepBadge(35, 69, 5);
-            label(61, 92, '主体在细胞质；仅 DHODH 在线粒体内膜，UMP 再分流生成 UTP、CTP 与 dTMP', 'schematic-output');
+            label(50, 2.6, '环先合成 · 再接 PRPP · 六步形成 UMP 后分流 RNA / DNA', 'schematic-title');
+            [
+              [3, 7, 36, 38, 'schematic-pyrimidine-zone schematic-pyrimidine-cad-zone', 'cad-cytosol'],
+              [41, 7, 22, 38, 'schematic-pyrimidine-zone schematic-pyrimidine-dhodh-zone', 'dhodh-imm'],
+              [65, 7, 32, 38, 'schematic-pyrimidine-zone schematic-pyrimidine-umps-zone', 'umps-cytosol'],
+              [3, 47, 94, 34, 'schematic-pyrimidine-zone schematic-pyrimidine-branch-zone', 'rna-dna-branches'],
+              [3, 83, 94, 16, 'schematic-pyrimidine-zone schematic-pyrimidine-ledger-zone', 'atom-energy-regulation']
+            ].forEach(([x, y, width, height, className, zone]) => add('rect', { x, y, width, height, rx: 3, class: className, 'data-pyrimidine-zone': zone }));
+
+            label(21, 8.5, '胞质 · CAD 三活性', 'schematic-compartment-title');
+            namedNode(...cad.carbP, '氨甲酰磷酸', 'carbamoyl-phosphate');
+            namedNode(...cad.carbAsp, '氨甲酰天冬氨酸', 'carbamoyl-aspartate');
+            namedNode(...cad.dho, '二氢乳清酸', 'dihydroorotate-cad');
+            line(...cad.carbP, ...cad.carbAsp); line(...cad.carbAsp, ...cad.dho);
+            label(8, 27, 'CAD · CPS II', 'schematic-enzyme');
+            label(21, 31, 'CAD · ATCase', 'schematic-enzyme');
+            label(34, 33, 'CAD · DHOase', 'schematic-enzyme');
+            namedNode(8, 40, 'Gln', 'cad-gln'); namedNode(21, 40, 'HCO₃⁻', 'cad-bicarbonate'); namedNode(34, 40, '2 ATP', 'cad-atp');
+            stepBadge(8, 21.2, 1); stepBadge(21, 21.2, 2); stepBadge(34, 21.2, 3);
+
+            label(52, 8.5, '线粒体内膜外侧', 'schematic-compartment-title');
+            namedNode(...dh.dho, 'DHO 输入', 'dihydroorotate-dhodh');
+            namedNode(...dh.enzyme, 'DHODH', 'dhodh-active');
+            add('circle', { cx: 79, cy: 52, r: 0, 'data-role': 'dhodh', 'aria-label': 'DHODH 锚点兼容标记' });
+            namedNode(...dh.orotate, '乳清酸', 'orotate-dhodh');
+            routePath('M 45 18 C 48 20, 50 23, 51 25', false, 'schematic-route schematic-transporter-route');
+            routePath('M 53 27 C 56 29, 58 32, 59 34', false, 'schematic-route schematic-transporter-route');
+            label(57, 17.5, 'DHODH · FMN', 'schematic-transporter');
+            namedNode(45, 41, 'CoQ', 'coq'); namedNode(58, 41, 'CoQH₂', 'coqh2');
+            line(...dh.coq, ...dh.coqh2, false, 'schematic-route schematic-cofactor-route');
+            label(52, 47, 'CoQ → CoQH₂', 'schematic-cofactor');
+            label(48, 52, '内膜外侧 · 底物/产物保持胞质可达', 'schematic-note');
+            stepBadge(55, 29.5, 4);
+
+            label(81, 8.5, '胞质 · UMPS 双活性', 'schematic-compartment-title');
+            add('title', {}, '主体在细胞质；DHODH 锚定在线粒体内膜，代谢物端点保持胞质可达');
+            namedNode(...umps.orotate, '乳清酸', 'orotate-umps'); namedNode(...umps.prpp, 'PRPP', 'prpp');
+            namedNode(...umps.omp, 'OMP', 'omp'); namedNode(82, 42, 'PPi', 'ppi');
+            namedNode(...umps.ump, 'UMP', 'ump'); namedNode(93, 42, 'CO₂', 'co2');
+            line(...umps.orotate, ...umps.omp); line(...umps.omp, ...umps.ump);
+            routePath('M 71 35 C 74 31, 77 26, 80 23', false, 'schematic-route schematic-cofactor-route');
+            routePath('M 82 23 C 82 28, 82 32, 82 36', false, 'schematic-route schematic-cofactor-route');
+            routePath('M 92 30 C 92 33, 93 36, 93 38', false, 'schematic-route schematic-cofactor-route');
+            label(75, 29, 'UMPS · OPRTase', 'schematic-enzyme');
+            label(88, 35, 'UMPS · OMP decarboxylase', 'schematic-enzyme');
+            stepBadge(81, 25.2, 5); stepBadge(93, 32.2, 6);
+
+            label(29, 53, 'RNA 分支', 'schematic-compartment-title');
+            label(70, 56, 'DNA 胸苷酸分支', 'schematic-compartment-title');
+            branch.ump[1] = 60; branch.udp[1] = 60; branch.utp[1] = 60; branch.ctp[1] = 60;
+            namedNode(...branch.ump, 'UMP', 'branch-ump'); namedNode(...branch.udp, 'UDP', 'udp');
+            namedNode(...branch.utp, 'UTP', 'utp'); namedNode(...branch.ctp, 'CTP', 'ctp');
+            line(...branch.ump, ...branch.udp); line(...branch.udp, ...branch.utp); line(...branch.utp, ...branch.ctp);
+            label(16, 67, 'UMP-CMP kinase', 'schematic-enzyme'); label(32, 67, 'NDPK', 'schematic-enzyme');
+            label(48, 67, 'CTPS · Gln + ATP', 'schematic-cofactor');
+
+            branch.dudp[1] = 74; branch.dutp[1] = 74; branch.dump[1] = 74; branch.dtmp[1] = 74; branch.dttp[1] = 74;
+            namedNode(...branch.dudp, 'dUDP', 'dudp'); namedNode(...branch.dutp, 'dUTP', 'dutp');
+            namedNode(...branch.dump, 'dUMP', 'dump'); namedNode(...branch.dtmp, 'dTMP', 'dtmp'); namedNode(...branch.dttp, 'dTTP', 'dttp');
+            routePath('M 24 61 C 24 65, 24 69, 24 73', false, 'schematic-route');
+            line(...branch.dudp, ...branch.dutp); line(...branch.dutp, ...branch.dump); line(...branch.dump, ...branch.dtmp); line(...branch.dtmp, ...branch.dttp);
+            label(24, 79, 'RNR', 'schematic-enzyme'); label(24, 84, 'thioredoxin(red)', 'schematic-cofactor');
+            label(40, 79, 'NDPK', 'schematic-enzyme'); label(56, 79, 'DUT', 'schematic-enzyme');
+            label(72, 77, 'TYMS', 'schematic-enzyme'); label(88, 77, 'TMPK / NDPK', 'schematic-enzyme');
+            label(78, 82, '5,10-亚甲基-THF → DHF', 'schematic-cofactor');
+
+            namedNode(12, 90, 'N3 · Gln', 'atom-gln'); namedNode(32, 93, 'C2 · HCO₃⁻', 'atom-carbon'); namedNode(53, 90, 'N1/C4/C5/C6 · Asp', 'atom-aspartate');
+            label(19, 97, 'CAD/CPS II · 2 ATP', 'schematic-output');
+            label(50, 97, 'UTP⊣CAD · PRPP→CAD', 'schematic-output');
+            label(88, 87.5, 'dCTP：CDP 经 RNR', 'schematic-note');
+            label(88, 93, 'dCMP deaminase → dUMP', 'schematic-note');
+            label(88, 98.5, '不虚构 DHODH 专用转运体', 'schematic-note');
           } else if (pathwayId === 'nucleotide_degradation') {
             const p = {
-              nucleotide: [73, 52], nucleoside: [60, 52], base: [47, 52], salvage: [25, 52],
-              purBase: [47, 38], hypoxXanthine: [61, 35], uric: [73, 35],
-              pyrBase: [47, 66], soluble: [29, 76]
+              nucleotide: [16, 37], nucleoside: [34, 37], base: [52, 37], phosphate: [16, 52], ribose: [52, 52],
+              hypox: [72, 29], guanine: [72, 45], uric: [90, 37], uracil: [27, 73], betaAla: [48, 73],
+              thymine: [67, 73], betaAib: [88, 73], salvage: [52, 91]
             };
-            label(61, 24, '细胞质 · 核苷酸降解与补救回收', 'schematic-title');
-            label(35, 30, '补救分支：碱基 / 核苷重新进入核苷酸池', 'schematic-compartment-title');
-            label(79, 30, '降解分支：嘌呤与嘧啶分别处理', 'schematic-compartment-title');
-            metabolite(...p.nucleotide, 'AMP / GMP / UMP / TMP'); metabolite(...p.nucleoside, '核苷');
-            metabolite(...p.base, '嘌呤 / 嘧啶碱基'); metabolite(...p.salvage, '核苷酸池（补救）');
-            metabolite(...p.purBase, '腺嘌呤 / 鸟嘌呤'); metabolite(...p.hypoxXanthine, '次黄嘌呤 / 黄嘌呤');
-            metabolite(...p.uric, '尿酸'); metabolite(...p.pyrBase, '尿嘧啶 / 胸腺嘧啶');
-            metabolite(...p.soluble, 'β-丙氨酸 / β-氨基异丁酸');
-
-            line(...p.nucleotide, ...p.nucleoside); line(...p.nucleoside, ...p.base);
-            routePath('M 46 52 C 40 52, 34 52, 28 52', false, 'schematic-route schematic-cofactor-route');
-            routePath('M 47 51 C 47 47, 47 43, 47 39', false, 'schematic-route');
-            routePath('M 49 38 C 53 36.5, 57 35.5, 60 35.5', false, 'schematic-route');
-            line(...p.hypoxXanthine, ...p.uric);
-            routePath('M 47 53 C 47 58, 47 62, 47 65', false, 'schematic-route');
-            routePath('M 45 67 C 39 70, 34 73, 30 75', false, 'schematic-route');
-
-            label(66, 47, '5′-核苷酸酶', 'schematic-enzyme');
-            label(54, 47, '核苷磷酸化酶 / 水解酶', 'schematic-enzyme');
-            label(32, 48, 'HGPRT / APRT / 核苷激酶', 'schematic-cofactor');
-            label(66, 31, '黄嘌呤氧化还原酶（XOR）', 'schematic-enzyme');
-            label(30, 70, '开环 → 还原 → 水解', 'schematic-enzyme');
-            stepBadge(73, 57, 1); stepBadge(60, 57, 2); stepBadge(46, 57, 3);
-            label(61, 92, '胞质核苷酸先去磷酸；可回收碱基返回核苷酸池，其余进入终末降解', 'schematic-output');
+            label(50, 3.8, '核苷酸降解 · 去磷酸后按嘌呤 / 嘧啶分流', 'schematic-title');
+            add('title', {}, 'AMP / GMP / UMP / TMP 经过去磷酸和核苷裂解后，可回到核苷酸池（补救）或进入终末降解');
+            [
+              [3, 7, 27, 45, 'schematic-nucleotide-degradation-zone schematic-ndg-release-zone', 'phosphate-release'],
+              [31, 7, 29, 45, 'schematic-nucleotide-degradation-zone schematic-ndg-cleavage-zone', 'nucleoside-cleavage'],
+              [61, 7, 36, 45, 'schematic-nucleotide-degradation-zone schematic-ndg-purine-zone', 'purine-branch'],
+              [3, 54, 94, 29, 'schematic-nucleotide-degradation-zone schematic-ndg-pyrimidine-zone', 'pyrimidine-branch'],
+              [3, 85, 94, 13, 'schematic-nucleotide-degradation-zone schematic-ndg-salvage-zone', 'salvage-ledger']
+            ].forEach(([x, y, width, height, className, zone]) => add('rect', { x, y, width, height, rx: 3, class: className, 'data-nucleotide-degradation-zone': zone }));
+            label(15, 10, '细胞质 · 去磷酸', 'schematic-compartment-title'); label(45, 10, '核苷裂解', 'schematic-compartment-title'); label(79, 10, '嘌呤氧化', 'schematic-compartment-title');
+            metabolite(...p.nucleotide, '核苷酸'); metabolite(...p.nucleoside, '核苷'); metabolite(...p.base, '碱基'); metabolite(...p.phosphate, 'Pi'); metabolite(...p.ribose, '核糖-1-P');
+            metabolite(...p.hypox, '次黄嘌呤'); metabolite(...p.guanine, '鸟嘌呤'); metabolite(...p.uric, '尿酸'); metabolite(...p.uracil, '尿嘧啶'); metabolite(...p.betaAla, 'β-丙氨酸'); metabolite(...p.thymine, '胸腺嘧啶'); metabolite(...p.betaAib, 'β-氨基异丁酸'); metabolite(...p.salvage, '补救回收');
+            line(...p.nucleotide, ...p.nucleoside); line(...p.nucleoside, ...p.base); routePath('M 16 42 C 16 46, 16 48, 16 49', false, 'schematic-route'); routePath('M 52 42 C 52 46, 52 48, 52 49', false, 'schematic-route');
+            routePath('M 58 37 C 64 30, 68 29, 70 29', false, 'schematic-route'); routePath('M 58 39 C 64 43, 68 45, 70 45', false, 'schematic-route'); line(...p.hypox, ...p.uric); line(...p.guanine, ...p.uric);
+            routePath('M 52 42 C 46 55, 35 64, 27 70', false, 'schematic-route'); routePath('M 54 42 C 59 55, 63 64, 67 70', false, 'schematic-route'); line(...p.uracil, ...p.betaAla); line(...p.thymine, ...p.betaAib);
+            routePath('M 52 83 C 52 87, 52 88, 52 89', true, 'schematic-route schematic-salvage-route');
+            label(18, 47, '核苷酸酶 · H₂O → Pi', 'schematic-enzyme'); label(45, 48, '核苷磷酸化酶 · ⇌', 'schematic-enzyme'); label(80, 24, '黄嘌呤氧化酶（XOR）', 'schematic-enzyme'); label(80, 51, '鸟嘌呤先脱氨', 'schematic-enzyme'); label(47, 68, '嘧啶降解酶系 · NADPH', 'schematic-enzyme');
+            stepBadge(16, 31, 1); stepBadge(34, 31, 2); stepBadge(52, 31, 3); stepBadge(72, 23, 4); stepBadge(72, 39, 5); stepBadge(27, 67, 6);
+            label(52, 96, '补救回收接口 · APRT / HGPRT 不属于本图主干', 'schematic-note');
             if (false) {
             label(61, 24, '溶酶体—细胞质 · 核苷酸降解与回收', 'schematic-title');
             metabolite(...p.nucleic, '核酸'); metabolite(...p.nucleotide, '核苷酸'); metabolite(...p.nucleoside, '核苷'); metabolite(...p.base, '碱基'); metabolite(...p.hypox, '次黄嘌呤'); metabolite(...p.uric, '尿酸'); metabolite(...p.pyrBase, '嘧啶碱基'); metabolite(...p.betaAla, 'β-丙氨酸等'); metabolite(...p.salvage, '补救回收');
@@ -5905,38 +9554,95 @@
             label(61, 91, '优先补救回收；嘌呤终产物为尿酸，嘧啶生成可溶性小分子', 'schematic-output');
           } else if (pathwayId === 'malate_aspartate') {
             const p = {
-              oaaC: [35, 34], malC: [53, 34], malM: [53, 75], oaaM: [68, 75], aspM: [84, 75], aspC: [84, 34]
+              oaaC: [10, 30], malC: [30, 30], alphaKgC: [54, 36], aspC: [70, 30], gluC: [89, 36],
+              malM: [30, 70], oaaM: [50, 70], alphaKgM: [56, 80], aspM: [70, 70], gluM: [89, 80],
+              slc25a11: [32, 51], slc25a12: [72, 51]
             };
-            metabolite(...p.oaaC, '草酰乙酸'); metabolite(...p.malC, '苹果酸'); metabolite(...p.malM, '苹果酸');
-            metabolite(...p.oaaM, '草酰乙酸'); metabolite(...p.aspM, '天冬氨酸'); metabolite(...p.aspC, '天冬氨酸');
-            label(44, 28, 'MDH1 · NADH + H⁺ → NAD⁺', 'schematic-cofactor');
-            label(43, 42, 'GOT1 · 天冬氨酸 + α-KG → 草酰乙酸 + 谷氨酸', 'schematic-enzyme');
-            label(53, 56, '苹果酸–α-KG 反向转运体', 'schematic-transporter');
-            label(84, 56, '天冬氨酸–谷氨酸载体', 'schematic-transporter');
-            label(53, 59, '苹果酸 ↓　/　α-KG ↑', 'schematic-exchange');
-            label(84, 59, '谷氨酸 + H⁺ ↓　/　天冬氨酸 ↑', 'schematic-exchange');
-            label(60.5, 70, 'MDH2 · NAD⁺ → NADH + H⁺', 'schematic-cofactor');
-            label(76, 88, 'GOT2 · 草酰乙酸 + 谷氨酸 → 天冬氨酸 + α-KG', 'schematic-enzyme');
-            namedNode(53, 53, '苹果酸–α-KG 载体', 'malate-alpha-kg-carrier');
-            namedNode(84, 53, '天冬氨酸–谷氨酸载体', 'aspartate-glutamate-carrier');
+            label(50, 13, '苹果酸-天冬氨酸穿梭 · 六事件还原当量闭环', 'schematic-title');
+            add('rect', { x: 4, y: 18, width: 92, height: 22, rx: 3, class: 'schematic-mas-zone schematic-mas-cytosol-zone', 'data-mas-zone': 'cytosol' });
+            add('rect', { x: 4, y: 42, width: 92, height: 18, rx: 3, class: 'schematic-mas-zone schematic-mas-transport-zone', 'data-mas-zone': 'transport' });
+            add('rect', { x: 4, y: 62, width: 92, height: 22, rx: 3, class: 'schematic-mas-zone schematic-mas-matrix-zone', 'data-mas-zone': 'matrix' });
+            add('rect', { x: 4, y: 86, width: 92, height: 10, rx: 3, class: 'schematic-mas-zone schematic-mas-net-zone', 'data-mas-zone': 'net' });
+            label(9, 22, '胞质半环', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(9, 47, '内膜交换', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(9, 66, '基质半环', 'schematic-compartment-title', { 'text-anchor': 'start' });
+
+            metabolite(...p.oaaC, '草酰乙酸'); metabolite(...p.malC, '苹果酸');
+            metabolite(...p.alphaKgC, 'α-KG'); metabolite(...p.aspC, '天冬氨酸'); metabolite(...p.gluC, '谷氨酸');
+            metabolite(...p.malM, '苹果酸'); metabolite(...p.oaaM, '草酰乙酸');
+            metabolite(...p.alphaKgM, 'α-KG'); metabolite(...p.aspM, '天冬氨酸'); metabolite(...p.gluM, '谷氨酸');
+            namedNode(...p.slc25a11, 'SLC25A11', 'malate-alpha-kg-carrier');
+            namedNode(...p.slc25a12, 'SLC25A12/13', 'aspartate-glutamate-carrier');
+
+            label(20, 24, 'MDH1', 'schematic-enzyme');
+            label(20, 37, '胞质 NADH → NAD⁺', 'schematic-cofactor');
+            label(61, 24, 'GOT1', 'schematic-enzyme');
+            label(32, 57, '苹果酸入 · α-KG 出', 'schematic-exchange');
+            label(72, 57, '天冬氨酸出 · 谷氨酸 + H⁺入', 'schematic-exchange');
+            label(40, 65, 'MDH2', 'schematic-enzyme');
+            label(39, 81, '基质 NAD⁺ → NADH', 'schematic-cofactor');
+            label(62, 65, 'GOT2', 'schematic-enzyme');
+
             line(...p.oaaC, ...p.malC);
-            line(...p.malC, ...p.malM, true, 'schematic-route schematic-transporter-route');
+            line(...p.malC, ...p.slc25a11, true, 'schematic-route schematic-transporter-route');
+            line(...p.slc25a11, ...p.malM, true, 'schematic-route schematic-transporter-route');
+            line(...p.alphaKgM, ...p.slc25a11, true, 'schematic-route schematic-transporter-route');
+            line(...p.slc25a11, ...p.alphaKgC, true, 'schematic-route schematic-transporter-route');
             line(...p.malM, ...p.oaaM); line(...p.oaaM, ...p.aspM);
-            line(...p.aspM, ...p.aspC, true, 'schematic-route schematic-transporter-route');
-            routePath('M 82.4 34 C 76 27, 43 27, 36.6 34', true, 'schematic-route');
-            stepBadge(43, 31, 1); stepBadge(53, 53, 2); stepBadge(60, 72, 3); stepBadge(76, 79, 4); stepBadge(84, 53, 5); stepBadge(61, 29, 6);
-            label(44, 82, '基质 NADH → 复合体 I', 'schematic-output');
-          } else {
-            const p = { dhap: [37, 34], g3p: [58, 34], enzyme: [65, 53], coq: [80, 53], coqh2: [92, 53] };
-            metabolite(...p.dhap, '磷酸二羟丙酮'); metabolite(...p.g3p, '甘油-3-磷酸');
+            line(...p.gluM, ...p.alphaKgM, true, 'schematic-route schematic-cofactor-route');
+            line(...p.aspM, ...p.slc25a12, true, 'schematic-route schematic-transporter-route');
+            line(...p.slc25a12, ...p.aspC, true, 'schematic-route schematic-transporter-route');
+            line(...p.gluC, ...p.slc25a12, true, 'schematic-route schematic-transporter-route');
+            line(...p.slc25a12, ...p.gluM, true, 'schematic-route schematic-transporter-route');
+            routePath('M 68.5 29 C 61 20, 19 20, 11.5 29', true, 'schematic-route');
+            line(...p.alphaKgC, ...p.gluC, true, 'schematic-route schematic-cofactor-route');
+
+            stepBadge(20, 27, 1); stepBadge(32, 45, 2); stepBadge(40, 68, 3);
+            stepBadge(62, 68, 4); stepBadge(72, 45, 5); stepBadge(61, 27, 6);
+            label(29, 91, '还原当量转移 · NADH 不跨膜', 'schematic-note');
+            label(73, 91, '基质 NADH → 复合体 I', 'schematic-output');
+          } else if (pathwayId === 'glycerol_phosphate') {
+            const p = {
+              dhapC: [11, 35], g3pC: [34, 35], vdacG3p: [36, 49],
+              g3pIms: [44, 68], gpd2: [64, 68], dhapIms: [85, 68], vdacDhap: [84, 49],
+              coq: [71, 84], coqh2: [89, 84]
+            };
+            label(50, 13, '甘油-3-磷酸穿梭 · 四事件把胞质还原当量送入 CoQ', 'schematic-title');
+            add('rect', { x: 4, y: 18, width: 92, height: 20, rx: 3, class: 'schematic-gp-zone schematic-gp-cytosol-zone', 'data-gp-zone': 'cytosol' });
+            add('rect', { x: 4, y: 40, width: 92, height: 12, rx: 3, class: 'schematic-gp-zone schematic-gp-outer-zone', 'data-gp-zone': 'outer-membrane' });
+            add('rect', { x: 4, y: 54, width: 92, height: 22, rx: 3, class: 'schematic-gp-zone schematic-gp-ims-zone', 'data-gp-zone': 'intermembrane' });
+            add('rect', { x: 4, y: 78, width: 92, height: 10, rx: 3, class: 'schematic-gp-zone schematic-gp-inner-zone', 'data-gp-zone': 'inner-membrane' });
+            add('rect', { x: 4, y: 90, width: 92, height: 7, rx: 3, class: 'schematic-gp-zone schematic-gp-net-zone', 'data-gp-zone': 'net' });
+            label(8, 22, '胞质', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(8, 43.5, '外膜', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(8, 58, '膜间隙侧 · GPD2 活性位点', 'schematic-compartment-title', { 'text-anchor': 'start' });
+            label(8, 81.5, '内膜 · CoQ 池', 'schematic-compartment-title', { 'text-anchor': 'start' });
+
+            metabolite(...p.dhapC, 'DHAP'); metabolite(...p.g3pC, '甘油-3-磷酸');
+            namedNode(...p.vdacG3p, 'VDAC', 'vdac-g3p');
+            metabolite(...p.g3pIms, '甘油-3-磷酸');
+            namedNode(...p.gpd2, 'GPD2', 'gpd2');
+            metabolite(...p.dhapIms, 'DHAP');
+            namedNode(...p.vdacDhap, 'VDAC', 'vdac-dhap');
             metabolite(...p.coq, 'CoQ'); metabolite(...p.coqh2, 'CoQH₂');
-            label(47.5, 28, '胞质 GPD1 · NADH + H⁺ → NAD⁺', 'schematic-cofactor');
-            label(...p.enzyme, '线粒体 GPD2', 'schematic-transporter');
-            label(65, 57, 'FAD → FADH₂', 'schematic-cofactor');
-            line(...p.dhap, ...p.g3p, true); line(...p.g3p, ...p.enzyme);
-            line(...p.enzyme, ...p.coq); line(...p.coq, ...p.coqh2);
-            label(80, 70, '2e⁻ → 电子传递链 CoQ 池 → 复合体 III', 'schematic-output');
-            label(61.5, 80, '本穿梭不把 NADH 本身送入基质，也不生成基质 NADH', 'schematic-note');
+
+            line(...p.dhapC, ...p.g3pC, true);
+            line(...p.g3pC, ...p.vdacG3p, true, 'schematic-route schematic-transporter-route');
+            line(...p.vdacG3p, ...p.g3pIms, true, 'schematic-route schematic-transporter-route');
+            line(...p.g3pIms, ...p.gpd2);
+            line(...p.gpd2, ...p.dhapIms);
+            line(...p.dhapIms, ...p.vdacDhap, true, 'schematic-route schematic-transporter-route');
+            routePath('M 82.5 48 C 68 41, 25 41, 12 34', true, 'schematic-route schematic-transporter-route');
+            routePath('M 65 69 C 66 74, 68 78, 70 82', false, 'schematic-route schematic-cofactor-route');
+            line(...p.coq, ...p.coqh2);
+
+            label(50, 23, 'GPD1 · NADH + H⁺ → NAD⁺', 'schematic-cofactor');
+            label(64, 75, '酶内 FAD → FADH₂', 'schematic-cofactor');
+            label(80, 88, 'CoQ → CoQH₂', 'schematic-output');
+            label(51, 51, '甘油-3-P 入 · DHAP 回', 'schematic-exchange');
+            stepBadge(22, 29, 1); stepBadge(47, 45, 2); stepBadge(54, 64, 3); stepBadge(73, 45, 4);
+            label(29, 94, 'NADH 不跨膜 · 不生成基质 NADH', 'schematic-note');
+            label(74, 94, '绕过复合体 I · CoQH₂ → 复合体 III', 'schematic-output');
           }
           targetLayer.appendChild(group);
           return;
@@ -6144,12 +9850,14 @@
         if (options.pathwayId) {
           const activePathway = atlas.pathways[options.pathwayId];
           const reactionRows = pathwayReactionRows(options.pathwayId);
+          const representedReactionRows = reactions.filter(reaction => groupsFor(reaction).includes(options.pathwayId)
+            && Boolean(expertReactionEndpoints(reaction)));
           scopeLocal.innerHTML = '';
-          if (scopeLocalLabel) scopeLocalLabel.textContent = '第 3 层 · 当前通路';
+        if (scopeLocalLabel) scopeLocalLabel.textContent = '当前通路';
           appendScopeItem(scopeLocal, activePathway?.name || options.pathwayId, activePathway?.tone || scene.tone, () => setScenePathwayVisual(options.pathwayId));
           scopeLocalCount.textContent = '机制图';
           scopeExchange.innerHTML = '';
-          if (scopeExchangeLabel) scopeExchangeLabel.textContent = '第 4 层 · 单步反应';
+        if (scopeExchangeLabel) scopeExchangeLabel.textContent = '单步反应';
           if (scopeExchangeMeta) scopeExchangeMeta.textContent = `${reactionRows.length} 步`;
           const mechanismHint = document.createElement('div');
           mechanismHint.className = 'scope-empty';
@@ -6161,6 +9869,9 @@
             const step = document.createElement('button');
             step.type = 'button';
             step.className = 'scope-item scene-reaction-step';
+            step.dataset.reaction = reaction.id;
+            const aliases = visibleReactionAliases(options.pathwayId, reaction, representedReactionRows);
+            if (aliases.length) step.dataset.reactionAliases = aliases.map(candidate => candidate.id).join(' ');
             step.style.setProperty('--tone', activePathway?.tone || scene.tone || '#338ca3');
             step.setAttribute('aria-label', `查看第 ${index + 1} 步：${endpoints.substrate.name}${reaction.reversible ? '可逆转化为' : '转化为'}${endpoints.product.name}`);
             const text = document.createElement('span');
@@ -6178,7 +9889,7 @@
           if (scopeTransportLabel) scopeTransportLabel.textContent = '自由探索';
           appendScopeItem(scopeTransport, '查看区室结构', scene.tone, () => setSceneView(currentSceneView, true), '进入 →');
           scopeTransportCount.textContent = '空间入口';
-          sceneAnnotationCount.textContent = '第 3 层 · 机制图';
+        sceneAnnotationCount.textContent = '机制图';
           if (sceneRouteLaneCount) sceneRouteLaneCount.textContent = '1 条';
           sceneAnnotationToggle.disabled = true;
           sceneAnnotationToggle.setAttribute('aria-pressed', 'false');
@@ -6302,7 +10013,7 @@
           pathwayButton.className = 'scene-view scene-pathway-view';
           pathwayButton.type = 'button';
           pathwayButton.dataset.pathwayView = pathwayId;
-          pathwayButton.textContent = '当前通路图 ⤢';
+          pathwayButton.textContent = '当前通路图 · 放大 ⤢';
           pathwayButton.title = `${pathwayVisual[0]} · 再点一次放大`;
           pathwayButton.addEventListener('click', event => {
             event.stopPropagation();

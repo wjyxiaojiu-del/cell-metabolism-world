@@ -46,6 +46,24 @@ test('expert pathway preview enters the dedicated scene instead of the root scen
   await expect(page.locator('#sceneExpertOverlayLayer .overlay-schematic-gluconeogenesis')).toHaveCount(1);
 });
 
+test('expert navigation uses biological states instead of numbered teaching layers', async ({ page }) => {
+  await page.goto(appUrl('expert-biological-language'), { waitUntil: 'networkidle' });
+  await page.getByRole('button', { name: /进入学习模式/ }).click();
+  await page.getByRole('button', { name: '专家地图', exact: true }).click();
+
+  await expect(page.locator('#pathNote')).not.toContainText(/第\s*[1234]\s*层/);
+  await expect(page.locator('.path-filter[data-path="oxphos"]')).not.toHaveAttribute('title', /第\s*[1234]\s*层/);
+  await page.locator('.path-filter[data-path="oxphos"]').click();
+  await page.locator('#expertPathPreview').click();
+
+  await expect(page.locator('#sceneSubtitle')).toHaveText('通路机制 · 线粒体内膜');
+  await expect(page.locator('#sceneLevelHint')).toHaveText('通路机制 · 选择反应步骤');
+  await expect(page.locator('#scopeLocalLabel')).toHaveText('当前通路');
+  await expect(page.locator('#scopeExchangeLabel')).toHaveText('单步反应');
+  await expect(page.locator('#sceneAnnotationCount')).toHaveText('机制图');
+  await expect(page.locator('#sceneBack')).toHaveAttribute('aria-label', '返回当前通路总览');
+});
+
 test('every cross-compartment same-substance reaction has a carrier annotation', async ({ page }) => {
   await page.goto(appUrl('expert-hierarchy-transfer-contract'), { waitUntil: 'networkidle' });
   const missing = await page.evaluate(() => window.METABOLIC_COMPILED.reactions

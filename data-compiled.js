@@ -83,8 +83,8 @@ window.METABOLIC_COMPILED = {
     "gluconeogenesis"
    ],
    "compartment": "细胞质",
-   "x": 717,
-   "y": 497,
+   "x": 716,
+   "y": 496,
    "label": "丙氨酸",
    "info": "参与非必需氨基酸合成、糖异生、丙酮酸去路；由丙氨酸转氨酶生成；经丙氨酸转氨酶转化。",
    "meta": {
@@ -152,7 +152,7 @@ window.METABOLIC_COMPILED = {
     "malate_aspartate"
    ],
    "compartment": "细胞质",
-   "x": 721,
+   "x": 720,
    "y": 500,
    "label": "α-酮戊二酸",
    "info": "参与非必需氨基酸合成、谷氨酸–谷氨酰胺枢纽、苹果酸–天冬氨酸穿梭；由谷氨酸脱氢酶、苹果酸-α-KG 反向转运体 SLC25A11生成；经谷氨酸脱氢酶转化。",
@@ -199,7 +199,7 @@ window.METABOLIC_COMPILED = {
    ],
    "compartment": "细胞质",
    "x": 723,
-   "y": 503,
+   "y": 502,
    "label": "谷氨酰胺",
    "info": "参与非必需氨基酸合成、谷氨酸–谷氨酰胺枢纽、嘧啶核苷酸从头合成；由谷氨酰胺合成酶、谷氨酰胺合成酶生成；经谷氨酰胺酶、氨甲酰磷酸合成酶 II转化。",
    "meta": {
@@ -218,8 +218,8 @@ window.METABOLIC_COMPILED = {
     "aa_biosynthesis"
    ],
    "compartment": "细胞质",
-   "x": 725,
-   "y": 504,
+   "x": 724,
+   "y": 503,
    "label": "脯氨酸",
    "info": "参与非必需氨基酸合成；由谷氨酸激酶/还原酶系生成。",
    "meta": {
@@ -230,8 +230,8 @@ window.METABOLIC_COMPILED = {
    }
   },
   {
-   "id": "丙氨酸/丝氨酸/甘氨酸/半胱氨酸@cytosol",
-   "name": "丙氨酸/丝氨酸/甘氨酸/半胱氨酸",
+   "id": "丙氨酸/半胱氨酸/甘氨酸/丝氨酸/苏氨酸/色氨酸@cytosol",
+   "name": "丙氨酸/半胱氨酸/甘氨酸/丝氨酸/苏氨酸/色氨酸",
    "latin": "",
    "kind": "代谢物",
    "group": [
@@ -240,7 +240,7 @@ window.METABOLIC_COMPILED = {
    "compartment": "细胞质",
    "x": 726,
    "y": 505,
-   "label": "丙氨酸/丝氨酸/甘氨酸/半胱氨酸",
+   "label": "丙氨酸/半胱氨酸/甘氨酸/丝氨酸/苏氨酸/色氨酸",
    "info": "参与氨基酸碳骨架归宿；经多步分解路径（类别映射）转化。",
    "meta": {
     "参与通路": "氨基酸碳骨架归宿",
@@ -250,22 +250,22 @@ window.METABOLIC_COMPILED = {
    }
   },
   {
-   "id": "亮氨酸/赖氨酸等@mito-matrix",
-   "name": "亮氨酸/赖氨酸等",
+   "id": "异亮氨酸/亮氨酸/苏氨酸/色氨酸@mito-matrix",
+   "name": "异亮氨酸/亮氨酸/苏氨酸/色氨酸",
    "latin": "",
    "kind": "代谢物",
    "group": [
     "aa_carbon"
    ],
    "compartment": "线粒体基质",
-   "x": 452,
+   "x": 451,
    "y": 876,
-   "label": "亮氨酸/赖氨酸等",
-   "info": "参与氨基酸碳骨架归宿；经多步生酮分解路径（类别映射）、多步生酮分解路径（类别映射）转化。",
+   "label": "异亮氨酸/亮氨酸/苏氨酸/色氨酸",
+   "info": "参与氨基酸碳骨架归宿；经多步生酮分解路径（类别映射）转化。",
    "meta": {
     "参与通路": "氨基酸碳骨架归宿",
     "所在区室": "线粒体基质",
-    "角色": "2 条反应的底物",
+    "角色": "1 条反应的底物",
     "坐标来源": "开链"
    }
   },
@@ -296,6 +296,26 @@ window.METABOLIC_COMPILED = {
    }
   },
   {
+   "id": "亮氨酸/赖氨酸/苯丙氨酸/酪氨酸/色氨酸@mito-matrix",
+   "name": "亮氨酸/赖氨酸/苯丙氨酸/酪氨酸/色氨酸",
+   "latin": "",
+   "kind": "代谢物",
+   "group": [
+    "aa_carbon"
+   ],
+   "compartment": "线粒体基质",
+   "x": 454,
+   "y": 877,
+   "label": "亮氨酸/赖氨酸/苯丙氨酸/酪氨酸/色氨酸",
+   "info": "参与氨基酸碳骨架归宿；经多步生酮分解路径（类别映射）转化。",
+   "meta": {
+    "参与通路": "氨基酸碳骨架归宿",
+    "所在区室": "线粒体基质",
+    "角色": "1 条反应的底物",
+    "坐标来源": "开链"
+   }
+  },
+  {
    "id": "乙酰乙酰辅酶 A@mito-matrix",
    "name": "乙酰乙酰辅酶 A",
    "latin": "",
@@ -305,7 +325,7 @@ window.METABOLIC_COMPILED = {
     "ketone"
    ],
    "compartment": "线粒体基质",
-   "x": 443,
+   "x": 442,
    "y": 872,
    "label": "乙酰乙酰辅酶 A",
    "info": "参与氨基酸碳骨架归宿、酮体生成与利用；由多步生酮分解路径（类别映射）、硫解酶、琥珀酰-CoA:3-酮酸 CoA 转移酶 SCOT生成；经HMG-CoA 合成酶、β-酮硫解酶转化。",
@@ -325,8 +345,8 @@ window.METABOLIC_COMPILED = {
     "aa_carbon"
    ],
    "compartment": "线粒体基质",
-   "x": 455,
-   "y": 877,
+   "x": 456,
+   "y": 878,
    "label": "谷氨酸/谷氨酰胺/精氨酸/脯氨酸/组氨酸",
    "info": "参与氨基酸碳骨架归宿；经谷氨酸汇聚与多步分解（类别映射）转化。",
    "meta": {
@@ -368,8 +388,8 @@ window.METABOLIC_COMPILED = {
     "aa_carbon"
    ],
    "compartment": "线粒体基质",
-   "x": 457,
-   "y": 878,
+   "x": 458,
+   "y": 879,
    "label": "缬氨酸/异亮氨酸/蛋氨酸/苏氨酸",
    "info": "参与氨基酸碳骨架归宿；经丙酰-CoA/甲基丙二酰-CoA路径（类别映射）转化。",
    "meta": {
@@ -410,7 +430,7 @@ window.METABOLIC_COMPILED = {
     "aa_carbon"
    ],
    "compartment": "细胞质",
-   "x": 728,
+   "x": 727,
    "y": 506,
    "label": "苯丙氨酸/酪氨酸",
    "info": "参与氨基酸碳骨架归宿；经酪氨酸分解路径（类别映射）转化。",
@@ -432,7 +452,7 @@ window.METABOLIC_COMPILED = {
     "urea"
    ],
    "compartment": "细胞质",
-   "x": 729,
+   "x": 728,
    "y": 507,
    "label": "延胡索酸",
    "info": "参与氨基酸碳骨架归宿、芳香族氨基酸代谢、尿素循环；由酪氨酸分解路径（类别映射）、酪氨酸转氨/裂解酶系、精氨代琥珀酸裂解酶生成。",
@@ -453,7 +473,7 @@ window.METABOLIC_COMPILED = {
    ],
    "compartment": "细胞质",
    "x": 730,
-   "y": 509,
+   "y": 508,
    "label": "天冬氨酸/天冬酰胺",
    "info": "参与氨基酸碳骨架归宿；经天冬氨酸转氨及天冬酰胺水解（类别映射）转化。",
    "meta": {
@@ -472,8 +492,8 @@ window.METABOLIC_COMPILED = {
     "aromatic_aa"
    ],
    "compartment": "细胞质",
-   "x": 732,
-   "y": 510,
+   "x": 731,
+   "y": 509,
    "label": "苯丙氨酸",
    "info": "参与芳香族氨基酸代谢；经苯丙氨酸羟化酶、苯丙氨酸转氨酶转化。",
    "meta": {
@@ -493,7 +513,7 @@ window.METABOLIC_COMPILED = {
    ],
    "compartment": "细胞质",
    "x": 733,
-   "y": 511,
+   "y": 510,
    "label": "酪氨酸",
    "info": "参与芳香族氨基酸代谢；由苯丙氨酸羟化酶生成；经酪氨酸羟化酶、酪氨酸转氨/裂解酶系、酪氨酸转氨/裂解酶系转化。",
    "meta": {
@@ -512,10 +532,10 @@ window.METABOLIC_COMPILED = {
     "aromatic_aa"
    ],
    "compartment": "细胞质",
-   "x": 735,
+   "x": 734,
    "y": 512,
    "label": "多巴",
-   "info": "参与芳香族氨基酸代谢；由酪氨酸羟化酶生成；经芳香族氨基酸脱羧酶转化。",
+   "info": "参与芳香族氨基酸代谢；由酪氨酸羟化酶生成；经芳香族氨基酸脱羧酶 AADC转化。",
    "meta": {
     "参与通路": "芳香族氨基酸代谢",
     "所在区室": "细胞质",
@@ -524,18 +544,18 @@ window.METABOLIC_COMPILED = {
    }
   },
   {
-   "id": "儿茶酚胺@cytosol",
-   "name": "儿茶酚胺",
+   "id": "多巴胺@cytosol",
+   "name": "多巴胺",
    "latin": "",
    "kind": "代谢物",
    "group": [
     "aromatic_aa"
    ],
    "compartment": "细胞质",
-   "x": 736,
+   "x": 735,
    "y": 513,
-   "label": "儿茶酚胺",
-   "info": "参与芳香族氨基酸代谢；由芳香族氨基酸脱羧酶生成。",
+   "label": "多巴胺",
+   "info": "参与芳香族氨基酸代谢；由芳香族氨基酸脱羧酶 AADC生成。",
    "meta": {
     "参与通路": "芳香族氨基酸代谢",
     "所在区室": "细胞质",
@@ -553,7 +573,7 @@ window.METABOLIC_COMPILED = {
    ],
    "compartment": "细胞质",
    "x": 737,
-   "y": 515,
+   "y": 514,
    "label": "苯丙酮酸",
    "info": "参与芳香族氨基酸代谢；由苯丙氨酸转氨酶生成。",
    "meta": {
@@ -572,8 +592,8 @@ window.METABOLIC_COMPILED = {
     "aromatic_aa"
    ],
    "compartment": "细胞质",
-   "x": 739,
-   "y": 516,
+   "x": 738,
+   "y": 515,
    "label": "乙酰乙酸",
    "info": "参与芳香族氨基酸代谢；由酪氨酸转氨/裂解酶系生成。",
    "meta": {
@@ -591,18 +611,17 @@ window.METABOLIC_COMPILED = {
    "group": [
     "atp_transport",
     "transport",
-    "etc",
     "oxphos"
    ],
    "compartment": "线粒体基质",
    "x": 780,
    "y": 981,
    "label": "ATP",
-   "info": "参与ATP/ADP 与磷酸转运、呼吸电子传递链与氧化磷酸化、氧化磷酸化、跨膜穿梭与核苷酸转运；由ATP 合酶、ATP 合酶、F₀F₁-ATP 合酶、ATP 合酶、ATP 合酶生成；经腺嘌呤核苷酸转位酶 ANT、腺嘌呤核苷酸转位酶 ANT / SLC25A4转化。",
+   "info": "参与ATP/ADP 与磷酸转运、氧化磷酸化、跨膜穿梭与核苷酸转运；由F₀F₁-ATP 合酶、ATP 合酶、ATP 合酶生成；经腺嘌呤核苷酸转位酶 ANT、腺嘌呤核苷酸转位酶 ANT / SLC25A4转化。",
    "meta": {
-    "参与通路": "ATP/ADP 与磷酸转运 · 呼吸电子传递链与氧化磷酸化 · 氧化磷酸化 · 跨膜穿梭与核苷酸转运",
+    "参与通路": "ATP/ADP 与磷酸转运 · 氧化磷酸化 · 跨膜穿梭与核苷酸转运",
     "所在区室": "线粒体基质",
-    "角色": "5 条反应的产物，3 条反应的底物",
+    "角色": "3 条反应的产物，3 条反应的底物",
     "坐标来源": "手工"
    }
   },
@@ -659,18 +678,17 @@ window.METABOLIC_COMPILED = {
    "group": [
     "atp_transport",
     "transport",
-    "etc",
     "oxphos"
    ],
    "compartment": "线粒体基质",
    "x": 754,
    "y": 1007,
    "label": "ADP",
-   "info": "参与ATP/ADP 与磷酸转运、呼吸电子传递链与氧化磷酸化、氧化磷酸化、跨膜穿梭与核苷酸转运；由腺嘌呤核苷酸转位酶 ANT、腺嘌呤核苷酸转位酶 ANT / SLC25A4生成；经ATP 合酶、ATP 合酶转化。",
+   "info": "参与ATP/ADP 与磷酸转运、氧化磷酸化、跨膜穿梭与核苷酸转运；由腺嘌呤核苷酸转位酶 ANT、腺嘌呤核苷酸转位酶 ANT / SLC25A4生成；经ATP 合酶转化。",
    "meta": {
-    "参与通路": "ATP/ADP 与磷酸转运 · 呼吸电子传递链与氧化磷酸化 · 氧化磷酸化 · 跨膜穿梭与核苷酸转运",
+    "参与通路": "ATP/ADP 与磷酸转运 · 氧化磷酸化 · 跨膜穿梭与核苷酸转运",
     "所在区室": "线粒体基质",
-    "角色": "3 条反应的产物，2 条反应的底物",
+    "角色": "3 条反应的产物，1 条反应的底物",
     "坐标来源": "手工"
    }
   },
@@ -705,18 +723,17 @@ window.METABOLIC_COMPILED = {
    "group": [
     "atp_transport",
     "transport",
-    "etc",
     "oxphos"
    ],
    "compartment": "线粒体基质",
    "x": 778,
    "y": 1031,
    "label": "无机磷酸",
-   "info": "参与ATP/ADP 与磷酸转运、呼吸电子传递链与氧化磷酸化、氧化磷酸化、跨膜穿梭与核苷酸转运；由线粒体磷酸载体、线粒体磷酸载体 SLC25A3生成；经ATP 合酶、ATP 合酶转化。",
+   "info": "参与ATP/ADP 与磷酸转运、氧化磷酸化、跨膜穿梭与核苷酸转运；由线粒体磷酸载体、线粒体磷酸载体 SLC25A3生成；经ATP 合酶转化。",
    "meta": {
-    "参与通路": "ATP/ADP 与磷酸转运 · 呼吸电子传递链与氧化磷酸化 · 氧化磷酸化 · 跨膜穿梭与核苷酸转运",
+    "参与通路": "ATP/ADP 与磷酸转运 · 氧化磷酸化 · 跨膜穿梭与核苷酸转运",
     "所在区室": "线粒体基质",
-    "角色": "3 条反应的产物，2 条反应的底物",
+    "角色": "3 条反应的产物，1 条反应的底物",
     "坐标来源": "手工"
    }
   },
@@ -729,7 +746,7 @@ window.METABOLIC_COMPILED = {
     "autophagy"
    ],
    "compartment": "细胞质",
-   "x": 744,
+   "x": 743,
    "y": 520,
    "label": "隔离膜",
    "info": "参与自噬与物质回收；经ATG 蛋白系统转化。",
@@ -749,8 +766,8 @@ window.METABOLIC_COMPILED = {
     "autophagy"
    ],
    "compartment": "细胞质",
-   "x": 746,
-   "y": 522,
+   "x": 745,
+   "y": 521,
    "label": "自噬体",
    "info": "参与自噬与物质回收；由ATG 蛋白系统生成；经SNARE/溶酶体融合系统转化。",
    "meta": {
@@ -792,8 +809,8 @@ window.METABOLIC_COMPILED = {
     "transamination"
    ],
    "compartment": "细胞质",
-   "x": 747,
-   "y": 523,
+   "x": 746,
+   "y": 522,
    "label": "氨基酸",
    "info": "参与自噬与物质回收、溶酶体大分子降解、质膜营养物转运、转氨与氧化脱氨；由酸性水解酶、溶酶体蛋白酶、氨基酸转运体生成；经氨基转移酶转化。",
    "meta": {
@@ -813,8 +830,8 @@ window.METABOLIC_COMPILED = {
     "lysosomal"
    ],
    "compartment": "细胞质",
-   "x": 748,
-   "y": 524,
+   "x": 747,
+   "y": 523,
    "label": "单糖",
    "info": "参与自噬与物质回收、溶酶体大分子降解；由酸性水解酶、溶酶体糖苷酶生成。",
    "meta": {
@@ -835,8 +852,8 @@ window.METABOLIC_COMPILED = {
     "membrane_transport"
    ],
    "compartment": "细胞质",
-   "x": 750,
-   "y": 525,
+   "x": 749,
+   "y": 524,
    "label": "脂肪酸",
    "info": "参与自噬与物质回收、溶酶体大分子降解、质膜营养物转运；由酸性水解酶、溶酶体脂肪酶、脂肪酸转位酶/脂肪酸结合蛋白生成；经长链脂酰-CoA合成酶 ACSL转化。",
    "meta": {
@@ -855,8 +872,8 @@ window.METABOLIC_COMPILED = {
     "bcaa"
    ],
    "compartment": "线粒体基质",
-   "x": 466,
-   "y": 883,
+   "x": 468,
+   "y": 884,
    "label": "BCAA",
    "info": "参与支链氨基酸降解；经支链氨基酸转氨酶 BCAT转化。",
    "meta": {
@@ -875,8 +892,8 @@ window.METABOLIC_COMPILED = {
     "bcaa"
    ],
    "compartment": "线粒体基质",
-   "x": 469,
-   "y": 884,
+   "x": 470,
+   "y": 885,
    "label": "支链α-酮酸",
    "info": "参与支链氨基酸降解；由支链氨基酸转氨酶 BCAT生成；经支链α-酮酸脱氢酶复合体 BCKDH转化。",
    "meta": {
@@ -895,8 +912,8 @@ window.METABOLIC_COMPILED = {
     "bcaa"
    ],
    "compartment": "线粒体基质",
-   "x": 471,
-   "y": 885,
+   "x": 472,
+   "y": 886,
    "label": "支链酰-CoA",
    "info": "参与支链氨基酸降解；由支链α-酮酸脱氢酶复合体 BCKDH生成；经支链酰-CoA 脱氢/硫解酶系、支链酰-CoA 脱氢/硫解酶系转化。",
    "meta": {
@@ -915,8 +932,8 @@ window.METABOLIC_COMPILED = {
     "bcaa"
    ],
    "compartment": "线粒体基质",
-   "x": 474,
-   "y": 886,
+   "x": 475,
+   "y": 887,
    "label": "亮氨酸",
    "info": "参与支链氨基酸降解；经亮氨酸代谢酶系转化。",
    "meta": {
@@ -935,7 +952,7 @@ window.METABOLIC_COMPILED = {
     "bcaa"
    ],
    "compartment": "线粒体基质",
-   "x": 476,
+   "x": 477,
    "y": 888,
    "label": "异亮氨酸",
    "info": "参与支链氨基酸降解；经异亮氨酸代谢酶系转化。",
@@ -1037,7 +1054,7 @@ window.METABOLIC_COMPILED = {
     "membrane_transport"
    ],
    "compartment": "细胞质",
-   "x": 751,
+   "x": 750,
    "y": 526,
    "label": "脂酰-CoA",
    "info": "参与肉碱穿梭、质膜营养物转运；由长链脂酰-CoA合成酶 ACSL生成；经肉碱棕榈酰转移酶 1 CPT1转化。",
@@ -1058,7 +1075,7 @@ window.METABOLIC_COMPILED = {
    ],
    "compartment": "细胞质",
    "x": 752,
-   "y": 528,
+   "y": 527,
    "label": "脂酰肉碱",
    "info": "参与肉碱穿梭；由肉碱棕榈酰转移酶 1 CPT1、肉碱棕榈酰转移酶 1 CPT1生成；经VDAC 外膜通道转化。",
    "meta": {
@@ -1077,8 +1094,8 @@ window.METABOLIC_COMPILED = {
     "carnitine"
    ],
    "compartment": "细胞质",
-   "x": 754,
-   "y": 529,
+   "x": 753,
+   "y": 528,
    "label": "肉碱",
    "info": "参与肉碱穿梭；经肉碱棕榈酰转移酶 1 CPT1转化。",
    "meta": {
@@ -1137,7 +1154,7 @@ window.METABOLIC_COMPILED = {
     "carnitine"
    ],
    "compartment": "线粒体基质",
-   "x": 478,
+   "x": 479,
    "y": 889,
    "label": "肉碱",
    "info": "参与肉碱穿梭；经肉碱-脂酰肉碱转位酶 CACT / SLC25A20转化。",
@@ -1177,8 +1194,8 @@ window.METABOLIC_COMPILED = {
     "cholesterol"
    ],
    "compartment": "平滑内质网",
-   "x": 1353,
-   "y": 465,
+   "x": 1352,
+   "y": 463,
    "label": "乙酰辅酶 A",
    "info": "参与胆固醇合成与转运；经硫解酶转化。",
    "meta": {
@@ -1197,8 +1214,8 @@ window.METABOLIC_COMPILED = {
     "cholesterol"
    ],
    "compartment": "平滑内质网",
-   "x": 1356,
-   "y": 470,
+   "x": 1355,
+   "y": 468,
    "label": "乙酰乙酰辅酶 A",
    "info": "参与胆固醇合成与转运；由硫解酶生成；经HMG-CoA 合成酶转化。",
    "meta": {
@@ -1217,8 +1234,8 @@ window.METABOLIC_COMPILED = {
     "cholesterol"
    ],
    "compartment": "平滑内质网",
-   "x": 1360,
-   "y": 476,
+   "x": 1359,
+   "y": 474,
    "label": "HMG-CoA",
    "info": "参与胆固醇合成与转运；由HMG-CoA 合成酶生成；经HMG-CoA 还原酶转化。",
    "meta": {
@@ -1237,8 +1254,8 @@ window.METABOLIC_COMPILED = {
     "cholesterol"
    ],
    "compartment": "平滑内质网",
-   "x": 1364,
-   "y": 482,
+   "x": 1362,
+   "y": 479,
    "label": "甲羟戊酸",
    "info": "参与胆固醇合成与转运；由HMG-CoA 还原酶生成；经甲羟戊酸激酶/脱羧酶系转化。",
    "meta": {
@@ -1257,8 +1274,8 @@ window.METABOLIC_COMPILED = {
     "cholesterol"
    ],
    "compartment": "平滑内质网",
-   "x": 1367,
-   "y": 487,
+   "x": 1366,
+   "y": 485,
    "label": "异戊烯焦磷酸",
    "info": "参与胆固醇合成与转运；由甲羟戊酸激酶/脱羧酶系生成；经异戊二烯基转移酶/鲨烯合酶转化。",
    "meta": {
@@ -1277,10 +1294,10 @@ window.METABOLIC_COMPILED = {
     "cholesterol"
    ],
    "compartment": "平滑内质网",
-   "x": 1371,
-   "y": 493,
+   "x": 1370,
+   "y": 490,
    "label": "鲨烯",
-   "info": "参与胆固醇合成与转运；由异戊二烯基转移酶/鲨烯合酶生成；经鲨烯环氧化酶/羊毛甾醇合成酶转化。",
+   "info": "参与胆固醇合成与转运；由异戊二烯基转移酶/鲨烯合酶生成；经鲨烯环氧化酶/羊毛甾醇合成及后续酶系转化。",
    "meta": {
     "参与通路": "胆固醇合成与转运",
     "所在区室": "平滑内质网",
@@ -1295,17 +1312,18 @@ window.METABOLIC_COMPILED = {
    "kind": "代谢物",
    "group": [
     "cholesterol",
+    "lipoprotein",
     "steroid_bile"
    ],
    "compartment": "平滑内质网",
-   "x": 1375,
-   "y": 498,
+   "x": 1373,
+   "y": 496,
    "label": "胆固醇",
-   "info": "参与胆固醇合成与转运、类固醇与胆汁酸合成；由鲨烯环氧化酶/羊毛甾醇合成酶生成；经胆固醇转运系统、胆固醇转运系统、胆固醇 7α-羟化酶 CYP7A1、胆固醇羟化酶系转化。",
+   "info": "参与胆固醇合成与转运、脂蛋白代谢、类固醇与胆汁酸合成；由鲨烯环氧化酶/羊毛甾醇合成及后续酶系、内体-溶酶体运输 / LIPA / NPC1-NPC2生成；经ARV1 胆固醇转运蛋白、胆固醇 7α-羟化酶 CYP7A1 及后续酶系转化。",
    "meta": {
-    "参与通路": "胆固醇合成与转运 · 类固醇与胆汁酸合成",
+    "参与通路": "胆固醇合成与转运 · 脂蛋白代谢 · 类固醇与胆汁酸合成",
     "所在区室": "平滑内质网",
-    "角色": "1 条反应的产物，4 条反应的底物",
+    "角色": "2 条反应的产物，2 条反应的底物",
     "坐标来源": "开链"
    }
   },
@@ -1321,7 +1339,7 @@ window.METABOLIC_COMPILED = {
    "x": 800,
    "y": 600,
    "label": "胆固醇",
-   "info": "参与胆固醇合成与转运；由胆固醇转运系统生成。",
+   "info": "参与胆固醇合成与转运；由ARV1 胆固醇转运蛋白生成。",
    "meta": {
     "参与通路": "胆固醇合成与转运",
     "所在区室": "质膜",
@@ -1342,9 +1360,9 @@ window.METABOLIC_COMPILED = {
    "x": 626,
    "y": 886,
    "label": "NADH",
-   "info": "参与呼吸电子传递链与氧化磷酸化、苹果酸–天冬氨酸穿梭；由线粒体苹果酸脱氢酶 MDH2生成；经复合体 I转化。",
+   "info": "参与呼吸电子传递链、苹果酸–天冬氨酸穿梭；由线粒体苹果酸脱氢酶 MDH2生成；经复合体 I转化。",
    "meta": {
-    "参与通路": "呼吸电子传递链与氧化磷酸化 · 苹果酸–天冬氨酸穿梭",
+    "参与通路": "呼吸电子传递链 · 苹果酸–天冬氨酸穿梭",
     "所在区室": "线粒体基质",
     "角色": "1 条反应的产物，1 条反应的底物",
     "坐标来源": "手工"
@@ -1362,9 +1380,9 @@ window.METABOLIC_COMPILED = {
    "x": 654,
    "y": 858,
    "label": "复合体 I",
-   "info": "参与呼吸电子传递链与氧化磷酸化；由复合体 I生成；经复合体 I、复合体 I 质子泵转化。",
+   "info": "参与呼吸电子传递链；由复合体 I生成；经复合体 I、复合体 I 质子泵转化。",
    "meta": {
-    "参与通路": "呼吸电子传递链与氧化磷酸化",
+    "参与通路": "呼吸电子传递链",
     "所在区室": "线粒体内膜",
     "膜侧": "两侧",
     "角色": "1 条反应的产物，2 条反应的底物",
@@ -1385,11 +1403,33 @@ window.METABOLIC_COMPILED = {
    "x": 720,
    "y": 886,
    "label": "泛醇",
-   "info": "参与呼吸电子传递链与氧化磷酸化、甘油-3-磷酸穿梭；由复合体 I、复合体 II、辅酶 Q 池、线粒体甘油-3-磷酸脱氢酶 GPD2生成；经复合体 III转化。",
+   "info": "参与呼吸电子传递链、甘油-3-磷酸穿梭；由复合体 I、复合体 II、辅酶 Q 池、线粒体甘油-3-磷酸脱氢酶 GPD2生成；经复合体 III转化。",
    "meta": {
-    "参与通路": "呼吸电子传递链与氧化磷酸化 · 甘油-3-磷酸穿梭",
+    "参与通路": "呼吸电子传递链 · 甘油-3-磷酸穿梭",
     "所在区室": "线粒体内膜",
     "角色": "4 条反应的产物，1 条反应的底物",
+    "坐标来源": "手工"
+   }
+  },
+  {
+   "id": "琥珀酸@mito-matrix",
+   "name": "琥珀酸",
+   "latin": "",
+   "kind": "代谢物",
+   "group": [
+    "etc",
+    "tca"
+   ],
+   "compartment": "线粒体基质",
+   "x": 552,
+   "y": 968,
+   "label": "琥珀酸",
+   "info": "参与呼吸电子传递链、三羧酸循环；由琥珀酰-CoA 合成酶生成；经复合体 II、琥珀酸脱氢酶（复合体 II）转化。",
+   "meta": {
+    "参与通路": "呼吸电子传递链 · 三羧酸循环",
+    "所在区室": "线粒体基质",
+    "组织": "SDH 嵌在内膜，底物在基质",
+    "角色": "1 条反应的产物，2 条反应的底物",
     "坐标来源": "手工"
    }
   },
@@ -1405,12 +1445,12 @@ window.METABOLIC_COMPILED = {
    "x": 655,
    "y": 926,
    "label": "复合体 II",
-   "info": "参与呼吸电子传递链与氧化磷酸化；经复合体 II转化。",
+   "info": "参与呼吸电子传递链；由复合体 II生成；经复合体 II转化。",
    "meta": {
-    "参与通路": "呼吸电子传递链与氧化磷酸化",
+    "参与通路": "呼吸电子传递链",
     "所在区室": "线粒体内膜",
     "膜侧": "基质侧",
-    "角色": "1 条反应的底物",
+    "角色": "1 条反应的产物，1 条反应的底物",
     "坐标来源": "手工",
     "备注": "不泵质子"
    }
@@ -1429,9 +1469,9 @@ window.METABOLIC_COMPILED = {
    "x": 790,
    "y": 846,
    "label": "辅酶 Q",
-   "info": "参与呼吸电子传递链与氧化磷酸化、甘油-3-磷酸穿梭、跨膜穿梭与核苷酸转运；由线粒体甘油-3-磷酸脱氢酶 GPD2生成；经辅酶 Q 池、线粒体甘油-3-磷酸脱氢酶 GPD2转化。",
+   "info": "参与呼吸电子传递链、甘油-3-磷酸穿梭、跨膜穿梭与核苷酸转运；由线粒体甘油-3-磷酸脱氢酶 GPD2生成；经辅酶 Q 池、线粒体甘油-3-磷酸脱氢酶 GPD2转化。",
    "meta": {
-    "参与通路": "呼吸电子传递链与氧化磷酸化 · 甘油-3-磷酸穿梭 · 跨膜穿梭与核苷酸转运",
+    "参与通路": "呼吸电子传递链 · 甘油-3-磷酸穿梭 · 跨膜穿梭与核苷酸转运",
     "所在区室": "线粒体内膜",
     "角色": "1 条反应的产物，2 条反应的底物",
     "坐标来源": "手工"
@@ -1449,9 +1489,9 @@ window.METABOLIC_COMPILED = {
    "x": 744,
    "y": 911,
    "label": "复合体 III",
-   "info": "参与呼吸电子传递链与氧化磷酸化；由复合体 III生成；经复合体 III（bc1）、复合体 III / Q循环转化。",
+   "info": "参与呼吸电子传递链；由复合体 III生成；经复合体 III（bc1）、复合体 III / Q循环转化。",
    "meta": {
-    "参与通路": "呼吸电子传递链与氧化磷酸化",
+    "参与通路": "呼吸电子传递链",
     "所在区室": "线粒体内膜",
     "膜侧": "两侧",
     "角色": "1 条反应的产物，2 条反应的底物",
@@ -1470,9 +1510,9 @@ window.METABOLIC_COMPILED = {
    "x": 737,
    "y": 857,
    "label": "细胞色素 c",
-   "info": "参与呼吸电子传递链与氧化磷酸化；由复合体 III（bc1）生成；经复合体 IV转化。",
+   "info": "参与呼吸电子传递链；由复合体 III（bc1）生成；经复合体 IV转化。",
    "meta": {
-    "参与通路": "呼吸电子传递链与氧化磷酸化",
+    "参与通路": "呼吸电子传递链",
     "所在区室": "线粒体膜间隙",
     "膜侧": "膜间隙侧",
     "角色": "1 条反应的产物，1 条反应的底物",
@@ -1492,12 +1532,12 @@ window.METABOLIC_COMPILED = {
    "x": 768,
    "y": 880,
    "label": "复合体 IV",
-   "info": "参与呼吸电子传递链与氧化磷酸化；由复合体 IV生成；经复合体 IV 质子泵转化。",
+   "info": "参与呼吸电子传递链；由复合体 IV、复合体 IV生成；经复合体 IV、复合体 IV 质子泵转化。",
    "meta": {
-    "参与通路": "呼吸电子传递链与氧化磷酸化",
+    "参与通路": "呼吸电子传递链",
     "所在区室": "线粒体内膜",
     "膜侧": "两侧",
-    "角色": "1 条反应的产物，1 条反应的底物",
+    "角色": "2 条反应的产物，2 条反应的底物",
     "坐标来源": "手工"
    }
   },
@@ -1513,9 +1553,9 @@ window.METABOLIC_COMPILED = {
    "x": 807,
    "y": 852,
    "label": "氧",
-   "info": "参与呼吸电子传递链与氧化磷酸化；经复合体 IV转化。",
+   "info": "参与呼吸电子传递链；经复合体 IV转化。",
    "meta": {
-    "参与通路": "呼吸电子传递链与氧化磷酸化",
+    "参与通路": "呼吸电子传递链",
     "所在区室": "线粒体基质",
     "膜侧": "基质侧",
     "角色": "1 条反应的底物",
@@ -1535,9 +1575,9 @@ window.METABOLIC_COMPILED = {
    "x": 811,
    "y": 900,
    "label": "水",
-   "info": "参与呼吸电子传递链与氧化磷酸化；由复合体 IV生成。",
+   "info": "参与呼吸电子传递链；由复合体 IV生成。",
    "meta": {
-    "参与通路": "呼吸电子传递链与氧化磷酸化",
+    "参与通路": "呼吸电子传递链",
     "所在区室": "线粒体基质",
     "膜侧": "基质侧",
     "角色": "1 条反应的产物",
@@ -1557,9 +1597,9 @@ window.METABOLIC_COMPILED = {
    "x": 696,
    "y": 812,
    "label": "膜间隙 H⁺",
-   "info": "参与呼吸电子传递链与氧化磷酸化、氧化磷酸化；由复合体 I 质子泵、复合体 III / Q循环、复合体 IV 质子泵生成；经内膜电化学梯度、F₀F₁-ATP 合酶转化。",
+   "info": "参与呼吸电子传递链、氧化磷酸化；由复合体 I 质子泵、复合体 III / Q循环、复合体 IV 质子泵生成；经内膜电化学梯度、F₀F₁-ATP 合酶转化。",
    "meta": {
-    "参与通路": "呼吸电子传递链与氧化磷酸化 · 氧化磷酸化",
+    "参与通路": "呼吸电子传递链 · 氧化磷酸化",
     "所在区室": "线粒体膜间隙",
     "膜侧": "膜间隙侧",
     "角色": "3 条反应的产物，2 条反应的底物",
@@ -1578,37 +1618,14 @@ window.METABOLIC_COMPILED = {
    "x": 746,
    "y": 812,
    "label": "质子动力势",
-   "info": "参与呼吸电子传递链与氧化磷酸化；由内膜电化学梯度生成；经F₀F₁-ATP 合酶转化。",
+   "info": "参与呼吸电子传递链；由内膜电化学梯度生成。",
    "meta": {
-    "参与通路": "呼吸电子传递链与氧化磷酸化",
+    "参与通路": "呼吸电子传递链",
     "所在区室": "线粒体内膜",
     "膜侧": "两侧",
-    "角色": "1 条反应的产物，1 条反应的底物",
+    "角色": "1 条反应的产物",
     "坐标来源": "手工",
     "备注": "不是物质，是跨膜梯度"
-   }
-  },
-  {
-   "id": "ATP 合酶@mito-inner-membrane",
-   "name": "ATP 合酶",
-   "latin": "F₀F₁-ATP 合酶",
-   "kind": "酶复合体",
-   "group": [
-    "etc",
-    "oxphos"
-   ],
-   "compartment": "线粒体内膜",
-   "x": 723,
-   "y": 977,
-   "label": "ATP 合酶",
-   "info": "参与呼吸电子传递链与氧化磷酸化、氧化磷酸化；由F₀F₁-ATP 合酶、F₀F₁-ATP 合酶生成；经F₀F₁-ATP 合酶转化。",
-   "meta": {
-    "参与通路": "呼吸电子传递链与氧化磷酸化 · 氧化磷酸化",
-    "所在区室": "线粒体内膜",
-    "膜侧": "两侧",
-    "角色": "2 条反应的产物，1 条反应的底物",
-    "坐标来源": "手工",
-    "备注": "质子穿过它，所以是节点不是边标签"
    }
   },
   {
@@ -1620,8 +1637,8 @@ window.METABOLIC_COMPILED = {
     "fa_elongation"
    ],
    "compartment": "平滑内质网",
-   "x": 1379,
-   "y": 504,
+   "x": 1377,
+   "y": 501,
    "label": "棕榈酰-CoA",
    "info": "参与脂肪酸延长与去饱和；经脂肪酸延长酶系统转化。",
    "meta": {
@@ -1640,8 +1657,8 @@ window.METABOLIC_COMPILED = {
     "fa_elongation"
    ],
    "compartment": "平滑内质网",
-   "x": 1382,
-   "y": 510,
+   "x": 1380,
+   "y": 507,
    "label": "硬脂酰-CoA",
    "info": "参与脂肪酸延长与去饱和；由脂肪酸延长酶系统生成；经硬脂酰-CoA 去饱和酶转化。",
    "meta": {
@@ -1660,8 +1677,8 @@ window.METABOLIC_COMPILED = {
     "fa_elongation"
    ],
    "compartment": "平滑内质网",
-   "x": 1386,
-   "y": 515,
+   "x": 1384,
+   "y": 512,
    "label": "油酰-CoA",
    "info": "参与脂肪酸延长与去饱和；由硬脂酰-CoA 去饱和酶生成；经脂肪酸去饱和酶转化。",
    "meta": {
@@ -1680,8 +1697,8 @@ window.METABOLIC_COMPILED = {
     "fa_elongation"
    ],
    "compartment": "平滑内质网",
-   "x": 1390,
-   "y": 521,
+   "x": 1387,
+   "y": 518,
    "label": "多不饱和脂肪酸-CoA",
    "info": "参与脂肪酸延长与去饱和；由脂肪酸去饱和酶生成。",
    "meta": {
@@ -1700,8 +1717,8 @@ window.METABOLIC_COMPILED = {
     "fa_synthesis"
    ],
    "compartment": "细胞质",
-   "x": 755,
-   "y": 530,
+   "x": 754,
+   "y": 529,
    "label": "柠檬酸",
    "info": "参与脂肪酸合成；经ATP 柠檬酸裂解酶转化。",
    "meta": {
@@ -1720,8 +1737,8 @@ window.METABOLIC_COMPILED = {
     "fa_synthesis"
    ],
    "compartment": "细胞质",
-   "x": 757,
-   "y": 531,
+   "x": 756,
+   "y": 530,
    "label": "乙酰辅酶 A",
    "info": "参与脂肪酸合成；由ATP 柠檬酸裂解酶生成；经乙酰-CoA 羧化酶 ACC转化。",
    "meta": {
@@ -1740,8 +1757,8 @@ window.METABOLIC_COMPILED = {
     "fa_synthesis"
    ],
    "compartment": "细胞质",
-   "x": 758,
-   "y": 532,
+   "x": 757,
+   "y": 531,
    "label": "丙二酰-CoA",
    "info": "参与脂肪酸合成；由乙酰-CoA 羧化酶 ACC生成；经脂肪酸合酶 FAS转化。",
    "meta": {
@@ -1760,8 +1777,8 @@ window.METABOLIC_COMPILED = {
     "fa_synthesis"
    ],
    "compartment": "细胞质",
-   "x": 759,
-   "y": 534,
+   "x": 758,
+   "y": 533,
    "label": "棕榈酸",
    "info": "参与脂肪酸合成；由脂肪酸合酶 FAS、脂肪酸合酶 FAS生成。",
    "meta": {
@@ -1780,8 +1797,8 @@ window.METABOLIC_COMPILED = {
     "fa_synthesis"
    ],
    "compartment": "细胞质",
-   "x": 761,
-   "y": 535,
+   "x": 760,
+   "y": 534,
    "label": "NADPH",
    "info": "参与脂肪酸合成；经脂肪酸合酶 FAS转化。",
    "meta": {
@@ -1800,8 +1817,8 @@ window.METABOLIC_COMPILED = {
     "folate"
    ],
    "compartment": "细胞质",
-   "x": 762,
-   "y": 536,
+   "x": 761,
+   "y": 535,
    "label": "叶酸",
    "info": "参与叶酸一碳库；经二氢叶酸还原酶 DHFR转化。",
    "meta": {
@@ -1820,8 +1837,8 @@ window.METABOLIC_COMPILED = {
     "folate"
    ],
    "compartment": "细胞质",
-   "x": 764,
-   "y": 537,
+   "x": 762,
+   "y": 536,
    "label": "THF",
    "info": "参与叶酸一碳库；由二氢叶酸还原酶 DHFR生成；经丝氨酸羟甲基转移酶 SHMT转化。",
    "meta": {
@@ -1902,7 +1919,7 @@ window.METABOLIC_COMPILED = {
     "methionine_cysteine"
    ],
    "compartment": "细胞质",
-   "x": 706,
+   "x": 705,
    "y": 487,
    "label": "蛋氨酸",
    "info": "参与叶酸一碳库、蛋氨酸循环与转硫途径；由蛋氨酸合成酶、蛋氨酸合成酶生成；经蛋氨酸腺苷转移酶转化。",
@@ -2030,8 +2047,8 @@ window.METABOLIC_COMPILED = {
     "fructose"
    ],
    "compartment": "细胞质",
-   "x": 765,
-   "y": 538,
+   "x": 764,
+   "y": 537,
    "label": "甘油醛",
    "info": "参与果糖代谢；经丙糖激酶转化。",
    "meta": {
@@ -2073,8 +2090,8 @@ window.METABOLIC_COMPILED = {
     "galactose"
    ],
    "compartment": "细胞质",
-   "x": 766,
-   "y": 539,
+   "x": 765,
+   "y": 538,
    "label": "半乳糖",
    "info": "参与半乳糖代谢；经半乳糖激酶转化。",
    "meta": {
@@ -2093,8 +2110,8 @@ window.METABOLIC_COMPILED = {
     "galactose"
    ],
    "compartment": "细胞质",
-   "x": 768,
-   "y": 541,
+   "x": 766,
+   "y": 540,
    "label": "半乳糖-1-磷酸",
    "info": "参与半乳糖代谢；由半乳糖激酶生成；经半乳糖-1-磷酸尿苷转移酶转化。",
    "meta": {
@@ -2113,8 +2130,8 @@ window.METABOLIC_COMPILED = {
     "galactose"
    ],
    "compartment": "细胞质",
-   "x": 769,
-   "y": 542,
+   "x": 768,
+   "y": 541,
    "label": "UDP-半乳糖",
    "info": "参与半乳糖代谢；由半乳糖-1-磷酸尿苷转移酶生成；经UDP-半乳糖-4-差向异构酶转化。",
    "meta": {
@@ -2139,7 +2156,7 @@ window.METABOLIC_COMPILED = {
    "x": 879,
    "y": 701,
    "label": "UDP-葡萄糖",
-   "info": "参与半乳糖代谢、糖原合成、UDP-糖与糖基化、糖醛酸途径；由UDP-半乳糖-4-差向异构酶、UDP-葡萄糖焦磷酸化酶生成；经UDP-葡萄糖焦磷酸化酶、糖原合酶、UDP-糖转运体、UDP-葡萄糖脱氢酶转化。",
+   "info": "参与半乳糖代谢、糖原合成、UDP-糖与糖基化、糖醛酸途径；由UDP-半乳糖-4-差向异构酶、UDP-葡萄糖焦磷酸化酶生成；经UDP-葡萄糖焦磷酸化酶、糖原合酶、UDP-糖转运体（具体载体未定）、UDP-葡萄糖脱氢酶转化。",
    "meta": {
     "参与通路": "半乳糖代谢 · 糖原合成 · UDP-糖与糖基化 · 糖醛酸途径",
     "所在区室": "细胞质",
@@ -2181,8 +2198,8 @@ window.METABOLIC_COMPILED = {
     "pyruvate_fates"
    ],
    "compartment": "细胞质",
-   "x": 770,
-   "y": 543,
+   "x": 769,
+   "y": 542,
    "label": "乳酸",
    "info": "参与糖异生、质膜营养物转运、丙酮酸去路；由乳酸脱氢酶生成；经乳酸脱氢酶、单羧酸转运体 MCT转化。",
    "meta": {
@@ -2491,8 +2508,8 @@ window.METABOLIC_COMPILED = {
     "gluconeogenesis"
    ],
    "compartment": "细胞质",
-   "x": 773,
-   "y": 545,
+   "x": 772,
+   "y": 544,
    "label": "甘油",
    "info": "参与糖异生；经甘油激酶转化。",
    "meta": {
@@ -2535,8 +2552,8 @@ window.METABOLIC_COMPILED = {
     "glutamate_glutamine"
    ],
    "compartment": "细胞质",
-   "x": 775,
-   "y": 547,
+   "x": 773,
+   "y": 545,
    "label": "NH₄⁺",
    "info": "参与谷氨酸–谷氨酰胺枢纽；由谷氨酸脱氢酶生成；经谷氨酰胺合成酶转化。",
    "meta": {
@@ -2555,8 +2572,8 @@ window.METABOLIC_COMPILED = {
     "glutathione"
    ],
    "compartment": "细胞质",
-   "x": 776,
-   "y": 548,
+   "x": 775,
+   "y": 547,
    "label": "γ-谷氨酰半胱氨酸",
    "info": "参与谷胱甘肽与活性氧代谢；由谷氨酸半胱氨酸连接酶生成；经谷胱甘肽合成酶转化。",
    "meta": {
@@ -2575,8 +2592,8 @@ window.METABOLIC_COMPILED = {
     "glutathione"
    ],
    "compartment": "细胞质",
-   "x": 777,
-   "y": 549,
+   "x": 776,
+   "y": 548,
    "label": "GSH",
    "info": "参与谷胱甘肽与活性氧代谢；由谷胱甘肽合成酶、谷胱甘肽还原酶生成；经谷胱甘肽过氧化物酶转化。",
    "meta": {
@@ -2595,8 +2612,8 @@ window.METABOLIC_COMPILED = {
     "glutathione"
    ],
    "compartment": "细胞质",
-   "x": 779,
-   "y": 550,
+   "x": 777,
+   "y": 549,
    "label": "GSSG",
    "info": "参与谷胱甘肽与活性氧代谢；由谷胱甘肽过氧化物酶生成；经谷胱甘肽还原酶转化。",
    "meta": {
@@ -2615,8 +2632,8 @@ window.METABOLIC_COMPILED = {
     "glutathione"
    ],
    "compartment": "细胞质",
-   "x": 780,
-   "y": 551,
+   "x": 779,
+   "y": 550,
    "label": "H₂O₂",
    "info": "参与谷胱甘肽与活性氧代谢；经过氧化氢酶转化。",
    "meta": {
@@ -2635,8 +2652,8 @@ window.METABOLIC_COMPILED = {
     "glutathione"
    ],
    "compartment": "细胞质",
-   "x": 781,
-   "y": 553,
+   "x": 780,
+   "y": 551,
    "label": "H₂O",
    "info": "参与谷胱甘肽与活性氧代谢；由过氧化氢酶生成。",
    "meta": {
@@ -2655,8 +2672,8 @@ window.METABOLIC_COMPILED = {
     "glutathione"
    ],
    "compartment": "细胞质",
-   "x": 783,
-   "y": 554,
+   "x": 781,
+   "y": 552,
    "label": "脂质过氧化物",
    "info": "参与谷胱甘肽与活性氧代谢；经谷胱甘肽过氧化物酶转化。",
    "meta": {
@@ -2675,8 +2692,8 @@ window.METABOLIC_COMPILED = {
     "glutathione"
    ],
    "compartment": "细胞质",
-   "x": 784,
-   "y": 555,
+   "x": 783,
+   "y": 554,
    "label": "脂质醇",
    "info": "参与谷胱甘肽与活性氧代谢；由谷胱甘肽过氧化物酶生成。",
    "meta": {
@@ -2718,8 +2735,8 @@ window.METABOLIC_COMPILED = {
     "malate_aspartate"
    ],
    "compartment": "细胞质",
-   "x": 787,
-   "y": 557,
+   "x": 785,
+   "y": 556,
    "label": "NAD⁺",
    "info": "参与甘油-3-磷酸穿梭、苹果酸–天冬氨酸穿梭；由胞质甘油-3-磷酸脱氢酶 GPD1、胞质苹果酸脱氢酶 MDH1生成。",
    "meta": {
@@ -2802,7 +2819,7 @@ window.METABOLIC_COMPILED = {
    "x": 1366,
    "y": 480,
    "label": "UDP-葡萄糖",
-   "info": "参与UDP-糖与糖基化；由UDP-糖转运体生成。",
+   "info": "参与UDP-糖与糖基化；由UDP-糖转运体（具体载体未定）生成。",
    "meta": {
     "参与通路": "UDP-糖与糖基化",
     "所在区室": "内质网腔",
@@ -2811,8 +2828,8 @@ window.METABOLIC_COMPILED = {
    }
   },
   {
-   "id": "UDP-葡萄糖@rough-er",
-   "name": "UDP-葡萄糖",
+   "id": "多萜醇焦磷酸连接寡糖@rough-er",
+   "name": "多萜醇焦磷酸连接寡糖",
    "latin": "",
    "kind": "代谢物",
    "group": [
@@ -2821,7 +2838,7 @@ window.METABOLIC_COMPILED = {
    "compartment": "粗面内质网",
    "x": 1173,
    "y": 354,
-   "label": "UDP-葡萄糖",
+   "label": "多萜醇焦磷酸连接寡糖",
    "info": "参与UDP-糖与糖基化；经寡糖转移酶 OST转化。",
    "meta": {
     "参与通路": "UDP-糖与糖基化",
@@ -2831,8 +2848,8 @@ window.METABOLIC_COMPILED = {
    }
   },
   {
-   "id": "糖基化蛋白@rough-er",
-   "name": "糖基化蛋白",
+   "id": "N-糖基化蛋白@rough-er",
+   "name": "N-糖基化蛋白",
    "latin": "",
    "kind": "代谢物",
    "group": [
@@ -2841,8 +2858,8 @@ window.METABOLIC_COMPILED = {
    "compartment": "粗面内质网",
    "x": 1313,
    "y": 564,
-   "label": "糖基化蛋白",
-   "info": "参与UDP-糖与糖基化；由寡糖转移酶 OST生成；经囊泡运输/糖基转移酶转化。",
+   "label": "N-糖基化蛋白",
+   "info": "参与UDP-糖与糖基化；由寡糖转移酶 OST生成；经COPII 囊泡运输系统转化。",
    "meta": {
     "参与通路": "UDP-糖与糖基化",
     "所在区室": "粗面内质网",
@@ -2851,8 +2868,8 @@ window.METABOLIC_COMPILED = {
    }
   },
   {
-   "id": "糖基化蛋白@golgi",
-   "name": "糖基化蛋白",
+   "id": "N-糖基化蛋白@golgi",
+   "name": "N-糖基化蛋白",
    "latin": "",
    "kind": "代谢物",
    "group": [
@@ -2861,8 +2878,8 @@ window.METABOLIC_COMPILED = {
    "compartment": "高尔基体",
    "x": 1072,
    "y": 715,
-   "label": "糖基化蛋白",
-   "info": "参与UDP-糖与糖基化；由囊泡运输/糖基转移酶生成；经高尔基体糖基转移酶转化。",
+   "label": "N-糖基化蛋白",
+   "info": "参与UDP-糖与糖基化；由COPII 囊泡运输系统生成；经分泌囊泡系统转化。",
    "meta": {
     "参与通路": "UDP-糖与糖基化",
     "所在区室": "高尔基体",
@@ -2871,8 +2888,8 @@ window.METABOLIC_COMPILED = {
    }
   },
   {
-   "id": "糖基化蛋白@extracellular",
-   "name": "糖基化蛋白",
+   "id": "N-糖基化蛋白@extracellular",
+   "name": "N-糖基化蛋白",
    "latin": "",
    "kind": "代谢物",
    "group": [
@@ -2881,8 +2898,8 @@ window.METABOLIC_COMPILED = {
    "compartment": "胞外",
    "x": 469,
    "y": 66,
-   "label": "糖基化蛋白",
-   "info": "参与UDP-糖与糖基化；由高尔基体糖基转移酶生成。",
+   "label": "N-糖基化蛋白",
+   "info": "参与UDP-糖与糖基化；由分泌囊泡系统生成。",
    "meta": {
     "参与通路": "UDP-糖与糖基化",
     "所在区室": "胞外",
@@ -3046,8 +3063,8 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "compartment": "线粒体基质",
-   "x": 490,
-   "y": 894,
+   "x": 491,
+   "y": 895,
    "label": "甘氨酸",
    "info": "参与血红素合成与胆色素代谢；经ALA 合成酶 ALAS转化。",
    "meta": {
@@ -3067,7 +3084,7 @@ window.METABOLIC_COMPILED = {
    ],
    "compartment": "线粒体基质",
    "x": 493,
-   "y": 895,
+   "y": 896,
    "label": "ALA",
    "info": "参与血红素合成与胆色素代谢；由ALA 合成酶 ALAS生成；经ALA 脱水酶转化。",
    "meta": {
@@ -3086,8 +3103,8 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "compartment": "细胞质",
-   "x": 788,
-   "y": 559,
+   "x": 787,
+   "y": 557,
    "label": "卟胆原",
    "info": "参与血红素合成与胆色素代谢；由ALA 脱水酶生成；经卟胆原脱氨酶/尿卟啉原合成酶转化。",
    "meta": {
@@ -3106,8 +3123,8 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "compartment": "细胞质",
-   "x": 790,
-   "y": 560,
+   "x": 788,
+   "y": 558,
    "label": "尿卟啉原 III",
    "info": "参与血红素合成与胆色素代谢；由卟胆原脱氨酶/尿卟啉原合成酶生成；经卟啉原氧化酶系转化。",
    "meta": {
@@ -3126,7 +3143,7 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "compartment": "线粒体基质",
-   "x": 495,
+   "x": 496,
    "y": 897,
    "label": "原卟啉 IX",
    "info": "参与血红素合成与胆色素代谢；由卟啉原氧化酶系生成；经亚铁螯合酶转化。",
@@ -3146,10 +3163,10 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "compartment": "线粒体基质",
-   "x": 497,
+   "x": 498,
    "y": 898,
    "label": "血红素",
-   "info": "参与血红素合成与胆色素代谢；由亚铁螯合酶生成；经血红素加氧酶转化。",
+   "info": "参与血红素合成与胆色素代谢；由亚铁螯合酶生成；经FLVCR1-2 / 血红素加氧酶 HMOX1,2转化。",
    "meta": {
     "参与通路": "血红素合成与胆色素代谢",
     "所在区室": "线粒体基质",
@@ -3166,10 +3183,10 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "compartment": "细胞质",
-   "x": 791,
-   "y": 561,
+   "x": 789,
+   "y": 559,
    "label": "胆绿素",
-   "info": "参与血红素合成与胆色素代谢；由血红素加氧酶生成；经胆绿素还原酶 BVRA转化。",
+   "info": "参与血红素合成与胆色素代谢；由FLVCR1-2 / 血红素加氧酶 HMOX1,2生成；经胆绿素还原酶 BVRA转化。",
    "meta": {
     "参与通路": "血红素合成与胆色素代谢",
     "所在区室": "细胞质",
@@ -3186,8 +3203,8 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "compartment": "细胞质",
-   "x": 792,
-   "y": 562,
+   "x": 791,
+   "y": 561,
    "label": "胆红素",
    "info": "参与血红素合成与胆色素代谢；由胆绿素还原酶 BVRA生成。",
    "meta": {
@@ -3206,8 +3223,8 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "compartment": "平滑内质网",
-   "x": 1393,
-   "y": 527,
+   "x": 1391,
+   "y": 523,
    "label": "胆红素",
    "info": "参与血红素合成与胆色素代谢；经UDP-葡萄糖醛酸转移酶 UGT1A1转化。",
    "meta": {
@@ -3226,8 +3243,8 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "compartment": "平滑内质网",
-   "x": 1397,
-   "y": 532,
+   "x": 1395,
+   "y": 529,
    "label": "结合胆红素",
    "info": "参与血红素合成与胆色素代谢；由UDP-葡萄糖醛酸转移酶 UGT1A1生成。",
    "meta": {
@@ -3286,7 +3303,7 @@ window.METABOLIC_COMPILED = {
     "ketone"
    ],
    "compartment": "线粒体基质",
-   "x": 450,
+   "x": 449,
    "y": 875,
    "label": "β-羟丁酸",
    "info": "参与酮体生成与利用；由β-羟丁酸脱氢酶生成；经β-羟丁酸脱氢酶转化。",
@@ -3409,31 +3426,11 @@ window.METABOLIC_COMPILED = {
    "x": 1382,
    "y": 745,
    "label": "LDL",
-   "info": "参与脂蛋白代谢；由LDL 受体生成；经溶酶体酸性脂肪酶转化。",
+   "info": "参与脂蛋白代谢；由LDL 受体生成；经内体-溶酶体运输 / LIPA / NPC1-NPC2转化。",
    "meta": {
     "参与通路": "脂蛋白代谢",
     "所在区室": "内体",
     "角色": "1 条反应的产物，1 条反应的底物",
-    "坐标来源": "开链"
-   }
-  },
-  {
-   "id": "胆固醇@cytosol",
-   "name": "胆固醇",
-   "latin": "",
-   "kind": "代谢物",
-   "group": [
-    "lipoprotein"
-   ],
-   "compartment": "细胞质",
-   "x": 794,
-   "y": 563,
-   "label": "胆固醇",
-   "info": "参与脂蛋白代谢；由溶酶体酸性脂肪酶生成。",
-   "meta": {
-    "参与通路": "脂蛋白代谢",
-    "所在区室": "细胞质",
-    "角色": "1 条反应的产物",
     "坐标来源": "开链"
    }
   },
@@ -3547,8 +3544,8 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "compartment": "细胞质",
-   "x": 795,
-   "y": 564,
+   "x": 792,
+   "y": 562,
    "label": "核苷",
    "info": "参与溶酶体大分子降解、核苷酸降解；由溶酶体核酸酶、核苷酸酶生成；经核苷磷酸化酶转化。",
    "meta": {
@@ -3749,8 +3746,8 @@ window.METABOLIC_COMPILED = {
     "membrane_transport"
    ],
    "compartment": "细胞质",
-   "x": 797,
-   "y": 566,
+   "x": 794,
+   "y": 563,
    "label": "钠离子",
    "info": "参与质膜营养物转运；由离子通道/转运体生成。",
    "meta": {
@@ -3790,7 +3787,7 @@ window.METABOLIC_COMPILED = {
    ],
    "compartment": "细胞质",
    "x": 708,
-   "y": 490,
+   "y": 489,
    "label": "SAH",
    "info": "参与蛋氨酸循环与转硫途径；由甲基转移酶生成；经SAH 水解酶转化。",
    "meta": {
@@ -3809,7 +3806,7 @@ window.METABOLIC_COMPILED = {
     "methionine_cysteine"
    ],
    "compartment": "细胞质",
-   "x": 710,
+   "x": 709,
    "y": 491,
    "label": "同型半胱氨酸",
    "info": "参与蛋氨酸循环与转硫途径；由SAH 水解酶生成；经蛋氨酸合成酶、胱硫醚β-合成酶转化。",
@@ -3869,8 +3866,8 @@ window.METABOLIC_COMPILED = {
     "nitrogen"
    ],
    "compartment": "细胞质",
-   "x": 798,
-   "y": 567,
+   "x": 795,
+   "y": 564,
    "label": "硝酸盐",
    "info": "参与氮同化；经硝酸还原酶转化。",
    "meta": {
@@ -3890,8 +3887,8 @@ window.METABOLIC_COMPILED = {
     "nitrogen"
    ],
    "compartment": "细胞质",
-   "x": 799,
-   "y": 568,
+   "x": 796,
+   "y": 565,
    "label": "亚硝酸盐",
    "info": "参与氮同化；由硝酸还原酶生成；经亚硝酸盐质体转运（机制未定）转化。",
    "meta": {
@@ -4016,8 +4013,8 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "compartment": "细胞质",
-   "x": 801,
-   "y": 569,
+   "x": 798,
+   "y": 567,
    "label": "核苷酸",
    "info": "参与核苷酸降解；经核苷酸酶转化。",
    "meta": {
@@ -4036,8 +4033,8 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "compartment": "细胞质",
-   "x": 802,
-   "y": 570,
+   "x": 799,
+   "y": 568,
    "label": "碱基",
    "info": "参与核苷酸降解；由核苷磷酸化酶生成。",
    "meta": {
@@ -4057,8 +4054,8 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "compartment": "细胞质",
-   "x": 804,
-   "y": 572,
+   "x": 800,
+   "y": 569,
    "label": "次黄嘌呤",
    "info": "参与核苷酸降解、核苷酸补救合成；经黄嘌呤氧化酶、次黄嘌呤-鸟嘌呤磷酸核糖转移酶 HGPRT转化。",
    "meta": {
@@ -4077,8 +4074,8 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "compartment": "细胞质",
-   "x": 805,
-   "y": 573,
+   "x": 802,
+   "y": 570,
    "label": "尿酸",
    "info": "参与核苷酸降解；由黄嘌呤氧化酶、鸟嘌呤脱氨酶/黄嘌呤氧化酶生成。",
    "meta": {
@@ -4098,8 +4095,8 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "compartment": "细胞质",
-   "x": 806,
-   "y": 574,
+   "x": 803,
+   "y": 571,
    "label": "鸟嘌呤",
    "info": "参与核苷酸降解、核苷酸补救合成；经鸟嘌呤脱氨酶/黄嘌呤氧化酶、次黄嘌呤-鸟嘌呤磷酸核糖转移酶 HGPRT转化。",
    "meta": {
@@ -4118,8 +4115,8 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "compartment": "细胞质",
-   "x": 808,
-   "y": 575,
+   "x": 804,
+   "y": 572,
    "label": "尿嘧啶",
    "info": "参与核苷酸降解；经嘧啶降解酶系转化。",
    "meta": {
@@ -4138,8 +4135,8 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "compartment": "细胞质",
-   "x": 809,
-   "y": 576,
+   "x": 806,
+   "y": 574,
    "label": "β-丙氨酸",
    "info": "参与核苷酸降解；由嘧啶降解酶系生成。",
    "meta": {
@@ -4158,8 +4155,8 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "compartment": "细胞质",
-   "x": 810,
-   "y": 578,
+   "x": 807,
+   "y": 575,
    "label": "胸腺嘧啶",
    "info": "参与核苷酸降解；经嘧啶降解酶系转化。",
    "meta": {
@@ -4178,8 +4175,8 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "compartment": "细胞质",
-   "x": 812,
-   "y": 579,
+   "x": 808,
+   "y": 576,
    "label": "β-氨基异丁酸",
    "info": "参与核苷酸降解；由嘧啶降解酶系生成。",
    "meta": {
@@ -4187,6 +4184,28 @@ window.METABOLIC_COMPILED = {
     "所在区室": "细胞质",
     "角色": "1 条反应的产物",
     "坐标来源": "开链"
+   }
+  },
+  {
+   "id": "ATP 合酶@mito-inner-membrane",
+   "name": "ATP 合酶",
+   "latin": "F₀F₁-ATP 合酶",
+   "kind": "酶复合体",
+   "group": [
+    "oxphos"
+   ],
+   "compartment": "线粒体内膜",
+   "x": 723,
+   "y": 977,
+   "label": "ATP 合酶",
+   "info": "参与氧化磷酸化；由F₀F₁-ATP 合酶生成；经F₀F₁-ATP 合酶转化。",
+   "meta": {
+    "参与通路": "氧化磷酸化",
+    "所在区室": "线粒体内膜",
+    "膜侧": "两侧",
+    "角色": "1 条反应的产物，1 条反应的底物",
+    "坐标来源": "手工",
+    "备注": "质子穿过它，所以是节点不是边标签"
    }
   },
   {
@@ -4279,8 +4298,8 @@ window.METABOLIC_COMPILED = {
     "phospholipid"
    ],
    "compartment": "平滑内质网",
-   "x": 1345,
-   "y": 453,
+   "x": 1344,
+   "y": 452,
    "label": "CDP-DAG",
    "info": "参与甘油磷脂代谢；由CDP-二酰甘油合成酶生成；经磷脂酰肌醇合成酶转化。",
    "meta": {
@@ -4299,8 +4318,8 @@ window.METABOLIC_COMPILED = {
     "phospholipid"
    ],
    "compartment": "平滑内质网",
-   "x": 1349,
-   "y": 459,
+   "x": 1348,
+   "y": 458,
    "label": "磷脂酰肌醇",
    "info": "参与甘油磷脂代谢；由磷脂酰肌醇合成酶生成。",
    "meta": {
@@ -4321,7 +4340,7 @@ window.METABOLIC_COMPILED = {
    ],
    "compartment": "平滑内质网",
    "x": 1323,
-   "y": 420,
+   "y": 419,
    "label": "DAG",
    "info": "参与甘油磷脂代谢、甘油三酯合成与脂解；由磷脂酸磷酸酶生成；经胆碱磷酸转移酶、乙醇胺磷酸转移酶、二酰甘油酰基转移酶转化。",
    "meta": {
@@ -4340,8 +4359,8 @@ window.METABOLIC_COMPILED = {
     "phospholipid"
    ],
    "compartment": "平滑内质网",
-   "x": 1338,
-   "y": 442,
+   "x": 1337,
+   "y": 441,
    "label": "磷脂酰胆碱",
    "info": "参与甘油磷脂代谢；由胆碱磷酸转移酶生成。",
    "meta": {
@@ -4360,8 +4379,8 @@ window.METABOLIC_COMPILED = {
     "phospholipid"
    ],
    "compartment": "平滑内质网",
-   "x": 1342,
-   "y": 448,
+   "x": 1341,
+   "y": 447,
    "label": "磷脂酰乙醇胺",
    "info": "参与甘油磷脂代谢；由乙醇胺磷酸转移酶、磷脂酰丝氨酸脱羧酶生成。",
    "meta": {
@@ -4380,8 +4399,8 @@ window.METABOLIC_COMPILED = {
     "phospholipid"
    ],
    "compartment": "平滑内质网",
-   "x": 1401,
-   "y": 538,
+   "x": 1398,
+   "y": 534,
    "label": "磷脂酰丝氨酸",
    "info": "参与甘油磷脂代谢；经磷脂酰丝氨酸脱羧酶转化。",
    "meta": {
@@ -4400,8 +4419,8 @@ window.METABOLIC_COMPILED = {
     "phospholipid"
    ],
    "compartment": "平滑内质网",
-   "x": 1404,
-   "y": 543,
+   "x": 1402,
+   "y": 540,
    "label": "磷脂酰甘油",
    "info": "参与甘油磷脂代谢；经心磷脂合成酶转化。",
    "meta": {
@@ -4420,8 +4439,8 @@ window.METABOLIC_COMPILED = {
     "phospholipid"
    ],
    "compartment": "平滑内质网",
-   "x": 1408,
-   "y": 549,
+   "x": 1405,
+   "y": 545,
    "label": "心磷脂",
    "info": "参与甘油磷脂代谢；由心磷脂合成酶生成。",
    "meta": {
@@ -4520,8 +4539,8 @@ window.METABOLIC_COMPILED = {
     "plasmalogen"
    ],
    "compartment": "平滑内质网",
-   "x": 1412,
-   "y": 555,
+   "x": 1409,
+   "y": 551,
    "label": "烷基甘油-3-磷酸",
    "info": "参与醚磷脂与质醚磷脂合成；由醚磷脂转运系统生成；经醚磷脂合成酶系转化。",
    "meta": {
@@ -4540,8 +4559,8 @@ window.METABOLIC_COMPILED = {
     "plasmalogen"
    ],
    "compartment": "平滑内质网",
-   "x": 1415,
-   "y": 560,
+   "x": 1413,
+   "y": 556,
    "label": "质醚磷脂",
    "info": "参与醚磷脂与质醚磷脂合成；由醚磷脂合成酶系生成。",
    "meta": {
@@ -4641,8 +4660,8 @@ window.METABOLIC_COMPILED = {
     "purine"
    ],
    "compartment": "细胞质",
-   "x": 813,
-   "y": 580,
+   "x": 810,
+   "y": 577,
    "label": "核糖-5-磷酸",
    "info": "参与磷酸戊糖途径、嘌呤核苷酸从头合成；由核糖-5-磷酸异构酶生成；经PRPP 合成酶转化。",
    "meta": {
@@ -4682,8 +4701,8 @@ window.METABOLIC_COMPILED = {
     "ppp"
    ],
    "compartment": "细胞质",
-   "x": 815,
-   "y": 581,
+   "x": 811,
+   "y": 578,
    "label": "景天庚酮糖-7-磷酸",
    "info": "参与磷酸戊糖途径；经转醛醇酶转化。",
    "meta": {
@@ -4702,8 +4721,8 @@ window.METABOLIC_COMPILED = {
     "ppp"
    ],
    "compartment": "细胞质",
-   "x": 816,
-   "y": 582,
+   "x": 813,
+   "y": 579,
    "label": "赤藓糖-4-磷酸",
    "info": "参与磷酸戊糖途径；经转酮醇酶转化。",
    "meta": {
@@ -4722,8 +4741,8 @@ window.METABOLIC_COMPILED = {
     "purine"
    ],
    "compartment": "细胞质",
-   "x": 817,
-   "y": 583,
+   "x": 814,
+   "y": 581,
    "label": "PRPP",
    "info": "参与嘌呤核苷酸从头合成；由PRPP 合成酶生成；经谷氨酰胺-PRPP 酰胺转移酶转化。",
    "meta": {
@@ -4742,8 +4761,8 @@ window.METABOLIC_COMPILED = {
     "purine"
    ],
    "compartment": "细胞质",
-   "x": 819,
-   "y": 585,
+   "x": 815,
+   "y": 582,
    "label": "5-磷酸核糖胺",
    "info": "参与嘌呤核苷酸从头合成；由谷氨酰胺-PRPP 酰胺转移酶生成；经GAR synthetase (GART)转化。",
    "meta": {
@@ -4762,8 +4781,8 @@ window.METABOLIC_COMPILED = {
     "purine"
    ],
    "compartment": "细胞质",
-   "x": 820,
-   "y": 586,
+   "x": 817,
+   "y": 583,
    "label": "GAR",
    "info": "参与嘌呤核苷酸从头合成；由GAR synthetase (GART)生成；经多酶复合体转化。",
    "meta": {
@@ -4782,8 +4801,8 @@ window.METABOLIC_COMPILED = {
     "purine"
    ],
    "compartment": "细胞质",
-   "x": 821,
-   "y": 587,
+   "x": 818,
+   "y": 584,
    "label": "AICAR",
    "info": "参与嘌呤核苷酸从头合成；由多酶复合体生成；经AICAR 转化酶/IMP 环水解酶 (ATIC)转化。",
    "meta": {
@@ -4803,8 +4822,8 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "compartment": "细胞质",
-   "x": 823,
-   "y": 588,
+   "x": 819,
+   "y": 585,
    "label": "IMP",
    "info": "参与嘌呤核苷酸从头合成、核苷酸补救合成；由AICAR 转化酶/IMP 环水解酶 (ATIC)、次黄嘌呤-鸟嘌呤磷酸核糖转移酶 HGPRT生成；经腺苷酸琥珀酸合成/裂解酶系、IMP 脱氢酶/GMP 合成酶转化。",
    "meta": {
@@ -4824,8 +4843,8 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "compartment": "细胞质",
-   "x": 824,
-   "y": 589,
+   "x": 821,
+   "y": 586,
    "label": "AMP",
    "info": "参与嘌呤核苷酸从头合成、核苷酸补救合成；由腺苷酸琥珀酸合成/裂解酶系、腺嘌呤磷酸核糖转移酶、腺苷激酶生成；经腺苷酸激酶转化。",
    "meta": {
@@ -4845,8 +4864,8 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "compartment": "细胞质",
-   "x": 826,
-   "y": 591,
+   "x": 822,
+   "y": 588,
    "label": "GMP",
    "info": "参与嘌呤核苷酸从头合成、核苷酸补救合成；由IMP 脱氢酶/GMP 合成酶、次黄嘌呤-鸟嘌呤磷酸核糖转移酶 HGPRT生成；经鸟苷酸激酶/nucleoside diphosphate kinase转化。",
    "meta": {
@@ -4865,8 +4884,8 @@ window.METABOLIC_COMPILED = {
     "purine"
    ],
    "compartment": "细胞质",
-   "x": 827,
-   "y": 592,
+   "x": 823,
+   "y": 589,
    "label": "GTP",
    "info": "参与嘌呤核苷酸从头合成；由鸟苷酸激酶/nucleoside diphosphate kinase生成。",
    "meta": {
@@ -4885,8 +4904,8 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "compartment": "细胞质",
-   "x": 828,
-   "y": 593,
+   "x": 825,
+   "y": 590,
    "label": "氨甲酰磷酸",
    "info": "参与嘧啶核苷酸从头合成；由氨甲酰磷酸合成酶 II生成；经天冬氨酸转氨甲酰酶转化。",
    "meta": {
@@ -4905,8 +4924,8 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "compartment": "细胞质",
-   "x": 830,
-   "y": 594,
+   "x": 826,
+   "y": 591,
    "label": "氨甲酰天冬氨酸",
    "info": "参与嘧啶核苷酸从头合成；由天冬氨酸转氨甲酰酶生成；经二氢乳清酸酶转化。",
    "meta": {
@@ -4925,8 +4944,8 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "compartment": "细胞质",
-   "x": 831,
-   "y": 595,
+   "x": 827,
+   "y": 592,
    "label": "二氢乳清酸",
    "info": "参与嘧啶核苷酸从头合成；由二氢乳清酸酶生成；经二氢乳清酸脱氢酶 DHODH转化。",
    "meta": {
@@ -4945,8 +4964,8 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "compartment": "细胞质",
-   "x": 832,
-   "y": 597,
+   "x": 829,
+   "y": 593,
    "label": "乳清酸",
    "info": "参与嘧啶核苷酸从头合成；由二氢乳清酸脱氢酶 DHODH生成；经乳清酸磷酸核糖转移酶/乳清酸核苷酸脱羧酶转化。",
    "meta": {
@@ -4965,8 +4984,8 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "compartment": "细胞质",
-   "x": 834,
-   "y": 598,
+   "x": 830,
+   "y": 595,
    "label": "UMP",
    "info": "参与嘧啶核苷酸从头合成；由乳清酸磷酸核糖转移酶/乳清酸核苷酸脱羧酶生成；经核苷酸激酶系转化。",
    "meta": {
@@ -4985,8 +5004,8 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "compartment": "细胞质",
-   "x": 835,
-   "y": 599,
+   "x": 832,
+   "y": 596,
    "label": "UTP",
    "info": "参与嘧啶核苷酸从头合成；由核苷酸激酶系生成；经CTP 合成酶转化。",
    "meta": {
@@ -5005,8 +5024,8 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "compartment": "细胞质",
-   "x": 837,
-   "y": 600,
+   "x": 833,
+   "y": 597,
    "label": "CTP",
    "info": "参与嘧啶核苷酸从头合成；由CTP 合成酶生成。",
    "meta": {
@@ -5025,8 +5044,8 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "compartment": "细胞质",
-   "x": 838,
-   "y": 601,
+   "x": 834,
+   "y": 598,
    "label": "UDP",
    "info": "参与嘧啶核苷酸从头合成；经核糖核苷酸还原酶转化。",
    "meta": {
@@ -5045,10 +5064,50 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "compartment": "细胞质",
-   "x": 839,
-   "y": 602,
+   "x": 836,
+   "y": 599,
    "label": "dUDP",
-   "info": "参与嘧啶核苷酸从头合成；由核糖核苷酸还原酶生成；经胸苷酸合成酶转化。",
+   "info": "参与嘧啶核苷酸从头合成；由核糖核苷酸还原酶生成；经核苷二磷酸激酶 NDPK转化。",
+   "meta": {
+    "参与通路": "嘧啶核苷酸从头合成",
+    "所在区室": "细胞质",
+    "角色": "1 条反应的产物，1 条反应的底物",
+    "坐标来源": "开链"
+   }
+  },
+  {
+   "id": "dUTP@cytosol",
+   "name": "dUTP",
+   "latin": "",
+   "kind": "代谢物",
+   "group": [
+    "pyrimidine"
+   ],
+   "compartment": "细胞质",
+   "x": 837,
+   "y": 600,
+   "label": "dUTP",
+   "info": "参与嘧啶核苷酸从头合成；由核苷二磷酸激酶 NDPK生成；经dUTPase DUT转化。",
+   "meta": {
+    "参与通路": "嘧啶核苷酸从头合成",
+    "所在区室": "细胞质",
+    "角色": "1 条反应的产物，1 条反应的底物",
+    "坐标来源": "开链"
+   }
+  },
+  {
+   "id": "dUMP@cytosol",
+   "name": "dUMP",
+   "latin": "",
+   "kind": "代谢物",
+   "group": [
+    "pyrimidine"
+   ],
+   "compartment": "细胞质",
+   "x": 838,
+   "y": 602,
+   "label": "dUMP",
+   "info": "参与嘧啶核苷酸从头合成；由dUTPase DUT生成；经胸苷酸合成酶 TYMS转化。",
    "meta": {
     "参与通路": "嘧啶核苷酸从头合成",
     "所在区室": "细胞质",
@@ -5069,7 +5128,7 @@ window.METABOLIC_COMPILED = {
    "x": 714,
    "y": 494,
    "label": "dTMP",
-   "info": "参与嘧啶核苷酸从头合成、丝氨酸–甘氨酸与一碳代谢；由胸苷酸合成酶、胸苷酸合成酶生成。",
+   "info": "参与嘧啶核苷酸从头合成、丝氨酸–甘氨酸与一碳代谢；由胸苷酸合成酶 TYMS、胸苷酸合成酶生成。",
    "meta": {
     "参与通路": "嘧啶核苷酸从头合成 · 丝氨酸–甘氨酸与一碳代谢",
     "所在区室": "细胞质",
@@ -5086,8 +5145,8 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "compartment": "细胞质",
-   "x": 841,
-   "y": 604,
+   "x": 840,
+   "y": 603,
    "label": "腺嘌呤",
    "info": "参与核苷酸补救合成；经腺嘌呤磷酸核糖转移酶转化。",
    "meta": {
@@ -5106,8 +5165,8 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "compartment": "细胞质",
-   "x": 842,
-   "y": 605,
+   "x": 841,
+   "y": 604,
    "label": "腺苷",
    "info": "参与核苷酸补救合成；经腺苷激酶转化。",
    "meta": {
@@ -5126,8 +5185,8 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "compartment": "细胞质",
-   "x": 844,
-   "y": 606,
+   "x": 842,
+   "y": 605,
    "label": "胞苷",
    "info": "参与核苷酸补救合成；经胞苷激酶转化。",
    "meta": {
@@ -5146,8 +5205,8 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "compartment": "细胞质",
-   "x": 845,
-   "y": 607,
+   "x": 844,
+   "y": 606,
    "label": "CMP",
    "info": "参与核苷酸补救合成；由胞苷激酶生成。",
    "meta": {
@@ -5166,8 +5225,8 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "compartment": "细胞质",
-   "x": 846,
-   "y": 608,
+   "x": 845,
+   "y": 607,
    "label": "NMP",
    "info": "参与核苷酸补救合成；经核苷酸激酶转化。",
    "meta": {
@@ -5186,8 +5245,8 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "compartment": "细胞质",
-   "x": 848,
-   "y": 610,
+   "x": 846,
+   "y": 609,
    "label": "NDP",
    "info": "参与核苷酸补救合成；由核苷酸激酶生成；经核苷二磷酸激酶转化。",
    "meta": {
@@ -5206,8 +5265,8 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "compartment": "细胞质",
-   "x": 849,
-   "y": 611,
+   "x": 848,
+   "y": 610,
    "label": "NTP",
    "info": "参与核苷酸补救合成；由核苷二磷酸激酶生成。",
    "meta": {
@@ -5286,8 +5345,8 @@ window.METABOLIC_COMPILED = {
     "sphingolipid"
    ],
    "compartment": "平滑内质网",
-   "x": 1419,
-   "y": 566,
+   "x": 1416,
+   "y": 562,
    "label": "丝氨酸",
    "info": "参与鞘脂代谢；经丝氨酸棕榈酰转移酶转化。",
    "meta": {
@@ -5306,8 +5365,8 @@ window.METABOLIC_COMPILED = {
     "sphingolipid"
    ],
    "compartment": "平滑内质网",
-   "x": 1423,
-   "y": 572,
+   "x": 1420,
+   "y": 567,
    "label": "3-酮鞘氨醇",
    "info": "参与鞘脂代谢；由丝氨酸棕榈酰转移酶生成；经3-酮鞘氨醇还原酶转化。",
    "meta": {
@@ -5326,8 +5385,8 @@ window.METABOLIC_COMPILED = {
     "sphingolipid"
    ],
    "compartment": "平滑内质网",
-   "x": 1427,
-   "y": 577,
+   "x": 1423,
+   "y": 572,
    "label": "二氢鞘氨醇",
    "info": "参与鞘脂代谢；由3-酮鞘氨醇还原酶生成；经二氢神经酰胺合酶转化。",
    "meta": {
@@ -5346,8 +5405,8 @@ window.METABOLIC_COMPILED = {
     "sphingolipid"
    ],
    "compartment": "平滑内质网",
-   "x": 1430,
-   "y": 583,
+   "x": 1427,
+   "y": 578,
    "label": "二氢神经酰胺",
    "info": "参与鞘脂代谢；由二氢神经酰胺合酶生成；经二氢神经酰胺去饱和酶转化。",
    "meta": {
@@ -5366,10 +5425,10 @@ window.METABOLIC_COMPILED = {
     "sphingolipid"
    ],
    "compartment": "平滑内质网",
-   "x": 1434,
-   "y": 588,
+   "x": 1431,
+   "y": 583,
    "label": "神经酰胺",
-   "info": "参与鞘脂代谢；由二氢神经酰胺去饱和酶生成；经神经酰胺转运蛋白/鞘磷脂合成酶、糖基转移酶转化。",
+   "info": "参与鞘脂代谢；由二氢神经酰胺去饱和酶生成；经神经酰胺转运蛋白/鞘磷脂合成酶、CERT1 / 糖基转移酶系转化。",
    "meta": {
     "参与通路": "鞘脂代谢",
     "所在区室": "平滑内质网",
@@ -5409,7 +5468,7 @@ window.METABOLIC_COMPILED = {
    "x": 1299,
    "y": 903,
    "label": "糖鞘脂",
-   "info": "参与鞘脂代谢；由糖基转移酶生成。",
+   "info": "参与鞘脂代谢；由CERT1 / 糖基转移酶系生成。",
    "meta": {
     "参与通路": "鞘脂代谢",
     "所在区室": "高尔基体",
@@ -5523,6 +5582,26 @@ window.METABOLIC_COMPILED = {
    }
   },
   {
+   "id": "胆固醇@cytosol",
+   "name": "胆固醇",
+   "latin": "",
+   "kind": "代谢物",
+   "group": [
+    "steroid_bile"
+   ],
+   "compartment": "细胞质",
+   "x": 849,
+   "y": 611,
+   "label": "胆固醇",
+   "info": "参与类固醇与胆汁酸合成；经StAR / TSPO-BZRAP1 胆固醇转运系统转化。",
+   "meta": {
+    "参与通路": "类固醇与胆汁酸合成",
+    "所在区室": "细胞质",
+    "角色": "1 条反应的底物",
+    "坐标来源": "开链"
+   }
+  },
+  {
    "id": "胆固醇@mito-inner-membrane",
    "name": "胆固醇",
    "latin": "",
@@ -5534,7 +5613,7 @@ window.METABOLIC_COMPILED = {
    "x": 606,
    "y": 885,
    "label": "胆固醇",
-   "info": "参与类固醇与胆汁酸合成；由胆固醇转运系统生成；经胆固醇侧链裂解酶 CYP11A1转化。",
+   "info": "参与类固醇与胆汁酸合成；由StAR / TSPO-BZRAP1 胆固醇转运系统生成；经胆固醇侧链裂解酶 CYP11A1转化。",
    "meta": {
     "参与通路": "类固醇与胆汁酸合成",
     "所在区室": "线粒体内膜",
@@ -5571,8 +5650,8 @@ window.METABOLIC_COMPILED = {
     "steroid_bile"
    ],
    "compartment": "平滑内质网",
-   "x": 1438,
-   "y": 594,
+   "x": 1434,
+   "y": 589,
    "label": "类固醇激素",
    "info": "参与类固醇与胆汁酸合成；由细胞色素 P450/羟类固醇脱氢酶系生成。",
    "meta": {
@@ -5591,10 +5670,10 @@ window.METABOLIC_COMPILED = {
     "steroid_bile"
    ],
    "compartment": "平滑内质网",
-   "x": 1441,
-   "y": 600,
+   "x": 1438,
+   "y": 594,
    "label": "胆汁酸",
-   "info": "参与类固醇与胆汁酸合成；由胆固醇 7α-羟化酶 CYP7A1生成。",
+   "info": "参与类固醇与胆汁酸合成；由胆固醇 7α-羟化酶 CYP7A1 及后续酶系生成。",
    "meta": {
     "参与通路": "类固醇与胆汁酸合成",
     "所在区室": "平滑内质网",
@@ -5603,8 +5682,28 @@ window.METABOLIC_COMPILED = {
    }
   },
   {
-   "id": "维生素D@smooth-er",
-   "name": "维生素D",
+   "id": "7-脱氢胆固醇@smooth-er",
+   "name": "7-脱氢胆固醇",
+   "latin": "",
+   "kind": "代谢物",
+   "group": [
+    "steroid_bile"
+   ],
+   "compartment": "平滑内质网",
+   "x": 1441,
+   "y": 600,
+   "label": "7-脱氢胆固醇",
+   "info": "参与类固醇与胆汁酸合成；经皮肤 UV 光解与热异构化转化。",
+   "meta": {
+    "参与通路": "类固醇与胆汁酸合成",
+    "所在区室": "平滑内质网",
+    "角色": "1 条反应的底物",
+    "坐标来源": "开链"
+   }
+  },
+  {
+   "id": "维生素D3@smooth-er",
+   "name": "维生素D3",
    "latin": "",
    "kind": "代谢物",
    "group": [
@@ -5613,8 +5712,8 @@ window.METABOLIC_COMPILED = {
    "compartment": "平滑内质网",
    "x": 1445,
    "y": 605,
-   "label": "维生素D",
-   "info": "参与类固醇与胆汁酸合成；由胆固醇羟化酶系生成。",
+   "label": "维生素D3",
+   "info": "参与类固醇与胆汁酸合成；由皮肤 UV 光解与热异构化生成。",
    "meta": {
     "参与通路": "类固醇与胆汁酸合成",
     "所在区室": "平滑内质网",
@@ -5797,7 +5896,7 @@ window.METABOLIC_COMPILED = {
     "tag"
    ],
    "compartment": "平滑内质网",
-   "x": 1327,
+   "x": 1326,
    "y": 425,
    "label": "TAG",
    "info": "参与甘油三酯合成与脂解；由二酰甘油酰基转移酶生成；经脂肪甘油三酯脂肪酶、脂肪甘油三酯脂肪酶转化。",
@@ -5818,7 +5917,7 @@ window.METABOLIC_COMPILED = {
    ],
    "compartment": "平滑内质网",
    "x": 1330,
-   "y": 431,
+   "y": 430,
    "label": "脂肪酸",
    "info": "参与甘油三酯合成与脂解；由脂肪甘油三酯脂肪酶生成。",
    "meta": {
@@ -5838,7 +5937,7 @@ window.METABOLIC_COMPILED = {
    ],
    "compartment": "平滑内质网",
    "x": 1334,
-   "y": 437,
+   "y": 436,
    "label": "甘油",
    "info": "参与甘油三酯合成与脂解；由脂肪甘油三酯脂肪酶生成。",
    "meta": {
@@ -5889,27 +5988,6 @@ window.METABOLIC_COMPILED = {
    }
   },
   {
-   "id": "琥珀酸@mito-matrix",
-   "name": "琥珀酸",
-   "latin": "",
-   "kind": "代谢物",
-   "group": [
-    "tca"
-   ],
-   "compartment": "线粒体基质",
-   "x": 552,
-   "y": 968,
-   "label": "琥珀酸",
-   "info": "参与三羧酸循环；由琥珀酰-CoA 合成酶生成；经琥珀酸脱氢酶（复合体 II）转化。",
-   "meta": {
-    "参与通路": "三羧酸循环",
-    "所在区室": "线粒体基质",
-    "组织": "SDH 嵌在内膜，底物在基质",
-    "角色": "1 条反应的产物，1 条反应的底物",
-    "坐标来源": "手工"
-   }
-  },
-  {
    "id": "延胡索酸@mito-matrix",
    "name": "延胡索酸",
    "latin": "",
@@ -5938,7 +6016,7 @@ window.METABOLIC_COMPILED = {
     "transamination"
    ],
    "compartment": "细胞质",
-   "x": 850,
+   "x": 851,
    "y": 612,
    "label": "α-酮酸",
    "info": "参与转氨与氧化脱氨；由氨基转移酶生成。",
@@ -5979,7 +6057,7 @@ window.METABOLIC_COMPILED = {
     "urea"
    ],
    "compartment": "线粒体基质",
-   "x": 509,
+   "x": 510,
    "y": 903,
    "label": "氨甲酰磷酸",
    "info": "参与尿素循环；由氨甲酰磷酸合成酶 I生成；经鸟氨酸氨甲酰基转移酶转化。",
@@ -6000,7 +6078,7 @@ window.METABOLIC_COMPILED = {
    ],
    "compartment": "线粒体基质",
    "x": 512,
-   "y": 904,
+   "y": 905,
    "label": "瓜氨酸",
    "info": "参与尿素循环；由鸟氨酸氨甲酰基转移酶、鸟氨酸氨甲酰基转移酶生成；经鸟氨酸/瓜氨酸反向转运体 ORNT1 / SLC25A15转化。",
    "meta": {
@@ -6142,7 +6220,7 @@ window.METABOLIC_COMPILED = {
    "x": 580,
    "y": 602,
    "label": "UDP-葡萄糖醛酸",
-   "info": "参与糖醛酸途径；由UDP-葡萄糖脱氢酶生成；经UDP-葡萄糖醛酸水解酶（蛋白身份未定）、UDP-糖转运体转化。",
+   "info": "参与糖醛酸途径；由UDP-葡萄糖脱氢酶生成；经UDP-葡萄糖醛酸水解酶（蛋白身份未定）、SLC35D1 六聚体转化。",
    "meta": {
     "参与通路": "糖醛酸途径",
     "所在区室": "细胞质",
@@ -6182,7 +6260,7 @@ window.METABOLIC_COMPILED = {
    "x": 1447,
    "y": 480,
    "label": "UDP-葡萄糖醛酸",
-   "info": "参与糖醛酸途径；由UDP-糖转运体生成。",
+   "info": "参与糖醛酸途径；由SLC35D1 六聚体生成。",
    "meta": {
     "参与通路": "糖醛酸途径",
     "所在区室": "内质网腔",
@@ -6282,7 +6360,7 @@ window.METABOLIC_COMPILED = {
    "x": 1399,
    "y": 557,
    "label": "缩短脂酰-CoA",
-   "info": "参与极长链脂肪酸氧化；由β-酮硫解酶生成；经酰基肉碱转运系统转化。",
+   "info": "参与极长链脂肪酸氧化；由β-酮硫解酶生成；经CROT / 酰基肉碱转运系统 / CPT2转化。",
    "meta": {
     "参与通路": "极长链脂肪酸氧化",
     "所在区室": "过氧化物酶体",
@@ -6302,7 +6380,7 @@ window.METABOLIC_COMPILED = {
    "x": 516,
    "y": 907,
    "label": "缩短脂酰-CoA",
-   "info": "参与极长链脂肪酸氧化；由酰基肉碱转运系统生成。",
+   "info": "参与极长链脂肪酸氧化；由CROT / 酰基肉碱转运系统 / CPT2生成。",
    "meta": {
     "参与通路": "极长链脂肪酸氧化",
     "所在区室": "线粒体基质",
@@ -6883,7 +6961,7 @@ window.METABOLIC_COMPILED = {
    "enzyme": "谷氨酸激酶/还原酶系",
    "equation": "谷氨酸 → 脯氨酸",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "谷氨酸",
@@ -6919,11 +6997,11 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "非必需氨基酸合成。合并 P5CS/PYCR 多步并缺 ATP、NAD(P)H 及 P5C 等中间体（待审校）"
+   "info": "非必需氨基酸合成。多步示意边：合并 P5CS、P5C 自发环化和 PYCR；未表达 ATP、NAD(P)H、P5C 及完整净计量；R-HSA-8964539；UniProt:P32322"
   },
   {
    "id": "rx7",
-   "from": "丙氨酸/丝氨酸/甘氨酸/半胱氨酸@cytosol",
+   "from": "丙氨酸/半胱氨酸/甘氨酸/丝氨酸/苏氨酸/色氨酸@cytosol",
    "to": "丙酮酸@cytosol",
    "group": "aa_carbon",
    "enzyme": "多步分解路径（类别映射）",
@@ -6932,9 +7010,9 @@ window.METABOLIC_COMPILED = {
    "review": "已核对",
    "participants": [
     {
-     "key": "丙氨酸丝氨酸甘氨酸半胱氨酸",
-     "name": "丙氨酸/丝氨酸/甘氨酸/半胱氨酸",
-     "rawName": "丙氨酸/丝氨酸/甘氨酸/半胱氨酸",
+     "key": "丙氨酸半胱氨酸甘氨酸丝氨酸苏氨酸色氨酸",
+     "name": "丙氨酸/半胱氨酸/甘氨酸/丝氨酸/苏氨酸/色氨酸",
+     "rawName": "丙氨酸/半胱氨酸/甘氨酸/丝氨酸/苏氨酸/色氨酸",
      "aliases": [],
      "role": "substrate",
      "coefficient": "1",
@@ -6942,7 +7020,7 @@ window.METABOLIC_COMPILED = {
      "compartmentHint": "",
      "compartment": "细胞质",
      "entityIds": [
-      "丙氨酸/丝氨酸/甘氨酸/半胱氨酸@cytosol"
+      "丙氨酸/半胱氨酸/甘氨酸/丝氨酸/苏氨酸/色氨酸@cytosol"
      ],
      "primary": true,
      "source": "endpoint"
@@ -6979,11 +7057,11 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "氨基酸碳骨架归宿。教学分类映射，不表示单一反应或统一计量"
+   "info": "氨基酸碳骨架归宿。教学分类映射；苏氨酸和色氨酸还具有其他入口，不表示单一反应或统一计量"
   },
   {
    "id": "rx8",
-   "from": "亮氨酸/赖氨酸等@mito-matrix",
+   "from": "异亮氨酸/亮氨酸/苏氨酸/色氨酸@mito-matrix",
    "to": "乙酰辅酶 A@mito-matrix",
    "group": "aa_carbon",
    "enzyme": "多步生酮分解路径（类别映射）",
@@ -6992,9 +7070,9 @@ window.METABOLIC_COMPILED = {
    "review": "已核对",
    "participants": [
     {
-     "key": "亮氨酸赖氨酸等",
-     "name": "亮氨酸/赖氨酸等",
-     "rawName": "亮氨酸/赖氨酸等",
+     "key": "异亮氨酸亮氨酸苏氨酸色氨酸",
+     "name": "异亮氨酸/亮氨酸/苏氨酸/色氨酸",
+     "rawName": "异亮氨酸/亮氨酸/苏氨酸/色氨酸",
      "aliases": [],
      "role": "substrate",
      "coefficient": "1",
@@ -7002,7 +7080,7 @@ window.METABOLIC_COMPILED = {
      "compartmentHint": "",
      "compartment": "线粒体基质",
      "entityIds": [
-      "亮氨酸/赖氨酸等@mito-matrix"
+      "异亮氨酸/亮氨酸/苏氨酸/色氨酸@mito-matrix"
      ],
      "primary": true,
      "source": "endpoint"
@@ -7041,11 +7119,11 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "氨基酸碳骨架归宿。教学分类映射；亮氨酸和赖氨酸为纯生酮氨基酸"
+   "info": "氨基酸碳骨架归宿。教学分类映射；异亮氨酸、苏氨酸和色氨酸还具有生糖去路"
   },
   {
    "id": "rx9",
-   "from": "亮氨酸/赖氨酸等@mito-matrix",
+   "from": "亮氨酸/赖氨酸/苯丙氨酸/酪氨酸/色氨酸@mito-matrix",
    "to": "乙酰乙酰辅酶 A@mito-matrix",
    "group": "aa_carbon",
    "enzyme": "多步生酮分解路径（类别映射）",
@@ -7054,9 +7132,9 @@ window.METABOLIC_COMPILED = {
    "review": "已核对",
    "participants": [
     {
-     "key": "亮氨酸赖氨酸等",
-     "name": "亮氨酸/赖氨酸等",
-     "rawName": "亮氨酸/赖氨酸等",
+     "key": "亮氨酸赖氨酸苯丙氨酸酪氨酸色氨酸",
+     "name": "亮氨酸/赖氨酸/苯丙氨酸/酪氨酸/色氨酸",
+     "rawName": "亮氨酸/赖氨酸/苯丙氨酸/酪氨酸/色氨酸",
      "aliases": [],
      "role": "substrate",
      "coefficient": "1",
@@ -7064,7 +7142,7 @@ window.METABOLIC_COMPILED = {
      "compartmentHint": "",
      "compartment": "线粒体基质",
      "entityIds": [
-      "亮氨酸/赖氨酸等@mito-matrix"
+      "亮氨酸/赖氨酸/苯丙氨酸/酪氨酸/色氨酸@mito-matrix"
      ],
      "primary": true,
      "source": "endpoint"
@@ -7103,7 +7181,7 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "氨基酸碳骨架归宿。与乙酰-CoA并列为生酮入口，不表示单一反应或统一计量"
+   "info": "氨基酸碳骨架归宿。与乙酰-CoA并列为生酮入口；亮氨酸和赖氨酸为纯生酮，其余兼具生糖去路"
   },
   {
    "id": "rx10",
@@ -7604,12 +7682,12 @@ window.METABOLIC_COMPILED = {
   {
    "id": "rx16",
    "from": "多巴@cytosol",
-   "to": "儿茶酚胺@cytosol",
+   "to": "多巴胺@cytosol",
    "group": "aromatic_aa",
-   "enzyme": "芳香族氨基酸脱羧酶",
-   "equation": "多巴 → 儿茶酚胺 + CO₂",
+   "enzyme": "芳香族氨基酸脱羧酶 AADC",
+   "equation": "多巴 → 多巴胺 + CO₂",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "多巴",
@@ -7628,9 +7706,9 @@ window.METABOLIC_COMPILED = {
      "source": "endpoint"
     },
     {
-     "key": "儿茶酚胺",
-     "name": "儿茶酚胺",
-     "rawName": "儿茶酚胺",
+     "key": "多巴胺",
+     "name": "多巴胺",
+     "rawName": "多巴胺",
      "aliases": [],
      "role": "product",
      "coefficient": "1",
@@ -7638,7 +7716,7 @@ window.METABOLIC_COMPILED = {
      "compartmentHint": "",
      "compartment": "细胞质",
      "entityIds": [
-      "儿茶酚胺@cytosol"
+      "多巴胺@cytosol"
      ],
      "primary": true,
      "source": "endpoint"
@@ -7659,7 +7737,7 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "芳香族氨基酸代谢。AADC 直接产物是多巴胺；“儿茶酚胺”还包括后续去甲肾上腺素/肾上腺素，产物类别过宽；UniProt:P20711（待审校）"
+   "info": "芳香族氨基酸代谢。AADC 单步脱羧；后续去甲肾上腺素/肾上腺素合成不并入本反应；R-HSA-209905；UniProt:P20711"
   },
   {
    "id": "rx17",
@@ -7749,7 +7827,7 @@ window.METABOLIC_COMPILED = {
    "enzyme": "酪氨酸转氨/裂解酶系",
    "equation": "酪氨酸 → 延胡索酸 + 乙酰乙酸",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "酪氨酸",
@@ -7801,7 +7879,7 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "芳香族氨基酸代谢。酪氨酸降解多步净出口；缺 α-KG、O₂、H₂O、CO₂ 及中间体（待审校）"
+   "info": "芳香族氨基酸代谢。多步示意边：表达酪氨酸的生糖出口；与乙酰乙酸边属于同一路径，未声称完整净计量；R-HSA-8963684"
   },
   {
    "id": "rx19",
@@ -7811,7 +7889,7 @@ window.METABOLIC_COMPILED = {
    "enzyme": "酪氨酸转氨/裂解酶系",
    "equation": "酪氨酸 → 延胡索酸 + 乙酰乙酸",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "酪氨酸",
@@ -7863,7 +7941,7 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "芳香族氨基酸代谢。与上一行同一多步净反应的另一产物边；缺辅因子和中间体（待审校）"
+   "info": "芳香族氨基酸代谢。多步示意边：表达酪氨酸的生酮出口；与延胡索酸边属于同一路径，未声称独立反应；R-HSA-8963684"
   },
   {
    "id": "rx20",
@@ -8236,7 +8314,7 @@ window.METABOLIC_COMPILED = {
    "enzyme": "酸性水解酶",
    "equation": "自噬货物 + H₂O → 氨基酸、糖和脂肪酸",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "自噬溶酶体",
@@ -8316,7 +8394,7 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "自噬与物质回收。合并溶酶体水解与氨基酸输出；货物组成和输出载体未定（待审校）"
+   "info": "自噬与物质回收。示意边：合并自噬货物的溶酶体水解与氨基酸回收，未指定单一货物或输出载体；R-HSA-1632852；PMID:29074583"
   },
   {
    "id": "rx26",
@@ -8326,7 +8404,7 @@ window.METABOLIC_COMPILED = {
    "enzyme": "酸性水解酶",
    "equation": "自噬货物 + H₂O → 氨基酸、糖和脂肪酸",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "自噬溶酶体",
@@ -8406,7 +8484,7 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "自噬与物质回收。合并溶酶体水解与单糖输出；货物组成和输出载体未定（待审校）"
+   "info": "自噬与物质回收。示意边：合并自噬货物的溶酶体水解与单糖回收，未指定单一货物或输出载体；R-HSA-1632852；PMID:21290700"
   },
   {
    "id": "rx27",
@@ -8416,7 +8494,7 @@ window.METABOLIC_COMPILED = {
    "enzyme": "酸性水解酶",
    "equation": "自噬货物 + H₂O → 氨基酸、糖和脂肪酸",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "自噬溶酶体",
@@ -8496,7 +8574,7 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "自噬与物质回收。合并溶酶体水解与脂肪酸输出；货物组成和输出载体未定（待审校）"
+   "info": "自噬与物质回收。示意边：合并自噬货物的溶酶体水解与脂质组分回收，未指定单一货物或输出载体；R-HSA-1632852；PMID:21290700"
   },
   {
    "id": "rx28",
@@ -8694,7 +8772,7 @@ window.METABOLIC_COMPILED = {
    "enzyme": "支链酰-CoA 脱氢/硫解酶系",
    "equation": "支链酰-CoA → 乙酰-CoA",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "支链酰-COA",
@@ -8732,7 +8810,7 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "支链氨基酸降解。支链酰-CoA 为类别，亮氨酸/异亮氨酸/缬氨酸后续路径与净产物不同（待审校）"
+   "info": "支链氨基酸降解。类别示意边：亮氨酸生成乙酰-CoA和乙酰乙酸，异亮氨酸生成乙酰-CoA和琥珀酰-CoA，缬氨酸不生成乙酰-CoA；R-HSA-70895"
   },
   {
    "id": "rx31",
@@ -8742,7 +8820,7 @@ window.METABOLIC_COMPILED = {
    "enzyme": "支链酰-CoA 脱氢/硫解酶系",
    "equation": "支链酰-CoA → 琥珀酰-CoA",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "支链酰-COA",
@@ -8780,7 +8858,7 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "支链氨基酸降解。支链酰-CoA 为类别，异亮氨酸/缬氨酸多步生糖出口被压缩（待审校）"
+   "info": "支链氨基酸降解。类别示意边：仅表达异亮氨酸和缬氨酸的多步生糖出口，不代表亮氨酸路径或精确净反应；R-HSA-70895"
   },
   {
    "id": "rx32",
@@ -10038,7 +10116,7 @@ window.METABOLIC_COMPILED = {
    "enzyme": "异戊二烯基转移酶/鲨烯合酶",
    "equation": "异戊烯焦磷酸 → 鲨烯",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "异戊烯焦磷酸",
@@ -10074,17 +10152,17 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "胆固醇合成与转运。IPP/DMAPP 经 FPP 再到鲨烯的多步缩合被压缩；底物计量和 NADPH/PPi 缺失（待审校）"
+   "info": "胆固醇合成与转运。多步示意边：压缩 IPP/DMAPP、GPP、FPP、预鲨烯焦磷酸和还原步骤，不声称底物计量或辅因子完整；R-HSA-9969896"
   },
   {
    "id": "rx49",
    "from": "鲨烯@smooth-er",
    "to": "胆固醇@smooth-er",
    "group": "cholesterol",
-   "enzyme": "鲨烯环氧化酶/羊毛甾醇合成酶",
+   "enzyme": "鲨烯环氧化酶/羊毛甾醇合成及后续酶系",
    "equation": "鲨烯 + O₂ → 胆固醇",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "鲨烯",
@@ -10136,17 +10214,17 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "胆固醇合成与转运。鲨烯环氧化、羊毛甾醇环化及后续多步修饰被合并；反应式非可核净计量（待审校）"
+   "info": "胆固醇合成与转运。多步示意边：包含鲨烯环氧化、羊毛甾醇环化及后续胆固醇合成，当前方程不是净计量；R-HSA-9969896；R-HSA-191273"
   },
   {
    "id": "rx50",
    "from": "胆固醇@smooth-er",
    "to": "胆固醇@plasma-membrane",
    "group": "cholesterol",
-   "enzyme": "胆固醇转运系统",
-   "equation": "胆固醇内质网 ⇌ 胆固醇质膜",
-   "reversible": true,
-   "review": "待审校",
+   "enzyme": "ARV1 胆固醇转运蛋白",
+   "equation": "胆固醇内质网 → 胆固醇质膜",
+   "reversible": false,
+   "review": "已终审",
    "participants": [
     {
      "key": "胆固醇",
@@ -10210,7 +10288,7 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "胆固醇合成与转运。囊泡与非囊泡膜间转运并存，当前未指定载体和方向性机制（待审校）"
+   "info": "胆固醇合成与转运。ARV1 介导 ER 膜至质膜的胆固醇转移；本边不代表所有囊泡与非囊泡胆固醇流；R-HSA-5250531"
   },
   {
    "id": "rx51",
@@ -10312,7 +10390,7 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "呼吸电子传递链与氧化磷酸化。分叉：反应式含多个产物"
+   "info": "呼吸电子传递链。分叉：反应式含多个产物"
   },
   {
    "id": "rx52",
@@ -10408,15 +10486,103 @@ window.METABOLIC_COMPILED = {
    "ignoredSegments": [
     "4H⁺泵入膜间隙"
    ],
-   "info": "呼吸电子传递链与氧化磷酸化"
+   "info": "呼吸电子传递链"
   },
   {
    "id": "rx53",
+   "from": "琥珀酸@mito-matrix",
+   "to": "复合体 II@mito-inner-membrane",
+   "group": "etc",
+   "enzyme": "复合体 II",
+   "equation": "琥珀酸 + FAD（酶内） → 延胡索酸 + FADH₂（酶内）",
+   "reversible": false,
+   "review": "已核对",
+   "participants": [
+    {
+     "key": "琥珀酸",
+     "name": "琥珀酸",
+     "rawName": "琥珀酸",
+     "aliases": [],
+     "role": "substrate",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "琥珀酸@mito-matrix"
+     ],
+     "primary": true,
+     "source": "endpoint"
+    },
+    {
+     "key": "复合体II",
+     "name": "复合体 II",
+     "rawName": "复合体 II",
+     "aliases": [],
+     "role": "product",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "compartment": "线粒体内膜",
+     "entityIds": [
+      "复合体 II@mito-inner-membrane"
+     ],
+     "primary": true,
+     "source": "endpoint"
+    },
+    {
+     "key": "FAD",
+     "name": "FAD",
+     "rawName": "FAD（酶内）",
+     "aliases": [],
+     "role": "substrate",
+     "coefficient": "1",
+     "qualifier": "酶内",
+     "compartmentHint": "",
+     "primary": false,
+     "source": "equation",
+     "compartment": "线粒体内膜",
+     "entityIds": []
+    },
+    {
+     "key": "延胡索酸",
+     "name": "延胡索酸",
+     "rawName": "延胡索酸",
+     "aliases": [],
+     "role": "product",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "primary": false,
+     "source": "equation",
+     "compartment": "线粒体内膜",
+     "entityIds": []
+    },
+    {
+     "key": "FADH₂",
+     "name": "FADH₂",
+     "rawName": "FADH₂（酶内）",
+     "aliases": [],
+     "role": "product",
+     "coefficient": "1",
+     "qualifier": "酶内",
+     "compartmentHint": "",
+     "primary": false,
+     "source": "equation",
+     "compartment": "线粒体内膜",
+     "entityIds": []
+    }
+   ],
+   "ignoredSegments": [],
+   "info": "呼吸电子传递链。复合体 II 内第一段；FAD/FADH₂ 不离开酶复合体"
+  },
+  {
+   "id": "rx54",
    "from": "复合体 II@mito-inner-membrane",
    "to": "泛醇@mito-inner-membrane",
    "group": "etc",
    "enzyme": "复合体 II",
-   "equation": "琥珀酸 + CoQ → 延胡索酸 + CoQH₂",
+   "equation": "FADH₂（酶内） + CoQ → FAD（酶内） + CoQH₂",
    "reversible": false,
    "review": "已核对",
    "participants": [
@@ -10455,13 +10621,13 @@ window.METABOLIC_COMPILED = {
      "source": "endpoint"
     },
     {
-     "key": "琥珀酸",
-     "name": "琥珀酸",
-     "rawName": "琥珀酸",
+     "key": "FADH₂",
+     "name": "FADH₂",
+     "rawName": "FADH₂（酶内）",
      "aliases": [],
      "role": "substrate",
      "coefficient": "1",
-     "qualifier": "",
+     "qualifier": "酶内",
      "compartmentHint": "",
      "primary": false,
      "source": "equation",
@@ -10487,13 +10653,13 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "key": "延胡索酸",
-     "name": "延胡索酸",
-     "rawName": "延胡索酸",
+     "key": "FAD",
+     "name": "FAD",
+     "rawName": "FAD（酶内）",
      "aliases": [],
      "role": "product",
      "coefficient": "1",
-     "qualifier": "",
+     "qualifier": "酶内",
      "compartmentHint": "",
      "primary": false,
      "source": "equation",
@@ -10502,10 +10668,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "呼吸电子传递链与氧化磷酸化。分叉：反应式含多个产物"
+   "info": "呼吸电子传递链。复合体 II 内第二段；不泵出质子"
   },
   {
-   "id": "rx54",
+   "id": "rx55",
    "from": "辅酶 Q@mito-inner-membrane",
    "to": "泛醇@mito-inner-membrane",
    "group": "etc",
@@ -10566,10 +10732,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "呼吸电子传递链与氧化磷酸化"
+   "info": "呼吸电子传递链"
   },
   {
-   "id": "rx55",
+   "id": "rx56",
    "from": "泛醇@mito-inner-membrane",
    "to": "复合体 III@mito-inner-membrane",
    "group": "etc",
@@ -10648,10 +10814,10 @@ window.METABOLIC_COMPILED = {
    "ignoredSegments": [
     "4H⁺转移到膜间隙侧"
    ],
-   "info": "呼吸电子传递链与氧化磷酸化。分叉：反应式含多个产物"
+   "info": "呼吸电子传递链。分叉：反应式含多个产物"
   },
   {
-   "id": "rx56",
+   "id": "rx57",
    "from": "复合体 III@mito-inner-membrane",
    "to": "细胞色素 c@mito-ims",
    "group": "etc",
@@ -10726,10 +10892,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "呼吸电子传递链与氧化磷酸化。原数据酶名误写为细胞色素 c，它是本反应的受体"
+   "info": "呼吸电子传递链。原数据酶名误写为细胞色素 c，它是本反应的受体"
   },
   {
-   "id": "rx57",
+   "id": "rx58",
    "from": "细胞色素 c@mito-ims",
    "to": "复合体 IV@mito-inner-membrane",
    "group": "etc",
@@ -10786,12 +10952,12 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "呼吸电子传递链与氧化磷酸化"
+   "info": "呼吸电子传递链"
   },
   {
-   "id": "rx58",
+   "id": "rx59",
    "from": "氧@mito-matrix",
-   "to": "水@mito-matrix",
+   "to": "复合体 IV@mito-inner-membrane",
    "group": "etc",
    "enzyme": "复合体 IV",
    "equation": "½O₂ + 2e⁻ + 2H⁺基质 → H₂O；另有 2H⁺泵入膜间隙",
@@ -10817,6 +10983,98 @@ window.METABOLIC_COMPILED = {
      "source": "endpoint"
     },
     {
+     "key": "复合体IV",
+     "name": "复合体 IV",
+     "rawName": "复合体 IV",
+     "aliases": [],
+     "role": "product",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "compartment": "线粒体内膜",
+     "entityIds": [
+      "复合体 IV@mito-inner-membrane"
+     ],
+     "primary": true,
+     "source": "endpoint"
+    },
+    {
+     "key": "E⁻",
+     "name": "e⁻",
+     "rawName": "2e⁻",
+     "aliases": [],
+     "role": "substrate",
+     "coefficient": "2",
+     "qualifier": "",
+     "compartmentHint": "",
+     "primary": false,
+     "source": "equation",
+     "compartment": "线粒体内膜",
+     "entityIds": []
+    },
+    {
+     "key": "H⁺",
+     "name": "H⁺",
+     "rawName": "2H⁺基质",
+     "aliases": [],
+     "role": "substrate",
+     "coefficient": "2",
+     "qualifier": "",
+     "compartmentHint": "线粒体基质",
+     "primary": false,
+     "source": "equation",
+     "compartment": "线粒体基质",
+     "entityIds": []
+    },
+    {
+     "key": "水",
+     "name": "水",
+     "rawName": "H₂O",
+     "aliases": [
+      "H₂O"
+     ],
+     "role": "product",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "primary": false,
+     "source": "equation",
+     "compartment": "线粒体内膜",
+     "entityIds": []
+    }
+   ],
+   "ignoredSegments": [
+    "另有 2H⁺泵入膜间隙"
+   ],
+   "info": "呼吸电子传递链。末端受体输入边"
+  },
+  {
+   "id": "rx60",
+   "from": "复合体 IV@mito-inner-membrane",
+   "to": "水@mito-matrix",
+   "group": "etc",
+   "enzyme": "复合体 IV",
+   "equation": "½O₂ + 2e⁻ + 2H⁺基质 → H₂O；另有 2H⁺泵入膜间隙",
+   "reversible": false,
+   "review": "已核对",
+   "participants": [
+    {
+     "key": "复合体IV",
+     "name": "复合体 IV",
+     "rawName": "复合体 IV",
+     "aliases": [],
+     "role": "substrate",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "compartment": "线粒体内膜",
+     "entityIds": [
+      "复合体 IV@mito-inner-membrane"
+     ],
+     "primary": true,
+     "source": "endpoint"
+    },
+    {
      "key": "水",
      "name": "水",
      "rawName": "水",
@@ -10833,6 +11091,22 @@ window.METABOLIC_COMPILED = {
      ],
      "primary": true,
      "source": "endpoint"
+    },
+    {
+     "key": "氧",
+     "name": "氧",
+     "rawName": "½O₂",
+     "aliases": [
+      "O₂"
+     ],
+     "role": "substrate",
+     "coefficient": "½",
+     "qualifier": "",
+     "compartmentHint": "",
+     "primary": false,
+     "source": "equation",
+     "compartment": "线粒体内膜",
+     "entityIds": []
     },
     {
      "key": "E⁻",
@@ -10866,10 +11140,10 @@ window.METABOLIC_COMPILED = {
    "ignoredSegments": [
     "另有 2H⁺泵入膜间隙"
    ],
-   "info": "呼吸电子传递链与氧化磷酸化"
+   "info": "呼吸电子传递链。水产物输出边"
   },
   {
-   "id": "rx59",
+   "id": "rx61",
    "from": "复合体 I@mito-inner-membrane",
    "to": "膜间隙 H⁺@mito-ims",
    "group": "etc",
@@ -10940,10 +11214,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "呼吸电子传递链与氧化磷酸化"
+   "info": "呼吸电子传递链"
   },
   {
-   "id": "rx60",
+   "id": "rx62",
    "from": "复合体 III@mito-inner-membrane",
    "to": "膜间隙 H⁺@mito-ims",
    "group": "etc",
@@ -10988,10 +11262,10 @@ window.METABOLIC_COMPILED = {
    "ignoredSegments": [
     "4H⁺：净转移至膜间隙侧"
    ],
-   "info": "呼吸电子传递链与氧化磷酸化"
+   "info": "呼吸电子传递链"
   },
   {
-   "id": "rx61",
+   "id": "rx63",
    "from": "复合体 IV@mito-inner-membrane",
    "to": "膜间隙 H⁺@mito-ims",
    "group": "etc",
@@ -11062,10 +11336,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "呼吸电子传递链与氧化磷酸化"
+   "info": "呼吸电子传递链"
   },
   {
-   "id": "rx62",
+   "id": "rx64",
    "from": "膜间隙 H⁺@mito-ims",
    "to": "质子动力势@mito-inner-membrane",
    "group": "etc",
@@ -11150,244 +11424,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "呼吸电子传递链与氧化磷酸化"
-  },
-  {
-   "id": "rx63",
-   "from": "质子动力势@mito-inner-membrane",
-   "to": "ATP 合酶@mito-inner-membrane",
-   "group": "etc",
-   "enzyme": "F₀F₁-ATP 合酶",
-   "equation": "H⁺膜间隙 → H⁺基质",
-   "reversible": false,
-   "review": "已核对",
-   "participants": [
-    {
-     "key": "质子动力势",
-     "name": "质子动力势",
-     "rawName": "质子动力势",
-     "aliases": [],
-     "role": "substrate",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "",
-     "compartment": "线粒体内膜",
-     "entityIds": [
-      "质子动力势@mito-inner-membrane"
-     ],
-     "primary": true,
-     "source": "endpoint"
-    },
-    {
-     "key": "ATP合酶",
-     "name": "ATP 合酶",
-     "rawName": "ATP 合酶",
-     "aliases": [],
-     "role": "product",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "",
-     "compartment": "线粒体内膜",
-     "entityIds": [
-      "ATP 合酶@mito-inner-membrane"
-     ],
-     "primary": true,
-     "source": "endpoint"
-    },
-    {
-     "key": "H⁺",
-     "name": "H⁺",
-     "rawName": "H⁺膜间隙",
-     "aliases": [],
-     "role": "substrate",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "线粒体膜间隙",
-     "primary": false,
-     "source": "equation",
-     "compartment": "线粒体膜间隙",
-     "entityIds": []
-    },
-    {
-     "key": "H⁺",
-     "name": "H⁺",
-     "rawName": "H⁺基质",
-     "aliases": [],
-     "role": "product",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "线粒体基质",
-     "primary": false,
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": []
-    }
-   ],
-   "ignoredSegments": [],
-   "info": "呼吸电子传递链与氧化磷酸化"
-  },
-  {
-   "id": "rx64",
-   "from": "ADP@mito-matrix",
-   "to": "ATP@mito-matrix",
-   "group": "etc",
-   "enzyme": "ATP 合酶",
-   "equation": "ADP基质 + Pi基质 → ATP基质 + H₂O",
-   "reversible": false,
-   "review": "已核对",
-   "participants": [
-    {
-     "key": "ADP",
-     "name": "ADP",
-     "rawName": "ADP",
-     "aliases": [],
-     "role": "substrate",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "线粒体基质",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "ADP@mito-matrix"
-     ],
-     "primary": true,
-     "source": "endpoint"
-    },
-    {
-     "key": "ATP",
-     "name": "ATP",
-     "rawName": "ATP",
-     "aliases": [],
-     "role": "product",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "线粒体基质",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "ATP@mito-matrix"
-     ],
-     "primary": true,
-     "source": "endpoint"
-    },
-    {
-     "key": "无机磷酸",
-     "name": "无机磷酸",
-     "rawName": "Pi基质",
-     "aliases": [
-      "Pi"
-     ],
-     "role": "substrate",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "线粒体基质",
-     "primary": false,
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "无机磷酸@mito-matrix"
-     ]
-    },
-    {
-     "key": "水",
-     "name": "水",
-     "rawName": "H₂O",
-     "aliases": [
-      "H₂O"
-     ],
-     "role": "product",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "",
-     "primary": false,
-     "source": "equation",
-     "compartment": "线粒体内膜",
-     "entityIds": []
-    }
-   ],
-   "ignoredSegments": [],
-   "info": "呼吸电子传递链与氧化磷酸化。分叉：反应式含多个产物"
+   "info": "呼吸电子传递链"
   },
   {
    "id": "rx65",
-   "from": "无机磷酸@mito-matrix",
-   "to": "ATP@mito-matrix",
-   "group": "etc",
-   "enzyme": "ATP 合酶",
-   "equation": "ADP基质 + Pi基质 → ATP基质 + H₂O",
-   "reversible": false,
-   "review": "已核对",
-   "participants": [
-    {
-     "key": "无机磷酸",
-     "name": "无机磷酸",
-     "rawName": "无机磷酸",
-     "aliases": [
-      "Pi"
-     ],
-     "role": "substrate",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "线粒体基质",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "无机磷酸@mito-matrix"
-     ],
-     "primary": true,
-     "source": "endpoint"
-    },
-    {
-     "key": "ATP",
-     "name": "ATP",
-     "rawName": "ATP",
-     "aliases": [],
-     "role": "product",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "线粒体基质",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "ATP@mito-matrix"
-     ],
-     "primary": true,
-     "source": "endpoint"
-    },
-    {
-     "key": "ADP",
-     "name": "ADP",
-     "rawName": "ADP基质",
-     "aliases": [],
-     "role": "substrate",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "线粒体基质",
-     "primary": false,
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "ADP@mito-matrix"
-     ]
-    },
-    {
-     "key": "水",
-     "name": "水",
-     "rawName": "H₂O",
-     "aliases": [
-      "H₂O"
-     ],
-     "role": "product",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "",
-     "primary": false,
-     "source": "equation",
-     "compartment": "线粒体内膜",
-     "entityIds": []
-    }
-   ],
-   "ignoredSegments": [],
-   "info": "呼吸电子传递链与氧化磷酸化。分叉：反应式含多个产物"
-  },
-  {
-   "id": "rx66",
    "from": "棕榈酰-CoA@smooth-er",
    "to": "硬脂酰-CoA@smooth-er",
    "group": "fa_elongation",
@@ -11535,7 +11575,7 @@ window.METABOLIC_COMPILED = {
    "info": "脂肪酸延长与去饱和。内质网延长的一个两碳循环"
   },
   {
-   "id": "rx67",
+   "id": "rx66",
    "from": "硬脂酰-CoA@smooth-er",
    "to": "油酰-CoA@smooth-er",
    "group": "fa_elongation",
@@ -11655,7 +11695,7 @@ window.METABOLIC_COMPILED = {
    "info": "脂肪酸延长与去饱和。细胞色素 b5 电子传递耦联的去饱和"
   },
   {
-   "id": "rx68",
+   "id": "rx67",
    "from": "油酰-CoA@smooth-er",
    "to": "多不饱和脂肪酸-CoA@smooth-er",
    "group": "fa_elongation",
@@ -11775,7 +11815,7 @@ window.METABOLIC_COMPILED = {
    "info": "脂肪酸延长与去饱和。后续去饱和；具体双键位置依同工酶而定"
   },
   {
-   "id": "rx69",
+   "id": "rx68",
    "from": "柠檬酸@cytosol",
    "to": "乙酰辅酶 A@cytosol",
    "group": "fa_synthesis",
@@ -11905,7 +11945,7 @@ window.METABOLIC_COMPILED = {
    "info": "脂肪酸合成。线粒体碳输出后的胞质裂解"
   },
   {
-   "id": "rx70",
+   "id": "rx69",
    "from": "乙酰辅酶 A@cytosol",
    "to": "丙二酰-CoA@cytosol",
    "group": "fa_synthesis",
@@ -12017,7 +12057,7 @@ window.METABOLIC_COMPILED = {
    "info": "脂肪酸合成。限速步骤"
   },
   {
-   "id": "rx71",
+   "id": "rx70",
    "from": "丙二酰-CoA@cytosol",
    "to": "棕榈酸@cytosol",
    "group": "fa_synthesis",
@@ -12171,7 +12211,7 @@ window.METABOLIC_COMPILED = {
    "info": "脂肪酸合成。多轮缩合/还原的净反应；主表示边"
   },
   {
-   "id": "rx72",
+   "id": "rx71",
    "from": "NADPH@cytosol",
    "to": "棕榈酸@cytosol",
    "group": "fa_synthesis",
@@ -12325,7 +12365,7 @@ window.METABOLIC_COMPILED = {
    "info": "脂肪酸合成。同一多轮反应的还原力表示边"
   },
   {
-   "id": "rx73",
+   "id": "rx72",
    "from": "叶酸@cytosol",
    "to": "THF@cytosol",
    "group": "folate",
@@ -12415,7 +12455,7 @@ window.METABOLIC_COMPILED = {
    "info": "叶酸一碳库。合并 DHF 中间体的两次还原"
   },
   {
-   "id": "rx74",
+   "id": "rx73",
    "from": "THF@cytosol",
    "to": "5,10-亚甲基-THF@cytosol",
    "group": "folate",
@@ -12509,7 +12549,7 @@ window.METABOLIC_COMPILED = {
    "info": "叶酸一碳库。连接丝氨酸/甘氨酸"
   },
   {
-   "id": "rx75",
+   "id": "rx74",
    "from": "5,10-亚甲基-THF@cytosol",
    "to": "10-甲酰-THF@cytosol",
    "group": "folate",
@@ -12615,7 +12655,7 @@ window.METABOLIC_COMPILED = {
    "info": "叶酸一碳库。MTHFD1 脱氢酶与环水解酶两步净反应；KEGG:R01220、KEGG:R01655；RHEA:22815、RHEA:23703"
   },
   {
-   "id": "rx76",
+   "id": "rx75",
    "from": "5,10-亚甲基-THF@cytosol",
    "to": "5-甲基-THF@cytosol",
    "group": "folate",
@@ -12705,7 +12745,7 @@ window.METABOLIC_COMPILED = {
    "info": "叶酸一碳库。蛋氨酸循环供体"
   },
   {
-   "id": "rx77",
+   "id": "rx76",
    "from": "5-甲基-THF@cytosol",
    "to": "蛋氨酸@cytosol",
    "group": "folate",
@@ -12783,14 +12823,14 @@ window.METABOLIC_COMPILED = {
    "info": "叶酸一碳库。再甲基化出口"
   },
   {
-   "id": "rx78",
+   "id": "rx77",
    "from": "10-甲酰-THF@cytosol",
    "to": "嘌呤@cytosol",
    "group": "folate",
    "enzyme": "一碳转移酶系",
    "equation": "10-甲酰-THF + 嘌呤前体 → 嘌呤核苷酸",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "10-甲酰-THF",
@@ -12854,10 +12894,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "叶酸一碳库。一碳供体关系的类别映射；嘌呤前体、两次转甲酰步骤和净计量未具体化（待审校）"
+   "info": "叶酸一碳库。类别示意边：10-甲酰-THF 分别参与 GAR→FGAR 与 AICAR→FAICAR，当前不表示单一反应或完整净计量；R-HSA-73817；R-HSA-73813"
   },
   {
-   "id": "rx79",
+   "id": "rx78",
    "from": "果糖@cytosol",
    "to": "果糖-1-磷酸@cytosol",
    "group": "fructose",
@@ -12935,7 +12975,7 @@ window.METABOLIC_COMPILED = {
    "info": "果糖代谢。肝脏主入口"
   },
   {
-   "id": "rx80",
+   "id": "rx79",
    "from": "果糖@cytosol",
    "to": "果糖-6-磷酸@cytosol",
    "group": "fructose",
@@ -13013,7 +13053,7 @@ window.METABOLIC_COMPILED = {
    "info": "果糖代谢。旁路入口；与糖酵解共享"
   },
   {
-   "id": "rx81",
+   "id": "rx80",
    "from": "果糖-1-磷酸@cytosol",
    "to": "磷酸二羟丙酮@cytosol",
    "group": "fructose",
@@ -13075,7 +13115,7 @@ window.METABOLIC_COMPILED = {
    "info": "果糖代谢。多产物；另一产物为甘油醛"
   },
   {
-   "id": "rx82",
+   "id": "rx81",
    "from": "甘油醛@cytosol",
    "to": "甘油醛-3-磷酸@cytosol",
    "group": "fructose",
@@ -13153,7 +13193,7 @@ window.METABOLIC_COMPILED = {
    "info": "果糖代谢。并入糖酵解三碳磷酸池"
   },
   {
-   "id": "rx83",
+   "id": "rx82",
    "from": "半乳糖@cytosol",
    "to": "半乳糖-1-磷酸@cytosol",
    "group": "galactose",
@@ -13231,7 +13271,7 @@ window.METABOLIC_COMPILED = {
    "info": "半乳糖代谢。Leloir 通路入口"
   },
   {
-   "id": "rx84",
+   "id": "rx83",
    "from": "半乳糖-1-磷酸@cytosol",
    "to": "UDP-半乳糖@cytosol",
    "group": "galactose",
@@ -13309,7 +13349,7 @@ window.METABOLIC_COMPILED = {
    "info": "半乳糖代谢。多底物；另一底物为 UDP-葡萄糖，另一产物为葡萄糖-1-磷酸"
   },
   {
-   "id": "rx85",
+   "id": "rx84",
    "from": "UDP-半乳糖@cytosol",
    "to": "UDP-葡萄糖@cytosol",
    "group": "galactose",
@@ -13355,7 +13395,7 @@ window.METABOLIC_COMPILED = {
    "info": "半乳糖代谢。UDP-糖池互换"
   },
   {
-   "id": "rx86",
+   "id": "rx85",
    "from": "UDP-葡萄糖@cytosol",
    "to": "葡萄糖-1-磷酸@cytosol",
    "group": "galactose",
@@ -13431,7 +13471,7 @@ window.METABOLIC_COMPILED = {
    "info": "半乳糖代谢。与糖原合成共享；主表示边"
   },
   {
-   "id": "rx87",
+   "id": "rx86",
    "from": "乳酸@cytosol",
    "to": "丙酮酸@cytosol",
    "group": "gluconeogenesis",
@@ -13523,7 +13563,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。乳酸输入"
   },
   {
-   "id": "rx88",
+   "id": "rx87",
    "from": "丙氨酸@cytosol",
    "to": "丙酮酸@cytosol",
    "group": "gluconeogenesis",
@@ -13603,7 +13643,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。生糖氨基酸输入"
   },
   {
-   "id": "rx89",
+   "id": "rx88",
    "from": "丙酮酸@cytosol",
    "to": "丙酮酸@mito-ims",
    "group": [
@@ -13654,7 +13694,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生 · 丙酮酸脱氢酶复合体 · 丙酮酸去路 · 跨膜穿梭与核苷酸转运。与跨膜转运通路共享；跨外膜进入膜间隙"
   },
   {
-   "id": "rx90",
+   "id": "rx89",
    "from": "丙酮酸@mito-ims",
    "to": "丙酮酸@mito-matrix",
    "group": [
@@ -13733,7 +13773,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生 · 丙酮酸脱氢酶复合体 · 丙酮酸去路 · 跨膜穿梭与核苷酸转运。与跨膜转运通路共享；跨内膜进入基质；分叉：反应式含多个产物"
   },
   {
-   "id": "rx91",
+   "id": "rx90",
    "from": "丙酮酸@mito-matrix",
    "to": "草酰乙酸@mito-matrix",
    "group": [
@@ -13846,7 +13886,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生 · 丙酮酸去路。糖异生绕过丙酮酸激酶；补充反应；与糖异生共享"
   },
   {
-   "id": "rx92",
+   "id": "rx91",
    "from": "草酰乙酸@mito-matrix",
    "to": "苹果酸@mito-matrix",
    "group": "gluconeogenesis",
@@ -13938,7 +13978,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。以苹果酸形式输出还原当量"
   },
   {
-   "id": "rx93",
+   "id": "rx92",
    "from": "苹果酸@mito-matrix",
    "to": "苹果酸@cytosol",
    "group": "gluconeogenesis",
@@ -14020,7 +14060,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。跨内膜输出"
   },
   {
-   "id": "rx94",
+   "id": "rx93",
    "from": "苹果酸@cytosol",
    "to": "草酰乙酸@cytosol",
    "group": "gluconeogenesis",
@@ -14112,7 +14152,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。胞质再生草酰乙酸"
   },
   {
-   "id": "rx95",
+   "id": "rx94",
    "from": "草酰乙酸@cytosol",
    "to": "磷酸烯醇式丙酮酸@cytosol",
    "group": "gluconeogenesis",
@@ -14202,7 +14242,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。糖异生特异绕过步"
   },
   {
-   "id": "rx96",
+   "id": "rx95",
    "from": "磷酸烯醇式丙酮酸@cytosol",
    "to": "2-磷酸甘油酸@cytosol",
    "group": "gluconeogenesis",
@@ -14264,7 +14304,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。糖酵解下游反应的逆向"
   },
   {
-   "id": "rx97",
+   "id": "rx96",
    "from": "2-磷酸甘油酸@cytosol",
    "to": "3-磷酸甘油酸@cytosol",
    "group": "gluconeogenesis",
@@ -14310,7 +14350,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。糖酵解下游反应的逆向"
   },
   {
-   "id": "rx98",
+   "id": "rx97",
    "from": "3-磷酸甘油酸@cytosol",
    "to": "1,3-二磷酸甘油酸@cytosol",
    "group": "gluconeogenesis",
@@ -14390,7 +14430,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。糖酵解下游反应的逆向"
   },
   {
-   "id": "rx99",
+   "id": "rx98",
    "from": "1,3-二磷酸甘油酸@cytosol",
    "to": "甘油醛-3-磷酸@cytosol",
    "group": "gluconeogenesis",
@@ -14502,7 +14542,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。糖酵解下游反应的逆向"
   },
   {
-   "id": "rx100",
+   "id": "rx99",
    "from": "甘油醛-3-磷酸@cytosol",
    "to": "磷酸二羟丙酮@cytosol",
    "group": "gluconeogenesis",
@@ -14548,7 +14588,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。为醛缩酶提供第二个三碳底物"
   },
   {
-   "id": "rx101",
+   "id": "rx100",
    "from": "甘油醛-3-磷酸@cytosol",
    "to": "果糖-1,6-二磷酸@cytosol",
    "group": "gluconeogenesis",
@@ -14610,7 +14650,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。多底物；主表示边，另一底物为磷酸二羟丙酮"
   },
   {
-   "id": "rx102",
+   "id": "rx101",
    "from": "果糖-1,6-二磷酸@cytosol",
    "to": "果糖-6-磷酸@cytosol",
    "group": "gluconeogenesis",
@@ -14690,7 +14730,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。糖异生特异绕过步"
   },
   {
-   "id": "rx103",
+   "id": "rx102",
    "from": "果糖-6-磷酸@cytosol",
    "to": "葡萄糖-6-磷酸@cytosol",
    "group": "gluconeogenesis",
@@ -14736,7 +14776,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。糖酵解上游反应的逆向"
   },
   {
-   "id": "rx104",
+   "id": "rx103",
    "from": "葡萄糖-6-磷酸@cytosol",
    "to": "葡萄糖-6-磷酸@er-lumen",
    "group": [
@@ -14785,7 +14825,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生 · 糖原分解。G6Pase 进入内质网腔；肝细胞释糖分支"
   },
   {
-   "id": "rx105",
+   "id": "rx104",
    "from": "葡萄糖-6-磷酸@er-lumen",
    "to": "葡萄糖@er-lumen",
    "group": [
@@ -14868,7 +14908,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生 · 糖原分解。催化位点朝内质网腔；肝细胞释糖分支"
   },
   {
-   "id": "rx106",
+   "id": "rx105",
    "from": "葡萄糖@er-lumen",
    "to": "葡萄糖@cytosol",
    "group": [
@@ -14917,7 +14957,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生 · 糖原分解。肝细胞释糖出口；释糖出口"
   },
   {
-   "id": "rx107",
+   "id": "rx106",
    "from": "甘油@cytosol",
    "to": "甘油-3-磷酸@cytosol",
    "group": "gluconeogenesis",
@@ -14995,7 +15035,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。甘油输入"
   },
   {
-   "id": "rx108",
+   "id": "rx107",
    "from": "甘油-3-磷酸@cytosol",
    "to": "磷酸二羟丙酮@cytosol",
    "group": "gluconeogenesis",
@@ -15087,7 +15127,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖异生。甘油进入三碳磷酸池"
   },
   {
-   "id": "rx109",
+   "id": "rx108",
    "from": "NH₄⁺@cytosol",
    "to": "谷氨酰胺@cytosol",
    "group": "glutamate_glutamine",
@@ -15199,7 +15239,7 @@ window.METABOLIC_COMPILED = {
    "info": "谷氨酸–谷氨酰胺枢纽。同一汇聚反应的另一表示边"
   },
   {
-   "id": "rx110",
+   "id": "rx109",
    "from": "谷氨酰胺@cytosol",
    "to": "谷氨酸@cytosol",
    "group": "glutamate_glutamine",
@@ -15277,7 +15317,7 @@ window.METABOLIC_COMPILED = {
    "info": "谷氨酸–谷氨酰胺枢纽。释放氨基氮"
   },
   {
-   "id": "rx111",
+   "id": "rx110",
    "from": "谷氨酸@cytosol",
    "to": "α-酮戊二酸@cytosol",
    "group": "glutamate_glutamine",
@@ -15401,7 +15441,7 @@ window.METABOLIC_COMPILED = {
    "info": "谷氨酸–谷氨酰胺枢纽。氧化脱氨回补 TCA"
   },
   {
-   "id": "rx112",
+   "id": "rx111",
    "from": "谷氨酸@cytosol",
    "to": "NH₄⁺@cytosol",
    "group": "glutamate_glutamine",
@@ -15525,7 +15565,7 @@ window.METABOLIC_COMPILED = {
    "info": "谷氨酸–谷氨酰胺枢纽。同一氧化脱氨反应的另一表示边"
   },
   {
-   "id": "rx113",
+   "id": "rx112",
    "from": "谷氨酸@cytosol",
    "to": "γ-谷氨酰半胱氨酸@cytosol",
    "group": "glutathione",
@@ -15637,7 +15677,7 @@ window.METABOLIC_COMPILED = {
    "info": "谷胱甘肽与活性氧代谢。GSH 合成第一步"
   },
   {
-   "id": "rx114",
+   "id": "rx113",
    "from": "γ-谷氨酰半胱氨酸@cytosol",
    "to": "GSH@cytosol",
    "group": "glutathione",
@@ -15749,7 +15789,7 @@ window.METABOLIC_COMPILED = {
    "info": "谷胱甘肽与活性氧代谢。GSH 合成"
   },
   {
-   "id": "rx115",
+   "id": "rx114",
    "from": "GSH@cytosol",
    "to": "GSSG@cytosol",
    "group": "glutathione",
@@ -15827,7 +15867,7 @@ window.METABOLIC_COMPILED = {
    "info": "谷胱甘肽与活性氧代谢。过氧化氢清除"
   },
   {
-   "id": "rx116",
+   "id": "rx115",
    "from": "GSSG@cytosol",
    "to": "GSH@cytosol",
    "group": "glutathione",
@@ -15917,7 +15957,7 @@ window.METABOLIC_COMPILED = {
    "info": "谷胱甘肽与活性氧代谢。GSH 再生"
   },
   {
-   "id": "rx117",
+   "id": "rx116",
    "from": "H₂O₂@cytosol",
    "to": "H₂O@cytosol",
    "group": "glutathione",
@@ -15995,7 +16035,7 @@ window.METABOLIC_COMPILED = {
    "info": "谷胱甘肽与活性氧代谢。过氧化氢酶支路"
   },
   {
-   "id": "rx118",
+   "id": "rx117",
    "from": "脂质过氧化物@cytosol",
    "to": "脂质醇@cytosol",
    "group": "glutathione",
@@ -16073,7 +16113,7 @@ window.METABOLIC_COMPILED = {
    "info": "谷胱甘肽与活性氧代谢。膜脂抗氧化"
   },
   {
-   "id": "rx119",
+   "id": "rx118",
    "from": "磷酸二羟丙酮@cytosol",
    "to": "甘油-3-磷酸@cytosol",
    "group": "glycerol_phosphate",
@@ -16167,7 +16207,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油-3-磷酸穿梭。与跨膜转运通路共享"
   },
   {
-   "id": "rx120",
+   "id": "rx119",
    "from": "NADH@cytosol",
    "to": "NAD⁺@cytosol",
    "group": "glycerol_phosphate",
@@ -16261,7 +16301,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油-3-磷酸穿梭。同一还原反应的氧化还原辅因子边"
   },
   {
-   "id": "rx121",
+   "id": "rx120",
    "from": "甘油-3-磷酸@cytosol",
    "to": "甘油-3-磷酸@mito-ims",
    "group": "glycerol_phosphate",
@@ -16307,7 +16347,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油-3-磷酸穿梭。GPD2 活性位点位于内膜的膜间隙侧"
   },
   {
-   "id": "rx122",
+   "id": "rx121",
    "from": "甘油-3-磷酸@mito-ims",
    "to": "磷酸二羟丙酮@mito-ims",
    "group": "glycerol_phosphate",
@@ -16383,7 +16423,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油-3-磷酸穿梭。内膜膜间隙侧氧化"
   },
   {
-   "id": "rx123",
+   "id": "rx122",
    "from": "磷酸二羟丙酮@mito-ims",
    "to": "磷酸二羟丙酮@cytosol",
    "group": "glycerol_phosphate",
@@ -16433,7 +16473,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油-3-磷酸穿梭。回到胞质继续循环"
   },
   {
-   "id": "rx124",
+   "id": "rx123",
    "from": "辅酶 Q@mito-inner-membrane",
    "to": "泛醇@mito-inner-membrane",
    "group": "glycerol_phosphate",
@@ -16511,7 +16551,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油-3-磷酸穿梭。电子进入膜内 CoQ 池"
   },
   {
-   "id": "rx125",
+   "id": "rx124",
    "from": "葡萄糖@cytosol",
    "to": "葡萄糖-6-磷酸@cytosol",
    "group": "glycogenesis",
@@ -16589,7 +16629,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖原合成。与糖酵解共享"
   },
   {
-   "id": "rx126",
+   "id": "rx125",
    "from": "葡萄糖-6-磷酸@cytosol",
    "to": "葡萄糖-1-磷酸@cytosol",
    "group": "glycogenesis",
@@ -16635,7 +16675,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖原合成。糖原合成前的异构化"
   },
   {
-   "id": "rx127",
+   "id": "rx126",
    "from": "葡萄糖-1-磷酸@cytosol",
    "to": "UDP-葡萄糖@cytosol",
    "group": [
@@ -16714,7 +16754,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖原合成 · UDP-糖与糖基化。核苷酸糖活化；核苷酸糖生成"
   },
   {
-   "id": "rx128",
+   "id": "rx127",
    "from": "UDP-葡萄糖@cytosol",
    "to": "糖原@cytosol",
    "group": "glycogenesis",
@@ -16792,7 +16832,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖原合成。延长糖原链；引物未单独建节点"
   },
   {
-   "id": "rx129",
+   "id": "rx128",
    "from": "糖原@cytosol",
    "to": "葡萄糖-1-磷酸@cytosol",
    "group": "glycogenolysis",
@@ -16872,7 +16912,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖原分解。糖原外层逐步磷酸解"
   },
   {
-   "id": "rx130",
+   "id": "rx129",
    "from": "糖原@cytosol",
    "to": "葡萄糖@cytosol",
    "group": "glycogenolysis",
@@ -16962,7 +17002,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖原分解。只在分支点释放少量游离葡萄糖，主体产物仍为 G1P"
   },
   {
-   "id": "rx131",
+   "id": "rx130",
    "from": "葡萄糖-1-磷酸@cytosol",
    "to": "葡萄糖-6-磷酸@cytosol",
    "group": "glycogenolysis",
@@ -17008,7 +17048,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖原分解。与糖酵解/糖异生共享节点"
   },
   {
-   "id": "rx132",
+   "id": "rx131",
    "from": "葡萄糖@cytosol",
    "to": "葡萄糖-6-磷酸@cytosol",
    "group": "glycolysis",
@@ -17085,10 +17125,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "糖酵解。分叉：反应式含多个产物"
+   "info": "糖酵解。分叉：反应式含多个产物；KEGG:R01786（反应/酶对应，原条目为 α-D 异头体；生理方向与区室另审）"
   },
   {
-   "id": "rx133",
+   "id": "rx132",
    "from": "葡萄糖-6-磷酸@cytosol",
    "to": "果糖-6-磷酸@cytosol",
    "group": "glycolysis",
@@ -17135,10 +17175,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "糖酵解"
+   "info": "糖酵解。KEGG:R00771（反应/酶对应；生理方向与区室另审）"
   },
   {
-   "id": "rx134",
+   "id": "rx133",
    "from": "果糖-6-磷酸@cytosol",
    "to": "果糖-1,6-二磷酸@cytosol",
    "group": "glycolysis",
@@ -17217,10 +17257,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "糖酵解。限速步；分叉：反应式含多个产物"
+   "info": "糖酵解。限速步；分叉：反应式含多个产物；KEGG:R00756（反应/酶对应；生理方向、区室与调节另审）"
   },
   {
-   "id": "rx135",
+   "id": "rx134",
    "from": "果糖-1,6-二磷酸@cytosol",
    "to": "磷酸二羟丙酮@cytosol",
    "group": "glycolysis",
@@ -17285,10 +17325,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "糖酵解。分叉：另一产物 G3P；分叉：反应式含多个产物"
+   "info": "糖酵解。分叉：另一产物 G3P；分叉：反应式含多个产物；KEGG:R01070（反应/酶对应，原条目为 β-D 异头体；生理方向与区室另审）"
   },
   {
-   "id": "rx136",
+   "id": "rx135",
    "from": "磷酸二羟丙酮@cytosol",
    "to": "甘油醛-3-磷酸@cytosol",
    "group": "glycolysis",
@@ -17335,10 +17375,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "糖酵解"
+   "info": "糖酵解。KEGG:R01015（反应/酶对应；生理方向与区室另审）"
   },
   {
-   "id": "rx137",
+   "id": "rx136",
    "from": "甘油醛-3-磷酸@cytosol",
    "to": "1,3-二磷酸甘油酸@cytosol",
    "group": "glycolysis",
@@ -17449,10 +17489,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "糖酵解。分叉：反应式含多个产物"
+   "info": "糖酵解。分叉：反应式含多个产物；KEGG:R01061（反应/酶对应；生理方向与区室另审）"
   },
   {
-   "id": "rx138",
+   "id": "rx137",
    "from": "1,3-二磷酸甘油酸@cytosol",
    "to": "3-磷酸甘油酸@cytosol",
    "group": "glycolysis",
@@ -17531,10 +17571,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "糖酵解。底物水平磷酸化；分叉：反应式含多个产物"
+   "info": "糖酵解。底物水平磷酸化；分叉：反应式含多个产物；KEGG:R01512（反应/酶对应，数据库方程反向书写；生理方向与区室另审）"
   },
   {
-   "id": "rx139",
+   "id": "rx138",
    "from": "3-磷酸甘油酸@cytosol",
    "to": "2-磷酸甘油酸@cytosol",
    "group": "glycolysis",
@@ -17581,10 +17621,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "糖酵解"
+   "info": "糖酵解。KEGG:R01518（反应/酶对应，数据库方程反向书写；生理方向与区室另审）"
   },
   {
-   "id": "rx140",
+   "id": "rx139",
    "from": "2-磷酸甘油酸@cytosol",
    "to": "磷酸烯醇式丙酮酸@cytosol",
    "group": "glycolysis",
@@ -17647,10 +17687,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "糖酵解。分叉：反应式含多个产物"
+   "info": "糖酵解。分叉：反应式含多个产物；KEGG:R00658（反应/酶对应；生理方向与区室另审）"
   },
   {
-   "id": "rx141",
+   "id": "rx140",
    "from": "磷酸烯醇式丙酮酸@cytosol",
    "to": "丙酮酸@cytosol",
    "group": "glycolysis",
@@ -17727,17 +17767,17 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "糖酵解。限速步；分叉：反应式含多个产物"
+   "info": "糖酵解。限速步；分叉：反应式含多个产物；KEGG:R00200（反应/酶对应，数据库方程反向书写；生理方向、区室与调节另审）"
   },
   {
-   "id": "rx142",
+   "id": "rx141",
    "from": "UDP-葡萄糖@cytosol",
    "to": "UDP-葡萄糖@er-lumen",
    "group": "glycosylation",
-   "enzyme": "UDP-糖转运体",
+   "enzyme": "UDP-糖转运体（具体载体未定）",
    "equation": "UDP-葡萄糖胞质 ⇌ UDP-葡萄糖内质网腔",
    "reversible": true,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "UDP-葡萄糖",
@@ -17773,22 +17813,22 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "UDP-糖与糖基化。具体哺乳动物转运体及核苷酸糖/核苷一磷酸反向交换未建模（待审校）"
+   "info": "UDP-糖与糖基化。机制未明转运：核苷酸糖跨 ER/Golgi 膜通常由 SLC35 家族与核苷一磷酸反向交换，当前未把具体哺乳动物 UDP-葡萄糖载体写死；R-HSA-727802"
   },
   {
-   "id": "rx143",
-   "from": "UDP-葡萄糖@rough-er",
-   "to": "糖基化蛋白@rough-er",
+   "id": "rx142",
+   "from": "多萜醇焦磷酸连接寡糖@rough-er",
+   "to": "N-糖基化蛋白@rough-er",
    "group": "glycosylation",
    "enzyme": "寡糖转移酶 OST",
-   "equation": "UDP-糖 + 蛋白质 → 糖基化蛋白 + UDP",
+   "equation": "多萜醇焦磷酸连接寡糖 + 新生蛋白 → N-糖基化蛋白 + 多萜醇焦磷酸",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
-     "key": "UDP-葡萄糖",
-     "name": "UDP-葡萄糖",
-     "rawName": "UDP-葡萄糖",
+     "key": "多萜醇焦磷酸连接寡糖",
+     "name": "多萜醇焦磷酸连接寡糖",
+     "rawName": "多萜醇焦磷酸连接寡糖",
      "aliases": [],
      "role": "substrate",
      "coefficient": "1",
@@ -17796,15 +17836,15 @@ window.METABOLIC_COMPILED = {
      "compartmentHint": "",
      "compartment": "粗面内质网",
      "entityIds": [
-      "UDP-葡萄糖@rough-er"
+      "多萜醇焦磷酸连接寡糖@rough-er"
      ],
      "primary": true,
      "source": "endpoint"
     },
     {
-     "key": "糖基化蛋白",
-     "name": "糖基化蛋白",
-     "rawName": "糖基化蛋白",
+     "key": "N-糖基化蛋白",
+     "name": "N-糖基化蛋白",
+     "rawName": "N-糖基化蛋白",
      "aliases": [],
      "role": "product",
      "coefficient": "1",
@@ -17812,15 +17852,15 @@ window.METABOLIC_COMPILED = {
      "compartmentHint": "",
      "compartment": "粗面内质网",
      "entityIds": [
-      "糖基化蛋白@rough-er"
+      "N-糖基化蛋白@rough-er"
      ],
      "primary": true,
      "source": "endpoint"
     },
     {
-     "key": "UDP-糖",
-     "name": "UDP-糖",
-     "rawName": "UDP-糖",
+     "key": "新生蛋白",
+     "name": "新生蛋白",
+     "rawName": "新生蛋白",
      "aliases": [],
      "role": "substrate",
      "coefficient": "1",
@@ -17832,23 +17872,9 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "key": "蛋白质",
-     "name": "蛋白质",
-     "rawName": "蛋白质",
-     "aliases": [],
-     "role": "substrate",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "",
-     "primary": false,
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "key": "UDP",
-     "name": "UDP",
-     "rawName": "UDP",
+     "key": "多萜醇焦磷酸",
+     "name": "多萜醇焦磷酸",
+     "rawName": "多萜醇焦磷酸",
      "aliases": [],
      "role": "product",
      "coefficient": "1",
@@ -17857,28 +17883,26 @@ window.METABOLIC_COMPILED = {
      "primary": false,
      "source": "equation",
      "compartment": "细胞质",
-     "entityIds": [
-      "UDP@cytosol"
-     ]
+     "entityIds": []
     }
    ],
    "ignoredSegments": [],
-   "info": "UDP-糖与糖基化。OST 的直接供体应为多萜醇焦磷酸连接寡糖而非 UDP-糖；当前反应式需重建（待审校）"
+   "info": "UDP-糖与糖基化。OST 将多萜醇焦磷酸连接寡糖转移至新生蛋白；直接供体不是 UDP-葡萄糖；R-HSA-446203"
   },
   {
-   "id": "rx144",
-   "from": "糖基化蛋白@rough-er",
-   "to": "糖基化蛋白@golgi",
+   "id": "rx143",
+   "from": "N-糖基化蛋白@rough-er",
+   "to": "N-糖基化蛋白@golgi",
    "group": "glycosylation",
-   "enzyme": "囊泡运输/糖基转移酶",
-   "equation": "糖基化蛋白内质网 ⇌ 糖基化蛋白高尔基体",
-   "reversible": true,
-   "review": "待审校",
+   "enzyme": "COPII 囊泡运输系统",
+   "equation": "N-糖基化蛋白内质网 → N-糖基化蛋白高尔基体",
+   "reversible": false,
+   "review": "已终审",
    "participants": [
     {
-     "key": "糖基化蛋白",
-     "name": "糖基化蛋白",
-     "rawName": "糖基化蛋白",
+     "key": "N-糖基化蛋白",
+     "name": "N-糖基化蛋白",
+     "rawName": "N-糖基化蛋白",
      "aliases": [],
      "role": "substrate",
      "coefficient": "1",
@@ -17886,15 +17910,15 @@ window.METABOLIC_COMPILED = {
      "compartmentHint": "",
      "compartment": "粗面内质网",
      "entityIds": [
-      "糖基化蛋白@rough-er"
+      "N-糖基化蛋白@rough-er"
      ],
      "primary": true,
      "source": "endpoint"
     },
     {
-     "key": "糖基化蛋白",
-     "name": "糖基化蛋白",
-     "rawName": "糖基化蛋白",
+     "key": "N-糖基化蛋白",
+     "name": "N-糖基化蛋白",
+     "rawName": "N-糖基化蛋白",
      "aliases": [],
      "role": "product",
      "coefficient": "1",
@@ -17902,15 +17926,15 @@ window.METABOLIC_COMPILED = {
      "compartmentHint": "高尔基体",
      "compartment": "高尔基体",
      "entityIds": [
-      "糖基化蛋白@golgi"
+      "N-糖基化蛋白@golgi"
      ],
      "primary": true,
      "source": "endpoint"
     },
     {
-     "key": "糖基化蛋白内质网",
-     "name": "糖基化蛋白内质网",
-     "rawName": "糖基化蛋白内质网",
+     "key": "N-糖基化蛋白内质网",
+     "name": "N-糖基化蛋白内质网",
+     "rawName": "N-糖基化蛋白内质网",
      "aliases": [],
      "role": "substrate",
      "coefficient": "1",
@@ -17923,100 +17947,56 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "UDP-糖与糖基化。把 COPII/COPI 囊泡运输与糖基转移酶混为同一边，机制和方向需拆分（待审校）"
+   "info": "UDP-糖与糖基化。货物流：仅表示 ER→Golgi 顺行运输；Golgi 糖链修饰是后续过程，不并入本边；R-HSA-446203；R-HSA-199991"
+  },
+  {
+   "id": "rx144",
+   "from": "N-糖基化蛋白@golgi",
+   "to": "N-糖基化蛋白@extracellular",
+   "group": "glycosylation",
+   "enzyme": "分泌囊泡系统",
+   "equation": "N-糖基化蛋白高尔基体 → N-糖基化蛋白胞外",
+   "reversible": false,
+   "review": "已终审",
+   "participants": [
+    {
+     "key": "N-糖基化蛋白",
+     "name": "N-糖基化蛋白",
+     "rawName": "N-糖基化蛋白",
+     "aliases": [],
+     "role": "substrate",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "高尔基体",
+     "compartment": "高尔基体",
+     "entityIds": [
+      "N-糖基化蛋白@golgi"
+     ],
+     "primary": true,
+     "source": "endpoint"
+    },
+    {
+     "key": "N-糖基化蛋白",
+     "name": "N-糖基化蛋白",
+     "rawName": "N-糖基化蛋白",
+     "aliases": [],
+     "role": "product",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "胞外",
+     "compartment": "胞外",
+     "entityIds": [
+      "N-糖基化蛋白@extracellular"
+     ],
+     "primary": true,
+     "source": "endpoint"
+    }
+   ],
+   "ignoredSegments": [],
+   "info": "UDP-糖与糖基化。货物流：仅表示成熟糖蛋白经分泌囊泡出胞；Golgi 内具体糖基转移反应未在本边展开；R-HSA-199991"
   },
   {
    "id": "rx145",
-   "from": "糖基化蛋白@golgi",
-   "to": "糖基化蛋白@extracellular",
-   "group": "glycosylation",
-   "enzyme": "高尔基体糖基转移酶",
-   "equation": "糖基化蛋白 + UDP-糖 → 成熟糖蛋白 + UDP",
-   "reversible": false,
-   "review": "待审校",
-   "participants": [
-    {
-     "key": "糖基化蛋白",
-     "name": "糖基化蛋白",
-     "rawName": "糖基化蛋白",
-     "aliases": [],
-     "role": "substrate",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "",
-     "compartment": "高尔基体",
-     "entityIds": [
-      "糖基化蛋白@golgi"
-     ],
-     "primary": true,
-     "source": "endpoint"
-    },
-    {
-     "key": "糖基化蛋白",
-     "name": "糖基化蛋白",
-     "rawName": "糖基化蛋白",
-     "aliases": [],
-     "role": "product",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "",
-     "compartment": "胞外",
-     "entityIds": [
-      "糖基化蛋白@extracellular"
-     ],
-     "primary": true,
-     "source": "endpoint"
-    },
-    {
-     "key": "UDP-糖",
-     "name": "UDP-糖",
-     "rawName": "UDP-糖",
-     "aliases": [],
-     "role": "substrate",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "",
-     "primary": false,
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "key": "成熟糖蛋白",
-     "name": "成熟糖蛋白",
-     "rawName": "成熟糖蛋白",
-     "aliases": [],
-     "role": "product",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "",
-     "primary": false,
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "key": "UDP",
-     "name": "UDP",
-     "rawName": "UDP",
-     "aliases": [],
-     "role": "product",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "",
-     "primary": false,
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "UDP@cytosol"
-     ]
-    }
-   ],
-   "ignoredSegments": [],
-   "info": "UDP-糖与糖基化。把高尔基体成熟糖基化与分泌出胞合并，产物类别和区室过程未拆分（待审校）"
-  },
-  {
-   "id": "rx146",
    "from": "草酰乙酸@glyoxysome",
    "to": "柠檬酸@glyoxysome",
    "group": "glyoxylate",
@@ -18112,7 +18092,7 @@ window.METABOLIC_COMPILED = {
    "info": "乙醛酸循环。汇聚主链边；循环起点"
   },
   {
-   "id": "rx147",
+   "id": "rx146",
    "from": "乙酰辅酶 A@glyoxysome",
    "to": "柠檬酸@glyoxysome",
    "group": "glyoxylate",
@@ -18208,7 +18188,7 @@ window.METABOLIC_COMPILED = {
    "info": "乙醛酸循环。汇聚边；另一底物为草酰乙酸"
   },
   {
-   "id": "rx148",
+   "id": "rx147",
    "from": "柠檬酸@glyoxysome",
    "to": "异柠檬酸@glyoxysome",
    "group": "glyoxylate",
@@ -18254,7 +18234,7 @@ window.METABOLIC_COMPILED = {
    "info": "乙醛酸循环。异构化"
   },
   {
-   "id": "rx149",
+   "id": "rx148",
    "from": "异柠檬酸@glyoxysome",
    "to": "琥珀酸@glyoxysome",
    "group": "glyoxylate",
@@ -18316,7 +18296,7 @@ window.METABOLIC_COMPILED = {
    "info": "乙醛酸循环。绕过 TCA 脱羧步骤"
   },
   {
-   "id": "rx150",
+   "id": "rx149",
    "from": "异柠檬酸@glyoxysome",
    "to": "乙醛酸@glyoxysome",
    "group": "glyoxylate",
@@ -18378,7 +18358,7 @@ window.METABOLIC_COMPILED = {
    "info": "乙醛酸循环。同一裂解反应的另一表示边"
   },
   {
-   "id": "rx151",
+   "id": "rx150",
    "from": "乙醛酸@glyoxysome",
    "to": "苹果酸@glyoxysome",
    "group": "glyoxylate",
@@ -18474,7 +18454,7 @@ window.METABOLIC_COMPILED = {
    "info": "乙醛酸循环。汇聚主链边"
   },
   {
-   "id": "rx152",
+   "id": "rx151",
    "from": "乙酰辅酶 A@glyoxysome",
    "to": "苹果酸@glyoxysome",
    "group": "glyoxylate",
@@ -18570,7 +18550,7 @@ window.METABOLIC_COMPILED = {
    "info": "乙醛酸循环。汇聚边；另一底物为乙醛酸"
   },
   {
-   "id": "rx153",
+   "id": "rx152",
    "from": "苹果酸@glyoxysome",
    "to": "草酰乙酸@glyoxysome",
    "group": "glyoxylate",
@@ -18658,7 +18638,7 @@ window.METABOLIC_COMPILED = {
    "info": "乙醛酸循环。闭合循环"
   },
   {
-   "id": "rx154",
+   "id": "rx153",
    "from": "甘氨酸@mito-matrix",
    "to": "ALA@mito-matrix",
    "group": "heme",
@@ -18752,14 +18732,14 @@ window.METABOLIC_COMPILED = {
    "info": "血红素合成与胆色素代谢。血红素合成限速步"
   },
   {
-   "id": "rx155",
+   "id": "rx154",
    "from": "ALA@mito-matrix",
    "to": "卟胆原@cytosol",
    "group": "heme",
    "enzyme": "ALA 脱水酶",
    "equation": "2 ALA → 卟胆原 + 2 H₂O",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "ALA",
@@ -18813,10 +18793,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "血红素合成与胆色素代谢。合并 ALA 线粒体输出与胞质 ALAD 反应；ALA 输出载体未确认（待审校）"
+   "info": "血红素合成与胆色素代谢。示意边：合并 ALA 由线粒体输出与胞质 ALAD 缩合；化学步骤明确，但 ALA 输出载体未在本图指定；R-HSA-189451"
   },
   {
-   "id": "rx156",
+   "id": "rx155",
    "from": "卟胆原@cytosol",
    "to": "尿卟啉原 III@cytosol",
    "group": "heme",
@@ -18876,14 +18856,14 @@ window.METABOLIC_COMPILED = {
    "info": "血红素合成与胆色素代谢。HMBS 与 UROS 两步净反应，水在两步相消；KEGG:R00084、KEGG:R03165；RHEA:13188、RHEA:18968"
   },
   {
-   "id": "rx157",
+   "id": "rx156",
    "from": "尿卟啉原 III@cytosol",
    "to": "原卟啉 IX@mito-matrix",
    "group": "heme",
    "enzyme": "卟啉原氧化酶系",
    "equation": "尿卟啉原 III → 原卟啉 IX",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "尿卟啉原III",
@@ -18919,10 +18899,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "血红素合成与胆色素代谢。合并 UROD、CPOX、PPOX 多步及返回线粒体过程；缺中间体和辅因子（待审校）"
+   "info": "血红素合成与胆色素代谢。多步示意边：合并 UROD、CPOX、PPOX 及中间体返回线粒体，不声称完整辅因子与净计量；R-HSA-189451"
   },
   {
-   "id": "rx158",
+   "id": "rx157",
    "from": "原卟啉 IX@mito-matrix",
    "to": "血红素@mito-matrix",
    "group": "heme",
@@ -18982,14 +18962,14 @@ window.METABOLIC_COMPILED = {
    "info": "血红素合成与胆色素代谢。血红素合成末步"
   },
   {
-   "id": "rx159",
+   "id": "rx158",
    "from": "血红素@mito-matrix",
    "to": "胆绿素@cytosol",
    "group": "heme",
-   "enzyme": "血红素加氧酶",
+   "enzyme": "FLVCR1-2 / 血红素加氧酶 HMOX1,2",
    "equation": "血红素 + 3 O₂ + 3 NADPH + 2 H⁺ → 胆绿素 + CO + Fe²⁺ + 3 NADP⁺ + 3 H₂O",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "血红素",
@@ -19131,10 +19111,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "血红素合成与胆色素代谢。合并血红素转运与 HMOX1 连续氧化；血红素输出载体未定；HMOX1 锚定内质网膜且催化域朝胞质，产物记为胞质；UniProt:P09601（待审校）"
+   "info": "血红素合成与胆色素代谢。示意边：合并 FLVCR1-2 介导的线粒体血红素输出与 ER 膜 HMOX1,2 氧化；化学计量对应 HMOX 反应；R-HSA-189451；R-HSA-189398；UniProt:P09601"
   },
   {
-   "id": "rx160",
+   "id": "rx159",
    "from": "胆绿素@cytosol",
    "to": "胆红素@cytosol",
    "group": "heme",
@@ -19222,7 +19202,7 @@ window.METABOLIC_COMPILED = {
    "info": "血红素合成与胆色素代谢。人 BVRA 胞质反应；反应式匹配 RHEA:15795，胞质定位由 UniProt:P53004 支持"
   },
   {
-   "id": "rx161",
+   "id": "rx160",
    "from": "胆红素@smooth-er",
    "to": "结合胆红素@smooth-er",
    "group": "heme",
@@ -19310,7 +19290,7 @@ window.METABOLIC_COMPILED = {
    "info": "血红素合成与胆色素代谢。两次 UGT1A1 反应的净反应，结合胆红素指二葡萄糖醛酸化产物；RHEA:21032；UniProt:P22309"
   },
   {
-   "id": "rx162",
+   "id": "rx161",
    "from": "乙酰辅酶 A@mito-matrix",
    "to": "乙酰乙酰辅酶 A@mito-matrix",
    "group": "ketone",
@@ -19376,7 +19356,7 @@ window.METABOLIC_COMPILED = {
    "info": "酮体生成与利用。酮体生成起始缩合"
   },
   {
-   "id": "rx163",
+   "id": "rx162",
    "from": "乙酰乙酰辅酶 A@mito-matrix",
    "to": "HMG-CoA@mito-matrix",
    "group": "ketone",
@@ -19476,7 +19456,7 @@ window.METABOLIC_COMPILED = {
    "info": "酮体生成与利用。肝线粒体基质"
   },
   {
-   "id": "rx164",
+   "id": "rx163",
    "from": "HMG-CoA@mito-matrix",
    "to": "乙酰乙酸@mito-matrix",
    "group": "ketone",
@@ -19540,7 +19520,7 @@ window.METABOLIC_COMPILED = {
    "info": "酮体生成与利用。酮体生成"
   },
   {
-   "id": "rx165",
+   "id": "rx164",
    "from": "乙酰乙酸@mito-matrix",
    "to": "β-羟丁酸@mito-matrix",
    "group": "ketone",
@@ -19632,7 +19612,7 @@ window.METABOLIC_COMPILED = {
    "info": "酮体生成与利用。肝输出的主要还原型酮体"
   },
   {
-   "id": "rx166",
+   "id": "rx165",
    "from": "乙酰乙酸@mito-matrix",
    "to": "乙酰乙酰辅酶 A@mito-matrix",
    "group": "ketone",
@@ -19714,7 +19694,7 @@ window.METABOLIC_COMPILED = {
    "info": "酮体生成与利用。外周组织利用；肝缺少 SCOT"
   },
   {
-   "id": "rx167",
+   "id": "rx166",
    "from": "乙酰乙酰辅酶 A@mito-matrix",
    "to": "乙酰辅酶 A@mito-matrix",
    "group": "ketone",
@@ -19780,7 +19760,7 @@ window.METABOLIC_COMPILED = {
    "info": "酮体生成与利用。外周组织重新进入 TCA"
   },
   {
-   "id": "rx168",
+   "id": "rx167",
    "from": "β-羟丁酸@mito-matrix",
    "to": "乙酰乙酸@mito-matrix",
    "group": "ketone",
@@ -19872,7 +19852,7 @@ window.METABOLIC_COMPILED = {
    "info": "酮体生成与利用。外周组织利用前的氧化"
   },
   {
-   "id": "rx169",
+   "id": "rx168",
    "from": "乳糜微粒@extracellular",
    "to": "残粒@extracellular",
    "group": "lipoprotein",
@@ -19978,7 +19958,7 @@ window.METABOLIC_COMPILED = {
    "info": "脂蛋白代谢。外源脂质运输"
   },
   {
-   "id": "rx170",
+   "id": "rx169",
    "from": "VLDL@extracellular",
    "to": "IDL@extracellular",
    "group": "lipoprotein",
@@ -20084,7 +20064,7 @@ window.METABOLIC_COMPILED = {
    "info": "脂蛋白代谢。内源脂质运输"
   },
   {
-   "id": "rx171",
+   "id": "rx170",
    "from": "IDL@extracellular",
    "to": "LDL@extracellular",
    "group": "lipoprotein",
@@ -20188,7 +20168,7 @@ window.METABOLIC_COMPILED = {
    "info": "脂蛋白代谢。货物流示意而非单一配平化学反应；LIPC 水解 IDL 等脂蛋白中的 TAG/磷脂并形成更小颗粒；UniProt:P11150"
   },
   {
-   "id": "rx172",
+   "id": "rx171",
    "from": "LDL@extracellular",
    "to": "LDL@endosome",
    "group": "lipoprotein",
@@ -20262,14 +20242,14 @@ window.METABOLIC_COMPILED = {
    "info": "脂蛋白代谢。受体介导内吞细胞事件，非化学计量；R-HSA-8964038；UniProt:P01130"
   },
   {
-   "id": "rx173",
+   "id": "rx172",
    "from": "LDL@endosome",
-   "to": "胆固醇@cytosol",
+   "to": "胆固醇@smooth-er",
    "group": "lipoprotein",
-   "enzyme": "溶酶体酸性脂肪酶",
-   "equation": "胆固醇酯 + H₂O → 胆固醇 + 脂肪酸",
+   "enzyme": "内体-溶酶体运输 / LIPA / NPC1-NPC2",
+   "equation": "LDL 胆固醇酯 → 溶酶体胆固醇 → 内质网膜胆固醇",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "LDL",
@@ -20296,36 +20276,18 @@ window.METABOLIC_COMPILED = {
      "coefficient": "1",
      "qualifier": "",
      "compartmentHint": "",
-     "compartment": "细胞质",
+     "compartment": "平滑内质网",
      "entityIds": [
-      "胆固醇@cytosol"
+      "胆固醇@smooth-er"
      ],
      "primary": true,
      "source": "endpoint"
     },
     {
-     "key": "胆固醇酯",
-     "name": "胆固醇酯",
-     "rawName": "胆固醇酯",
+     "key": "LDL胆固醇酯",
+     "name": "LDL 胆固醇酯",
+     "rawName": "LDL 胆固醇酯",
      "aliases": [],
-     "role": "substrate",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "",
-     "primary": false,
-     "source": "equation",
-     "compartment": "胞外",
-     "entityIds": [
-      "胆固醇酯@extracellular"
-     ]
-    },
-    {
-     "key": "水",
-     "name": "水",
-     "rawName": "H₂O",
-     "aliases": [
-      "H₂O"
-     ],
      "role": "substrate",
      "coefficient": "1",
      "qualifier": "",
@@ -20336,9 +20298,9 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "key": "脂肪酸",
-     "name": "脂肪酸",
-     "rawName": "脂肪酸",
+     "key": "溶酶体胆固醇→内质网膜胆固醇",
+     "name": "溶酶体胆固醇 → 内质网膜胆固醇",
+     "rawName": "溶酶体胆固醇 → 内质网膜胆固醇",
      "aliases": [],
      "role": "product",
      "coefficient": "1",
@@ -20347,16 +20309,14 @@ window.METABOLIC_COMPILED = {
      "primary": false,
      "source": "equation",
      "compartment": "胞外",
-     "entityIds": [
-      "脂肪酸@extracellular"
-     ]
+     "entityIds": []
     }
    ],
    "ignoredSegments": [],
-   "info": "脂蛋白代谢。合并内体至溶酶体迁移、胆固醇酯水解及 NPC1/NPC2 输出（待审校）"
+   "info": "脂蛋白代谢。示意边：合并 LDL 内体→溶酶体迁移、LIPA 水解和 NPC1/NPC2 介导的胆固醇输出，不代表单一步反应；R-HSA-8964038；R-HSA-8876484"
   },
   {
-   "id": "rx174",
+   "id": "rx173",
    "from": "HDL@extracellular",
    "to": "胆固醇酯@extracellular",
    "group": "lipoprotein",
@@ -20444,7 +20404,7 @@ window.METABOLIC_COMPILED = {
    "info": "脂蛋白代谢。逆向胆固醇转运"
   },
   {
-   "id": "rx175",
+   "id": "rx174",
    "from": "内吞货物@endosome",
    "to": "酸化内体货物@endosome",
    "group": "lysosomal",
@@ -20490,14 +20450,14 @@ window.METABOLIC_COMPILED = {
    "info": "溶酶体大分子降解。V-ATPase 驱动的内体酸化事件，非化学计量；R-HSA-74723"
   },
   {
-   "id": "rx176",
+   "id": "rx175",
    "from": "酸化内体货物@endosome",
    "to": "溶酶体货物@lysosome",
    "group": "lysosomal",
    "enzyme": "内体成熟与融合系统",
    "equation": "酸化内体货物 → 溶酶体货物",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "酸化内体货物",
@@ -20533,17 +20493,17 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "溶酶体大分子降解。内体成熟与融合的汇总事件；货物分选及 Rab/HOPS 调控未展开（待审校）"
+   "info": "溶酶体大分子降解。货物流：汇总 Rab5→Rab7 转换、HOPS/SNARE 系统和晚期内体-溶酶体融合；未展开具体货物分选；PMID:24813801"
   },
   {
-   "id": "rx177",
+   "id": "rx176",
    "from": "溶酶体货物@lysosome",
    "to": "氨基酸@cytosol",
    "group": "lysosomal",
    "enzyme": "溶酶体蛋白酶",
    "equation": "蛋白质 + H₂O → 氨基酸",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "溶酶体货物",
@@ -20609,17 +20569,17 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "溶酶体大分子降解。底物和酶均为类别；合并蛋白水解与跨溶酶体膜输出（待审校）"
+   "info": "溶酶体大分子降解。示意边：底物和酶均为类别，合并蛋白水解与氨基酸跨溶酶体膜回收；PMID:21290700；PMID:29074583"
   },
   {
-   "id": "rx178",
+   "id": "rx177",
    "from": "溶酶体货物@lysosome",
    "to": "单糖@cytosol",
    "group": "lysosomal",
    "enzyme": "溶酶体糖苷酶",
    "equation": "多糖 + H₂O → 单糖",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "溶酶体货物",
@@ -20685,17 +20645,17 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "溶酶体大分子降解。底物和酶均为类别；合并多糖水解与跨溶酶体膜输出（待审校）"
+   "info": "溶酶体大分子降解。示意边：底物和酶均为类别，合并糖链水解与单糖跨溶酶体膜回收；R-HSA-8853383；PMID:21290700"
   },
   {
-   "id": "rx179",
+   "id": "rx178",
    "from": "溶酶体货物@lysosome",
    "to": "脂肪酸@cytosol",
    "group": "lysosomal",
    "enzyme": "溶酶体脂肪酶",
    "equation": "脂质 + H₂O → 脂肪酸 + 甘油",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "溶酶体货物",
@@ -20775,17 +20735,17 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "溶酶体大分子降解。底物和酶均为类别；合并脂质水解与跨溶酶体膜输出（待审校）"
+   "info": "溶酶体大分子降解。示意边：底物和酶均为类别，合并脂质水解与产物回收，未指定单一脂质或输出载体；PMID:21290700"
   },
   {
-   "id": "rx180",
+   "id": "rx179",
    "from": "溶酶体货物@lysosome",
    "to": "核苷@cytosol",
    "group": "lysosomal",
    "enzyme": "溶酶体核酸酶",
    "equation": "核酸 + H₂O → 核苷",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "溶酶体货物",
@@ -20851,10 +20811,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "溶酶体大分子降解。底物和酶均为类别；合并核酸水解与跨溶酶体膜输出（待审校）"
+   "info": "溶酶体大分子降解。示意边：底物和酶均为类别，合并核酸水解与 SLC29A3 等核苷输出过程；PMID:21290700"
   },
   {
-   "id": "rx181",
+   "id": "rx180",
    "from": "草酰乙酸@cytosol",
    "to": "苹果酸@cytosol",
    "group": [
@@ -20951,7 +20911,7 @@ window.METABOLIC_COMPILED = {
    "info": "苹果酸–天冬氨酸穿梭 · 跨膜穿梭与核苷酸转运。与跨膜转运通路共享；分叉：反应式含多个产物"
   },
   {
-   "id": "rx182",
+   "id": "rx181",
    "from": "NADH@cytosol",
    "to": "NAD⁺@cytosol",
    "group": "malate_aspartate",
@@ -21045,7 +21005,7 @@ window.METABOLIC_COMPILED = {
    "info": "苹果酸–天冬氨酸穿梭。同一还原反应的氧化还原辅因子边"
   },
   {
-   "id": "rx183",
+   "id": "rx182",
    "from": "苹果酸@cytosol",
    "to": "苹果酸@mito-matrix",
    "group": [
@@ -21130,7 +21090,7 @@ window.METABOLIC_COMPILED = {
    "info": "苹果酸–天冬氨酸穿梭 · 跨膜穿梭与核苷酸转运。与跨膜转运通路共享；分叉：反应式含多个产物"
   },
   {
-   "id": "rx184",
+   "id": "rx183",
    "from": "α-酮戊二酸@mito-matrix",
    "to": "α-酮戊二酸@cytosol",
    "group": "malate_aspartate",
@@ -21212,7 +21172,7 @@ window.METABOLIC_COMPILED = {
    "info": "苹果酸–天冬氨酸穿梭。与苹果酸输入配对的反向交换边"
   },
   {
-   "id": "rx185",
+   "id": "rx184",
    "from": "苹果酸@mito-matrix",
    "to": "草酰乙酸@mito-matrix",
    "group": [
@@ -21309,7 +21269,7 @@ window.METABOLIC_COMPILED = {
    "info": "苹果酸–天冬氨酸穿梭 · 跨膜穿梭与核苷酸转运。与 TCA/跨膜转运通路共享；分叉：反应式含多个产物"
   },
   {
-   "id": "rx186",
+   "id": "rx185",
    "from": "NAD⁺@mito-matrix",
    "to": "NADH@mito-matrix",
    "group": "malate_aspartate",
@@ -21403,7 +21363,7 @@ window.METABOLIC_COMPILED = {
    "info": "苹果酸–天冬氨酸穿梭。同一氧化反应的氧化还原辅因子边"
   },
   {
-   "id": "rx187",
+   "id": "rx186",
    "from": "草酰乙酸@mito-matrix",
    "to": "天冬氨酸@mito-matrix",
    "group": [
@@ -21488,7 +21448,7 @@ window.METABOLIC_COMPILED = {
    "info": "苹果酸–天冬氨酸穿梭 · 跨膜穿梭与核苷酸转运。与跨膜转运通路共享；分叉：反应式含多个产物"
   },
   {
-   "id": "rx188",
+   "id": "rx187",
    "from": "天冬氨酸@mito-matrix",
    "to": "天冬氨酸@cytosol",
    "group": [
@@ -21587,7 +21547,7 @@ window.METABOLIC_COMPILED = {
    "info": "苹果酸–天冬氨酸穿梭 · 跨膜穿梭与核苷酸转运。跨内膜输出；分叉：反应式含多个产物"
   },
   {
-   "id": "rx189",
+   "id": "rx188",
    "from": "谷氨酸@cytosol",
    "to": "谷氨酸@mito-matrix",
    "group": "malate_aspartate",
@@ -21683,7 +21643,7 @@ window.METABOLIC_COMPILED = {
    "info": "苹果酸–天冬氨酸穿梭。与天冬氨酸输出配对的谷氨酸输入边"
   },
   {
-   "id": "rx190",
+   "id": "rx189",
    "from": "天冬氨酸@cytosol",
    "to": "草酰乙酸@cytosol",
    "group": [
@@ -21770,7 +21730,7 @@ window.METABOLIC_COMPILED = {
    "info": "苹果酸–天冬氨酸穿梭 · 跨膜穿梭与核苷酸转运。闭合穿梭循环；分叉：反应式含多个产物"
   },
   {
-   "id": "rx191",
+   "id": "rx190",
    "from": "葡萄糖@extracellular",
    "to": "葡萄糖@cytosol",
    "group": "membrane_transport",
@@ -21816,7 +21776,7 @@ window.METABOLIC_COMPILED = {
    "info": "质膜营养物转运。营养物输入"
   },
   {
-   "id": "rx192",
+   "id": "rx191",
    "from": "氨基酸@extracellular",
    "to": "氨基酸@cytosol",
    "group": "membrane_transport",
@@ -21862,7 +21822,7 @@ window.METABOLIC_COMPILED = {
    "info": "质膜营养物转运。营养物输入"
   },
   {
-   "id": "rx193",
+   "id": "rx192",
    "from": "脂肪酸@extracellular",
    "to": "脂肪酸@cytosol",
    "group": "membrane_transport",
@@ -21908,7 +21868,7 @@ window.METABOLIC_COMPILED = {
    "info": "质膜营养物转运。长链脂肪酸可经被动扩散及蛋白介导转位进入细胞；不把具体载体或单一机制假定为唯一通路。PMID:36722264"
   },
   {
-   "id": "rx194",
+   "id": "rx193",
    "from": "脂肪酸@cytosol",
    "to": "脂酰-CoA@cytosol",
    "group": "membrane_transport",
@@ -22012,7 +21972,7 @@ window.METABOLIC_COMPILED = {
    "info": "质膜营养物转运。ACSL 活化的通用净反应；RHEA:15421、R-HSA-434382 支持底物、产物和计量。"
   },
   {
-   "id": "rx195",
+   "id": "rx194",
    "from": "乳酸@cytosol",
    "to": "乳酸@extracellular",
    "group": "membrane_transport",
@@ -22058,7 +22018,7 @@ window.METABOLIC_COMPILED = {
    "info": "质膜营养物转运。代谢废物输出"
   },
   {
-   "id": "rx196",
+   "id": "rx195",
    "from": "无机磷酸@extracellular",
    "to": "无机磷酸@cytosol",
    "group": "membrane_transport",
@@ -22108,7 +22068,7 @@ window.METABOLIC_COMPILED = {
    "info": "质膜营养物转运。无机磷酸输入"
   },
   {
-   "id": "rx197",
+   "id": "rx196",
    "from": "钠离子@extracellular",
    "to": "钠离子@cytosol",
    "group": "membrane_transport",
@@ -22182,7 +22142,7 @@ window.METABOLIC_COMPILED = {
    "info": "质膜营养物转运。离子协同运输"
   },
   {
-   "id": "rx198",
+   "id": "rx197",
    "from": "蛋氨酸@cytosol",
    "to": "SAM@cytosol",
    "group": "methionine_cysteine",
@@ -22276,7 +22236,7 @@ window.METABOLIC_COMPILED = {
    "info": "蛋氨酸循环与转硫途径。甲基供体生成"
   },
   {
-   "id": "rx199",
+   "id": "rx198",
    "from": "SAM@cytosol",
    "to": "SAH@cytosol",
    "group": "methionine_cysteine",
@@ -22350,7 +22310,7 @@ window.METABOLIC_COMPILED = {
    "info": "蛋氨酸循环与转硫途径。多种甲基化反应主表示边"
   },
   {
-   "id": "rx200",
+   "id": "rx199",
    "from": "SAH@cytosol",
    "to": "同型半胱氨酸@cytosol",
    "group": "methionine_cysteine",
@@ -22428,7 +22388,7 @@ window.METABOLIC_COMPILED = {
    "info": "蛋氨酸循环与转硫途径。循环分叉点"
   },
   {
-   "id": "rx201",
+   "id": "rx200",
    "from": "同型半胱氨酸@cytosol",
    "to": "蛋氨酸@cytosol",
    "group": "methionine_cysteine",
@@ -22506,7 +22466,7 @@ window.METABOLIC_COMPILED = {
    "info": "蛋氨酸循环与转硫途径。再甲基化闭环"
   },
   {
-   "id": "rx202",
+   "id": "rx201",
    "from": "同型半胱氨酸@cytosol",
    "to": "胱硫醚@cytosol",
    "group": "methionine_cysteine",
@@ -22584,7 +22544,7 @@ window.METABOLIC_COMPILED = {
    "info": "蛋氨酸循环与转硫途径。转硫入口"
   },
   {
-   "id": "rx203",
+   "id": "rx202",
    "from": "胱硫醚@cytosol",
    "to": "半胱氨酸@cytosol",
    "group": "methionine_cysteine",
@@ -22674,7 +22634,7 @@ window.METABOLIC_COMPILED = {
    "info": "蛋氨酸循环与转硫途径。含硫氨基酸出口"
   },
   {
-   "id": "rx204",
+   "id": "rx203",
    "from": "硝酸盐@cytosol",
    "to": "亚硝酸盐@cytosol",
    "group": "nitrogen",
@@ -22776,14 +22736,14 @@ window.METABOLIC_COMPILED = {
    "info": "氮同化。植物氮同化入口；胞质反应"
   },
   {
-   "id": "rx205",
+   "id": "rx204",
    "from": "亚硝酸盐@cytosol",
    "to": "亚硝酸盐@plastid",
    "group": "nitrogen",
    "enzyme": "亚硝酸盐质体转运（机制未定）",
    "equation": "NO₂⁻胞质 → NO₂⁻质体",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "亚硝酸盐",
@@ -22847,10 +22807,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "氮同化。植物质体摄取连接有生理需求，但物种范围和具体转运体/驱动力未确认（待审校）"
+   "info": "氮同化。机制未明转运：质体摄取是硝酸盐同化必需连接；豌豆叶绿体有饱和摄取证据，NAR1;1 证据来自衣藻，不能外推为通用高等植物载体；PMID:16665916；PMID:11912227"
   },
   {
-   "id": "rx206",
+   "id": "rx205",
    "from": "亚硝酸盐@plastid",
    "to": "NH₄⁺@plastid",
    "group": "nitrogen",
@@ -22968,7 +22928,7 @@ window.METABOLIC_COMPILED = {
    "info": "氮同化。质体内还原"
   },
   {
-   "id": "rx207",
+   "id": "rx206",
    "from": "NH₄⁺@plastid",
    "to": "谷氨酰胺@plastid",
    "group": "nitrogen",
@@ -23074,7 +23034,7 @@ window.METABOLIC_COMPILED = {
    "info": "氮同化。第一氨基受体"
   },
   {
-   "id": "rx208",
+   "id": "rx207",
    "from": "谷氨酰胺@plastid",
    "to": "谷氨酸@plastid",
    "group": "nitrogen",
@@ -23166,7 +23126,7 @@ window.METABOLIC_COMPILED = {
    "info": "氮同化。GS/GOGAT 循环"
   },
   {
-   "id": "rx209",
+   "id": "rx208",
    "from": "α-酮戊二酸@plastid",
    "to": "谷氨酸@plastid",
    "group": "nitrogen",
@@ -23258,7 +23218,7 @@ window.METABOLIC_COMPILED = {
    "info": "氮同化。同一汇聚反应的另一表示边"
   },
   {
-   "id": "rx210",
+   "id": "rx209",
    "from": "核苷酸@cytosol",
    "to": "核苷@cytosol",
    "group": "nucleotide_degradation",
@@ -23338,7 +23298,7 @@ window.METABOLIC_COMPILED = {
    "info": "核苷酸降解。去磷酸化"
   },
   {
-   "id": "rx211",
+   "id": "rx210",
    "from": "核苷@cytosol",
    "to": "碱基@cytosol",
    "group": "nucleotide_degradation",
@@ -23416,7 +23376,7 @@ window.METABOLIC_COMPILED = {
    "info": "核苷酸降解。核苷裂解"
   },
   {
-   "id": "rx212",
+   "id": "rx211",
    "from": "次黄嘌呤@cytosol",
    "to": "尿酸@cytosol",
    "group": "nucleotide_degradation",
@@ -23510,7 +23470,7 @@ window.METABOLIC_COMPILED = {
    "info": "核苷酸降解。黄嘌呤氧化酶两步净反应；KEGG:R01769、KEGG:R02107；RHEA:68013、RHEA:21135"
   },
   {
-   "id": "rx213",
+   "id": "rx212",
    "from": "鸟嘌呤@cytosol",
    "to": "尿酸@cytosol",
    "group": "nucleotide_degradation",
@@ -23618,7 +23578,7 @@ window.METABOLIC_COMPILED = {
    "info": "核苷酸降解。鸟嘌呤脱氨与黄嘌呤氧化两步净反应；KEGG:R01676、KEGG:R02107；RHEA:14668、RHEA:21135"
   },
   {
-   "id": "rx214",
+   "id": "rx213",
    "from": "尿嘧啶@cytosol",
    "to": "β-丙氨酸@cytosol",
    "group": "nucleotide_degradation",
@@ -23752,7 +23712,7 @@ window.METABOLIC_COMPILED = {
    "info": "核苷酸降解。三步净反应；KEGG:R00978、KEGG:R02269、KEGG:R00905；RHEA:18096、RHEA:16124、RHEA:11187"
   },
   {
-   "id": "rx215",
+   "id": "rx214",
    "from": "胸腺嘧啶@cytosol",
    "to": "β-氨基异丁酸@cytosol",
    "group": "nucleotide_degradation",
@@ -23886,7 +23846,7 @@ window.METABOLIC_COMPILED = {
    "info": "核苷酸降解。三步净反应；KEGG:R01415、KEGG:R03055、KEGG:R04666；RHEA:58287"
   },
   {
-   "id": "rx216",
+   "id": "rx215",
    "from": "膜间隙 H⁺@mito-ims",
    "to": "ATP 合酶@mito-inner-membrane",
    "group": "oxphos",
@@ -23960,7 +23920,7 @@ window.METABOLIC_COMPILED = {
    "info": "氧化磷酸化。质子经 ATP 合酶回流"
   },
   {
-   "id": "rx217",
+   "id": "rx216",
    "from": "ATP 合酶@mito-inner-membrane",
    "to": "ATP@mito-matrix",
    "group": "oxphos",
@@ -24084,7 +24044,7 @@ window.METABOLIC_COMPILED = {
    "info": "氧化磷酸化。膜酶锚点连接基质侧产物"
   },
   {
-   "id": "rx218",
+   "id": "rx217",
    "from": "ADP@mito-matrix",
    "to": "ATP@mito-matrix",
    "group": "oxphos",
@@ -24192,7 +24152,7 @@ window.METABOLIC_COMPILED = {
    "info": "氧化磷酸化。主表示边；辅因子在反应式中"
   },
   {
-   "id": "rx219",
+   "id": "rx218",
    "from": "无机磷酸@mito-matrix",
    "to": "ATP@mito-matrix",
    "group": "oxphos",
@@ -24300,7 +24260,7 @@ window.METABOLIC_COMPILED = {
    "info": "氧化磷酸化。ATP 合成的磷酸底物边"
   },
   {
-   "id": "rx220",
+   "id": "rx219",
    "from": "ATP@mito-matrix",
    "to": "ATP@mito-ims",
    "group": "oxphos",
@@ -24378,7 +24338,7 @@ window.METABOLIC_COMPILED = {
    "info": "氧化磷酸化。ANT 跨内膜交换"
   },
   {
-   "id": "rx221",
+   "id": "rx220",
    "from": "ATP@mito-ims",
    "to": "ATP@cytosol",
    "group": "oxphos",
@@ -24424,7 +24384,7 @@ window.METABOLIC_COMPILED = {
    "info": "氧化磷酸化。ATP 跨外膜"
   },
   {
-   "id": "rx222",
+   "id": "rx221",
    "from": "ADP@cytosol",
    "to": "ADP@mito-ims",
    "group": "oxphos",
@@ -24470,7 +24430,7 @@ window.METABOLIC_COMPILED = {
    "info": "氧化磷酸化。ADP 跨外膜"
   },
   {
-   "id": "rx223",
+   "id": "rx222",
    "from": "ADP@mito-ims",
    "to": "ADP@mito-matrix",
    "group": "oxphos",
@@ -24548,7 +24508,7 @@ window.METABOLIC_COMPILED = {
    "info": "氧化磷酸化。ANT 跨内膜交换"
   },
   {
-   "id": "rx224",
+   "id": "rx223",
    "from": "无机磷酸@cytosol",
    "to": "无机磷酸@mito-ims",
    "group": "oxphos",
@@ -24598,7 +24558,7 @@ window.METABOLIC_COMPILED = {
    "info": "氧化磷酸化。无机磷酸跨外膜"
   },
   {
-   "id": "rx225",
+   "id": "rx224",
    "from": "无机磷酸@mito-ims",
    "to": "无机磷酸@mito-matrix",
    "group": "oxphos",
@@ -24676,7 +24636,7 @@ window.METABOLIC_COMPILED = {
    "info": "氧化磷酸化。Pi/H⁺同向跨内膜"
   },
   {
-   "id": "rx226",
+   "id": "rx225",
    "from": "丙酮酸@mito-matrix",
    "to": "乙酰辅酶 A@mito-matrix",
    "group": [
@@ -24803,7 +24763,7 @@ window.METABOLIC_COMPILED = {
    "info": "丙酮酸脱氢酶复合体 · 丙酮酸去路。分叉：反应式含多个产物；与丙酮酸脱氢酶通路共享"
   },
   {
-   "id": "rx227",
+   "id": "rx226",
    "from": "磷脂酸@smooth-er",
    "to": "CDP-DAG@smooth-er",
    "group": "phospholipid",
@@ -24877,7 +24837,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油磷脂代谢。酸性甘油磷脂前体"
   },
   {
-   "id": "rx228",
+   "id": "rx227",
    "from": "CDP-DAG@smooth-er",
    "to": "磷脂酰肌醇@smooth-er",
    "group": "phospholipid",
@@ -24951,7 +24911,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油磷脂代谢。PI 分支"
   },
   {
-   "id": "rx229",
+   "id": "rx228",
    "from": "DAG@smooth-er",
    "to": "磷脂酰胆碱@smooth-er",
    "group": "phospholipid",
@@ -25025,7 +24985,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油磷脂代谢。PC 分支"
   },
   {
-   "id": "rx230",
+   "id": "rx229",
    "from": "DAG@smooth-er",
    "to": "磷脂酰乙醇胺@smooth-er",
    "group": "phospholipid",
@@ -25099,7 +25059,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油磷脂代谢。PE 分支"
   },
   {
-   "id": "rx231",
+   "id": "rx230",
    "from": "磷脂酰丝氨酸@smooth-er",
    "to": "磷脂酰乙醇胺@smooth-er",
    "group": "phospholipid",
@@ -25159,7 +25119,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油磷脂代谢。PS 转 PE"
   },
   {
-   "id": "rx232",
+   "id": "rx231",
    "from": "磷脂酰甘油@smooth-er",
    "to": "心磷脂@smooth-er",
    "group": "phospholipid",
@@ -25235,7 +25195,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油磷脂代谢。线粒体内膜分支；底物是磷脂酰甘油而非磷脂酰乙醇胺"
   },
   {
-   "id": "rx233",
+   "id": "rx232",
    "from": "磷酸二羟丙酮@peroxisome",
    "to": "脂酰-DHAP@peroxisome",
    "group": "plasmalogen",
@@ -25313,7 +25273,7 @@ window.METABOLIC_COMPILED = {
    "info": "醚磷脂与质醚磷脂合成。过氧化物酶体起始"
   },
   {
-   "id": "rx234",
+   "id": "rx233",
    "from": "脂酰-DHAP@peroxisome",
    "to": "烷基-DHAP@peroxisome",
    "group": "plasmalogen",
@@ -25387,7 +25347,7 @@ window.METABOLIC_COMPILED = {
    "info": "醚磷脂与质醚磷脂合成。烷基-DHAP 合酶（AGPS，EC 2.5.1.26）醚键形成；脂肪醇不是 CoA 衍生物；RHEA:36171"
   },
   {
-   "id": "rx235",
+   "id": "rx234",
    "from": "烷基-DHAP@peroxisome",
    "to": "烷基甘油-3-磷酸@peroxisome",
    "group": "plasmalogen",
@@ -25475,14 +25435,14 @@ window.METABOLIC_COMPILED = {
    "info": "醚磷脂与质醚磷脂合成。过氧化物酶体后续"
   },
   {
-   "id": "rx236",
+   "id": "rx235",
    "from": "烷基甘油-3-磷酸@peroxisome",
    "to": "烷基甘油-3-磷酸@smooth-er",
    "group": "plasmalogen",
    "enzyme": "醚磷脂转运系统",
    "equation": "烷基甘油-3-磷酸过氧化物酶体 ⇌ 烷基甘油-3-磷酸内质网",
    "reversible": true,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "烷基甘油-3-磷酸",
@@ -25532,17 +25492,17 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "醚磷脂与质醚磷脂合成。过氧化物酶体至内质网前体转移存在，但具体载体、方向和膜侧未明确；R-HSA-75896（待审校）"
+   "info": "醚磷脂与质醚磷脂合成。机制未明转运：过氧化物酶体生成醚脂前体，后续在胞质/ER 完成；具体载体、方向和膜侧不写死；R-HSA-75896"
   },
   {
-   "id": "rx237",
+   "id": "rx236",
    "from": "烷基甘油-3-磷酸@smooth-er",
    "to": "质醚磷脂@smooth-er",
    "group": "plasmalogen",
    "enzyme": "醚磷脂合成酶系",
    "equation": "烷基甘油-3-磷酸 + 脂酰-CoA → 质醚磷脂 + CoA-SH",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "烷基甘油-3-磷酸",
@@ -25608,10 +25568,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "醚磷脂与质醚磷脂合成。合并酰化、去磷酸、头基连接和去饱和多步；中间体及辅因子缺失；R-HSA-75896（待审校）"
+   "info": "醚磷脂与质醚磷脂合成。多步示意边：合并酰化、去磷酸、头基连接和去饱和，中间体与辅因子未完整表达；R-HSA-75896"
   },
   {
-   "id": "rx238",
+   "id": "rx237",
    "from": "葡萄糖@cytosol",
    "to": "山梨醇@cytosol",
    "group": "polyol",
@@ -25701,7 +25661,7 @@ window.METABOLIC_COMPILED = {
    "info": "多元醇途径。消耗 NADPH"
   },
   {
-   "id": "rx239",
+   "id": "rx238",
    "from": "山梨醇@cytosol",
    "to": "果糖@cytosol",
    "group": "polyol",
@@ -25793,7 +25753,7 @@ window.METABOLIC_COMPILED = {
    "info": "多元醇途径。改变 NADH/NAD⁺ 比值"
   },
   {
-   "id": "rx240",
+   "id": "rx239",
    "from": "葡萄糖-6-磷酸@cytosol",
    "to": "6-磷酸葡萄糖酸内酯@cytosol",
    "group": "ppp",
@@ -25885,7 +25845,7 @@ window.METABOLIC_COMPILED = {
    "info": "磷酸戊糖途径。氧化阶段；限速步"
   },
   {
-   "id": "rx241",
+   "id": "rx240",
    "from": "6-磷酸葡萄糖酸内酯@cytosol",
    "to": "6-磷酸葡萄糖酸@cytosol",
    "group": "ppp",
@@ -25947,7 +25907,7 @@ window.METABOLIC_COMPILED = {
    "info": "磷酸戊糖途径。氧化阶段"
   },
   {
-   "id": "rx242",
+   "id": "rx241",
    "from": "6-磷酸葡萄糖酸@cytosol",
    "to": "核酮糖-5-磷酸@cytosol",
    "group": "ppp",
@@ -26037,7 +25997,7 @@ window.METABOLIC_COMPILED = {
    "info": "磷酸戊糖途径。氧化阶段；脱羧"
   },
   {
-   "id": "rx243",
+   "id": "rx242",
    "from": "核酮糖-5-磷酸@cytosol",
    "to": "核糖-5-磷酸@cytosol",
    "group": "ppp",
@@ -26083,7 +26043,7 @@ window.METABOLIC_COMPILED = {
    "info": "磷酸戊糖途径。非氧化阶段；核糖-5-磷酸用于核苷酸合成"
   },
   {
-   "id": "rx244",
+   "id": "rx243",
    "from": "核酮糖-5-磷酸@cytosol",
    "to": "木酮糖-5-磷酸@cytosol",
    "group": "ppp",
@@ -26129,7 +26089,7 @@ window.METABOLIC_COMPILED = {
    "info": "磷酸戊糖途径。非氧化阶段"
   },
   {
-   "id": "rx245",
+   "id": "rx244",
    "from": "木酮糖-5-磷酸@cytosol",
    "to": "甘油醛-3-磷酸@cytosol",
    "group": "ppp",
@@ -26207,7 +26167,7 @@ window.METABOLIC_COMPILED = {
    "info": "磷酸戊糖途径。多底物/多产物；主表示边，另一底物为核糖-5-磷酸，另一产物为景天庚酮糖-7-磷酸"
   },
   {
-   "id": "rx246",
+   "id": "rx245",
    "from": "景天庚酮糖-7-磷酸@cytosol",
    "to": "果糖-6-磷酸@cytosol",
    "group": "ppp",
@@ -26285,7 +26245,7 @@ window.METABOLIC_COMPILED = {
    "info": "磷酸戊糖途径。多底物/多产物；另一底物为甘油醛-3-磷酸，另一产物为赤藓糖-4-磷酸"
   },
   {
-   "id": "rx247",
+   "id": "rx246",
    "from": "赤藓糖-4-磷酸@cytosol",
    "to": "果糖-6-磷酸@cytosol",
    "group": "ppp",
@@ -26363,7 +26323,7 @@ window.METABOLIC_COMPILED = {
    "info": "磷酸戊糖途径。多底物/多产物；另一底物为木酮糖-5-磷酸，另一产物为甘油醛-3-磷酸"
   },
   {
-   "id": "rx248",
+   "id": "rx247",
    "from": "核糖-5-磷酸@cytosol",
    "to": "PRPP@cytosol",
    "group": "purine",
@@ -26441,7 +26401,7 @@ window.METABOLIC_COMPILED = {
    "info": "嘌呤核苷酸从头合成。嘌呤合成入口"
   },
   {
-   "id": "rx249",
+   "id": "rx248",
    "from": "PRPP@cytosol",
    "to": "5-磷酸核糖胺@cytosol",
    "group": "purine",
@@ -26519,7 +26479,7 @@ window.METABOLIC_COMPILED = {
    "info": "嘌呤核苷酸从头合成。限速步骤"
   },
   {
-   "id": "rx250",
+   "id": "rx249",
    "from": "5-磷酸核糖胺@cytosol",
    "to": "GAR@cytosol",
    "group": "purine",
@@ -26631,14 +26591,14 @@ window.METABOLIC_COMPILED = {
    "info": "嘌呤核苷酸从头合成。单酶步骤，氮源为甘氨酸而非谷氨酰胺；KEGG:R04144；RHEA:17456"
   },
   {
-   "id": "rx251",
+   "id": "rx250",
    "from": "GAR@cytosol",
    "to": "AICAR@cytosol",
    "group": "purine",
    "enzyme": "多酶复合体",
    "equation": "GAR → AICAR",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "GAR",
@@ -26674,10 +26634,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "嘌呤核苷酸从头合成。合并 GAR→FGAR→FGAM→AIR→CAIR→SAICAR→AICAR，多种底物、ATP 及中间体缺失（待审校）"
+   "info": "嘌呤核苷酸从头合成。多步示意边：合并 GAR→FGAR→FGAM→AIR→CAIR→SAICAR→AICAR；谷氨酰胺、ATP、CO₂、天冬氨酸和中间体未写入当前方程；R-HSA-73817"
   },
   {
-   "id": "rx252",
+   "id": "rx251",
    "from": "AICAR@cytosol",
    "to": "IMP@cytosol",
    "group": "purine",
@@ -26771,7 +26731,7 @@ window.METABOLIC_COMPILED = {
    "info": "嘌呤核苷酸从头合成。双功能酶 ATIC 的两步净反应；KEGG:R04560、KEGG:R01127；RHEA:22195、RHEA:18448"
   },
   {
-   "id": "rx253",
+   "id": "rx252",
    "from": "IMP@cytosol",
    "to": "AMP@cytosol",
    "group": "purine",
@@ -26897,7 +26857,7 @@ window.METABOLIC_COMPILED = {
    "info": "嘌呤核苷酸从头合成。腺苷酸琥珀酸合成与裂解两步净反应；RHEA:15753、RHEA:23922"
   },
   {
-   "id": "rx254",
+   "id": "rx253",
    "from": "IMP@cytosol",
    "to": "GMP@cytosol",
    "group": "purine",
@@ -27083,7 +27043,7 @@ window.METABOLIC_COMPILED = {
    "info": "嘌呤核苷酸从头合成。IMPDH 与 GMPS 两步净反应；RHEA:11708、RHEA:11680"
   },
   {
-   "id": "rx255",
+   "id": "rx254",
    "from": "AMP@cytosol",
    "to": "ATP@cytosol",
    "group": "purine",
@@ -27161,7 +27121,7 @@ window.METABOLIC_COMPILED = {
    "info": "嘌呤核苷酸从头合成。腺嘌呤核苷酸池；只保留腺苷酸激酶的正确净反应"
   },
   {
-   "id": "rx256",
+   "id": "rx255",
    "from": "GMP@cytosol",
    "to": "GTP@cytosol",
    "group": "purine",
@@ -27267,7 +27227,7 @@ window.METABOLIC_COMPILED = {
    "info": "嘌呤核苷酸从头合成。鸟苷酸激酶与 NDPK 两步磷酸化；KEGG:R00332、KEGG:R00330；RHEA:20783、RHEA:27689"
   },
   {
-   "id": "rx257",
+   "id": "rx256",
    "from": "谷氨酰胺@cytosol",
    "to": "氨甲酰磷酸@cytosol",
    "group": "pyrimidine",
@@ -27393,7 +27353,7 @@ window.METABOLIC_COMPILED = {
    "info": "嘧啶核苷酸从头合成。胞质嘧啶合成入口"
   },
   {
-   "id": "rx258",
+   "id": "rx257",
    "from": "氨甲酰磷酸@cytosol",
    "to": "氨甲酰天冬氨酸@cytosol",
    "group": "pyrimidine",
@@ -27473,7 +27433,7 @@ window.METABOLIC_COMPILED = {
    "info": "嘧啶核苷酸从头合成。环前体形成"
   },
   {
-   "id": "rx259",
+   "id": "rx258",
    "from": "氨甲酰天冬氨酸@cytosol",
    "to": "二氢乳清酸@cytosol",
    "group": "pyrimidine",
@@ -27535,7 +27495,7 @@ window.METABOLIC_COMPILED = {
    "info": "嘧啶核苷酸从头合成。环化并水解"
   },
   {
-   "id": "rx260",
+   "id": "rx259",
    "from": "二氢乳清酸@cytosol",
    "to": "乳清酸@cytosol",
    "group": "pyrimidine",
@@ -27609,7 +27569,7 @@ window.METABOLIC_COMPILED = {
    "info": "嘧啶核苷酸从头合成。哺乳动物 DHODH 锚定线粒体内膜并以膜内醌为受体；Reactome R-HSA-73569 将二氢乳清酸和乳清酸列为胞质参与物，专家图将该步贴近线粒体内膜边界表示；RHEA:30190；KEGG:R01868；R-HSA-73569"
   },
   {
-   "id": "rx261",
+   "id": "rx260",
    "from": "乳清酸@cytosol",
    "to": "UMP@cytosol",
    "group": "pyrimidine",
@@ -27699,7 +27659,7 @@ window.METABOLIC_COMPILED = {
    "info": "嘧啶核苷酸从头合成。合并磷酸核糖转移和脱羧两步"
   },
   {
-   "id": "rx262",
+   "id": "rx261",
    "from": "UMP@cytosol",
    "to": "UTP@cytosol",
    "group": "pyrimidine",
@@ -27777,7 +27737,7 @@ window.METABOLIC_COMPILED = {
    "info": "嘧啶核苷酸从头合成。嘧啶核苷酸池"
   },
   {
-   "id": "rx263",
+   "id": "rx262",
    "from": "UTP@cytosol",
    "to": "CTP@cytosol",
    "group": "pyrimidine",
@@ -27887,7 +27847,7 @@ window.METABOLIC_COMPILED = {
    "info": "嘧啶核苷酸从头合成。胞嘧啶核苷酸分支"
   },
   {
-   "id": "rx264",
+   "id": "rx263",
    "from": "UDP@cytosol",
    "to": "dUDP@cytosol",
    "group": "pyrimidine",
@@ -27977,14 +27937,14 @@ window.METABOLIC_COMPILED = {
    "info": "嘧啶核苷酸从头合成。核糖核苷酸还原酶（EC 1.17.4.2）硫氧还蛋白依赖机制；RHEA:28028"
   },
   {
-   "id": "rx265",
+   "id": "rx264",
    "from": "dUDP@cytosol",
-   "to": "dTMP@cytosol",
+   "to": "dUTP@cytosol",
    "group": "pyrimidine",
-   "enzyme": "胸苷酸合成酶",
-   "equation": "dUDP + H₂O → dUMP + Pi；dUMP + 5,10-亚甲基-THF → dTMP + DHF",
-   "reversible": false,
-   "review": "待审校",
+   "enzyme": "核苷二磷酸激酶 NDPK",
+   "equation": "dUDP + ATP ⇌ dUTP + ADP",
+   "reversible": true,
+   "review": "已终审",
    "participants": [
     {
      "key": "DUDP",
@@ -28003,9 +27963,9 @@ window.METABOLIC_COMPILED = {
      "source": "endpoint"
     },
     {
-     "key": "DTMP",
-     "name": "dTMP",
-     "rawName": "dTMP",
+     "key": "DUTP",
+     "name": "dUTP",
+     "rawName": "dUTP",
      "aliases": [],
      "role": "product",
      "coefficient": "1",
@@ -28013,7 +27973,85 @@ window.METABOLIC_COMPILED = {
      "compartmentHint": "",
      "compartment": "细胞质",
      "entityIds": [
-      "dTMP@cytosol"
+      "dUTP@cytosol"
+     ],
+     "primary": true,
+     "source": "endpoint"
+    },
+    {
+     "key": "ATP",
+     "name": "ATP",
+     "rawName": "ATP",
+     "aliases": [],
+     "role": "substrate",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "primary": false,
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "ATP@cytosol"
+     ]
+    },
+    {
+     "key": "ADP",
+     "name": "ADP",
+     "rawName": "ADP",
+     "aliases": [],
+     "role": "product",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "primary": false,
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "ADP@cytosol"
+     ]
+    }
+   ],
+   "ignoredSegments": [],
+   "info": "嘧啶核苷酸从头合成。脱氧核苷二磷酸激酶接力；为 dUTPase 提供底物"
+  },
+  {
+   "id": "rx265",
+   "from": "dUTP@cytosol",
+   "to": "dUMP@cytosol",
+   "group": "pyrimidine",
+   "enzyme": "dUTPase DUT",
+   "equation": "dUTP + H₂O → dUMP + PPi",
+   "reversible": false,
+   "review": "已终审",
+   "participants": [
+    {
+     "key": "DUTP",
+     "name": "dUTP",
+     "rawName": "dUTP",
+     "aliases": [],
+     "role": "substrate",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "compartment": "细胞质",
+     "entityIds": [
+      "dUTP@cytosol"
+     ],
+     "primary": true,
+     "source": "endpoint"
+    },
+    {
+     "key": "DUMP",
+     "name": "dUMP",
+     "rawName": "dUMP",
+     "aliases": [],
+     "role": "product",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "compartment": "细胞质",
+     "entityIds": [
+      "dUMP@cytosol"
      ],
      "primary": true,
      "source": "endpoint"
@@ -28035,9 +28073,9 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "key": "DUMP",
-     "name": "dUMP",
-     "rawName": "dUMP",
+     "key": "PPI",
+     "name": "PPi",
+     "rawName": "PPi",
      "aliases": [],
      "role": "product",
      "coefficient": "1",
@@ -28047,25 +28085,21 @@ window.METABOLIC_COMPILED = {
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
-    },
-    {
-     "key": "无机磷酸",
-     "name": "无机磷酸",
-     "rawName": "Pi",
-     "aliases": [
-      "Pi"
-     ],
-     "role": "product",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "",
-     "primary": false,
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "无机磷酸@cytosol"
-     ]
-    },
+    }
+   ],
+   "ignoredSegments": [],
+   "info": "嘧啶核苷酸从头合成。DUT 水解 dUTP 形成 dUMP，并限制尿嘧啶错误掺入 DNA"
+  },
+  {
+   "id": "rx266",
+   "from": "dUMP@cytosol",
+   "to": "dTMP@cytosol",
+   "group": "pyrimidine",
+   "enzyme": "胸苷酸合成酶 TYMS",
+   "equation": "dUMP + 5,10-亚甲基-THF → dTMP + DHF",
+   "reversible": false,
+   "review": "已终审",
+   "participants": [
     {
      "key": "DUMP",
      "name": "dUMP",
@@ -28075,10 +28109,28 @@ window.METABOLIC_COMPILED = {
      "coefficient": "1",
      "qualifier": "",
      "compartmentHint": "",
-     "primary": false,
-     "source": "equation",
      "compartment": "细胞质",
-     "entityIds": []
+     "entityIds": [
+      "dUMP@cytosol"
+     ],
+     "primary": true,
+     "source": "endpoint"
+    },
+    {
+     "key": "DTMP",
+     "name": "dTMP",
+     "rawName": "dTMP",
+     "aliases": [],
+     "role": "product",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "compartment": "细胞质",
+     "entityIds": [
+      "dTMP@cytosol"
+     ],
+     "primary": true,
+     "source": "endpoint"
     },
     {
      "key": "510-亚甲基-THF",
@@ -28112,10 +28164,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "嘧啶核苷酸从头合成。合并 dUDP 去磷酸化与 TYMS 反应，酶名只覆盖第二步且第一步酶未指定（待审校）"
+   "info": "嘧啶核苷酸从头合成。TYMS 催化的胞质单步反应；删除原先未指定酶的 dUDP→dUMP 合并步骤；R-HSA-73605；RHEA:12105"
   },
   {
-   "id": "rx266",
+   "id": "rx267",
    "from": "丙酮酸@cytosol",
    "to": "乳酸@cytosol",
    "group": "pyruvate_fates",
@@ -28207,7 +28259,7 @@ window.METABOLIC_COMPILED = {
    "info": "丙酮酸去路。无氧或高还原状态下的胞质支路"
   },
   {
-   "id": "rx267",
+   "id": "rx268",
    "from": "腺嘌呤@cytosol",
    "to": "AMP@cytosol",
    "group": "salvage",
@@ -28283,7 +28335,7 @@ window.METABOLIC_COMPILED = {
    "info": "核苷酸补救合成。嘌呤碱基补救"
   },
   {
-   "id": "rx268",
+   "id": "rx269",
    "from": "次黄嘌呤@cytosol",
    "to": "IMP@cytosol",
    "group": "salvage",
@@ -28359,7 +28411,7 @@ window.METABOLIC_COMPILED = {
    "info": "核苷酸补救合成。嘌呤碱基补救"
   },
   {
-   "id": "rx269",
+   "id": "rx270",
    "from": "鸟嘌呤@cytosol",
    "to": "GMP@cytosol",
    "group": "salvage",
@@ -28435,7 +28487,7 @@ window.METABOLIC_COMPILED = {
    "info": "核苷酸补救合成。嘌呤碱基补救"
   },
   {
-   "id": "rx270",
+   "id": "rx271",
    "from": "腺苷@cytosol",
    "to": "AMP@cytosol",
    "group": "salvage",
@@ -28513,7 +28565,7 @@ window.METABOLIC_COMPILED = {
    "info": "核苷酸补救合成。核苷补救"
   },
   {
-   "id": "rx271",
+   "id": "rx272",
    "from": "胞苷@cytosol",
    "to": "CMP@cytosol",
    "group": "salvage",
@@ -28591,7 +28643,7 @@ window.METABOLIC_COMPILED = {
    "info": "核苷酸补救合成。嘧啶核苷补救"
   },
   {
-   "id": "rx272",
+   "id": "rx273",
    "from": "NMP@cytosol",
    "to": "NDP@cytosol",
    "group": "salvage",
@@ -28669,7 +28721,7 @@ window.METABOLIC_COMPILED = {
    "info": "核苷酸补救合成。进入 NTP 池；NMP/NDP 为概念池节点"
   },
   {
-   "id": "rx273",
+   "id": "rx274",
    "from": "NDP@cytosol",
    "to": "NTP@cytosol",
    "group": "salvage",
@@ -28747,7 +28799,7 @@ window.METABOLIC_COMPILED = {
    "info": "核苷酸补救合成。核苷酸池扩增；NTP 为概念池节点"
   },
   {
-   "id": "rx274",
+   "id": "rx275",
    "from": "3-磷酸甘油酸@cytosol",
    "to": "3-磷酸羟基丙酮酸@cytosol",
    "group": "serine_glycine",
@@ -28839,7 +28891,7 @@ window.METABOLIC_COMPILED = {
    "info": "丝氨酸–甘氨酸与一碳代谢。丝氨酸合成第一步"
   },
   {
-   "id": "rx275",
+   "id": "rx276",
    "from": "3-磷酸羟基丙酮酸@cytosol",
    "to": "磷酸丝氨酸@cytosol",
    "group": "serine_glycine",
@@ -28919,7 +28971,7 @@ window.METABOLIC_COMPILED = {
    "info": "丝氨酸–甘氨酸与一碳代谢。转氨"
   },
   {
-   "id": "rx276",
+   "id": "rx277",
    "from": "磷酸丝氨酸@cytosol",
    "to": "丝氨酸@cytosol",
    "group": "serine_glycine",
@@ -28999,7 +29051,7 @@ window.METABOLIC_COMPILED = {
    "info": "丝氨酸–甘氨酸与一碳代谢。丝氨酸生成"
   },
   {
-   "id": "rx277",
+   "id": "rx278",
    "from": "丝氨酸@cytosol",
    "to": "甘氨酸@cytosol",
    "group": "serine_glycine",
@@ -29093,7 +29145,7 @@ window.METABOLIC_COMPILED = {
    "info": "丝氨酸–甘氨酸与一碳代谢。一碳单位转移"
   },
   {
-   "id": "rx278",
+   "id": "rx279",
    "from": "甘氨酸@cytosol",
    "to": "5,10-亚甲基-THF@cytosol",
    "group": "serine_glycine",
@@ -29201,7 +29253,7 @@ window.METABOLIC_COMPILED = {
    "info": "丝氨酸–甘氨酸与一碳代谢。线粒体一碳输出"
   },
   {
-   "id": "rx279",
+   "id": "rx280",
    "from": "5,10-亚甲基-THF@cytosol",
    "to": "dTMP@cytosol",
    "group": "serine_glycine",
@@ -29254,7 +29306,9 @@ window.METABOLIC_COMPILED = {
      "primary": false,
      "source": "equation",
      "compartment": "细胞质",
-     "entityIds": []
+     "entityIds": [
+      "dUMP@cytosol"
+     ]
     },
     {
      "key": "DHF",
@@ -29275,7 +29329,7 @@ window.METABOLIC_COMPILED = {
    "info": "丝氨酸–甘氨酸与一碳代谢。核苷酸合成分支；dUMP 为另一底物"
   },
   {
-   "id": "rx280",
+   "id": "rx281",
    "from": "丝氨酸@smooth-er",
    "to": "3-酮鞘氨醇@smooth-er",
    "group": "sphingolipid",
@@ -29367,7 +29421,7 @@ window.METABOLIC_COMPILED = {
    "info": "鞘脂代谢。鞘脂合成起始步"
   },
   {
-   "id": "rx281",
+   "id": "rx282",
    "from": "3-酮鞘氨醇@smooth-er",
    "to": "二氢鞘氨醇@smooth-er",
    "group": "sphingolipid",
@@ -29441,7 +29495,7 @@ window.METABOLIC_COMPILED = {
    "info": "鞘脂代谢。还原"
   },
   {
-   "id": "rx282",
+   "id": "rx283",
    "from": "二氢鞘氨醇@smooth-er",
    "to": "二氢神经酰胺@smooth-er",
    "group": "sphingolipid",
@@ -29517,7 +29571,7 @@ window.METABOLIC_COMPILED = {
    "info": "鞘脂代谢。N-酰化"
   },
   {
-   "id": "rx283",
+   "id": "rx284",
    "from": "二氢神经酰胺@smooth-er",
    "to": "神经酰胺@smooth-er",
    "group": "sphingolipid",
@@ -29637,7 +29691,7 @@ window.METABOLIC_COMPILED = {
    "info": "鞘脂代谢。引入双键；依赖细胞色素 b5 电子传递"
   },
   {
-   "id": "rx284",
+   "id": "rx285",
    "from": "神经酰胺@smooth-er",
    "to": "鞘磷脂@golgi",
    "group": "sphingolipid",
@@ -29715,14 +29769,14 @@ window.METABOLIC_COMPILED = {
    "info": "鞘脂代谢。合并 CERT1 内质网至高尔基体转运与 SGMS1 合成净过程；RHEA:18765；R-HSA-1660661；UniProt:Q9Y5P4、UniProt:Q86VZ5"
   },
   {
-   "id": "rx285",
+   "id": "rx286",
    "from": "神经酰胺@smooth-er",
    "to": "糖鞘脂@golgi",
    "group": "sphingolipid",
-   "enzyme": "糖基转移酶",
-   "equation": "神经酰胺 + UDP-糖 → 糖鞘脂 + UDP",
+   "enzyme": "CERT1 / 糖基转移酶系",
+   "equation": "神经酰胺内质网 → 神经酰胺高尔基；神经酰胺 + UDP-糖 → 糖鞘脂 + UDP",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "神经酰胺",
@@ -29757,6 +29811,34 @@ window.METABOLIC_COMPILED = {
      "source": "endpoint"
     },
     {
+     "key": "神经酰胺内质网",
+     "name": "神经酰胺内质网",
+     "rawName": "神经酰胺内质网",
+     "aliases": [],
+     "role": "substrate",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "primary": false,
+     "source": "equation",
+     "compartment": "平滑内质网",
+     "entityIds": []
+    },
+    {
+     "key": "神经酰胺高尔基",
+     "name": "神经酰胺高尔基",
+     "rawName": "神经酰胺高尔基",
+     "aliases": [],
+     "role": "product",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "primary": false,
+     "source": "equation",
+     "compartment": "平滑内质网",
+     "entityIds": []
+    },
+    {
      "key": "UDP-糖",
      "name": "UDP-糖",
      "rawName": "UDP-糖",
@@ -29786,10 +29868,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "鞘脂代谢。合并内质网至高尔基体转运与糖基化；UDP-糖、产物类别及具体酶未定（待审校）"
+   "info": "鞘脂代谢。多步示意边：合并 CERT1 介导的 ER→Golgi 神经酰胺转移与后续糖鞘脂合成；UDP-糖、产物类别和具体糖基转移酶按分支而异；R-HSA-9956909；R-HSA-9840309"
   },
   {
-   "id": "rx286",
+   "id": "rx287",
    "from": "葡萄糖-1-磷酸@plastid",
    "to": "ADP-葡萄糖@plastid",
    "group": "starch",
@@ -29863,7 +29945,7 @@ window.METABOLIC_COMPILED = {
    "info": "淀粉合成与降解。淀粉合成前体"
   },
   {
-   "id": "rx287",
+   "id": "rx288",
    "from": "ADP-葡萄糖@plastid",
    "to": "淀粉@plastid",
    "group": "starch",
@@ -29939,7 +30021,7 @@ window.METABOLIC_COMPILED = {
    "info": "淀粉合成与降解。直链/支链淀粉延长"
   },
   {
-   "id": "rx288",
+   "id": "rx289",
    "from": "淀粉@plastid",
    "to": "麦芽糖@plastid",
    "group": "starch",
@@ -30001,7 +30083,7 @@ window.METABOLIC_COMPILED = {
    "info": "淀粉合成与降解。淀粉动员；缩短淀粉链未单独建节点"
   },
   {
-   "id": "rx289",
+   "id": "rx290",
    "from": "淀粉@plastid",
    "to": "葡萄糖-1-磷酸@plastid",
    "group": "starch",
@@ -30079,7 +30161,7 @@ window.METABOLIC_COMPILED = {
    "info": "淀粉合成与降解。磷酸解支路"
   },
   {
-   "id": "rx290",
+   "id": "rx291",
    "from": "麦芽糖@plastid",
    "to": "葡萄糖@plastid",
    "group": "starch",
@@ -30141,14 +30223,14 @@ window.METABOLIC_COMPILED = {
    "info": "淀粉合成与降解。可溶性糖输出"
   },
   {
-   "id": "rx291",
-   "from": "胆固醇@smooth-er",
+   "id": "rx292",
+   "from": "胆固醇@cytosol",
    "to": "胆固醇@mito-inner-membrane",
    "group": "steroid_bile",
-   "enzyme": "胆固醇转运系统",
-   "equation": "胆固醇内质网 ⇌ 胆固醇线粒体内膜",
-   "reversible": true,
-   "review": "待审校",
+   "enzyme": "StAR / TSPO-BZRAP1 胆固醇转运系统",
+   "equation": "胆固醇细胞质 → 胆固醇线粒体内膜",
+   "reversible": false,
+   "review": "已终审",
    "participants": [
     {
      "key": "胆固醇",
@@ -30158,10 +30240,10 @@ window.METABOLIC_COMPILED = {
      "role": "substrate",
      "coefficient": "1",
      "qualifier": "",
-     "compartmentHint": "",
-     "compartment": "平滑内质网",
+     "compartmentHint": "细胞质",
+     "compartment": "细胞质",
      "entityIds": [
-      "胆固醇@smooth-er"
+      "胆固醇@cytosol"
      ],
      "primary": true,
      "source": "endpoint"
@@ -30181,27 +30263,13 @@ window.METABOLIC_COMPILED = {
      ],
      "primary": true,
      "source": "endpoint"
-    },
-    {
-     "key": "胆固醇内质网",
-     "name": "胆固醇内质网",
-     "rawName": "胆固醇内质网",
-     "aliases": [],
-     "role": "substrate",
-     "coefficient": "1",
-     "qualifier": "",
-     "compartmentHint": "",
-     "primary": false,
-     "source": "equation",
-     "compartment": "平滑内质网",
-     "entityIds": []
     }
    ],
    "ignoredSegments": [],
-   "info": "类固醇与胆汁酸合成。内质网至线粒体内膜路径被压缩；StAR 等蛋白不能单独解释完整区室连接（待审校）"
+   "info": "类固醇与胆汁酸合成。转运汇总：表达类固醇生成细胞中胆固醇动员并进入线粒体内膜；来源可为脂滴或溶酶体，不再声称从 ER 直接跨越；R-HSA-196108"
   },
   {
-   "id": "rx292",
+   "id": "rx293",
    "from": "胆固醇@mito-inner-membrane",
    "to": "孕烯醇酮@mito-inner-membrane",
    "group": "steroid_bile",
@@ -30335,14 +30403,14 @@ window.METABOLIC_COMPILED = {
    "info": "类固醇与胆汁酸合成。CYP11A1 三次氧化及 FDXR/FDX1 电子传递的净反应；RHEA:35739、RHEA:42312；UniProt:P05108"
   },
   {
-   "id": "rx293",
+   "id": "rx294",
    "from": "孕烯醇酮@mito-inner-membrane",
    "to": "类固醇激素@smooth-er",
    "group": "steroid_bile",
    "enzyme": "细胞色素 P450/羟类固醇脱氢酶系",
    "equation": "孕烯醇酮 → 类固醇激素",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "孕烯醇酮",
@@ -30378,17 +30446,17 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "类固醇与胆汁酸合成。产物为激素类别；跨线粒体与内质网且合并多条组织特异合成路线（待审校）"
+   "info": "类固醇与胆汁酸合成。类别示意边：合并孕烯醇酮输出、线粒体/ER 多步反应及肾上腺和性腺的组织特异分支，不表示单一激素或净计量；R-HSA-196071"
   },
   {
-   "id": "rx294",
+   "id": "rx295",
    "from": "胆固醇@smooth-er",
    "to": "胆汁酸@smooth-er",
    "group": "steroid_bile",
-   "enzyme": "胆固醇 7α-羟化酶 CYP7A1",
+   "enzyme": "胆固醇 7α-羟化酶 CYP7A1 及后续酶系",
    "equation": "胆固醇 + O₂ → 胆汁酸",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "胆固醇",
@@ -30440,22 +30508,22 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "类固醇与胆汁酸合成。把 CYP7A1 起始羟化及后续多步胆汁酸合成压缩为类别产物（待审校）"
+   "info": "类固醇与胆汁酸合成。类别示意边：CYP7A1 仅催化经典途径起始 7α-羟化；后续多步和替代途径未展开，当前方程不是净反应；R-HSA-192105"
   },
   {
-   "id": "rx295",
-   "from": "胆固醇@smooth-er",
-   "to": "维生素D@smooth-er",
+   "id": "rx296",
+   "from": "7-脱氢胆固醇@smooth-er",
+   "to": "维生素D3@smooth-er",
    "group": "steroid_bile",
-   "enzyme": "胆固醇羟化酶系",
-   "equation": "胆固醇 → 维生素D前体",
+   "enzyme": "皮肤 UV 光解与热异构化",
+   "equation": "7-脱氢胆固醇 --UV→ 维生素D3",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
-     "key": "胆固醇",
-     "name": "胆固醇",
-     "rawName": "胆固醇",
+     "key": "7-脱氢胆固醇",
+     "name": "7-脱氢胆固醇",
+     "rawName": "7-脱氢胆固醇",
      "aliases": [],
      "role": "substrate",
      "coefficient": "1",
@@ -30463,15 +30531,15 @@ window.METABOLIC_COMPILED = {
      "compartmentHint": "",
      "compartment": "平滑内质网",
      "entityIds": [
-      "胆固醇@smooth-er"
+      "7-脱氢胆固醇@smooth-er"
      ],
      "primary": true,
      "source": "endpoint"
     },
     {
-     "key": "维生素D",
-     "name": "维生素D",
-     "rawName": "维生素D",
+     "key": "维生素D3",
+     "name": "维生素D3",
+     "rawName": "维生素D3",
      "aliases": [],
      "role": "product",
      "coefficient": "1",
@@ -30479,17 +30547,17 @@ window.METABOLIC_COMPILED = {
      "compartmentHint": "",
      "compartment": "平滑内质网",
      "entityIds": [
-      "维生素D@smooth-er"
+      "维生素D3@smooth-er"
      ],
      "primary": true,
      "source": "endpoint"
     },
     {
-     "key": "维生素D前体",
-     "name": "维生素D前体",
-     "rawName": "维生素D前体",
+     "key": "7-脱氢胆固醇--UV",
+     "name": "7-脱氢胆固醇 --UV",
+     "rawName": "7-脱氢胆固醇 --UV",
      "aliases": [],
-     "role": "product",
+     "role": "substrate",
      "coefficient": "1",
      "qualifier": "",
      "compartmentHint": "",
@@ -30500,10 +30568,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "类固醇与胆汁酸合成。直接底物应为 7-脱氢胆固醇，且涉及皮肤光化学及肝肾羟化；R-HSA-191273（待审校）"
+   "info": "类固醇与胆汁酸合成。两步净表示：皮肤 UV 光解生成前维生素 D3，随后热异构化为维生素 D3；肝肾羟化属于后续通路；R-HSA-209754；R-HSA-196791"
   },
   {
-   "id": "rx296",
+   "id": "rx297",
    "from": "硫酸盐@plastid",
    "to": "APS@plastid",
    "group": "sulfur",
@@ -30591,7 +30659,7 @@ window.METABOLIC_COMPILED = {
    "info": "硫同化。硫同化活化"
   },
   {
-   "id": "rx297",
+   "id": "rx298",
    "from": "APS@plastid",
    "to": "亚硫酸盐@plastid",
    "group": "sulfur",
@@ -30665,7 +30733,7 @@ window.METABOLIC_COMPILED = {
    "info": "硫同化。硫酸盐还原"
   },
   {
-   "id": "rx298",
+   "id": "rx299",
    "from": "亚硫酸盐@plastid",
    "to": "硫化物@plastid",
    "group": "sulfur",
@@ -30783,7 +30851,7 @@ window.METABOLIC_COMPILED = {
    "info": "硫同化。形成硫化物"
   },
   {
-   "id": "rx299",
+   "id": "rx300",
    "from": "硫化物@plastid",
    "to": "半胱氨酸@plastid",
    "group": "sulfur",
@@ -30857,7 +30925,7 @@ window.METABOLIC_COMPILED = {
    "info": "硫同化。进入含硫氨基酸"
   },
   {
-   "id": "rx300",
+   "id": "rx301",
    "from": "APS@plastid",
    "to": "PAPS@plastid",
    "group": "sulfur",
@@ -30931,7 +30999,7 @@ window.METABOLIC_COMPILED = {
    "info": "硫同化。硫酸化供体分支"
   },
   {
-   "id": "rx301",
+   "id": "rx302",
    "from": "甘油-3-磷酸@smooth-er",
    "to": "溶血磷脂酸@smooth-er",
    "group": "tag",
@@ -31007,7 +31075,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油三酯合成与脂解。TAG 合成起始酰化"
   },
   {
-   "id": "rx302",
+   "id": "rx303",
    "from": "溶血磷脂酸@smooth-er",
    "to": "磷脂酸@smooth-er",
    "group": "tag",
@@ -31083,7 +31151,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油三酯合成与脂解。第二次酰化"
   },
   {
-   "id": "rx303",
+   "id": "rx304",
    "from": "磷脂酸@smooth-er",
    "to": "DAG@smooth-er",
    "group": "tag",
@@ -31161,7 +31229,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油三酯合成与脂解。去磷酸化"
   },
   {
-   "id": "rx304",
+   "id": "rx305",
    "from": "DAG@smooth-er",
    "to": "TAG@smooth-er",
    "group": "tag",
@@ -31237,7 +31305,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油三酯合成与脂解。TAG 合成末步"
   },
   {
-   "id": "rx305",
+   "id": "rx306",
    "from": "TAG@smooth-er",
    "to": "脂肪酸@smooth-er",
    "group": "tag",
@@ -31315,7 +31383,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油三酯合成与脂解。脂解；另一产物为 DAG"
   },
   {
-   "id": "rx306",
+   "id": "rx307",
    "from": "TAG@smooth-er",
    "to": "甘油@smooth-er",
    "group": "tag",
@@ -31409,7 +31477,7 @@ window.METABOLIC_COMPILED = {
    "info": "甘油三酯合成与脂解。脂解；主链出口"
   },
   {
-   "id": "rx307",
+   "id": "rx308",
    "from": "乙酰辅酶 A@mito-matrix",
    "to": "柠檬酸@mito-matrix",
    "group": "tca",
@@ -31509,7 +31577,7 @@ window.METABOLIC_COMPILED = {
    "info": "三羧酸循环。分叉：反应式含多个产物"
   },
   {
-   "id": "rx308",
+   "id": "rx309",
    "from": "柠檬酸@mito-matrix",
    "to": "异柠檬酸@mito-matrix",
    "group": "tca",
@@ -31555,7 +31623,7 @@ window.METABOLIC_COMPILED = {
    "info": "三羧酸循环"
   },
   {
-   "id": "rx309",
+   "id": "rx310",
    "from": "异柠檬酸@mito-matrix",
    "to": "α-酮戊二酸@mito-matrix",
    "group": "tca",
@@ -31663,7 +31731,7 @@ window.METABOLIC_COMPILED = {
    "info": "三羧酸循环。分叉：反应式含多个产物"
   },
   {
-   "id": "rx310",
+   "id": "rx311",
    "from": "α-酮戊二酸@mito-matrix",
    "to": "琥珀酰辅酶 A@mito-matrix",
    "group": "tca",
@@ -31789,7 +31857,7 @@ window.METABOLIC_COMPILED = {
    "info": "三羧酸循环。分叉：反应式含多个产物"
   },
   {
-   "id": "rx311",
+   "id": "rx312",
    "from": "琥珀酰辅酶 A@mito-matrix",
    "to": "琥珀酸@mito-matrix",
    "group": "tca",
@@ -31883,7 +31951,7 @@ window.METABOLIC_COMPILED = {
    "info": "三羧酸循环。分叉：反应式含多个产物"
   },
   {
-   "id": "rx312",
+   "id": "rx313",
    "from": "琥珀酸@mito-matrix",
    "to": "延胡索酸@mito-matrix",
    "group": "tca",
@@ -31961,7 +32029,7 @@ window.METABOLIC_COMPILED = {
    "info": "三羧酸循环。分叉：反应式含多个产物"
   },
   {
-   "id": "rx313",
+   "id": "rx314",
    "from": "延胡索酸@mito-matrix",
    "to": "苹果酸@mito-matrix",
    "group": "tca",
@@ -32025,7 +32093,7 @@ window.METABOLIC_COMPILED = {
    "info": "三羧酸循环"
   },
   {
-   "id": "rx314",
+   "id": "rx315",
    "from": "苹果酸@mito-matrix",
    "to": "草酰乙酸@mito-matrix",
    "group": "tca",
@@ -32119,7 +32187,7 @@ window.METABOLIC_COMPILED = {
    "info": "三羧酸循环。分叉：反应式含多个产物"
   },
   {
-   "id": "rx315",
+   "id": "rx316",
    "from": "草酰乙酸@mito-matrix",
    "to": "柠檬酸@mito-matrix",
    "group": "tca",
@@ -32217,14 +32285,14 @@ window.METABOLIC_COMPILED = {
    "info": "三羧酸循环。汇聚：另一底物乙酰辅酶 A；此边使 TCA 闭环"
   },
   {
-   "id": "rx316",
+   "id": "rx317",
    "from": "氨基酸@cytosol",
    "to": "α-酮酸@cytosol",
    "group": "transamination",
    "enzyme": "氨基转移酶",
    "equation": "氨基酸 + α-KG ⇌ α-酮酸 + 谷氨酸",
    "reversible": true,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "氨基酸",
@@ -32294,10 +32362,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "转氨与氧化脱氨。通用转氨反应模板；氨基酸、α-酮酸及酶均为类别，不能对应单一反应（待审校）"
+   "info": "转氨与氧化脱氨。通用转氨教学模板：氨基酸、对应 α-酮酸及酶均为类别，只表达可逆氨基转移关系，不对应单一数据库反应；R-HSA-8964539"
   },
   {
-   "id": "rx317",
+   "id": "rx318",
    "from": "谷氨酸@cytosol",
    "to": "谷氨酸@mito-matrix",
    "group": "transamination",
@@ -32371,7 +32439,7 @@ window.METABOLIC_COMPILED = {
    "info": "转氨与氧化脱氨。进入线粒体氧化脱氨位置"
   },
   {
-   "id": "rx318",
+   "id": "rx319",
    "from": "谷氨酸@mito-matrix",
    "to": "α-酮戊二酸@mito-matrix",
    "group": "transamination",
@@ -32497,7 +32565,7 @@ window.METABOLIC_COMPILED = {
    "info": "转氨与氧化脱氨。氧化脱氨；另一产物为 NH₄⁺"
   },
   {
-   "id": "rx319",
+   "id": "rx320",
    "from": "谷氨酸@mito-matrix",
    "to": "NH₄⁺@mito-matrix",
    "group": "transamination",
@@ -32623,7 +32691,7 @@ window.METABOLIC_COMPILED = {
    "info": "转氨与氧化脱氨。同一氧化脱氨反应的另一表示边"
   },
   {
-   "id": "rx320",
+   "id": "rx321",
    "from": "NADH@cytosol",
    "to": "苹果酸@cytosol",
    "group": "transport",
@@ -32717,7 +32785,7 @@ window.METABOLIC_COMPILED = {
    "info": "跨膜穿梭与核苷酸转运。分叉：反应式含多个产物"
   },
   {
-   "id": "rx321",
+   "id": "rx322",
    "from": "磷酸二羟丙酮@cytosol",
    "to": "甘油-3-磷酸@cytosol",
    "group": "transport",
@@ -32813,7 +32881,7 @@ window.METABOLIC_COMPILED = {
    "info": "跨膜穿梭与核苷酸转运。分叉：反应式含多个产物"
   },
   {
-   "id": "rx322",
+   "id": "rx323",
    "from": "NADH@cytosol",
    "to": "甘油-3-磷酸@cytosol",
    "group": "transport",
@@ -32909,7 +32977,7 @@ window.METABOLIC_COMPILED = {
    "info": "跨膜穿梭与核苷酸转运。分叉：反应式含多个产物"
   },
   {
-   "id": "rx323",
+   "id": "rx324",
    "from": "甘油-3-磷酸@cytosol",
    "to": "辅酶 Q@mito-inner-membrane",
    "group": "transport",
@@ -33063,7 +33131,7 @@ window.METABOLIC_COMPILED = {
    "info": "跨膜穿梭与核苷酸转运。分叉：反应式含多个产物"
   },
   {
-   "id": "rx324",
+   "id": "rx325",
    "from": "NH₄⁺@mito-matrix",
    "to": "氨甲酰磷酸@mito-matrix",
    "group": "urea",
@@ -33173,7 +33241,7 @@ window.METABOLIC_COMPILED = {
    "info": "尿素循环。第一个氮进入循环"
   },
   {
-   "id": "rx325",
+   "id": "rx326",
    "from": "氨甲酰磷酸@mito-matrix",
    "to": "瓜氨酸@mito-matrix",
    "group": "urea",
@@ -33253,7 +33321,7 @@ window.METABOLIC_COMPILED = {
    "info": "尿素循环。汇聚主链边；另一底物为鸟氨酸"
   },
   {
-   "id": "rx326",
+   "id": "rx327",
    "from": "鸟氨酸@mito-matrix",
    "to": "瓜氨酸@mito-matrix",
    "group": "urea",
@@ -33333,7 +33401,7 @@ window.METABOLIC_COMPILED = {
    "info": "尿素循环。汇聚边；使循环拓扑闭合"
   },
   {
-   "id": "rx327",
+   "id": "rx328",
    "from": "瓜氨酸@mito-matrix",
    "to": "瓜氨酸@cytosol",
    "group": "urea",
@@ -33411,7 +33479,7 @@ window.METABOLIC_COMPILED = {
    "info": "尿素循环。与鸟氨酸输入配对的跨内膜输出"
   },
   {
-   "id": "rx328",
+   "id": "rx329",
    "from": "瓜氨酸@cytosol",
    "to": "精氨代琥珀酸@cytosol",
    "group": "urea",
@@ -33517,7 +33585,7 @@ window.METABOLIC_COMPILED = {
    "info": "尿素循环。第二个氮来自天冬氨酸；另一底物为天冬氨酸"
   },
   {
-   "id": "rx329",
+   "id": "rx330",
    "from": "天冬氨酸@cytosol",
    "to": "精氨代琥珀酸@cytosol",
    "group": "urea",
@@ -33623,7 +33691,7 @@ window.METABOLIC_COMPILED = {
    "info": "尿素循环。同一汇聚反应的另一表示边"
   },
   {
-   "id": "rx330",
+   "id": "rx331",
    "from": "精氨代琥珀酸@cytosol",
    "to": "精氨酸@cytosol",
    "group": "urea",
@@ -33685,7 +33753,7 @@ window.METABOLIC_COMPILED = {
    "info": "尿素循环。另一产物为延胡索酸"
   },
   {
-   "id": "rx331",
+   "id": "rx332",
    "from": "精氨代琥珀酸@cytosol",
    "to": "延胡索酸@cytosol",
    "group": "urea",
@@ -33745,7 +33813,7 @@ window.METABOLIC_COMPILED = {
    "info": "尿素循环。同一裂解反应的另一表示边"
   },
   {
-   "id": "rx332",
+   "id": "rx333",
    "from": "精氨酸@cytosol",
    "to": "鸟氨酸@cytosol",
    "group": "urea",
@@ -33823,7 +33891,7 @@ window.METABOLIC_COMPILED = {
    "info": "尿素循环。释放尿素"
   },
   {
-   "id": "rx333",
+   "id": "rx334",
    "from": "精氨酸@cytosol",
    "to": "尿素@cytosol",
    "group": "urea",
@@ -33903,7 +33971,7 @@ window.METABOLIC_COMPILED = {
    "info": "尿素循环。同一裂解反应的另一表示边"
   },
   {
-   "id": "rx334",
+   "id": "rx335",
    "from": "鸟氨酸@cytosol",
    "to": "鸟氨酸@mito-matrix",
    "group": "urea",
@@ -33981,7 +34049,7 @@ window.METABOLIC_COMPILED = {
    "info": "尿素循环。与瓜氨酸输出配对，闭合循环"
   },
   {
-   "id": "rx335",
+   "id": "rx336",
    "from": "UDP-葡萄糖@cytosol",
    "to": "UDP-葡萄糖醛酸@cytosol",
    "group": "uronic",
@@ -34089,7 +34157,7 @@ window.METABOLIC_COMPILED = {
    "info": "糖醛酸途径。葡萄糖醛酸供体"
   },
   {
-   "id": "rx336",
+   "id": "rx337",
    "from": "UDP-葡萄糖醛酸@cytosol",
    "to": "葡萄糖醛酸@cytosol",
    "group": "uronic",
@@ -34181,14 +34249,14 @@ window.METABOLIC_COMPILED = {
    "info": "糖醛酸途径。RHEA:26075 支持该水解净方向，原始研究见于大鼠肝细胞；具体蛋白身份尚未分配，不写成已知人酶"
   },
   {
-   "id": "rx337",
+   "id": "rx338",
    "from": "葡萄糖醛酸@cytosol",
    "to": "木酮糖-5-磷酸@cytosol",
    "group": "uronic",
    "enzyme": "糖醛酸代谢酶系",
    "equation": "葡萄糖醛酸 → 木酮糖-5-磷酸 + CO₂",
    "reversible": false,
-   "review": "待审校",
+   "review": "已终审",
    "participants": [
     {
      "key": "葡萄糖醛酸",
@@ -34238,17 +34306,17 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "糖醛酸途径。糖醛酸到戊糖磷酸的多步路径被压缩，NAD(P)H、ATP 和中间体缺失（待审校）"
+   "info": "糖醛酸途径。多步示意边：经 L-古洛糖酸、3-脱氢-L-古洛糖酸、L-木酮糖、木糖醇和 D-木酮糖进入 X5P；辅因子与 ATP 未写入当前方程；R-HSA-5661270"
   },
   {
-   "id": "rx338",
+   "id": "rx339",
    "from": "UDP-葡萄糖醛酸@cytosol",
    "to": "UDP-葡萄糖醛酸@er-lumen",
    "group": "uronic",
-   "enzyme": "UDP-糖转运体",
-   "equation": "UDP-葡萄糖醛酸胞质 ⇌ UDP-葡萄糖醛酸内质网腔",
-   "reversible": true,
-   "review": "待审校",
+   "enzyme": "SLC35D1 六聚体",
+   "equation": "UDP-葡萄糖醛酸胞质 → UDP-葡萄糖醛酸内质网腔",
+   "reversible": false,
+   "review": "已终审",
    "participants": [
     {
      "key": "UDP-葡萄糖醛酸",
@@ -34284,10 +34352,10 @@ window.METABOLIC_COMPILED = {
     }
    ],
    "ignoredSegments": [],
-   "info": "糖醛酸途径。未指定 SLC35 家族成员及核苷酸一磷酸反向交换，当前转运计量不完整（待审校）"
+   "info": "糖醛酸途径。SLC35D1 将 UDP-GlcA/UDP-GlcNAc 由胞质转入 ER 腔；本图只画 UDP-GlcA 主方向；R-HSA-174368；PMID:11322953"
   },
   {
-   "id": "rx339",
+   "id": "rx340",
    "from": "VLCFA-CoA@peroxisome",
    "to": "烯酰-CoA@peroxisome",
    "group": "vlcfa",
@@ -34363,7 +34431,7 @@ window.METABOLIC_COMPILED = {
    "info": "极长链脂肪酸氧化。过氧化物酶体入口；产生 H₂O₂"
   },
   {
-   "id": "rx340",
+   "id": "rx341",
    "from": "烯酰-CoA@peroxisome",
    "to": "β-羟脂酰-CoA@peroxisome",
    "group": "vlcfa",
@@ -34425,7 +34493,7 @@ window.METABOLIC_COMPILED = {
    "info": "极长链脂肪酸氧化。过氧化物酶体 β-氧化"
   },
   {
-   "id": "rx341",
+   "id": "rx342",
    "from": "β-羟脂酰-CoA@peroxisome",
    "to": "β-酮脂酰-CoA@peroxisome",
    "group": "vlcfa",
@@ -34513,7 +34581,7 @@ window.METABOLIC_COMPILED = {
    "info": "极长链脂肪酸氧化。过氧化物酶体 β-氧化"
   },
   {
-   "id": "rx342",
+   "id": "rx343",
    "from": "β-酮脂酰-CoA@peroxisome",
    "to": "缩短脂酰-CoA@peroxisome",
    "group": "vlcfa",
@@ -34591,14 +34659,14 @@ window.METABOLIC_COMPILED = {
    "info": "极长链脂肪酸氧化。硫解；乙酰-CoA 也可作为产物"
   },
   {
-   "id": "rx343",
+   "id": "rx344",
    "from": "缩短脂酰-CoA@peroxisome",
    "to": "缩短脂酰-CoA@mito-matrix",
    "group": "vlcfa",
-   "enzyme": "酰基肉碱转运系统",
-   "equation": "缩短脂酰-CoA过氧化物酶体 ⇌ 缩短脂酰-CoA基质",
-   "reversible": true,
-   "review": "待审校",
+   "enzyme": "CROT / 酰基肉碱转运系统 / CPT2",
+   "equation": "缩短脂酰-CoA + 肉碱 → 缩短酰基肉碱 → 缩短脂酰-CoA + 肉碱",
+   "reversible": false,
+   "review": "已终审",
    "participants": [
     {
      "key": "缩短脂酰-COA",
@@ -34608,7 +34676,7 @@ window.METABOLIC_COMPILED = {
      "role": "substrate",
      "coefficient": "1",
      "qualifier": "",
-     "compartmentHint": "过氧化物酶体",
+     "compartmentHint": "",
      "compartment": "过氧化物酶体",
      "entityIds": [
       "缩短脂酰-CoA@peroxisome"
@@ -34624,17 +34692,59 @@ window.METABOLIC_COMPILED = {
      "role": "product",
      "coefficient": "1",
      "qualifier": "",
-     "compartmentHint": "线粒体基质",
+     "compartmentHint": "",
      "compartment": "线粒体基质",
      "entityIds": [
       "缩短脂酰-CoA@mito-matrix"
      ],
      "primary": true,
      "source": "endpoint"
+    },
+    {
+     "key": "肉碱",
+     "name": "肉碱",
+     "rawName": "肉碱",
+     "aliases": [],
+     "role": "substrate",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "primary": false,
+     "source": "equation",
+     "compartment": "过氧化物酶体",
+     "entityIds": []
+    },
+    {
+     "key": "缩短酰基肉碱→缩短脂酰-COA",
+     "name": "缩短酰基肉碱 → 缩短脂酰-CoA",
+     "rawName": "缩短酰基肉碱 → 缩短脂酰-CoA",
+     "aliases": [],
+     "role": "product",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "primary": false,
+     "source": "equation",
+     "compartment": "过氧化物酶体",
+     "entityIds": []
+    },
+    {
+     "key": "肉碱",
+     "name": "肉碱",
+     "rawName": "肉碱",
+     "aliases": [],
+     "role": "product",
+     "coefficient": "1",
+     "qualifier": "",
+     "compartmentHint": "",
+     "primary": false,
+     "source": "equation",
+     "compartment": "过氧化物酶体",
+     "entityIds": []
     }
    ],
    "ignoredSegments": [],
-   "info": "极长链脂肪酸氧化。酰基肉碱系统转移的是转化后的酰基肉碱而非未变的酰基-CoA，当前端点和计量需重建（待审校）"
+   "info": "极长链脂肪酸氧化。跨区室示意边：过氧化物酶体产物先转为酰基肉碱，再经线粒体肉碱系统恢复为酰基-CoA；不表示未变的酰基-CoA直接跨膜；R-HSA-200425；PMID:32057943"
   }
  ],
  "pathwayMeta": {
@@ -34702,11 +34812,11 @@ window.METABOLIC_COMPILED = {
    "source": "PDF 上中胆固醇区"
   },
   "etc": {
-   "label": "呼吸电子传递链与氧化磷酸化",
-   "english": "Electron transport and oxidative phosphorylation",
+   "label": "呼吸电子传递链",
+   "english": "Electron transport chain",
    "tone": "#6fa6c2",
    "compartment": "线粒体内膜",
-   "source": "PDF 电子传递区与氧化磷酸化区"
+   "source": "PDF 电子传递区"
   },
   "fa_elongation": {
    "label": "脂肪酸延长与去饱和",
@@ -35042,11 +35152,11 @@ window.METABOLIC_COMPILED = {
    ],
    "reactionIds": [
     "rx1",
+    "rx96",
     "rx97",
-    "rx98",
+    "rx137",
     "rx138",
-    "rx139",
-    "rx274"
+    "rx275"
    ],
    "occurrences": [
     {
@@ -35062,7 +35172,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx97",
+     "reactionId": "rx96",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -35074,11 +35184,23 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx98",
+     "reactionId": "rx97",
      "pathwayIds": [
       "gluconeogenesis"
      ],
      "role": "substrate",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "3-磷酸甘油酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx137",
+     "pathwayIds": [
+      "glycolysis"
+     ],
+     "role": "product",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -35090,18 +35212,6 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "glycolysis"
      ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "3-磷酸甘油酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx139",
-     "pathwayIds": [
-      "glycolysis"
-     ],
      "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
@@ -35110,7 +35220,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx274",
+     "reactionId": "rx275",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -35140,11 +35250,11 @@ window.METABOLIC_COMPILED = {
    ],
    "reactionIds": [
     "rx1",
-    "rx74",
-    "rx202",
-    "rx276",
+    "rx73",
+    "rx201",
     "rx277",
-    "rx280"
+    "rx278",
+    "rx281"
    ],
    "occurrences": [
     {
@@ -35160,7 +35270,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx74",
+     "reactionId": "rx73",
      "pathwayIds": [
       "folate"
      ],
@@ -35172,7 +35282,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx202",
+     "reactionId": "rx201",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -35184,7 +35294,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx276",
+     "reactionId": "rx277",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -35196,7 +35306,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx277",
+     "reactionId": "rx278",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -35208,7 +35318,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx280",
+     "reactionId": "rx281",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -35258,40 +35368,40 @@ window.METABOLIC_COMPILED = {
     "rx29",
     "rx36",
     "rx51",
+    "rx66",
     "rx67",
-    "rx68",
-    "rx87",
-    "rx92",
-    "rx94",
-    "rx99",
-    "rx108",
+    "rx86",
+    "rx91",
+    "rx93",
+    "rx98",
+    "rx107",
+    "rx118",
     "rx119",
-    "rx120",
-    "rx137",
-    "rx153",
-    "rx165",
-    "rx168",
+    "rx136",
+    "rx152",
+    "rx164",
+    "rx167",
+    "rx180",
     "rx181",
-    "rx182",
+    "rx184",
     "rx185",
-    "rx186",
-    "rx226",
-    "rx239",
-    "rx254",
-    "rx266",
-    "rx274",
-    "rx278",
-    "rx283",
-    "rx309",
+    "rx225",
+    "rx238",
+    "rx253",
+    "rx267",
+    "rx275",
+    "rx279",
+    "rx284",
     "rx310",
-    "rx314",
-    "rx318",
+    "rx311",
+    "rx315",
     "rx319",
     "rx320",
     "rx321",
     "rx322",
-    "rx335",
-    "rx341"
+    "rx323",
+    "rx336",
+    "rx342"
    ],
    "occurrences": [
     {
@@ -35341,6 +35451,16 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
+     "reactionId": "rx66",
+     "pathwayIds": [
+      "fa_elongation"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "平滑内质网",
+     "entityIds": []
+    },
+    {
      "reactionId": "rx67",
      "pathwayIds": [
       "fa_elongation"
@@ -35351,17 +35471,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx68",
-     "pathwayIds": [
-      "fa_elongation"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "平滑内质网",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx87",
+     "reactionId": "rx86",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -35373,7 +35483,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx92",
+     "reactionId": "rx91",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -35385,7 +35495,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx94",
+     "reactionId": "rx93",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -35397,7 +35507,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx99",
+     "reactionId": "rx98",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -35409,11 +35519,23 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx108",
+     "reactionId": "rx107",
      "pathwayIds": [
       "gluconeogenesis"
      ],
      "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "NAD⁺@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx118",
+     "pathwayIds": [
+      "glycerol_phosphate"
+     ],
+     "role": "product",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
@@ -35426,18 +35548,6 @@ window.METABOLIC_COMPILED = {
       "glycerol_phosphate"
      ],
      "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "NAD⁺@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx120",
-     "pathwayIds": [
-      "glycerol_phosphate"
-     ],
-     "role": "product",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -35445,7 +35555,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx137",
+     "reactionId": "rx136",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -35457,7 +35567,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx153",
+     "reactionId": "rx152",
      "pathwayIds": [
       "glyoxylate"
      ],
@@ -35467,7 +35577,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx165",
+     "reactionId": "rx164",
      "pathwayIds": [
       "ketone"
      ],
@@ -35479,7 +35589,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx168",
+     "reactionId": "rx167",
      "pathwayIds": [
       "ketone"
      ],
@@ -35491,7 +35601,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx181",
+     "reactionId": "rx180",
      "pathwayIds": [
       "malate_aspartate",
       "transport"
@@ -35504,12 +35614,25 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx182",
+     "reactionId": "rx181",
      "pathwayIds": [
       "malate_aspartate"
      ],
      "role": "product",
      "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "NAD⁺@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx184",
+     "pathwayIds": [
+      "malate_aspartate",
+      "transport"
+     ],
+     "role": "substrate",
+     "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
       "NAD⁺@cytosol"
@@ -35518,19 +35641,6 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx185",
      "pathwayIds": [
-      "malate_aspartate",
-      "transport"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "NAD⁺@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx186",
-     "pathwayIds": [
       "malate_aspartate"
      ],
      "role": "substrate",
@@ -35541,7 +35651,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx226",
+     "reactionId": "rx225",
      "pathwayIds": [
       "pdh",
       "pyruvate_fates"
@@ -35554,7 +35664,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx239",
+     "reactionId": "rx238",
      "pathwayIds": [
       "polyol"
      ],
@@ -35566,7 +35676,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx254",
+     "reactionId": "rx253",
      "pathwayIds": [
       "purine"
      ],
@@ -35578,7 +35688,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx266",
+     "reactionId": "rx267",
      "pathwayIds": [
       "pyruvate_fates"
      ],
@@ -35590,7 +35700,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx274",
+     "reactionId": "rx275",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -35602,7 +35712,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx278",
+     "reactionId": "rx279",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -35614,7 +35724,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx283",
+     "reactionId": "rx284",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -35622,18 +35732,6 @@ window.METABOLIC_COMPILED = {
      "source": "equation",
      "compartment": "平滑内质网",
      "entityIds": []
-    },
-    {
-     "reactionId": "rx309",
-     "pathwayIds": [
-      "tca"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "NAD⁺@mito-matrix"
-     ]
     },
     {
      "reactionId": "rx310",
@@ -35648,7 +35746,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx314",
+     "reactionId": "rx311",
      "pathwayIds": [
       "tca"
      ],
@@ -35660,15 +35758,15 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx318",
+     "reactionId": "rx315",
      "pathwayIds": [
-      "transamination"
+      "tca"
      ],
      "role": "substrate",
      "source": "equation",
-     "compartment": "细胞质",
+     "compartment": "线粒体基质",
      "entityIds": [
-      "NAD⁺@cytosol"
+      "NAD⁺@mito-matrix"
      ]
     },
     {
@@ -35686,9 +35784,9 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx320",
      "pathwayIds": [
-      "transport"
+      "transamination"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
@@ -35720,7 +35818,19 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx335",
+     "reactionId": "rx323",
+     "pathwayIds": [
+      "transport"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "NAD⁺@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx336",
      "pathwayIds": [
       "uronic"
      ],
@@ -35732,7 +35842,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx341",
+     "reactionId": "rx342",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -35777,28 +35887,28 @@ window.METABOLIC_COMPILED = {
     "rx6",
     "rx17",
     "rx28",
-    "rx88",
+    "rx87",
+    "rx108",
     "rx109",
     "rx110",
     "rx111",
     "rx112",
-    "rx113",
+    "rx186",
     "rx187",
     "rx188",
     "rx189",
-    "rx190",
+    "rx206",
     "rx207",
     "rx208",
-    "rx209",
-    "rx249",
-    "rx254",
-    "rx257",
-    "rx263",
-    "rx275",
-    "rx316",
+    "rx248",
+    "rx253",
+    "rx256",
+    "rx262",
+    "rx276",
     "rx317",
     "rx318",
-    "rx319"
+    "rx319",
+    "rx320"
    ],
    "occurrences": [
     {
@@ -35901,7 +36011,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx88",
+     "reactionId": "rx87",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -35913,7 +36023,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx109",
+     "reactionId": "rx108",
      "pathwayIds": [
       "glutamate_glutamine"
      ],
@@ -35925,11 +36035,23 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx110",
+     "reactionId": "rx109",
      "pathwayIds": [
       "glutamate_glutamine"
      ],
      "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "谷氨酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx110",
+     "pathwayIds": [
+      "glutamate_glutamine"
+     ],
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -35951,7 +36073,7 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx112",
      "pathwayIds": [
-      "glutamate_glutamine"
+      "glutathione"
      ],
      "role": "substrate",
      "source": "endpoint",
@@ -35961,12 +36083,13 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx113",
+     "reactionId": "rx186",
      "pathwayIds": [
-      "glutathione"
+      "malate_aspartate",
+      "transport"
      ],
      "role": "substrate",
-     "source": "endpoint",
+     "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
       "谷氨酸@cytosol"
@@ -35986,20 +36109,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx188",
-     "pathwayIds": [
-      "malate_aspartate",
-      "transport"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "谷氨酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx188",
+     "reactionId": "rx187",
      "pathwayIds": [
       "malate_aspartate",
       "transport"
@@ -36012,7 +36122,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx189",
+     "reactionId": "rx188",
      "pathwayIds": [
       "malate_aspartate"
      ],
@@ -36024,7 +36134,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx189",
+     "reactionId": "rx188",
      "pathwayIds": [
       "malate_aspartate"
      ],
@@ -36036,7 +36146,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx190",
+     "reactionId": "rx189",
      "pathwayIds": [
       "malate_aspartate",
       "transport"
@@ -36046,6 +36156,18 @@ window.METABOLIC_COMPILED = {
      "compartment": "细胞质",
      "entityIds": [
       "谷氨酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx206",
+     "pathwayIds": [
+      "nitrogen"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "质体",
+     "entityIds": [
+      "谷氨酸@plastid"
      ]
     },
     {
@@ -36053,8 +36175,8 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "nitrogen"
      ],
-     "role": "substrate",
-     "source": "equation",
+     "role": "product",
+     "source": "endpoint",
      "compartment": "质体",
      "entityIds": [
       "谷氨酸@plastid"
@@ -36073,19 +36195,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx209",
-     "pathwayIds": [
-      "nitrogen"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "质体",
-     "entityIds": [
-      "谷氨酸@plastid"
-     ]
-    },
-    {
-     "reactionId": "rx249",
+     "reactionId": "rx248",
      "pathwayIds": [
       "purine"
      ],
@@ -36097,7 +36207,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx254",
+     "reactionId": "rx253",
      "pathwayIds": [
       "purine"
      ],
@@ -36109,7 +36219,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx257",
+     "reactionId": "rx256",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -36121,7 +36231,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx263",
+     "reactionId": "rx262",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -36133,7 +36243,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx275",
+     "reactionId": "rx276",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -36145,7 +36255,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx316",
+     "reactionId": "rx317",
      "pathwayIds": [
       "transamination"
      ],
@@ -36157,7 +36267,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx317",
+     "reactionId": "rx318",
      "pathwayIds": [
       "transamination"
      ],
@@ -36169,7 +36279,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx317",
+     "reactionId": "rx318",
      "pathwayIds": [
       "transamination"
      ],
@@ -36181,7 +36291,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx318",
+     "reactionId": "rx319",
      "pathwayIds": [
       "transamination"
      ],
@@ -36193,7 +36303,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx319",
+     "reactionId": "rx320",
      "pathwayIds": [
       "transamination"
      ],
@@ -36264,79 +36374,77 @@ window.METABOLIC_COMPILED = {
     "rx27",
     "rx35",
     "rx45",
-    "rx58",
-    "rx64",
+    "rx59",
+    "rx60",
     "rx65",
     "rx66",
     "rx67",
-    "rx68",
+    "rx70",
     "rx71",
-    "rx72",
+    "rx73",
     "rx74",
-    "rx75",
-    "rx96",
-    "rx102",
-    "rx105",
+    "rx95",
+    "rx101",
+    "rx104",
+    "rx109",
     "rx110",
     "rx111",
-    "rx112",
-    "rx115",
-    "rx117",
-    "rx130",
-    "rx140",
+    "rx114",
+    "rx116",
+    "rx129",
+    "rx139",
+    "rx145",
     "rx146",
-    "rx147",
+    "rx150",
     "rx151",
-    "rx152",
-    "rx155",
-    "rx159",
-    "rx163",
+    "rx154",
+    "rx158",
+    "rx162",
+    "rx168",
     "rx169",
     "rx170",
-    "rx171",
-    "rx173",
+    "rx176",
     "rx177",
     "rx178",
     "rx179",
-    "rx180",
-    "rx200",
+    "rx199",
+    "rx201",
     "rx202",
-    "rx203",
-    "rx206",
-    "rx210",
+    "rx205",
+    "rx209",
+    "rx211",
     "rx212",
     "rx213",
     "rx214",
-    "rx215",
+    "rx216",
     "rx217",
     "rx218",
-    "rx219",
-    "rx241",
-    "rx252",
-    "rx254",
-    "rx259",
-    "rx264",
+    "rx240",
+    "rx251",
+    "rx253",
+    "rx258",
+    "rx263",
     "rx265",
-    "rx276",
     "rx277",
-    "rx283",
-    "rx288",
-    "rx290",
-    "rx292",
-    "rx298",
-    "rx303",
-    "rx305",
+    "rx278",
+    "rx284",
+    "rx289",
+    "rx291",
+    "rx293",
+    "rx299",
+    "rx304",
     "rx306",
     "rx307",
-    "rx313",
-    "rx315",
-    "rx318",
+    "rx308",
+    "rx314",
+    "rx316",
     "rx319",
-    "rx332",
+    "rx320",
     "rx333",
-    "rx335",
+    "rx334",
     "rx336",
-    "rx340"
+    "rx337",
+    "rx341"
    ],
    "occurrences": [
     {
@@ -36433,7 +36541,17 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx58",
+     "reactionId": "rx59",
+     "pathwayIds": [
+      "etc"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "线粒体内膜",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx60",
      "pathwayIds": [
       "etc"
      ],
@@ -36445,23 +36563,13 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx64",
-     "pathwayIds": [
-      "etc"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "线粒体内膜",
-     "entityIds": []
-    },
-    {
      "reactionId": "rx65",
      "pathwayIds": [
-      "etc"
+      "fa_elongation"
      ],
      "role": "product",
      "source": "equation",
-     "compartment": "线粒体内膜",
+     "compartment": "平滑内质网",
      "entityIds": []
     },
     {
@@ -36485,13 +36593,13 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx68",
+     "reactionId": "rx70",
      "pathwayIds": [
-      "fa_elongation"
+      "fa_synthesis"
      ],
      "role": "product",
      "source": "equation",
-     "compartment": "平滑内质网",
+     "compartment": "细胞质",
      "entityIds": []
     },
     {
@@ -36505,9 +36613,9 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx72",
+     "reactionId": "rx73",
      "pathwayIds": [
-      "fa_synthesis"
+      "folate"
      ],
      "role": "product",
      "source": "equation",
@@ -36519,23 +36627,13 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "folate"
      ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx75",
-     "pathwayIds": [
-      "folate"
-     ],
      "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
     },
     {
-     "reactionId": "rx96",
+     "reactionId": "rx95",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -36545,7 +36643,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx102",
+     "reactionId": "rx101",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -36555,10 +36653,20 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx105",
+     "reactionId": "rx104",
      "pathwayIds": [
       "gluconeogenesis",
       "glycogenolysis"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx109",
+     "pathwayIds": [
+      "glutamate_glutamine"
      ],
      "role": "substrate",
      "source": "equation",
@@ -36586,17 +36694,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx112",
-     "pathwayIds": [
-      "glutamate_glutamine"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx115",
+     "reactionId": "rx114",
      "pathwayIds": [
       "glutathione"
      ],
@@ -36606,7 +36704,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx117",
+     "reactionId": "rx116",
      "pathwayIds": [
       "glutathione"
      ],
@@ -36616,7 +36714,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx130",
+     "reactionId": "rx129",
      "pathwayIds": [
       "glycogenolysis"
      ],
@@ -36626,13 +36724,23 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx140",
+     "reactionId": "rx139",
      "pathwayIds": [
       "glycolysis"
      ],
      "role": "product",
      "source": "equation",
      "compartment": "细胞质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx145",
+     "pathwayIds": [
+      "glyoxylate"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "乙醛酸体",
      "entityIds": []
     },
     {
@@ -36646,7 +36754,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx147",
+     "reactionId": "rx150",
      "pathwayIds": [
       "glyoxylate"
      ],
@@ -36666,17 +36774,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx152",
-     "pathwayIds": [
-      "glyoxylate"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "乙醛酸体",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx155",
+     "reactionId": "rx154",
      "pathwayIds": [
       "heme"
      ],
@@ -36688,7 +36786,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx159",
+     "reactionId": "rx158",
      "pathwayIds": [
       "heme"
      ],
@@ -36700,7 +36798,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx163",
+     "reactionId": "rx162",
      "pathwayIds": [
       "ketone"
      ],
@@ -36710,6 +36808,16 @@ window.METABOLIC_COMPILED = {
      "entityIds": [
       "水@mito-matrix"
      ]
+    },
+    {
+     "reactionId": "rx168",
+     "pathwayIds": [
+      "lipoprotein"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "胞外",
+     "entityIds": []
     },
     {
      "reactionId": "rx169",
@@ -36732,23 +36840,13 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx171",
+     "reactionId": "rx176",
      "pathwayIds": [
-      "lipoprotein"
+      "lysosomal"
      ],
      "role": "substrate",
      "source": "equation",
-     "compartment": "胞外",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx173",
-     "pathwayIds": [
-      "lipoprotein"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "胞外",
+     "compartment": "溶酶体",
      "entityIds": []
     },
     {
@@ -36782,21 +36880,21 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx180",
-     "pathwayIds": [
-      "lysosomal"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "溶酶体",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx200",
+     "reactionId": "rx199",
      "pathwayIds": [
       "methionine_cysteine"
      ],
      "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx201",
+     "pathwayIds": [
+      "methionine_cysteine"
+     ],
+     "role": "product",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
@@ -36806,23 +36904,13 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "methionine_cysteine"
      ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx203",
-     "pathwayIds": [
-      "methionine_cysteine"
-     ],
      "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
     },
     {
-     "reactionId": "rx206",
+     "reactionId": "rx205",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -36832,7 +36920,17 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx210",
+     "reactionId": "rx209",
+     "pathwayIds": [
+      "nucleotide_degradation"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx211",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -36872,13 +36970,13 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx215",
+     "reactionId": "rx216",
      "pathwayIds": [
-      "nucleotide_degradation"
+      "oxphos"
      ],
-     "role": "substrate",
+     "role": "product",
      "source": "equation",
-     "compartment": "细胞质",
+     "compartment": "线粒体内膜",
      "entityIds": []
     },
     {
@@ -36902,17 +37000,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx219",
-     "pathwayIds": [
-      "oxphos"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "线粒体内膜",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx241",
+     "reactionId": "rx240",
      "pathwayIds": [
       "ppp"
      ],
@@ -36922,7 +37010,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx252",
+     "reactionId": "rx251",
      "pathwayIds": [
       "purine"
      ],
@@ -36932,7 +37020,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx254",
+     "reactionId": "rx253",
      "pathwayIds": [
       "purine"
      ],
@@ -36942,7 +37030,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx259",
+     "reactionId": "rx258",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -36952,7 +37040,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx264",
+     "reactionId": "rx263",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -36972,7 +37060,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx276",
+     "reactionId": "rx277",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -36982,7 +37070,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx277",
+     "reactionId": "rx278",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -36992,7 +37080,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx283",
+     "reactionId": "rx284",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -37002,7 +37090,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx288",
+     "reactionId": "rx289",
      "pathwayIds": [
       "starch"
      ],
@@ -37012,7 +37100,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx290",
+     "reactionId": "rx291",
      "pathwayIds": [
       "starch"
      ],
@@ -37022,7 +37110,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx292",
+     "reactionId": "rx293",
      "pathwayIds": [
       "steroid_bile"
      ],
@@ -37032,7 +37120,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx298",
+     "reactionId": "rx299",
      "pathwayIds": [
       "sulfur"
      ],
@@ -37042,17 +37130,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx303",
-     "pathwayIds": [
-      "tag"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "平滑内质网",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx305",
+     "reactionId": "rx304",
      "pathwayIds": [
       "tag"
      ],
@@ -37074,48 +37152,48 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx307",
      "pathwayIds": [
-      "tca"
+      "tag"
      ],
      "role": "substrate",
      "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "水@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx313",
-     "pathwayIds": [
-      "tca"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "水@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx315",
-     "pathwayIds": [
-      "tca"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "水@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx318",
-     "pathwayIds": [
-      "transamination"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
+     "compartment": "平滑内质网",
      "entityIds": []
+    },
+    {
+     "reactionId": "rx308",
+     "pathwayIds": [
+      "tca"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "水@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx314",
+     "pathwayIds": [
+      "tca"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "水@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx316",
+     "pathwayIds": [
+      "tca"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "水@mito-matrix"
+     ]
     },
     {
      "reactionId": "rx319",
@@ -37128,16 +37206,14 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx332",
+     "reactionId": "rx320",
      "pathwayIds": [
-      "urea"
+      "transamination"
      ],
      "role": "substrate",
      "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "水@mito-matrix"
-     ]
+     "compartment": "细胞质",
+     "entityIds": []
     },
     {
      "reactionId": "rx333",
@@ -37152,14 +37228,16 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx335",
+     "reactionId": "rx334",
      "pathwayIds": [
-      "uronic"
+      "urea"
      ],
      "role": "substrate",
      "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "水@mito-matrix"
+     ]
     },
     {
      "reactionId": "rx336",
@@ -37172,7 +37250,17 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx340",
+     "reactionId": "rx337",
+     "pathwayIds": [
+      "uronic"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx341",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -37220,39 +37308,39 @@ window.METABOLIC_COMPILED = {
     "rx29",
     "rx36",
     "rx51",
+    "rx66",
     "rx67",
-    "rx68",
-    "rx87",
-    "rx92",
-    "rx94",
-    "rx99",
-    "rx108",
+    "rx86",
+    "rx91",
+    "rx93",
+    "rx98",
+    "rx107",
+    "rx118",
     "rx119",
-    "rx120",
-    "rx137",
-    "rx153",
-    "rx165",
-    "rx168",
+    "rx136",
+    "rx152",
+    "rx164",
+    "rx167",
+    "rx180",
     "rx181",
-    "rx182",
+    "rx184",
     "rx185",
-    "rx186",
-    "rx226",
-    "rx239",
-    "rx254",
-    "rx266",
-    "rx274",
-    "rx283",
-    "rx309",
+    "rx225",
+    "rx238",
+    "rx253",
+    "rx267",
+    "rx275",
+    "rx284",
     "rx310",
-    "rx314",
-    "rx318",
+    "rx311",
+    "rx315",
     "rx319",
     "rx320",
     "rx321",
     "rx322",
-    "rx335",
-    "rx341"
+    "rx323",
+    "rx336",
+    "rx342"
    ],
    "occurrences": [
     {
@@ -37304,6 +37392,16 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
+     "reactionId": "rx66",
+     "pathwayIds": [
+      "fa_elongation"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "平滑内质网",
+     "entityIds": []
+    },
+    {
      "reactionId": "rx67",
      "pathwayIds": [
       "fa_elongation"
@@ -37314,17 +37412,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx68",
-     "pathwayIds": [
-      "fa_elongation"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "平滑内质网",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx87",
+     "reactionId": "rx86",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -37336,7 +37424,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx92",
+     "reactionId": "rx91",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -37348,7 +37436,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx94",
+     "reactionId": "rx93",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -37360,7 +37448,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx99",
+     "reactionId": "rx98",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -37372,11 +37460,23 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx108",
+     "reactionId": "rx107",
      "pathwayIds": [
       "gluconeogenesis"
      ],
      "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "NADH@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx118",
+     "pathwayIds": [
+      "glycerol_phosphate"
+     ],
+     "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
@@ -37389,18 +37489,6 @@ window.METABOLIC_COMPILED = {
       "glycerol_phosphate"
      ],
      "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "NADH@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx120",
-     "pathwayIds": [
-      "glycerol_phosphate"
-     ],
-     "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -37408,7 +37496,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx137",
+     "reactionId": "rx136",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -37420,7 +37508,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx153",
+     "reactionId": "rx152",
      "pathwayIds": [
       "glyoxylate"
      ],
@@ -37430,7 +37518,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx165",
+     "reactionId": "rx164",
      "pathwayIds": [
       "ketone"
      ],
@@ -37442,7 +37530,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx168",
+     "reactionId": "rx167",
      "pathwayIds": [
       "ketone"
      ],
@@ -37454,7 +37542,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx181",
+     "reactionId": "rx180",
      "pathwayIds": [
       "malate_aspartate",
       "transport"
@@ -37467,12 +37555,25 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx182",
+     "reactionId": "rx181",
      "pathwayIds": [
       "malate_aspartate"
      ],
      "role": "substrate",
      "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "NADH@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx184",
+     "pathwayIds": [
+      "malate_aspartate",
+      "transport"
+     ],
+     "role": "product",
+     "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
       "NADH@cytosol"
@@ -37481,19 +37582,6 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx185",
      "pathwayIds": [
-      "malate_aspartate",
-      "transport"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "NADH@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx186",
-     "pathwayIds": [
       "malate_aspartate"
      ],
      "role": "product",
@@ -37504,7 +37592,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx226",
+     "reactionId": "rx225",
      "pathwayIds": [
       "pdh",
       "pyruvate_fates"
@@ -37517,7 +37605,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx239",
+     "reactionId": "rx238",
      "pathwayIds": [
       "polyol"
      ],
@@ -37529,7 +37617,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx254",
+     "reactionId": "rx253",
      "pathwayIds": [
       "purine"
      ],
@@ -37541,7 +37629,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx266",
+     "reactionId": "rx267",
      "pathwayIds": [
       "pyruvate_fates"
      ],
@@ -37553,7 +37641,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx274",
+     "reactionId": "rx275",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -37565,7 +37653,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx283",
+     "reactionId": "rx284",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -37573,18 +37661,6 @@ window.METABOLIC_COMPILED = {
      "source": "equation",
      "compartment": "平滑内质网",
      "entityIds": []
-    },
-    {
-     "reactionId": "rx309",
-     "pathwayIds": [
-      "tca"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "NADH@mito-matrix"
-     ]
     },
     {
      "reactionId": "rx310",
@@ -37599,7 +37675,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx314",
+     "reactionId": "rx311",
      "pathwayIds": [
       "tca"
      ],
@@ -37611,15 +37687,15 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx318",
+     "reactionId": "rx315",
      "pathwayIds": [
-      "transamination"
+      "tca"
      ],
      "role": "product",
      "source": "equation",
-     "compartment": "细胞质",
+     "compartment": "线粒体基质",
      "entityIds": [
-      "NADH@cytosol"
+      "NADH@mito-matrix"
      ]
     },
     {
@@ -37637,10 +37713,10 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx320",
      "pathwayIds": [
-      "transport"
+      "transamination"
      ],
-     "role": "substrate",
-     "source": "endpoint",
+     "role": "product",
+     "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
       "NADH@cytosol"
@@ -37652,7 +37728,7 @@ window.METABOLIC_COMPILED = {
       "transport"
      ],
      "role": "substrate",
-     "source": "equation",
+     "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
       "NADH@cytosol"
@@ -37664,6 +37740,18 @@ window.METABOLIC_COMPILED = {
       "transport"
      ],
      "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "NADH@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx323",
+     "pathwayIds": [
+      "transport"
+     ],
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -37671,7 +37759,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx335",
+     "reactionId": "rx336",
      "pathwayIds": [
       "uronic"
      ],
@@ -37683,7 +37771,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx341",
+     "reactionId": "rx342",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -37744,73 +37832,73 @@ window.METABOLIC_COMPILED = {
     "rx46",
     "rx51",
     "rx52",
-    "rx58",
     "rx59",
+    "rx60",
     "rx61",
     "rx63",
+    "rx65",
     "rx66",
     "rx67",
-    "rx68",
+    "rx70",
     "rx71",
     "rx72",
-    "rx73",
+    "rx74",
     "rx75",
-    "rx76",
-    "rx87",
-    "rx90",
-    "rx92",
-    "rx94",
-    "rx99",
-    "rx108",
+    "rx86",
+    "rx89",
+    "rx91",
+    "rx93",
+    "rx98",
+    "rx107",
+    "rx110",
     "rx111",
-    "rx112",
-    "rx116",
+    "rx115",
+    "rx118",
     "rx119",
-    "rx120",
-    "rx137",
-    "rx153",
+    "rx136",
+    "rx152",
+    "rx158",
     "rx159",
     "rx160",
-    "rx161",
-    "rx165",
-    "rx168",
+    "rx164",
+    "rx167",
+    "rx180",
     "rx181",
-    "rx182",
+    "rx184",
     "rx185",
-    "rx186",
+    "rx187",
     "rx188",
-    "rx189",
-    "rx206",
+    "rx205",
+    "rx213",
     "rx214",
     "rx215",
     "rx216",
     "rx217",
     "rx218",
-    "rx219",
+    "rx224",
     "rx225",
-    "rx226",
-    "rx235",
+    "rx234",
+    "rx237",
     "rx238",
     "rx239",
-    "rx240",
-    "rx254",
-    "rx266",
-    "rx274",
-    "rx283",
-    "rx292",
-    "rx298",
-    "rx309",
+    "rx253",
+    "rx267",
+    "rx275",
+    "rx284",
+    "rx293",
+    "rx299",
     "rx310",
-    "rx314",
-    "rx317",
+    "rx311",
+    "rx315",
     "rx318",
     "rx319",
     "rx320",
     "rx321",
     "rx322",
-    "rx335",
+    "rx323",
     "rx336",
-    "rx341"
+    "rx337",
+    "rx342"
    ],
    "occurrences": [
     {
@@ -37907,16 +37995,6 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx58",
-     "pathwayIds": [
-      "etc"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": []
-    },
-    {
      "reactionId": "rx59",
      "pathwayIds": [
       "etc"
@@ -37927,13 +38005,13 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx59",
+     "reactionId": "rx60",
      "pathwayIds": [
       "etc"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "equation",
-     "compartment": "线粒体膜间隙",
+     "compartment": "线粒体基质",
      "entityIds": []
     },
     {
@@ -37963,7 +38041,7 @@ window.METABOLIC_COMPILED = {
      ],
      "role": "substrate",
      "source": "equation",
-     "compartment": "线粒体膜间隙",
+     "compartment": "线粒体基质",
      "entityIds": []
     },
     {
@@ -37973,7 +38051,17 @@ window.METABOLIC_COMPILED = {
      ],
      "role": "product",
      "source": "equation",
-     "compartment": "线粒体基质",
+     "compartment": "线粒体膜间隙",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx65",
+     "pathwayIds": [
+      "fa_elongation"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "平滑内质网",
      "entityIds": []
     },
     {
@@ -37997,13 +38085,13 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx68",
+     "reactionId": "rx70",
      "pathwayIds": [
-      "fa_elongation"
+      "fa_synthesis"
      ],
      "role": "substrate",
      "source": "equation",
-     "compartment": "平滑内质网",
+     "compartment": "细胞质",
      "entityIds": []
     },
     {
@@ -38019,7 +38107,7 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx72",
      "pathwayIds": [
-      "fa_synthesis"
+      "folate"
      ],
      "role": "substrate",
      "source": "equation",
@@ -38027,11 +38115,11 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx73",
+     "reactionId": "rx74",
      "pathwayIds": [
       "folate"
      ],
-     "role": "substrate",
+     "role": "product",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
@@ -38041,23 +38129,13 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "folate"
      ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx76",
-     "pathwayIds": [
-      "folate"
-     ],
      "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
     },
     {
-     "reactionId": "rx87",
+     "reactionId": "rx86",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -38067,7 +38145,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx90",
+     "reactionId": "rx89",
      "pathwayIds": [
       "gluconeogenesis",
       "pdh",
@@ -38080,7 +38158,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx90",
+     "reactionId": "rx89",
      "pathwayIds": [
       "gluconeogenesis",
       "pdh",
@@ -38093,7 +38171,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx92",
+     "reactionId": "rx91",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -38103,7 +38181,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx94",
+     "reactionId": "rx93",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -38113,7 +38191,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx99",
+     "reactionId": "rx98",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -38123,9 +38201,19 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx108",
+     "reactionId": "rx107",
      "pathwayIds": [
       "gluconeogenesis"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx110",
+     "pathwayIds": [
+      "glutamate_glutamine"
      ],
      "role": "product",
      "source": "equation",
@@ -38143,19 +38231,19 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx112",
+     "reactionId": "rx115",
      "pathwayIds": [
-      "glutamate_glutamine"
+      "glutathione"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
     },
     {
-     "reactionId": "rx116",
+     "reactionId": "rx118",
      "pathwayIds": [
-      "glutathione"
+      "glycerol_phosphate"
      ],
      "role": "substrate",
      "source": "equation",
@@ -38173,17 +38261,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx120",
-     "pathwayIds": [
-      "glycerol_phosphate"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx137",
+     "reactionId": "rx136",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -38193,13 +38271,23 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx153",
+     "reactionId": "rx152",
      "pathwayIds": [
       "glyoxylate"
      ],
      "role": "product",
      "source": "equation",
      "compartment": "乙醛酸体",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx158",
+     "pathwayIds": [
+      "heme"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "线粒体基质",
      "entityIds": []
     },
     {
@@ -38217,23 +38305,13 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "heme"
      ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx161",
-     "pathwayIds": [
-      "heme"
-     ],
      "role": "product",
      "source": "equation",
      "compartment": "线粒体基质",
      "entityIds": []
     },
     {
-     "reactionId": "rx165",
+     "reactionId": "rx164",
      "pathwayIds": [
       "ketone"
      ],
@@ -38243,7 +38321,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx168",
+     "reactionId": "rx167",
      "pathwayIds": [
       "ketone"
      ],
@@ -38253,7 +38331,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx181",
+     "reactionId": "rx180",
      "pathwayIds": [
       "malate_aspartate",
       "transport"
@@ -38264,11 +38342,22 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx182",
+     "reactionId": "rx181",
      "pathwayIds": [
       "malate_aspartate"
      ],
      "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx184",
+     "pathwayIds": [
+      "malate_aspartate",
+      "transport"
+     ],
+     "role": "product",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
@@ -38276,8 +38365,7 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx185",
      "pathwayIds": [
-      "malate_aspartate",
-      "transport"
+      "malate_aspartate"
      ],
      "role": "product",
      "source": "equation",
@@ -38285,11 +38373,12 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx186",
+     "reactionId": "rx187",
      "pathwayIds": [
-      "malate_aspartate"
+      "malate_aspartate",
+      "transport"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
@@ -38297,17 +38386,6 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx188",
      "pathwayIds": [
-      "malate_aspartate",
-      "transport"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx189",
-     "pathwayIds": [
       "malate_aspartate"
      ],
      "role": "substrate",
@@ -38316,13 +38394,23 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx206",
+     "reactionId": "rx205",
      "pathwayIds": [
       "nitrogen"
      ],
      "role": "substrate",
      "source": "equation",
      "compartment": "质体",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx213",
+     "pathwayIds": [
+      "nucleotide_degradation"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
      "entityIds": []
     },
     {
@@ -38338,11 +38426,21 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx215",
      "pathwayIds": [
-      "nucleotide_degradation"
+      "oxphos"
      ],
      "role": "substrate",
      "source": "equation",
-     "compartment": "细胞质",
+     "compartment": "线粒体膜间隙",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx215",
+     "pathwayIds": [
+      "oxphos"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "线粒体基质",
      "entityIds": []
     },
     {
@@ -38406,7 +38504,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx219",
+     "reactionId": "rx224",
      "pathwayIds": [
       "oxphos"
      ],
@@ -38416,7 +38514,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx219",
+     "reactionId": "rx224",
      "pathwayIds": [
       "oxphos"
      ],
@@ -38427,26 +38525,6 @@ window.METABOLIC_COMPILED = {
     },
     {
      "reactionId": "rx225",
-     "pathwayIds": [
-      "oxphos"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "线粒体膜间隙",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx225",
-     "pathwayIds": [
-      "oxphos"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx226",
      "pathwayIds": [
       "pdh",
       "pyruvate_fates"
@@ -38457,7 +38535,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx235",
+     "reactionId": "rx234",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -38467,7 +38545,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx238",
+     "reactionId": "rx237",
      "pathwayIds": [
       "polyol"
      ],
@@ -38477,7 +38555,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx239",
+     "reactionId": "rx238",
      "pathwayIds": [
       "polyol"
      ],
@@ -38487,7 +38565,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx240",
+     "reactionId": "rx239",
      "pathwayIds": [
       "ppp"
      ],
@@ -38497,7 +38575,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx254",
+     "reactionId": "rx253",
      "pathwayIds": [
       "purine"
      ],
@@ -38507,7 +38585,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx266",
+     "reactionId": "rx267",
      "pathwayIds": [
       "pyruvate_fates"
      ],
@@ -38517,7 +38595,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx274",
+     "reactionId": "rx275",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -38527,7 +38605,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx283",
+     "reactionId": "rx284",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -38537,7 +38615,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx292",
+     "reactionId": "rx293",
      "pathwayIds": [
       "steroid_bile"
      ],
@@ -38547,23 +38625,13 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx298",
+     "reactionId": "rx299",
      "pathwayIds": [
       "sulfur"
      ],
      "role": "substrate",
      "source": "equation",
      "compartment": "质体",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx309",
-     "pathwayIds": [
-      "tca"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "线粒体基质",
      "entityIds": []
     },
     {
@@ -38577,7 +38645,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx314",
+     "reactionId": "rx311",
      "pathwayIds": [
       "tca"
      ],
@@ -38587,19 +38655,9 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx317",
+     "reactionId": "rx315",
      "pathwayIds": [
-      "transamination"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx317",
-     "pathwayIds": [
-      "transamination"
+      "tca"
      ],
      "role": "product",
      "source": "equation",
@@ -38611,9 +38669,19 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "transamination"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx318",
+     "pathwayIds": [
+      "transamination"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "线粒体基质",
      "entityIds": []
     },
     {
@@ -38629,9 +38697,9 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx320",
      "pathwayIds": [
-      "transport"
+      "transamination"
      ],
-     "role": "substrate",
+     "role": "product",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
@@ -38657,11 +38725,11 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx335",
+     "reactionId": "rx323",
      "pathwayIds": [
-      "uronic"
+      "transport"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
@@ -38677,7 +38745,17 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx341",
+     "reactionId": "rx337",
+     "pathwayIds": [
+      "uronic"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx342",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -38722,22 +38800,22 @@ window.METABOLIC_COMPILED = {
     "rx10",
     "rx17",
     "rx28",
-    "rx88",
-    "rx93",
+    "rx87",
+    "rx92",
+    "rx110",
     "rx111",
-    "rx112",
+    "rx182",
     "rx183",
-    "rx184",
-    "rx187",
-    "rx190",
+    "rx186",
+    "rx189",
+    "rx207",
     "rx208",
-    "rx209",
-    "rx275",
-    "rx309",
+    "rx276",
     "rx310",
-    "rx316",
-    "rx318",
-    "rx319"
+    "rx311",
+    "rx317",
+    "rx319",
+    "rx320"
    ],
    "occurrences": [
     {
@@ -38827,7 +38905,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx88",
+     "reactionId": "rx87",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -38839,7 +38917,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx93",
+     "reactionId": "rx92",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -38851,7 +38929,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx93",
+     "reactionId": "rx92",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -38860,6 +38938,18 @@ window.METABOLIC_COMPILED = {
      "compartment": "线粒体基质",
      "entityIds": [
       "α-酮戊二酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx110",
+     "pathwayIds": [
+      "glutamate_glutamine"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "α-酮戊二酸@cytosol"
      ]
     },
     {
@@ -38868,18 +38958,6 @@ window.METABOLIC_COMPILED = {
       "glutamate_glutamine"
      ],
      "role": "product",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "α-酮戊二酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx112",
-     "pathwayIds": [
-      "glutamate_glutamine"
-     ],
-     "role": "product",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
@@ -38887,7 +38965,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx183",
+     "reactionId": "rx182",
      "pathwayIds": [
       "malate_aspartate",
       "transport"
@@ -38900,7 +38978,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx183",
+     "reactionId": "rx182",
      "pathwayIds": [
       "malate_aspartate",
       "transport"
@@ -38913,7 +38991,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx184",
+     "reactionId": "rx183",
      "pathwayIds": [
       "malate_aspartate"
      ],
@@ -38925,7 +39003,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx184",
+     "reactionId": "rx183",
      "pathwayIds": [
       "malate_aspartate"
      ],
@@ -38937,7 +39015,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx187",
+     "reactionId": "rx186",
      "pathwayIds": [
       "malate_aspartate",
       "transport"
@@ -38950,7 +39028,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx190",
+     "reactionId": "rx189",
      "pathwayIds": [
       "malate_aspartate",
       "transport"
@@ -38960,6 +39038,18 @@ window.METABOLIC_COMPILED = {
      "compartment": "细胞质",
      "entityIds": [
       "α-酮戊二酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx207",
+     "pathwayIds": [
+      "nitrogen"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "质体",
+     "entityIds": [
+      "α-酮戊二酸@plastid"
      ]
     },
     {
@@ -38968,18 +39058,6 @@ window.METABOLIC_COMPILED = {
       "nitrogen"
      ],
      "role": "substrate",
-     "source": "equation",
-     "compartment": "质体",
-     "entityIds": [
-      "α-酮戊二酸@plastid"
-     ]
-    },
-    {
-     "reactionId": "rx209",
-     "pathwayIds": [
-      "nitrogen"
-     ],
-     "role": "substrate",
      "source": "endpoint",
      "compartment": "质体",
      "entityIds": [
@@ -38987,7 +39065,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx275",
+     "reactionId": "rx276",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -38999,7 +39077,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx309",
+     "reactionId": "rx310",
      "pathwayIds": [
       "tca"
      ],
@@ -39011,7 +39089,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx310",
+     "reactionId": "rx311",
      "pathwayIds": [
       "tca"
      ],
@@ -39023,7 +39101,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx316",
+     "reactionId": "rx317",
      "pathwayIds": [
       "transamination"
      ],
@@ -39035,7 +39113,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx318",
+     "reactionId": "rx319",
      "pathwayIds": [
       "transamination"
      ],
@@ -39047,7 +39125,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx319",
+     "reactionId": "rx320",
      "pathwayIds": [
       "transamination"
      ],
@@ -39078,7 +39156,6 @@ window.METABOLIC_COMPILED = {
     "atp_transport",
     "transport",
     "cholesterol",
-    "etc",
     "fa_synthesis",
     "gluconeogenesis",
     "pyruvate_fates",
@@ -39103,41 +39180,38 @@ window.METABOLIC_COMPILED = {
     "rx5",
     "rx22",
     "rx47",
-    "rx64",
-    "rx65",
+    "rx68",
     "rx69",
-    "rx70",
-    "rx91",
-    "rx99",
-    "rx102",
-    "rx105",
-    "rx109",
+    "rx90",
+    "rx98",
+    "rx101",
+    "rx104",
+    "rx108",
+    "rx112",
     "rx113",
-    "rx114",
-    "rx129",
-    "rx137",
-    "rx196",
-    "rx198",
-    "rx207",
+    "rx128",
+    "rx136",
+    "rx195",
+    "rx197",
+    "rx206",
+    "rx209",
     "rx210",
-    "rx211",
+    "rx216",
     "rx217",
     "rx218",
-    "rx219",
+    "rx223",
     "rx224",
-    "rx225",
-    "rx250",
-    "rx253",
+    "rx249",
+    "rx252",
+    "rx256",
     "rx257",
-    "rx258",
-    "rx265",
-    "rx276",
-    "rx289",
-    "rx303",
-    "rx311",
-    "rx324",
+    "rx277",
+    "rx290",
+    "rx304",
+    "rx312",
     "rx325",
-    "rx326"
+    "rx326",
+    "rx327"
    ],
    "occurrences": [
     {
@@ -39202,27 +39276,15 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx64",
+     "reactionId": "rx68",
      "pathwayIds": [
-      "etc"
+      "fa_synthesis"
      ],
-     "role": "substrate",
+     "role": "product",
      "source": "equation",
-     "compartment": "线粒体基质",
+     "compartment": "细胞质",
      "entityIds": [
-      "无机磷酸@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx65",
-     "pathwayIds": [
-      "etc"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "无机磷酸@mito-matrix"
+      "无机磷酸@cytosol"
      ]
     },
     {
@@ -39238,19 +39300,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx70",
-     "pathwayIds": [
-      "fa_synthesis"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "无机磷酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx91",
+     "reactionId": "rx90",
      "pathwayIds": [
       "gluconeogenesis",
       "pyruvate_fates"
@@ -39263,7 +39313,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx99",
+     "reactionId": "rx98",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -39275,7 +39325,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx102",
+     "reactionId": "rx101",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -39287,7 +39337,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx105",
+     "reactionId": "rx104",
      "pathwayIds": [
       "gluconeogenesis",
       "glycogenolysis"
@@ -39300,9 +39350,21 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx109",
+     "reactionId": "rx108",
      "pathwayIds": [
       "glutamate_glutamine"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "无机磷酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx112",
+     "pathwayIds": [
+      "glutathione"
      ],
      "role": "product",
      "source": "equation",
@@ -39324,19 +39386,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx114",
-     "pathwayIds": [
-      "glutathione"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "无机磷酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx129",
+     "reactionId": "rx128",
      "pathwayIds": [
       "glycogenolysis"
      ],
@@ -39348,7 +39398,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx137",
+     "reactionId": "rx136",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -39360,7 +39410,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx196",
+     "reactionId": "rx195",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -39372,7 +39422,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx196",
+     "reactionId": "rx195",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -39384,7 +39434,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx198",
+     "reactionId": "rx197",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -39396,7 +39446,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx207",
+     "reactionId": "rx206",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -39406,7 +39456,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx210",
+     "reactionId": "rx209",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -39418,7 +39468,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx211",
+     "reactionId": "rx210",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -39427,6 +39477,18 @@ window.METABOLIC_COMPILED = {
      "compartment": "细胞质",
      "entityIds": [
       "无机磷酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx216",
+     "pathwayIds": [
+      "oxphos"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "无机磷酸@mito-matrix"
      ]
     },
     {
@@ -39447,18 +39509,6 @@ window.METABOLIC_COMPILED = {
       "oxphos"
      ],
      "role": "substrate",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "无机磷酸@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx219",
-     "pathwayIds": [
-      "oxphos"
-     ],
-     "role": "substrate",
      "source": "endpoint",
      "compartment": "线粒体基质",
      "entityIds": [
@@ -39466,7 +39516,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx224",
+     "reactionId": "rx223",
      "pathwayIds": [
       "oxphos"
      ],
@@ -39478,7 +39528,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx224",
+     "reactionId": "rx223",
      "pathwayIds": [
       "oxphos"
      ],
@@ -39490,7 +39540,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx225",
+     "reactionId": "rx224",
      "pathwayIds": [
       "oxphos"
      ],
@@ -39502,7 +39552,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx225",
+     "reactionId": "rx224",
      "pathwayIds": [
       "oxphos"
      ],
@@ -39514,7 +39564,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx250",
+     "reactionId": "rx249",
      "pathwayIds": [
       "purine"
      ],
@@ -39526,9 +39576,21 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx253",
+     "reactionId": "rx252",
      "pathwayIds": [
       "purine"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "无机磷酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx256",
+     "pathwayIds": [
+      "pyrimidine"
      ],
      "role": "product",
      "source": "equation",
@@ -39550,31 +39612,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx258",
-     "pathwayIds": [
-      "pyrimidine"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "无机磷酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx265",
-     "pathwayIds": [
-      "pyrimidine"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "无机磷酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx276",
+     "reactionId": "rx277",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -39586,7 +39624,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx289",
+     "reactionId": "rx290",
      "pathwayIds": [
       "starch"
      ],
@@ -39596,7 +39634,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx303",
+     "reactionId": "rx304",
      "pathwayIds": [
       "tag"
      ],
@@ -39606,23 +39644,11 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx311",
+     "reactionId": "rx312",
      "pathwayIds": [
       "tca"
      ],
      "role": "substrate",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "无机磷酸@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx324",
-     "pathwayIds": [
-      "urea"
-     ],
-     "role": "product",
      "source": "equation",
      "compartment": "线粒体基质",
      "entityIds": [
@@ -39643,6 +39669,18 @@ window.METABOLIC_COMPILED = {
     },
     {
      "reactionId": "rx326",
+     "pathwayIds": [
+      "urea"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "无机磷酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx327",
      "pathwayIds": [
       "urea"
      ],
@@ -39676,14 +39714,14 @@ window.METABOLIC_COMPILED = {
    "reactionIds": [
     "rx2",
     "rx7",
+    "rx86",
     "rx87",
     "rx88",
     "rx89",
     "rx90",
-    "rx91",
-    "rx141",
-    "rx226",
-    "rx266"
+    "rx140",
+    "rx225",
+    "rx267"
    ],
    "occurrences": [
     {
@@ -39712,6 +39750,18 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
+     "reactionId": "rx86",
+     "pathwayIds": [
+      "gluconeogenesis"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "丙酮酸@cytosol"
+     ]
+    },
+    {
      "reactionId": "rx87",
      "pathwayIds": [
       "gluconeogenesis"
@@ -39726,18 +39776,6 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx88",
      "pathwayIds": [
-      "gluconeogenesis"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "丙酮酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx89",
-     "pathwayIds": [
       "gluconeogenesis",
       "pdh",
       "pyruvate_fates",
@@ -39751,7 +39789,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx89",
+     "reactionId": "rx88",
      "pathwayIds": [
       "gluconeogenesis",
       "pdh",
@@ -39766,7 +39804,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx90",
+     "reactionId": "rx89",
      "pathwayIds": [
       "gluconeogenesis",
       "pdh",
@@ -39781,7 +39819,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx90",
+     "reactionId": "rx89",
      "pathwayIds": [
       "gluconeogenesis",
       "pdh",
@@ -39796,7 +39834,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx91",
+     "reactionId": "rx90",
      "pathwayIds": [
       "gluconeogenesis",
       "pyruvate_fates"
@@ -39809,7 +39847,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx141",
+     "reactionId": "rx140",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -39821,7 +39859,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx226",
+     "reactionId": "rx225",
      "pathwayIds": [
       "pdh",
       "pyruvate_fates"
@@ -39834,7 +39872,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx266",
+     "reactionId": "rx267",
      "pathwayIds": [
       "pyruvate_fates"
      ],
@@ -39861,7 +39899,7 @@ window.METABOLIC_COMPILED = {
    ],
    "reactionIds": [
     "rx2",
-    "rx88"
+    "rx87"
    ],
    "occurrences": [
     {
@@ -39878,7 +39916,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx88",
+     "reactionId": "rx87",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -39916,24 +39954,24 @@ window.METABOLIC_COMPILED = {
    "reactionIds": [
     "rx3",
     "rx13",
-    "rx69",
+    "rx68",
+    "rx90",
     "rx91",
-    "rx92",
+    "rx93",
     "rx94",
-    "rx95",
+    "rx145",
     "rx146",
-    "rx147",
-    "rx153",
+    "rx152",
+    "rx180",
     "rx181",
-    "rx182",
+    "rx184",
     "rx185",
     "rx186",
-    "rx187",
-    "rx190",
-    "rx307",
-    "rx314",
+    "rx189",
+    "rx308",
     "rx315",
-    "rx320"
+    "rx316",
+    "rx321"
    ],
    "occurrences": [
     {
@@ -39961,7 +39999,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx69",
+     "reactionId": "rx68",
      "pathwayIds": [
       "fa_synthesis"
      ],
@@ -39973,7 +40011,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx91",
+     "reactionId": "rx90",
      "pathwayIds": [
       "gluconeogenesis",
       "pyruvate_fates"
@@ -39986,7 +40024,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx92",
+     "reactionId": "rx91",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -39998,7 +40036,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx94",
+     "reactionId": "rx93",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -40010,7 +40048,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx95",
+     "reactionId": "rx94",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -40019,6 +40057,18 @@ window.METABOLIC_COMPILED = {
      "compartment": "细胞质",
      "entityIds": [
       "草酰乙酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx145",
+     "pathwayIds": [
+      "glyoxylate"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "乙醛酸体",
+     "entityIds": [
+      "草酰乙酸@glyoxysome"
      ]
     },
     {
@@ -40027,18 +40077,6 @@ window.METABOLIC_COMPILED = {
       "glyoxylate"
      ],
      "role": "substrate",
-     "source": "endpoint",
-     "compartment": "乙醛酸体",
-     "entityIds": [
-      "草酰乙酸@glyoxysome"
-     ]
-    },
-    {
-     "reactionId": "rx147",
-     "pathwayIds": [
-      "glyoxylate"
-     ],
-     "role": "substrate",
      "source": "equation",
      "compartment": "乙醛酸体",
      "entityIds": [
@@ -40046,7 +40084,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx153",
+     "reactionId": "rx152",
      "pathwayIds": [
       "glyoxylate"
      ],
@@ -40058,7 +40096,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx181",
+     "reactionId": "rx180",
      "pathwayIds": [
       "malate_aspartate",
       "transport"
@@ -40071,7 +40109,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx182",
+     "reactionId": "rx181",
      "pathwayIds": [
       "malate_aspartate"
      ],
@@ -40083,13 +40121,25 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx185",
+     "reactionId": "rx184",
      "pathwayIds": [
       "malate_aspartate",
       "transport"
      ],
      "role": "product",
      "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "草酰乙酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx185",
+     "pathwayIds": [
+      "malate_aspartate"
+     ],
+     "role": "product",
+     "source": "equation",
      "compartment": "线粒体基质",
      "entityIds": [
       "草酰乙酸@mito-matrix"
@@ -40098,18 +40148,6 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx186",
      "pathwayIds": [
-      "malate_aspartate"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "草酰乙酸@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx187",
-     "pathwayIds": [
       "malate_aspartate",
       "transport"
      ],
@@ -40121,7 +40159,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx190",
+     "reactionId": "rx189",
      "pathwayIds": [
       "malate_aspartate",
       "transport"
@@ -40134,24 +40172,12 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx307",
+     "reactionId": "rx308",
      "pathwayIds": [
       "tca"
      ],
      "role": "substrate",
      "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "草酰乙酸@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx314",
-     "pathwayIds": [
-      "tca"
-     ],
-     "role": "product",
-     "source": "endpoint",
      "compartment": "线粒体基质",
      "entityIds": [
       "草酰乙酸@mito-matrix"
@@ -40162,6 +40188,18 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "tca"
      ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "草酰乙酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx316",
+     "pathwayIds": [
+      "tca"
+     ],
      "role": "substrate",
      "source": "endpoint",
      "compartment": "线粒体基质",
@@ -40170,7 +40208,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx320",
+     "reactionId": "rx321",
      "pathwayIds": [
       "transport"
      ],
@@ -40203,14 +40241,14 @@ window.METABOLIC_COMPILED = {
    ],
    "reactionIds": [
     "rx3",
+    "rx186",
     "rx187",
     "rx188",
     "rx189",
-    "rx190",
-    "rx253",
-    "rx258",
-    "rx328",
-    "rx329"
+    "rx252",
+    "rx257",
+    "rx329",
+    "rx330"
    ],
    "occurrences": [
     {
@@ -40226,6 +40264,32 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
+     "reactionId": "rx186",
+     "pathwayIds": [
+      "malate_aspartate",
+      "transport"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "天冬氨酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx187",
+     "pathwayIds": [
+      "malate_aspartate",
+      "transport"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "天冬氨酸@mito-matrix"
+     ]
+    },
+    {
      "reactionId": "rx187",
      "pathwayIds": [
       "malate_aspartate",
@@ -40233,39 +40297,13 @@ window.METABOLIC_COMPILED = {
      ],
      "role": "product",
      "source": "endpoint",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "天冬氨酸@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx188",
-     "pathwayIds": [
-      "malate_aspartate",
-      "transport"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "天冬氨酸@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx188",
-     "pathwayIds": [
-      "malate_aspartate",
-      "transport"
-     ],
-     "role": "product",
-     "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
       "天冬氨酸@cytosol"
      ]
     },
     {
-     "reactionId": "rx189",
+     "reactionId": "rx188",
      "pathwayIds": [
       "malate_aspartate"
      ],
@@ -40277,7 +40315,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx189",
+     "reactionId": "rx188",
      "pathwayIds": [
       "malate_aspartate"
      ],
@@ -40289,7 +40327,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx190",
+     "reactionId": "rx189",
      "pathwayIds": [
       "malate_aspartate",
       "transport"
@@ -40302,7 +40340,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx253",
+     "reactionId": "rx252",
      "pathwayIds": [
       "purine"
      ],
@@ -40314,7 +40352,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx258",
+     "reactionId": "rx257",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -40326,7 +40364,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx328",
+     "reactionId": "rx329",
      "pathwayIds": [
       "urea"
      ],
@@ -40338,7 +40376,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx329",
+     "reactionId": "rx330",
      "pathwayIds": [
       "urea"
      ],
@@ -40371,16 +40409,16 @@ window.METABOLIC_COMPILED = {
    "reactionIds": [
     "rx4",
     "rx5",
+    "rx108",
     "rx109",
     "rx110",
     "rx111",
-    "rx112",
+    "rx205",
     "rx206",
-    "rx207",
-    "rx278",
-    "rx318",
+    "rx279",
     "rx319",
-    "rx324"
+    "rx320",
+    "rx325"
    ],
    "occurrences": [
     {
@@ -40410,12 +40448,24 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx109",
+     "reactionId": "rx108",
      "pathwayIds": [
       "glutamate_glutamine"
      ],
      "role": "substrate",
      "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "NH₄⁺@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx109",
+     "pathwayIds": [
+      "glutamate_glutamine"
+     ],
+     "role": "product",
+     "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
       "NH₄⁺@cytosol"
@@ -40439,18 +40489,6 @@ window.METABOLIC_COMPILED = {
       "glutamate_glutamine"
      ],
      "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "NH₄⁺@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx112",
-     "pathwayIds": [
-      "glutamate_glutamine"
-     ],
-     "role": "product",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -40458,7 +40496,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx206",
+     "reactionId": "rx205",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -40470,7 +40508,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx207",
+     "reactionId": "rx206",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -40482,21 +40520,9 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx278",
+     "reactionId": "rx279",
      "pathwayIds": [
       "serine_glycine"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "NH₄⁺@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx318",
-     "pathwayIds": [
-      "transamination"
      ],
      "role": "product",
      "source": "equation",
@@ -40511,6 +40537,18 @@ window.METABOLIC_COMPILED = {
       "transamination"
      ],
      "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "NH₄⁺@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx320",
+     "pathwayIds": [
+      "transamination"
+     ],
+     "role": "product",
      "source": "endpoint",
      "compartment": "线粒体基质",
      "entityIds": [
@@ -40518,7 +40556,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx324",
+     "reactionId": "rx325",
      "pathwayIds": [
       "urea"
      ],
@@ -40558,27 +40596,27 @@ window.METABOLIC_COMPILED = {
    "reactionIds": [
     "rx4",
     "rx46",
-    "rx66",
+    "rx65",
+    "rx70",
     "rx71",
     "rx72",
-    "rx73",
+    "rx74",
     "rx75",
-    "rx76",
+    "rx110",
     "rx111",
-    "rx112",
-    "rx116",
+    "rx115",
+    "rx158",
     "rx159",
-    "rx160",
+    "rx207",
     "rx208",
-    "rx209",
+    "rx213",
     "rx214",
-    "rx215",
-    "rx235",
-    "rx238",
-    "rx240",
-    "rx242",
-    "rx281",
-    "rx292"
+    "rx234",
+    "rx237",
+    "rx239",
+    "rx241",
+    "rx282",
+    "rx293"
    ],
    "occurrences": [
     {
@@ -40605,7 +40643,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx66",
+     "reactionId": "rx65",
      "pathwayIds": [
       "fa_elongation"
      ],
@@ -40615,7 +40653,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx71",
+     "reactionId": "rx70",
      "pathwayIds": [
       "fa_synthesis"
      ],
@@ -40627,7 +40665,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx72",
+     "reactionId": "rx71",
      "pathwayIds": [
       "fa_synthesis"
      ],
@@ -40639,7 +40677,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx73",
+     "reactionId": "rx72",
      "pathwayIds": [
       "folate"
      ],
@@ -40651,7 +40689,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx75",
+     "reactionId": "rx74",
      "pathwayIds": [
       "folate"
      ],
@@ -40663,11 +40701,23 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx76",
+     "reactionId": "rx75",
      "pathwayIds": [
       "folate"
      ],
      "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "NADPH@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx110",
+     "pathwayIds": [
+      "glutamate_glutamine"
+     ],
+     "role": "product",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
@@ -40687,19 +40737,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx112",
-     "pathwayIds": [
-      "glutamate_glutamine"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "NADPH@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx116",
+     "reactionId": "rx115",
      "pathwayIds": [
       "glutathione"
      ],
@@ -40709,6 +40747,16 @@ window.METABOLIC_COMPILED = {
      "entityIds": [
       "NADPH@cytosol"
      ]
+    },
+    {
+     "reactionId": "rx158",
+     "pathwayIds": [
+      "heme"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "线粒体基质",
+     "entityIds": []
     },
     {
      "reactionId": "rx159",
@@ -40721,13 +40769,13 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx160",
+     "reactionId": "rx207",
      "pathwayIds": [
-      "heme"
+      "nitrogen"
      ],
      "role": "substrate",
      "source": "equation",
-     "compartment": "线粒体基质",
+     "compartment": "质体",
      "entityIds": []
     },
     {
@@ -40741,14 +40789,16 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx209",
+     "reactionId": "rx213",
      "pathwayIds": [
-      "nitrogen"
+      "nucleotide_degradation"
      ],
      "role": "substrate",
      "source": "equation",
-     "compartment": "质体",
-     "entityIds": []
+     "compartment": "细胞质",
+     "entityIds": [
+      "NADPH@cytosol"
+     ]
     },
     {
      "reactionId": "rx214",
@@ -40763,19 +40813,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx215",
-     "pathwayIds": [
-      "nucleotide_degradation"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "NADPH@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx235",
+     "reactionId": "rx234",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -40785,7 +40823,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx238",
+     "reactionId": "rx237",
      "pathwayIds": [
       "polyol"
      ],
@@ -40797,7 +40835,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx240",
+     "reactionId": "rx239",
      "pathwayIds": [
       "ppp"
      ],
@@ -40809,7 +40847,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx242",
+     "reactionId": "rx241",
      "pathwayIds": [
       "ppp"
      ],
@@ -40821,7 +40859,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx281",
+     "reactionId": "rx282",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -40831,7 +40869,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx292",
+     "reactionId": "rx293",
      "pathwayIds": [
       "steroid_bile"
      ],
@@ -40867,27 +40905,27 @@ window.METABOLIC_COMPILED = {
    "reactionIds": [
     "rx4",
     "rx46",
-    "rx66",
+    "rx65",
+    "rx70",
     "rx71",
     "rx72",
-    "rx73",
+    "rx74",
     "rx75",
-    "rx76",
+    "rx110",
     "rx111",
-    "rx112",
-    "rx116",
+    "rx115",
+    "rx158",
     "rx159",
-    "rx160",
+    "rx207",
     "rx208",
-    "rx209",
+    "rx213",
     "rx214",
-    "rx215",
-    "rx235",
-    "rx238",
-    "rx240",
-    "rx242",
-    "rx281",
-    "rx292"
+    "rx234",
+    "rx237",
+    "rx239",
+    "rx241",
+    "rx282",
+    "rx293"
    ],
    "occurrences": [
     {
@@ -40912,13 +40950,23 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx66",
+     "reactionId": "rx65",
      "pathwayIds": [
       "fa_elongation"
      ],
      "role": "product",
      "source": "equation",
      "compartment": "平滑内质网",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx70",
+     "pathwayIds": [
+      "fa_synthesis"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
      "entityIds": []
     },
     {
@@ -40934,16 +40982,6 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx72",
      "pathwayIds": [
-      "fa_synthesis"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx73",
-     "pathwayIds": [
       "folate"
      ],
      "role": "product",
@@ -40952,7 +40990,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx75",
+     "reactionId": "rx74",
      "pathwayIds": [
       "folate"
      ],
@@ -40962,11 +41000,21 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx76",
+     "reactionId": "rx75",
      "pathwayIds": [
       "folate"
      ],
      "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx110",
+     "pathwayIds": [
+      "glutamate_glutamine"
+     ],
+     "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
@@ -40982,23 +41030,23 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx112",
-     "pathwayIds": [
-      "glutamate_glutamine"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx116",
+     "reactionId": "rx115",
      "pathwayIds": [
       "glutathione"
      ],
      "role": "product",
      "source": "equation",
      "compartment": "细胞质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx158",
+     "pathwayIds": [
+      "heme"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "线粒体基质",
      "entityIds": []
     },
     {
@@ -41012,13 +41060,13 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx160",
+     "reactionId": "rx207",
      "pathwayIds": [
-      "heme"
+      "nitrogen"
      ],
      "role": "product",
      "source": "equation",
-     "compartment": "线粒体基质",
+     "compartment": "质体",
      "entityIds": []
     },
     {
@@ -41032,13 +41080,13 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx209",
+     "reactionId": "rx213",
      "pathwayIds": [
-      "nitrogen"
+      "nucleotide_degradation"
      ],
      "role": "product",
      "source": "equation",
-     "compartment": "质体",
+     "compartment": "细胞质",
      "entityIds": []
     },
     {
@@ -41052,17 +41100,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx215",
-     "pathwayIds": [
-      "nucleotide_degradation"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx235",
+     "reactionId": "rx234",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -41072,7 +41110,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx238",
+     "reactionId": "rx237",
      "pathwayIds": [
       "polyol"
      ],
@@ -41082,7 +41120,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx240",
+     "reactionId": "rx239",
      "pathwayIds": [
       "ppp"
      ],
@@ -41092,7 +41130,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx242",
+     "reactionId": "rx241",
      "pathwayIds": [
       "ppp"
      ],
@@ -41102,7 +41140,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx281",
+     "reactionId": "rx282",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -41112,7 +41150,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx292",
+     "reactionId": "rx293",
      "pathwayIds": [
       "steroid_bile"
      ],
@@ -41140,15 +41178,15 @@ window.METABOLIC_COMPILED = {
    ],
    "reactionIds": [
     "rx5",
+    "rx108",
     "rx109",
-    "rx110",
+    "rx206",
     "rx207",
     "rx208",
-    "rx209",
-    "rx249",
-    "rx254",
-    "rx257",
-    "rx263"
+    "rx248",
+    "rx253",
+    "rx256",
+    "rx262"
    ],
    "occurrences": [
     {
@@ -41165,7 +41203,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx109",
+     "reactionId": "rx108",
      "pathwayIds": [
       "glutamate_glutamine"
      ],
@@ -41177,7 +41215,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx110",
+     "reactionId": "rx109",
      "pathwayIds": [
       "glutamate_glutamine"
      ],
@@ -41189,11 +41227,23 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx207",
+     "reactionId": "rx206",
      "pathwayIds": [
       "nitrogen"
      ],
      "role": "product",
+     "source": "endpoint",
+     "compartment": "质体",
+     "entityIds": [
+      "谷氨酰胺@plastid"
+     ]
+    },
+    {
+     "reactionId": "rx207",
+     "pathwayIds": [
+      "nitrogen"
+     ],
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "质体",
      "entityIds": [
@@ -41206,18 +41256,6 @@ window.METABOLIC_COMPILED = {
       "nitrogen"
      ],
      "role": "substrate",
-     "source": "endpoint",
-     "compartment": "质体",
-     "entityIds": [
-      "谷氨酰胺@plastid"
-     ]
-    },
-    {
-     "reactionId": "rx209",
-     "pathwayIds": [
-      "nitrogen"
-     ],
-     "role": "substrate",
      "source": "equation",
      "compartment": "质体",
      "entityIds": [
@@ -41225,7 +41263,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx249",
+     "reactionId": "rx248",
      "pathwayIds": [
       "purine"
      ],
@@ -41237,7 +41275,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx254",
+     "reactionId": "rx253",
      "pathwayIds": [
       "purine"
      ],
@@ -41249,7 +41287,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx257",
+     "reactionId": "rx256",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -41261,7 +41299,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx263",
+     "reactionId": "rx262",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -41289,7 +41327,6 @@ window.METABOLIC_COMPILED = {
     "atp_transport",
     "transport",
     "cholesterol",
-    "etc",
     "fa_synthesis",
     "fructose",
     "galactose",
@@ -41314,52 +41351,51 @@ window.METABOLIC_COMPILED = {
     "rx20",
     "rx21",
     "rx47",
-    "rx64",
-    "rx65",
+    "rx68",
     "rx69",
-    "rx70",
+    "rx78",
     "rx79",
-    "rx80",
+    "rx81",
     "rx82",
-    "rx83",
-    "rx91",
-    "rx98",
-    "rx107",
-    "rx109",
+    "rx90",
+    "rx97",
+    "rx106",
+    "rx108",
+    "rx112",
     "rx113",
-    "rx114",
-    "rx125",
-    "rx132",
-    "rx134",
-    "rx138",
-    "rx141",
-    "rx194",
-    "rx198",
-    "rx207",
+    "rx124",
+    "rx131",
+    "rx133",
+    "rx137",
+    "rx140",
+    "rx193",
+    "rx197",
+    "rx206",
+    "rx216",
     "rx217",
     "rx218",
     "rx219",
     "rx220",
-    "rx221",
-    "rx223",
-    "rx248",
-    "rx250",
+    "rx222",
+    "rx247",
+    "rx249",
+    "rx253",
     "rx254",
     "rx255",
     "rx256",
-    "rx257",
+    "rx261",
     "rx262",
-    "rx263",
-    "rx270",
+    "rx264",
     "rx271",
     "rx272",
     "rx273",
-    "rx286",
-    "rx296",
-    "rx300",
-    "rx324",
-    "rx328",
-    "rx329"
+    "rx274",
+    "rx287",
+    "rx297",
+    "rx301",
+    "rx325",
+    "rx329",
+    "rx330"
    ],
    "occurrences": [
     {
@@ -41438,27 +41474,15 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx64",
+     "reactionId": "rx68",
      "pathwayIds": [
-      "etc"
+      "fa_synthesis"
      ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "线粒体基质",
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
      "entityIds": [
-      "ATP@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx65",
-     "pathwayIds": [
-      "etc"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "ATP@mito-matrix"
+      "ATP@cytosol"
      ]
     },
     {
@@ -41474,9 +41498,9 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx70",
+     "reactionId": "rx78",
      "pathwayIds": [
-      "fa_synthesis"
+      "fructose"
      ],
      "role": "substrate",
      "source": "equation",
@@ -41498,7 +41522,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx80",
+     "reactionId": "rx81",
      "pathwayIds": [
       "fructose"
      ],
@@ -41512,18 +41536,6 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx82",
      "pathwayIds": [
-      "fructose"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "ATP@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx83",
-     "pathwayIds": [
       "galactose"
      ],
      "role": "substrate",
@@ -41534,7 +41546,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx91",
+     "reactionId": "rx90",
      "pathwayIds": [
       "gluconeogenesis",
       "pyruvate_fates"
@@ -41547,7 +41559,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx98",
+     "reactionId": "rx97",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -41559,7 +41571,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx107",
+     "reactionId": "rx106",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -41571,9 +41583,21 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx109",
+     "reactionId": "rx108",
      "pathwayIds": [
       "glutamate_glutamine"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "ATP@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx112",
+     "pathwayIds": [
+      "glutathione"
      ],
      "role": "substrate",
      "source": "equation",
@@ -41595,19 +41619,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx114",
-     "pathwayIds": [
-      "glutathione"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "ATP@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx125",
+     "reactionId": "rx124",
      "pathwayIds": [
       "glycogenesis"
      ],
@@ -41619,7 +41631,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx132",
+     "reactionId": "rx131",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -41631,7 +41643,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx134",
+     "reactionId": "rx133",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -41643,7 +41655,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx138",
+     "reactionId": "rx137",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -41655,7 +41667,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx141",
+     "reactionId": "rx140",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -41667,7 +41679,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx194",
+     "reactionId": "rx193",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -41677,7 +41689,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx198",
+     "reactionId": "rx197",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -41689,7 +41701,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx207",
+     "reactionId": "rx206",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -41697,6 +41709,18 @@ window.METABOLIC_COMPILED = {
      "source": "equation",
      "compartment": "质体",
      "entityIds": []
+    },
+    {
+     "reactionId": "rx216",
+     "pathwayIds": [
+      "oxphos"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "ATP@mito-matrix"
+     ]
     },
     {
      "reactionId": "rx217",
@@ -41727,18 +41751,6 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "oxphos"
      ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "ATP@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx220",
-     "pathwayIds": [
-      "oxphos"
-     ],
      "role": "substrate",
      "source": "endpoint",
      "compartment": "线粒体基质",
@@ -41747,7 +41759,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx220",
+     "reactionId": "rx219",
      "pathwayIds": [
       "oxphos"
      ],
@@ -41759,7 +41771,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx221",
+     "reactionId": "rx220",
      "pathwayIds": [
       "oxphos"
      ],
@@ -41771,7 +41783,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx221",
+     "reactionId": "rx220",
      "pathwayIds": [
       "oxphos"
      ],
@@ -41783,7 +41795,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx223",
+     "reactionId": "rx222",
      "pathwayIds": [
       "oxphos"
      ],
@@ -41795,7 +41807,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx223",
+     "reactionId": "rx222",
      "pathwayIds": [
       "oxphos"
      ],
@@ -41807,7 +41819,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx248",
+     "reactionId": "rx247",
      "pathwayIds": [
       "purine"
      ],
@@ -41819,12 +41831,36 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx250",
+     "reactionId": "rx249",
      "pathwayIds": [
       "purine"
      ],
      "role": "substrate",
      "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "ATP@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx253",
+     "pathwayIds": [
+      "purine"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "ATP@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx254",
+     "pathwayIds": [
+      "purine"
+     ],
+     "role": "product",
+     "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
       "ATP@cytosol"
@@ -41847,18 +41883,6 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "purine"
      ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "ATP@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx255",
-     "pathwayIds": [
-      "purine"
-     ],
      "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
@@ -41869,7 +41893,7 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx256",
      "pathwayIds": [
-      "purine"
+      "pyrimidine"
      ],
      "role": "substrate",
      "source": "equation",
@@ -41879,7 +41903,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx257",
+     "reactionId": "rx261",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -41903,21 +41927,9 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx263",
+     "reactionId": "rx264",
      "pathwayIds": [
       "pyrimidine"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "ATP@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx270",
-     "pathwayIds": [
-      "salvage"
      ],
      "role": "substrate",
      "source": "equation",
@@ -41963,7 +41975,19 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx286",
+     "reactionId": "rx274",
+     "pathwayIds": [
+      "salvage"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "ATP@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx287",
      "pathwayIds": [
       "starch"
      ],
@@ -41973,7 +41997,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx296",
+     "reactionId": "rx297",
      "pathwayIds": [
       "sulfur"
      ],
@@ -41983,7 +42007,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx300",
+     "reactionId": "rx301",
      "pathwayIds": [
       "sulfur"
      ],
@@ -41993,19 +42017,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx324",
-     "pathwayIds": [
-      "urea"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "ATP@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx328",
+     "reactionId": "rx325",
      "pathwayIds": [
       "urea"
      ],
@@ -42018,6 +42030,18 @@ window.METABOLIC_COMPILED = {
     },
     {
      "reactionId": "rx329",
+     "pathwayIds": [
+      "urea"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "ATP@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx330",
      "pathwayIds": [
       "urea"
      ],
@@ -42045,7 +42069,6 @@ window.METABOLIC_COMPILED = {
     "atp_transport",
     "transport",
     "cholesterol",
-    "etc",
     "fa_synthesis",
     "fructose",
     "galactose",
@@ -42068,45 +42091,44 @@ window.METABOLIC_COMPILED = {
     "rx20",
     "rx21",
     "rx47",
-    "rx64",
-    "rx65",
+    "rx68",
     "rx69",
-    "rx70",
+    "rx78",
     "rx79",
-    "rx80",
+    "rx81",
     "rx82",
-    "rx83",
-    "rx91",
-    "rx98",
-    "rx107",
-    "rx109",
+    "rx90",
+    "rx97",
+    "rx106",
+    "rx108",
+    "rx112",
     "rx113",
-    "rx114",
-    "rx125",
-    "rx132",
-    "rx134",
-    "rx138",
-    "rx141",
-    "rx207",
+    "rx124",
+    "rx131",
+    "rx133",
+    "rx137",
+    "rx140",
+    "rx206",
+    "rx216",
     "rx217",
     "rx218",
     "rx219",
-    "rx220",
+    "rx221",
     "rx222",
-    "rx223",
-    "rx250",
+    "rx249",
+    "rx254",
     "rx255",
     "rx256",
-    "rx257",
+    "rx261",
     "rx262",
-    "rx263",
-    "rx270",
+    "rx264",
     "rx271",
     "rx272",
     "rx273",
-    "rx287",
-    "rx300",
-    "rx324"
+    "rx274",
+    "rx288",
+    "rx301",
+    "rx325"
    ],
    "occurrences": [
     {
@@ -42185,27 +42207,15 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx64",
+     "reactionId": "rx68",
      "pathwayIds": [
-      "etc"
+      "fa_synthesis"
      ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "ADP@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx65",
-     "pathwayIds": [
-      "etc"
-     ],
-     "role": "substrate",
+     "role": "product",
      "source": "equation",
-     "compartment": "线粒体基质",
+     "compartment": "细胞质",
      "entityIds": [
-      "ADP@mito-matrix"
+      "ADP@cytosol"
      ]
     },
     {
@@ -42221,9 +42231,9 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx70",
+     "reactionId": "rx78",
      "pathwayIds": [
-      "fa_synthesis"
+      "fructose"
      ],
      "role": "product",
      "source": "equation",
@@ -42245,7 +42255,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx80",
+     "reactionId": "rx81",
      "pathwayIds": [
       "fructose"
      ],
@@ -42259,18 +42269,6 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx82",
      "pathwayIds": [
-      "fructose"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "ADP@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx83",
-     "pathwayIds": [
       "galactose"
      ],
      "role": "product",
@@ -42281,7 +42279,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx91",
+     "reactionId": "rx90",
      "pathwayIds": [
       "gluconeogenesis",
       "pyruvate_fates"
@@ -42294,7 +42292,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx98",
+     "reactionId": "rx97",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -42306,7 +42304,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx107",
+     "reactionId": "rx106",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -42318,9 +42316,21 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx109",
+     "reactionId": "rx108",
      "pathwayIds": [
       "glutamate_glutamine"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "ADP@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx112",
+     "pathwayIds": [
+      "glutathione"
      ],
      "role": "product",
      "source": "equation",
@@ -42342,19 +42352,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx114",
-     "pathwayIds": [
-      "glutathione"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "ADP@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx125",
+     "reactionId": "rx124",
      "pathwayIds": [
       "glycogenesis"
      ],
@@ -42366,7 +42364,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx132",
+     "reactionId": "rx131",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -42378,7 +42376,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx134",
+     "reactionId": "rx133",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -42390,7 +42388,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx138",
+     "reactionId": "rx137",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -42402,7 +42400,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx141",
+     "reactionId": "rx140",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -42414,7 +42412,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx207",
+     "reactionId": "rx206",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -42424,7 +42422,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx217",
+     "reactionId": "rx216",
      "pathwayIds": [
       "oxphos"
      ],
@@ -42436,12 +42434,24 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx218",
+     "reactionId": "rx217",
      "pathwayIds": [
       "oxphos"
      ],
      "role": "substrate",
      "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "ADP@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx218",
+     "pathwayIds": [
+      "oxphos"
+     ],
+     "role": "substrate",
+     "source": "equation",
      "compartment": "线粒体基质",
      "entityIds": [
       "ADP@mito-matrix"
@@ -42454,25 +42464,13 @@ window.METABOLIC_COMPILED = {
      ],
      "role": "substrate",
      "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "ADP@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx220",
-     "pathwayIds": [
-      "oxphos"
-     ],
-     "role": "substrate",
-     "source": "equation",
      "compartment": "线粒体膜间隙",
      "entityIds": [
       "ADP@mito-ims"
      ]
     },
     {
-     "reactionId": "rx220",
+     "reactionId": "rx219",
      "pathwayIds": [
       "oxphos"
      ],
@@ -42484,7 +42482,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx222",
+     "reactionId": "rx221",
      "pathwayIds": [
       "oxphos"
      ],
@@ -42496,7 +42494,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx222",
+     "reactionId": "rx221",
      "pathwayIds": [
       "oxphos"
      ],
@@ -42508,7 +42506,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx223",
+     "reactionId": "rx222",
      "pathwayIds": [
       "oxphos"
      ],
@@ -42520,7 +42518,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx223",
+     "reactionId": "rx222",
      "pathwayIds": [
       "oxphos"
      ],
@@ -42532,7 +42530,19 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx250",
+     "reactionId": "rx249",
+     "pathwayIds": [
+      "purine"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "ADP@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx254",
      "pathwayIds": [
       "purine"
      ],
@@ -42558,7 +42568,7 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx256",
      "pathwayIds": [
-      "purine"
+      "pyrimidine"
      ],
      "role": "product",
      "source": "equation",
@@ -42568,7 +42578,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx257",
+     "reactionId": "rx261",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -42592,21 +42602,9 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx263",
+     "reactionId": "rx264",
      "pathwayIds": [
       "pyrimidine"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "ADP@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx270",
-     "pathwayIds": [
-      "salvage"
      ],
      "role": "product",
      "source": "equation",
@@ -42652,7 +42650,19 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx287",
+     "reactionId": "rx274",
+     "pathwayIds": [
+      "salvage"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "ADP@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx288",
      "pathwayIds": [
       "starch"
      ],
@@ -42662,7 +42672,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx300",
+     "reactionId": "rx301",
      "pathwayIds": [
       "sulfur"
      ],
@@ -42672,7 +42682,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx324",
+     "reactionId": "rx325",
      "pathwayIds": [
       "urea"
      ],
@@ -42714,11 +42724,11 @@ window.METABOLIC_COMPILED = {
    ]
   },
   {
-   "key": "丙氨酸丝氨酸甘氨酸半胱氨酸",
-   "name": "丙氨酸/丝氨酸/甘氨酸/半胱氨酸",
+   "key": "丙氨酸半胱氨酸甘氨酸丝氨酸苏氨酸色氨酸",
+   "name": "丙氨酸/半胱氨酸/甘氨酸/丝氨酸/苏氨酸/色氨酸",
    "aliases": [],
    "entityIds": [
-    "丙氨酸/丝氨酸/甘氨酸/半胱氨酸@cytosol"
+    "丙氨酸/半胱氨酸/甘氨酸/丝氨酸/苏氨酸/色氨酸@cytosol"
    ],
    "pathwayIds": [
     "aa_carbon"
@@ -42736,7 +42746,7 @@ window.METABOLIC_COMPILED = {
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
-      "丙氨酸/丝氨酸/甘氨酸/半胱氨酸@cytosol"
+      "丙氨酸/半胱氨酸/甘氨酸/丝氨酸/苏氨酸/色氨酸@cytosol"
      ]
     }
    ]
@@ -42788,18 +42798,17 @@ window.METABOLIC_COMPILED = {
    ]
   },
   {
-   "key": "亮氨酸赖氨酸等",
-   "name": "亮氨酸/赖氨酸等",
+   "key": "异亮氨酸亮氨酸苏氨酸色氨酸",
+   "name": "异亮氨酸/亮氨酸/苏氨酸/色氨酸",
    "aliases": [],
    "entityIds": [
-    "亮氨酸/赖氨酸等@mito-matrix"
+    "异亮氨酸/亮氨酸/苏氨酸/色氨酸@mito-matrix"
    ],
    "pathwayIds": [
     "aa_carbon"
    ],
    "reactionIds": [
-    "rx8",
-    "rx9"
+    "rx8"
    ],
    "occurrences": [
     {
@@ -42811,19 +42820,7 @@ window.METABOLIC_COMPILED = {
      "source": "endpoint",
      "compartment": "线粒体基质",
      "entityIds": [
-      "亮氨酸/赖氨酸等@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx9",
-     "pathwayIds": [
-      "aa_carbon"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "亮氨酸/赖氨酸等@mito-matrix"
+      "异亮氨酸/亮氨酸/苏氨酸/色氨酸@mito-matrix"
      ]
     }
    ]
@@ -42861,22 +42858,22 @@ window.METABOLIC_COMPILED = {
     "rx37",
     "rx44",
     "rx45",
+    "rx68",
     "rx69",
     "rx70",
     "rx71",
-    "rx72",
+    "rx145",
     "rx146",
-    "rx147",
+    "rx150",
     "rx151",
-    "rx152",
+    "rx161",
     "rx162",
     "rx163",
-    "rx164",
-    "rx167",
-    "rx226",
-    "rx307",
-    "rx315",
-    "rx342"
+    "rx166",
+    "rx225",
+    "rx308",
+    "rx316",
+    "rx343"
    ],
    "occurrences": [
     {
@@ -42964,11 +42961,23 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx69",
+     "reactionId": "rx68",
      "pathwayIds": [
       "fa_synthesis"
      ],
      "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "乙酰辅酶 A@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx69",
+     "pathwayIds": [
+      "fa_synthesis"
+     ],
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -42981,7 +42990,7 @@ window.METABOLIC_COMPILED = {
       "fa_synthesis"
      ],
      "role": "substrate",
-     "source": "endpoint",
+     "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
       "乙酰辅酶 A@cytosol"
@@ -43000,19 +43009,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx72",
-     "pathwayIds": [
-      "fa_synthesis"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "乙酰辅酶 A@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx146",
+     "reactionId": "rx145",
      "pathwayIds": [
       "glyoxylate"
      ],
@@ -43024,12 +43021,24 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx147",
+     "reactionId": "rx146",
      "pathwayIds": [
       "glyoxylate"
      ],
      "role": "substrate",
      "source": "endpoint",
+     "compartment": "乙醛酸体",
+     "entityIds": [
+      "乙酰辅酶 A@glyoxysome"
+     ]
+    },
+    {
+     "reactionId": "rx150",
+     "pathwayIds": [
+      "glyoxylate"
+     ],
+     "role": "substrate",
+     "source": "equation",
      "compartment": "乙醛酸体",
      "entityIds": [
       "乙酰辅酶 A@glyoxysome"
@@ -43041,22 +43050,22 @@ window.METABOLIC_COMPILED = {
       "glyoxylate"
      ],
      "role": "substrate",
-     "source": "equation",
+     "source": "endpoint",
      "compartment": "乙醛酸体",
      "entityIds": [
       "乙酰辅酶 A@glyoxysome"
      ]
     },
     {
-     "reactionId": "rx152",
+     "reactionId": "rx161",
      "pathwayIds": [
-      "glyoxylate"
+      "ketone"
      ],
      "role": "substrate",
      "source": "endpoint",
-     "compartment": "乙醛酸体",
+     "compartment": "线粒体基质",
      "entityIds": [
-      "乙酰辅酶 A@glyoxysome"
+      "乙酰辅酶 A@mito-matrix"
      ]
     },
     {
@@ -43065,7 +43074,7 @@ window.METABOLIC_COMPILED = {
       "ketone"
      ],
      "role": "substrate",
-     "source": "endpoint",
+     "source": "equation",
      "compartment": "线粒体基质",
      "entityIds": [
       "乙酰辅酶 A@mito-matrix"
@@ -43076,18 +43085,6 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "ketone"
      ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "乙酰辅酶 A@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx164",
-     "pathwayIds": [
-      "ketone"
-     ],
      "role": "product",
      "source": "equation",
      "compartment": "线粒体基质",
@@ -43096,7 +43093,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx167",
+     "reactionId": "rx166",
      "pathwayIds": [
       "ketone"
      ],
@@ -43108,7 +43105,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx226",
+     "reactionId": "rx225",
      "pathwayIds": [
       "pdh",
       "pyruvate_fates"
@@ -43121,7 +43118,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx307",
+     "reactionId": "rx308",
      "pathwayIds": [
       "tca"
      ],
@@ -43133,7 +43130,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx315",
+     "reactionId": "rx316",
      "pathwayIds": [
       "tca"
      ],
@@ -43145,7 +43142,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx342",
+     "reactionId": "rx343",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -43153,6 +43150,34 @@ window.METABOLIC_COMPILED = {
      "source": "equation",
      "compartment": "过氧化物酶体",
      "entityIds": []
+    }
+   ]
+  },
+  {
+   "key": "亮氨酸赖氨酸苯丙氨酸酪氨酸色氨酸",
+   "name": "亮氨酸/赖氨酸/苯丙氨酸/酪氨酸/色氨酸",
+   "aliases": [],
+   "entityIds": [
+    "亮氨酸/赖氨酸/苯丙氨酸/酪氨酸/色氨酸@mito-matrix"
+   ],
+   "pathwayIds": [
+    "aa_carbon"
+   ],
+   "reactionIds": [
+    "rx9"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx9",
+     "pathwayIds": [
+      "aa_carbon"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "亮氨酸/赖氨酸/苯丙氨酸/酪氨酸/色氨酸@mito-matrix"
+     ]
     }
    ]
   },
@@ -43175,10 +43200,10 @@ window.METABOLIC_COMPILED = {
     "rx9",
     "rx44",
     "rx45",
+    "rx161",
     "rx162",
-    "rx163",
-    "rx166",
-    "rx167"
+    "rx165",
+    "rx166"
    ],
    "occurrences": [
     {
@@ -43218,7 +43243,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx162",
+     "reactionId": "rx161",
      "pathwayIds": [
       "ketone"
      ],
@@ -43230,7 +43255,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx163",
+     "reactionId": "rx162",
      "pathwayIds": [
       "ketone"
      ],
@@ -43242,7 +43267,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx166",
+     "reactionId": "rx165",
      "pathwayIds": [
       "ketone"
      ],
@@ -43254,7 +43279,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx167",
+     "reactionId": "rx166",
      "pathwayIds": [
       "ketone"
      ],
@@ -43402,10 +43427,10 @@ window.METABOLIC_COMPILED = {
     "rx11",
     "rx31",
     "rx33",
-    "rx154",
-    "rx166",
-    "rx310",
-    "rx311"
+    "rx153",
+    "rx165",
+    "rx311",
+    "rx312"
    ],
    "occurrences": [
     {
@@ -43445,7 +43470,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx154",
+     "reactionId": "rx153",
      "pathwayIds": [
       "heme"
      ],
@@ -43457,7 +43482,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx166",
+     "reactionId": "rx165",
      "pathwayIds": [
       "ketone"
      ],
@@ -43469,7 +43494,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx310",
+     "reactionId": "rx311",
      "pathwayIds": [
       "tca"
      ],
@@ -43481,7 +43506,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx311",
+     "reactionId": "rx312",
      "pathwayIds": [
       "tca"
      ],
@@ -43567,11 +43592,11 @@ window.METABOLIC_COMPILED = {
     "rx18",
     "rx19",
     "rx53",
-    "rx253",
-    "rx312",
+    "rx252",
     "rx313",
-    "rx330",
-    "rx331"
+    "rx314",
+    "rx331",
+    "rx332"
    ],
    "occurrences": [
     {
@@ -43621,7 +43646,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx253",
+     "reactionId": "rx252",
      "pathwayIds": [
       "purine"
      ],
@@ -43633,7 +43658,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx312",
+     "reactionId": "rx313",
      "pathwayIds": [
       "tca"
      ],
@@ -43645,7 +43670,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx313",
+     "reactionId": "rx314",
      "pathwayIds": [
       "tca"
      ],
@@ -43657,7 +43682,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx330",
+     "reactionId": "rx331",
      "pathwayIds": [
       "urea"
      ],
@@ -43669,7 +43694,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx331",
+     "reactionId": "rx332",
      "pathwayIds": [
       "urea"
      ],
@@ -43701,10 +43726,10 @@ window.METABOLIC_COMPILED = {
     "rx18",
     "rx19",
     "rx32",
+    "rx163",
     "rx164",
     "rx165",
-    "rx166",
-    "rx168"
+    "rx167"
    ],
    "occurrences": [
     {
@@ -43756,11 +43781,23 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx164",
+     "reactionId": "rx163",
      "pathwayIds": [
       "ketone"
      ],
      "role": "product",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "乙酰乙酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx164",
+     "pathwayIds": [
+      "ketone"
+     ],
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "线粒体基质",
      "entityIds": [
@@ -43780,19 +43817,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx166",
-     "pathwayIds": [
-      "ketone"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "乙酰乙酸@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx168",
+     "reactionId": "rx167",
      "pathwayIds": [
       "ketone"
      ],
@@ -44014,17 +44039,18 @@ window.METABOLIC_COMPILED = {
     "rx14",
     "rx15",
     "rx49",
-    "rx58",
+    "rx59",
+    "rx60",
+    "rx66",
     "rx67",
-    "rx68",
-    "rx117",
-    "rx159",
+    "rx116",
+    "rx158",
+    "rx211",
     "rx212",
-    "rx213",
-    "rx283",
-    "rx292",
-    "rx294",
-    "rx339"
+    "rx284",
+    "rx293",
+    "rx295",
+    "rx340"
    ],
    "occurrences": [
     {
@@ -44058,7 +44084,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx58",
+     "reactionId": "rx59",
      "pathwayIds": [
       "etc"
      ],
@@ -44068,6 +44094,26 @@ window.METABOLIC_COMPILED = {
      "entityIds": [
       "氧@mito-matrix"
      ]
+    },
+    {
+     "reactionId": "rx60",
+     "pathwayIds": [
+      "etc"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "线粒体内膜",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx66",
+     "pathwayIds": [
+      "fa_elongation"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "平滑内质网",
+     "entityIds": []
     },
     {
      "reactionId": "rx67",
@@ -44080,17 +44126,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx68",
-     "pathwayIds": [
-      "fa_elongation"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "平滑内质网",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx117",
+     "reactionId": "rx116",
      "pathwayIds": [
       "glutathione"
      ],
@@ -44100,7 +44136,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx159",
+     "reactionId": "rx158",
      "pathwayIds": [
       "heme"
      ],
@@ -44110,6 +44146,16 @@ window.METABOLIC_COMPILED = {
      "entityIds": [
       "氧@mito-matrix"
      ]
+    },
+    {
+     "reactionId": "rx211",
+     "pathwayIds": [
+      "nucleotide_degradation"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": []
     },
     {
      "reactionId": "rx212",
@@ -44122,17 +44168,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx213",
-     "pathwayIds": [
-      "nucleotide_degradation"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx283",
+     "reactionId": "rx284",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -44142,7 +44178,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx292",
+     "reactionId": "rx293",
      "pathwayIds": [
       "steroid_bile"
      ],
@@ -44152,7 +44188,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx294",
+     "reactionId": "rx295",
      "pathwayIds": [
       "steroid_bile"
      ],
@@ -44162,7 +44198,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx339",
+     "reactionId": "rx340",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -44285,11 +44321,11 @@ window.METABOLIC_COMPILED = {
    ]
   },
   {
-   "key": "儿茶酚胺",
-   "name": "儿茶酚胺",
+   "key": "多巴胺",
+   "name": "多巴胺",
    "aliases": [],
    "entityIds": [
-    "儿茶酚胺@cytosol"
+    "多巴胺@cytosol"
    ],
    "pathwayIds": [
     "aromatic_aa"
@@ -44307,7 +44343,7 @@ window.METABOLIC_COMPILED = {
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
-      "儿茶酚胺@cytosol"
+      "多巴胺@cytosol"
      ]
     }
    ]
@@ -44341,24 +44377,24 @@ window.METABOLIC_COMPILED = {
     "rx16",
     "rx29",
     "rx47",
-    "rx66",
+    "rx65",
+    "rx70",
     "rx71",
-    "rx72",
-    "rx95",
-    "rx154",
+    "rx94",
+    "rx153",
+    "rx213",
     "rx214",
-    "rx215",
-    "rx226",
-    "rx231",
-    "rx242",
-    "rx257",
-    "rx261",
-    "rx278",
-    "rx280",
-    "rx309",
+    "rx225",
+    "rx230",
+    "rx241",
+    "rx256",
+    "rx260",
+    "rx279",
+    "rx281",
     "rx310",
-    "rx324",
-    "rx337"
+    "rx311",
+    "rx325",
+    "rx338"
    ],
    "occurrences": [
     {
@@ -44392,13 +44428,23 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx66",
+     "reactionId": "rx65",
      "pathwayIds": [
       "fa_elongation"
      ],
      "role": "product",
      "source": "equation",
      "compartment": "平滑内质网",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx70",
+     "pathwayIds": [
+      "fa_synthesis"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
      "entityIds": []
     },
     {
@@ -44412,17 +44458,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx72",
-     "pathwayIds": [
-      "fa_synthesis"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx95",
+     "reactionId": "rx94",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -44432,13 +44468,23 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx154",
+     "reactionId": "rx153",
      "pathwayIds": [
       "heme"
      ],
      "role": "product",
      "source": "equation",
      "compartment": "线粒体基质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx213",
+     "pathwayIds": [
+      "nucleotide_degradation"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
      "entityIds": []
     },
     {
@@ -44452,17 +44498,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx215",
-     "pathwayIds": [
-      "nucleotide_degradation"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx226",
+     "reactionId": "rx225",
      "pathwayIds": [
       "pdh",
       "pyruvate_fates"
@@ -44473,7 +44509,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx231",
+     "reactionId": "rx230",
      "pathwayIds": [
       "phospholipid"
      ],
@@ -44483,7 +44519,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx242",
+     "reactionId": "rx241",
      "pathwayIds": [
       "ppp"
      ],
@@ -44493,7 +44529,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx257",
+     "reactionId": "rx256",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -44503,7 +44539,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx261",
+     "reactionId": "rx260",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -44513,7 +44549,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx278",
+     "reactionId": "rx279",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -44523,23 +44559,13 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx280",
+     "reactionId": "rx281",
      "pathwayIds": [
       "sphingolipid"
      ],
      "role": "product",
      "source": "equation",
      "compartment": "平滑内质网",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx309",
-     "pathwayIds": [
-      "tca"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "线粒体基质",
      "entityIds": []
     },
     {
@@ -44553,7 +44579,17 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx324",
+     "reactionId": "rx311",
+     "pathwayIds": [
+      "tca"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "线粒体基质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx325",
      "pathwayIds": [
       "urea"
      ],
@@ -44563,7 +44599,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx337",
+     "reactionId": "rx338",
      "pathwayIds": [
       "uronic"
      ],
@@ -44802,9 +44838,9 @@ window.METABOLIC_COMPILED = {
    ],
    "reactionIds": [
     "rx25",
-    "rx177",
-    "rx192",
-    "rx316"
+    "rx176",
+    "rx191",
+    "rx317"
    ],
    "occurrences": [
     {
@@ -44820,7 +44856,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx177",
+     "reactionId": "rx176",
      "pathwayIds": [
       "lysosomal"
      ],
@@ -44832,7 +44868,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx192",
+     "reactionId": "rx191",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -44844,7 +44880,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx192",
+     "reactionId": "rx191",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -44856,7 +44892,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx316",
+     "reactionId": "rx317",
      "pathwayIds": [
       "transamination"
      ],
@@ -44974,7 +45010,7 @@ window.METABOLIC_COMPILED = {
    ],
    "reactionIds": [
     "rx26",
-    "rx178"
+    "rx177"
    ],
    "occurrences": [
     {
@@ -44990,7 +45026,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx178",
+     "reactionId": "rx177",
      "pathwayIds": [
       "lysosomal"
      ],
@@ -45022,15 +45058,14 @@ window.METABOLIC_COMPILED = {
    ],
    "reactionIds": [
     "rx27",
+    "rx168",
     "rx169",
-    "rx170",
-    "rx173",
-    "rx179",
+    "rx178",
+    "rx192",
     "rx193",
-    "rx194",
-    "rx234",
-    "rx305",
-    "rx306"
+    "rx233",
+    "rx306",
+    "rx307"
    ],
    "occurrences": [
     {
@@ -45046,6 +45081,18 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
+     "reactionId": "rx168",
+     "pathwayIds": [
+      "lipoprotein"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "胞外",
+     "entityIds": [
+      "脂肪酸@extracellular"
+     ]
+    },
+    {
      "reactionId": "rx169",
      "pathwayIds": [
       "lipoprotein"
@@ -45058,31 +45105,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx170",
-     "pathwayIds": [
-      "lipoprotein"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "胞外",
-     "entityIds": [
-      "脂肪酸@extracellular"
-     ]
-    },
-    {
-     "reactionId": "rx173",
-     "pathwayIds": [
-      "lipoprotein"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "胞外",
-     "entityIds": [
-      "脂肪酸@extracellular"
-     ]
-    },
-    {
-     "reactionId": "rx179",
+     "reactionId": "rx178",
      "pathwayIds": [
       "lysosomal"
      ],
@@ -45094,7 +45117,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx193",
+     "reactionId": "rx192",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -45106,7 +45129,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx193",
+     "reactionId": "rx192",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -45118,7 +45141,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx194",
+     "reactionId": "rx193",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -45130,7 +45153,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx234",
+     "reactionId": "rx233",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -45140,7 +45163,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx305",
+     "reactionId": "rx306",
      "pathwayIds": [
       "tag"
      ],
@@ -45152,7 +45175,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx306",
+     "reactionId": "rx307",
      "pathwayIds": [
       "tag"
      ],
@@ -45323,31 +45346,31 @@ window.METABOLIC_COMPILED = {
     "rx44",
     "rx45",
     "rx46",
-    "rx66",
-    "rx69",
+    "rx65",
+    "rx68",
+    "rx70",
     "rx71",
-    "rx72",
+    "rx145",
     "rx146",
-    "rx147",
+    "rx150",
     "rx151",
-    "rx152",
-    "rx154",
+    "rx153",
+    "rx161",
     "rx162",
-    "rx163",
-    "rx167",
-    "rx194",
-    "rx226",
-    "rx233",
-    "rx237",
-    "rx280",
-    "rx282",
-    "rx301",
+    "rx166",
+    "rx193",
+    "rx225",
+    "rx232",
+    "rx236",
+    "rx281",
+    "rx283",
     "rx302",
-    "rx304",
-    "rx307",
-    "rx310",
-    "rx315",
-    "rx342"
+    "rx303",
+    "rx305",
+    "rx308",
+    "rx311",
+    "rx316",
+    "rx343"
    ],
    "occurrences": [
     {
@@ -45431,7 +45454,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx66",
+     "reactionId": "rx65",
      "pathwayIds": [
       "fa_elongation"
      ],
@@ -45441,11 +45464,21 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx69",
+     "reactionId": "rx68",
      "pathwayIds": [
       "fa_synthesis"
      ],
      "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx70",
+     "pathwayIds": [
+      "fa_synthesis"
+     ],
+     "role": "product",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
@@ -45461,13 +45494,13 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx72",
+     "reactionId": "rx145",
      "pathwayIds": [
-      "fa_synthesis"
+      "glyoxylate"
      ],
      "role": "product",
      "source": "equation",
-     "compartment": "细胞质",
+     "compartment": "乙醛酸体",
      "entityIds": []
     },
     {
@@ -45481,7 +45514,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx147",
+     "reactionId": "rx150",
      "pathwayIds": [
       "glyoxylate"
      ],
@@ -45501,19 +45534,19 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx152",
+     "reactionId": "rx153",
      "pathwayIds": [
-      "glyoxylate"
+      "heme"
      ],
      "role": "product",
      "source": "equation",
-     "compartment": "乙醛酸体",
+     "compartment": "线粒体基质",
      "entityIds": []
     },
     {
-     "reactionId": "rx154",
+     "reactionId": "rx161",
      "pathwayIds": [
-      "heme"
+      "ketone"
      ],
      "role": "product",
      "source": "equation",
@@ -45531,17 +45564,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx163",
-     "pathwayIds": [
-      "ketone"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx167",
+     "reactionId": "rx166",
      "pathwayIds": [
       "ketone"
      ],
@@ -45551,7 +45574,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx194",
+     "reactionId": "rx193",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -45561,7 +45584,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx226",
+     "reactionId": "rx225",
      "pathwayIds": [
       "pdh",
       "pyruvate_fates"
@@ -45572,7 +45595,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx233",
+     "reactionId": "rx232",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -45582,7 +45605,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx237",
+     "reactionId": "rx236",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -45592,7 +45615,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx280",
+     "reactionId": "rx281",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -45602,19 +45625,9 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx282",
+     "reactionId": "rx283",
      "pathwayIds": [
       "sphingolipid"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "平滑内质网",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx301",
-     "pathwayIds": [
-      "tag"
      ],
      "role": "product",
      "source": "equation",
@@ -45632,7 +45645,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx304",
+     "reactionId": "rx303",
      "pathwayIds": [
       "tag"
      ],
@@ -45642,7 +45655,17 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx307",
+     "reactionId": "rx305",
+     "pathwayIds": [
+      "tag"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "平滑内质网",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx308",
      "pathwayIds": [
       "tca"
      ],
@@ -45652,7 +45675,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx310",
+     "reactionId": "rx311",
      "pathwayIds": [
       "tca"
      ],
@@ -45662,7 +45685,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx315",
+     "reactionId": "rx316",
      "pathwayIds": [
       "tca"
      ],
@@ -45672,7 +45695,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx342",
+     "reactionId": "rx343",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -45760,13 +45783,13 @@ window.METABOLIC_COMPILED = {
     "rx38",
     "rx39",
     "rx43",
-    "rx194",
-    "rx233",
-    "rx237",
-    "rx282",
-    "rx301",
+    "rx193",
+    "rx232",
+    "rx236",
+    "rx283",
     "rx302",
-    "rx304"
+    "rx303",
+    "rx305"
    ],
    "occurrences": [
     {
@@ -45818,7 +45841,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx194",
+     "reactionId": "rx193",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -45830,7 +45853,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx233",
+     "reactionId": "rx232",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -45840,7 +45863,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx237",
+     "reactionId": "rx236",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -45850,19 +45873,9 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx282",
+     "reactionId": "rx283",
      "pathwayIds": [
       "sphingolipid"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "平滑内质网",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx301",
-     "pathwayIds": [
-      "tag"
      ],
      "role": "substrate",
      "source": "equation",
@@ -45880,7 +45893,17 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx304",
+     "reactionId": "rx303",
+     "pathwayIds": [
+      "tag"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "平滑内质网",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx305",
      "pathwayIds": [
       "tag"
      ],
@@ -45906,8 +45929,8 @@ window.METABOLIC_COMPILED = {
    "reactionIds": [
     "rx34",
     "rx35",
-    "rx339",
-    "rx340"
+    "rx340",
+    "rx341"
    ],
    "occurrences": [
     {
@@ -45935,7 +45958,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx339",
+     "reactionId": "rx340",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -45947,7 +45970,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx340",
+     "reactionId": "rx341",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -45967,14 +45990,17 @@ window.METABOLIC_COMPILED = {
    "entityIds": [],
    "pathwayIds": [
     "beta_oxidation",
+    "etc",
     "glycerol_phosphate",
     "transport"
    ],
    "reactionIds": [
     "rx34",
-    "rx122",
-    "rx124",
-    "rx323"
+    "rx53",
+    "rx54",
+    "rx121",
+    "rx123",
+    "rx324"
    ],
    "occurrences": [
     {
@@ -45988,7 +46014,27 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx122",
+     "reactionId": "rx53",
+     "pathwayIds": [
+      "etc"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "线粒体内膜",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx54",
+     "pathwayIds": [
+      "etc"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "线粒体内膜",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx121",
      "pathwayIds": [
       "glycerol_phosphate"
      ],
@@ -45998,7 +46044,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx124",
+     "reactionId": "rx123",
      "pathwayIds": [
       "glycerol_phosphate"
      ],
@@ -46008,7 +46054,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx323",
+     "reactionId": "rx324",
      "pathwayIds": [
       "transport"
      ],
@@ -46018,7 +46064,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx323",
+     "reactionId": "rx324",
      "pathwayIds": [
       "transport"
      ],
@@ -46036,14 +46082,17 @@ window.METABOLIC_COMPILED = {
    "entityIds": [],
    "pathwayIds": [
     "beta_oxidation",
+    "etc",
     "glycerol_phosphate",
     "transport"
    ],
    "reactionIds": [
     "rx34",
-    "rx122",
-    "rx124",
-    "rx323"
+    "rx53",
+    "rx54",
+    "rx121",
+    "rx123",
+    "rx324"
    ],
    "occurrences": [
     {
@@ -46057,7 +46106,27 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx122",
+     "reactionId": "rx53",
+     "pathwayIds": [
+      "etc"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "线粒体内膜",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx54",
+     "pathwayIds": [
+      "etc"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "线粒体内膜",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx121",
      "pathwayIds": [
       "glycerol_phosphate"
      ],
@@ -46067,7 +46136,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx124",
+     "reactionId": "rx123",
      "pathwayIds": [
       "glycerol_phosphate"
      ],
@@ -46077,7 +46146,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx323",
+     "reactionId": "rx324",
      "pathwayIds": [
       "transport"
      ],
@@ -46087,7 +46156,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx323",
+     "reactionId": "rx324",
      "pathwayIds": [
       "transport"
      ],
@@ -46113,8 +46182,8 @@ window.METABOLIC_COMPILED = {
    "reactionIds": [
     "rx35",
     "rx36",
-    "rx340",
-    "rx341"
+    "rx341",
+    "rx342"
    ],
    "occurrences": [
     {
@@ -46142,7 +46211,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx340",
+     "reactionId": "rx341",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -46154,7 +46223,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx341",
+     "reactionId": "rx342",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -46182,8 +46251,8 @@ window.METABOLIC_COMPILED = {
    "reactionIds": [
     "rx36",
     "rx37",
-    "rx341",
-    "rx342"
+    "rx342",
+    "rx343"
    ],
    "occurrences": [
     {
@@ -46211,7 +46280,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx341",
+     "reactionId": "rx342",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -46223,7 +46292,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx342",
+     "reactionId": "rx343",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -46250,8 +46319,8 @@ window.METABOLIC_COMPILED = {
    ],
    "reactionIds": [
     "rx37",
-    "rx342",
-    "rx343"
+    "rx343",
+    "rx344"
    ],
    "occurrences": [
     {
@@ -46267,7 +46336,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx342",
+     "reactionId": "rx343",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -46279,7 +46348,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx343",
+     "reactionId": "rx344",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -46291,7 +46360,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx343",
+     "reactionId": "rx344",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -46445,14 +46514,16 @@ window.METABOLIC_COMPILED = {
     "肉碱@mito-ims"
    ],
    "pathwayIds": [
-    "carnitine"
+    "carnitine",
+    "vlcfa"
    ],
    "reactionIds": [
     "rx38",
     "rx39",
     "rx41",
     "rx42",
-    "rx43"
+    "rx43",
+    "rx344"
    ],
    "occurrences": [
     {
@@ -46538,6 +46609,26 @@ window.METABOLIC_COMPILED = {
      "entityIds": [
       "肉碱@cytosol"
      ]
+    },
+    {
+     "reactionId": "rx344",
+     "pathwayIds": [
+      "vlcfa"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "过氧化物酶体",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx344",
+     "pathwayIds": [
+      "vlcfa"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "过氧化物酶体",
+     "entityIds": []
     }
    ]
   },
@@ -46556,8 +46647,8 @@ window.METABOLIC_COMPILED = {
    "reactionIds": [
     "rx45",
     "rx46",
-    "rx163",
-    "rx164"
+    "rx162",
+    "rx163"
    ],
    "occurrences": [
     {
@@ -46585,7 +46676,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx163",
+     "reactionId": "rx162",
      "pathwayIds": [
       "ketone"
      ],
@@ -46597,7 +46688,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx164",
+     "reactionId": "rx163",
      "pathwayIds": [
       "ketone"
      ],
@@ -46751,11 +46842,10 @@ window.METABOLIC_COMPILED = {
    "reactionIds": [
     "rx49",
     "rx50",
+    "rx172",
     "rx173",
-    "rx174",
-    "rx291",
     "rx292",
-    "rx294",
+    "rx293",
     "rx295"
    ],
    "occurrences": [
@@ -46796,19 +46886,19 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx173",
+     "reactionId": "rx172",
      "pathwayIds": [
       "lipoprotein"
      ],
      "role": "product",
      "source": "endpoint",
-     "compartment": "细胞质",
+     "compartment": "平滑内质网",
      "entityIds": [
-      "胆固醇@cytosol"
+      "胆固醇@smooth-er"
      ]
     },
     {
-     "reactionId": "rx174",
+     "reactionId": "rx173",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -46818,19 +46908,19 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx291",
+     "reactionId": "rx292",
      "pathwayIds": [
       "steroid_bile"
      ],
      "role": "substrate",
      "source": "endpoint",
-     "compartment": "平滑内质网",
+     "compartment": "细胞质",
      "entityIds": [
-      "胆固醇@smooth-er"
+      "胆固醇@cytosol"
      ]
     },
     {
-     "reactionId": "rx291",
+     "reactionId": "rx292",
      "pathwayIds": [
       "steroid_bile"
      ],
@@ -46842,7 +46932,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx292",
+     "reactionId": "rx293",
      "pathwayIds": [
       "steroid_bile"
      ],
@@ -46851,18 +46941,6 @@ window.METABOLIC_COMPILED = {
      "compartment": "线粒体内膜",
      "entityIds": [
       "胆固醇@mito-inner-membrane"
-     ]
-    },
-    {
-     "reactionId": "rx294",
-     "pathwayIds": [
-      "steroid_bile"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "平滑内质网",
-     "entityIds": [
-      "胆固醇@smooth-er"
      ]
     },
     {
@@ -46885,28 +46963,16 @@ window.METABOLIC_COMPILED = {
    "aliases": [],
    "entityIds": [],
    "pathwayIds": [
-    "cholesterol",
-    "steroid_bile"
+    "cholesterol"
    ],
    "reactionIds": [
-    "rx50",
-    "rx291"
+    "rx50"
    ],
    "occurrences": [
     {
      "reactionId": "rx50",
      "pathwayIds": [
       "cholesterol"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "平滑内质网",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx291",
-     "pathwayIds": [
-      "steroid_bile"
      ],
      "role": "substrate",
      "source": "equation",
@@ -46952,7 +47018,7 @@ window.METABOLIC_COMPILED = {
    "reactionIds": [
     "rx51",
     "rx52",
-    "rx59"
+    "rx61"
    ],
    "occurrences": [
     {
@@ -46980,7 +47046,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx59",
+     "reactionId": "rx61",
      "pathwayIds": [
       "etc"
      ],
@@ -47005,10 +47071,11 @@ window.METABOLIC_COMPILED = {
    "reactionIds": [
     "rx51",
     "rx52",
-    "rx55",
     "rx56",
-    "rx58",
-    "rx298"
+    "rx57",
+    "rx59",
+    "rx60",
+    "rx299"
    ],
    "occurrences": [
     {
@@ -47032,7 +47099,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx55",
+     "reactionId": "rx56",
      "pathwayIds": [
       "etc"
      ],
@@ -47042,7 +47109,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx56",
+     "reactionId": "rx57",
      "pathwayIds": [
       "etc"
      ],
@@ -47052,7 +47119,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx58",
+     "reactionId": "rx59",
      "pathwayIds": [
       "etc"
      ],
@@ -47062,7 +47129,17 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx298",
+     "reactionId": "rx60",
+     "pathwayIds": [
+      "etc"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "线粒体内膜",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx299",
      "pathwayIds": [
       "sulfur"
      ],
@@ -47091,29 +47168,17 @@ window.METABOLIC_COMPILED = {
    ],
    "reactionIds": [
     "rx52",
-    "rx53",
     "rx54",
     "rx55",
-    "rx124",
-    "rx260",
-    "rx312",
-    "rx323"
+    "rx56",
+    "rx123",
+    "rx259",
+    "rx313",
+    "rx324"
    ],
    "occurrences": [
     {
      "reactionId": "rx52",
-     "pathwayIds": [
-      "etc"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "线粒体内膜",
-     "entityIds": [
-      "泛醇@mito-inner-membrane"
-     ]
-    },
-    {
-     "reactionId": "rx53",
      "pathwayIds": [
       "etc"
      ],
@@ -47141,6 +47206,18 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "etc"
      ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "线粒体内膜",
+     "entityIds": [
+      "泛醇@mito-inner-membrane"
+     ]
+    },
+    {
+     "reactionId": "rx56",
+     "pathwayIds": [
+      "etc"
+     ],
      "role": "substrate",
      "source": "endpoint",
      "compartment": "线粒体内膜",
@@ -47149,7 +47226,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx124",
+     "reactionId": "rx123",
      "pathwayIds": [
       "glycerol_phosphate"
      ],
@@ -47161,7 +47238,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx260",
+     "reactionId": "rx259",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -47171,7 +47248,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx312",
+     "reactionId": "rx313",
      "pathwayIds": [
       "tca"
      ],
@@ -47181,7 +47258,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx323",
+     "reactionId": "rx324",
      "pathwayIds": [
       "transport"
      ],
@@ -47210,13 +47287,13 @@ window.METABOLIC_COMPILED = {
    ],
    "reactionIds": [
     "rx52",
-    "rx53",
     "rx54",
     "rx55",
-    "rx124",
-    "rx260",
-    "rx312",
-    "rx323"
+    "rx56",
+    "rx123",
+    "rx259",
+    "rx313",
+    "rx324"
    ],
    "occurrences": [
     {
@@ -47232,7 +47309,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx53",
+     "reactionId": "rx54",
      "pathwayIds": [
       "etc"
      ],
@@ -47244,7 +47321,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx54",
+     "reactionId": "rx55",
      "pathwayIds": [
       "etc"
      ],
@@ -47256,7 +47333,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx55",
+     "reactionId": "rx56",
      "pathwayIds": [
       "etc"
      ],
@@ -47268,7 +47345,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx124",
+     "reactionId": "rx123",
      "pathwayIds": [
       "glycerol_phosphate"
      ],
@@ -47280,7 +47357,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx260",
+     "reactionId": "rx259",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -47290,7 +47367,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx312",
+     "reactionId": "rx313",
      "pathwayIds": [
       "tca"
      ],
@@ -47300,7 +47377,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx323",
+     "reactionId": "rx324",
      "pathwayIds": [
       "transport"
      ],
@@ -47312,7 +47389,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx323",
+     "reactionId": "rx324",
      "pathwayIds": [
       "transport"
      ],
@@ -47320,6 +47397,103 @@ window.METABOLIC_COMPILED = {
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
+    }
+   ]
+  },
+  {
+   "key": "琥珀酸",
+   "name": "琥珀酸",
+   "aliases": [],
+   "entityIds": [
+    "琥珀酸@mito-matrix",
+    "琥珀酸@glyoxysome"
+   ],
+   "pathwayIds": [
+    "etc",
+    "glyoxylate",
+    "ketone",
+    "tca"
+   ],
+   "reactionIds": [
+    "rx53",
+    "rx148",
+    "rx149",
+    "rx165",
+    "rx312",
+    "rx313"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx53",
+     "pathwayIds": [
+      "etc"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "琥珀酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx148",
+     "pathwayIds": [
+      "glyoxylate"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "乙醛酸体",
+     "entityIds": [
+      "琥珀酸@glyoxysome"
+     ]
+    },
+    {
+     "reactionId": "rx149",
+     "pathwayIds": [
+      "glyoxylate"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "乙醛酸体",
+     "entityIds": [
+      "琥珀酸@glyoxysome"
+     ]
+    },
+    {
+     "reactionId": "rx165",
+     "pathwayIds": [
+      "ketone"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "琥珀酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx312",
+     "pathwayIds": [
+      "tca"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "琥珀酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx313",
+     "pathwayIds": [
+      "tca"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "琥珀酸@mito-matrix"
+     ]
     }
    ]
   },
@@ -47334,11 +47508,24 @@ window.METABOLIC_COMPILED = {
     "etc"
    ],
    "reactionIds": [
-    "rx53"
+    "rx53",
+    "rx54"
    ],
    "occurrences": [
     {
      "reactionId": "rx53",
+     "pathwayIds": [
+      "etc"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "线粒体内膜",
+     "entityIds": [
+      "复合体 II@mito-inner-membrane"
+     ]
+    },
+    {
+     "reactionId": "rx54",
      "pathwayIds": [
       "etc"
      ],
@@ -47352,101 +47539,6 @@ window.METABOLIC_COMPILED = {
    ]
   },
   {
-   "key": "琥珀酸",
-   "name": "琥珀酸",
-   "aliases": [],
-   "entityIds": [
-    "琥珀酸@glyoxysome",
-    "琥珀酸@mito-matrix"
-   ],
-   "pathwayIds": [
-    "etc",
-    "glyoxylate",
-    "ketone",
-    "tca"
-   ],
-   "reactionIds": [
-    "rx53",
-    "rx149",
-    "rx150",
-    "rx166",
-    "rx311",
-    "rx312"
-   ],
-   "occurrences": [
-    {
-     "reactionId": "rx53",
-     "pathwayIds": [
-      "etc"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "线粒体内膜",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx149",
-     "pathwayIds": [
-      "glyoxylate"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "乙醛酸体",
-     "entityIds": [
-      "琥珀酸@glyoxysome"
-     ]
-    },
-    {
-     "reactionId": "rx150",
-     "pathwayIds": [
-      "glyoxylate"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "乙醛酸体",
-     "entityIds": [
-      "琥珀酸@glyoxysome"
-     ]
-    },
-    {
-     "reactionId": "rx166",
-     "pathwayIds": [
-      "ketone"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "琥珀酸@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx311",
-     "pathwayIds": [
-      "tca"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "琥珀酸@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx312",
-     "pathwayIds": [
-      "tca"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "琥珀酸@mito-matrix"
-     ]
-    }
-   ]
-  },
-  {
    "key": "穿梭电子",
    "name": "穿梭电子",
    "aliases": [],
@@ -47455,11 +47547,11 @@ window.METABOLIC_COMPILED = {
     "etc"
    ],
    "reactionIds": [
-    "rx54"
+    "rx55"
    ],
    "occurrences": [
     {
-     "reactionId": "rx54",
+     "reactionId": "rx55",
      "pathwayIds": [
       "etc"
      ],
@@ -47481,13 +47573,13 @@ window.METABOLIC_COMPILED = {
     "etc"
    ],
    "reactionIds": [
-    "rx55",
     "rx56",
-    "rx60"
+    "rx57",
+    "rx62"
    ],
    "occurrences": [
     {
-     "reactionId": "rx55",
+     "reactionId": "rx56",
      "pathwayIds": [
       "etc"
      ],
@@ -47499,7 +47591,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx56",
+     "reactionId": "rx57",
      "pathwayIds": [
       "etc"
      ],
@@ -47511,7 +47603,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx60",
+     "reactionId": "rx62",
      "pathwayIds": [
       "etc"
      ],
@@ -47537,12 +47629,12 @@ window.METABOLIC_COMPILED = {
     "etc"
    ],
    "reactionIds": [
-    "rx56",
-    "rx57"
+    "rx57",
+    "rx58"
    ],
    "occurrences": [
     {
-     "reactionId": "rx56",
+     "reactionId": "rx57",
      "pathwayIds": [
       "etc"
      ],
@@ -47554,7 +47646,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx56",
+     "reactionId": "rx57",
      "pathwayIds": [
       "etc"
      ],
@@ -47564,7 +47656,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx57",
+     "reactionId": "rx58",
      "pathwayIds": [
       "etc"
      ],
@@ -47588,12 +47680,14 @@ window.METABOLIC_COMPILED = {
     "etc"
    ],
    "reactionIds": [
-    "rx57",
-    "rx61"
+    "rx58",
+    "rx59",
+    "rx60",
+    "rx63"
    ],
    "occurrences": [
     {
-     "reactionId": "rx57",
+     "reactionId": "rx58",
      "pathwayIds": [
       "etc"
      ],
@@ -47605,7 +47699,31 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx61",
+     "reactionId": "rx59",
+     "pathwayIds": [
+      "etc"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "线粒体内膜",
+     "entityIds": [
+      "复合体 IV@mito-inner-membrane"
+     ]
+    },
+    {
+     "reactionId": "rx60",
+     "pathwayIds": [
+      "etc"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "线粒体内膜",
+     "entityIds": [
+      "复合体 IV@mito-inner-membrane"
+     ]
+    },
+    {
+     "reactionId": "rx63",
      "pathwayIds": [
       "etc"
      ],
@@ -47627,11 +47745,11 @@ window.METABOLIC_COMPILED = {
     "etc"
    ],
    "reactionIds": [
-    "rx57"
+    "rx58"
    ],
    "occurrences": [
     {
-     "reactionId": "rx57",
+     "reactionId": "rx58",
      "pathwayIds": [
       "etc"
      ],
@@ -47654,37 +47772,13 @@ window.METABOLIC_COMPILED = {
     "oxphos"
    ],
    "reactionIds": [
-    "rx59",
-    "rx60",
     "rx61",
     "rx62",
-    "rx216"
+    "rx63",
+    "rx64",
+    "rx215"
    ],
    "occurrences": [
-    {
-     "reactionId": "rx59",
-     "pathwayIds": [
-      "etc"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "线粒体膜间隙",
-     "entityIds": [
-      "膜间隙 H⁺@mito-ims"
-     ]
-    },
-    {
-     "reactionId": "rx60",
-     "pathwayIds": [
-      "etc"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "线粒体膜间隙",
-     "entityIds": [
-      "膜间隙 H⁺@mito-ims"
-     ]
-    },
     {
      "reactionId": "rx61",
      "pathwayIds": [
@@ -47702,6 +47796,30 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "etc"
      ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "线粒体膜间隙",
+     "entityIds": [
+      "膜间隙 H⁺@mito-ims"
+     ]
+    },
+    {
+     "reactionId": "rx63",
+     "pathwayIds": [
+      "etc"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "线粒体膜间隙",
+     "entityIds": [
+      "膜间隙 H⁺@mito-ims"
+     ]
+    },
+    {
+     "reactionId": "rx64",
+     "pathwayIds": [
+      "etc"
+     ],
      "role": "substrate",
      "source": "endpoint",
      "compartment": "线粒体膜间隙",
@@ -47710,7 +47828,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx216",
+     "reactionId": "rx215",
      "pathwayIds": [
       "oxphos"
      ],
@@ -47734,28 +47852,15 @@ window.METABOLIC_COMPILED = {
     "etc"
    ],
    "reactionIds": [
-    "rx62",
-    "rx63"
+    "rx64"
    ],
    "occurrences": [
     {
-     "reactionId": "rx62",
+     "reactionId": "rx64",
      "pathwayIds": [
       "etc"
      ],
      "role": "product",
-     "source": "endpoint",
-     "compartment": "线粒体内膜",
-     "entityIds": [
-      "质子动力势@mito-inner-membrane"
-     ]
-    },
-    {
-     "reactionId": "rx63",
-     "pathwayIds": [
-      "etc"
-     ],
-     "role": "substrate",
      "source": "endpoint",
      "compartment": "线粒体内膜",
      "entityIds": [
@@ -47773,11 +47878,11 @@ window.METABOLIC_COMPILED = {
     "etc"
    ],
    "reactionIds": [
-    "rx62"
+    "rx64"
    ],
    "occurrences": [
     {
-     "reactionId": "rx62",
+     "reactionId": "rx64",
      "pathwayIds": [
       "etc"
      ],
@@ -47797,11 +47902,11 @@ window.METABOLIC_COMPILED = {
     "etc"
    ],
    "reactionIds": [
-    "rx62"
+    "rx64"
    ],
    "occurrences": [
     {
-     "reactionId": "rx62",
+     "reactionId": "rx64",
      "pathwayIds": [
       "etc"
      ],
@@ -47821,11 +47926,11 @@ window.METABOLIC_COMPILED = {
     "etc"
    ],
    "reactionIds": [
-    "rx62"
+    "rx64"
    ],
    "occurrences": [
     {
-     "reactionId": "rx62",
+     "reactionId": "rx64",
      "pathwayIds": [
       "etc"
      ],
@@ -47833,61 +47938,6 @@ window.METABOLIC_COMPILED = {
      "source": "equation",
      "compartment": "线粒体内膜",
      "entityIds": []
-    }
-   ]
-  },
-  {
-   "key": "ATP合酶",
-   "name": "ATP 合酶",
-   "aliases": [],
-   "entityIds": [
-    "ATP 合酶@mito-inner-membrane"
-   ],
-   "pathwayIds": [
-    "etc",
-    "oxphos"
-   ],
-   "reactionIds": [
-    "rx63",
-    "rx216",
-    "rx217"
-   ],
-   "occurrences": [
-    {
-     "reactionId": "rx63",
-     "pathwayIds": [
-      "etc"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "线粒体内膜",
-     "entityIds": [
-      "ATP 合酶@mito-inner-membrane"
-     ]
-    },
-    {
-     "reactionId": "rx216",
-     "pathwayIds": [
-      "oxphos"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "线粒体内膜",
-     "entityIds": [
-      "ATP 合酶@mito-inner-membrane"
-     ]
-    },
-    {
-     "reactionId": "rx217",
-     "pathwayIds": [
-      "oxphos"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "线粒体内膜",
-     "entityIds": [
-      "ATP 合酶@mito-inner-membrane"
-     ]
     }
    ]
   },
@@ -47903,12 +47953,12 @@ window.METABOLIC_COMPILED = {
     "sphingolipid"
    ],
    "reactionIds": [
-    "rx66",
-    "rx280"
+    "rx65",
+    "rx281"
    ],
    "occurrences": [
     {
-     "reactionId": "rx66",
+     "reactionId": "rx65",
      "pathwayIds": [
       "fa_elongation"
      ],
@@ -47920,7 +47970,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx280",
+     "reactionId": "rx281",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -47944,12 +47994,12 @@ window.METABOLIC_COMPILED = {
     "fa_elongation"
    ],
    "reactionIds": [
-    "rx66",
-    "rx67"
+    "rx65",
+    "rx66"
    ],
    "occurrences": [
     {
-     "reactionId": "rx66",
+     "reactionId": "rx65",
      "pathwayIds": [
       "fa_elongation"
      ],
@@ -47961,7 +48011,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx67",
+     "reactionId": "rx66",
      "pathwayIds": [
       "fa_elongation"
      ],
@@ -47986,14 +48036,14 @@ window.METABOLIC_COMPILED = {
     "fa_synthesis"
    ],
    "reactionIds": [
-    "rx66",
+    "rx65",
+    "rx69",
     "rx70",
-    "rx71",
-    "rx72"
+    "rx71"
    ],
    "occurrences": [
     {
-     "reactionId": "rx66",
+     "reactionId": "rx65",
      "pathwayIds": [
       "fa_elongation"
      ],
@@ -48003,7 +48053,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx70",
+     "reactionId": "rx69",
      "pathwayIds": [
       "fa_synthesis"
      ],
@@ -48015,7 +48065,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx71",
+     "reactionId": "rx70",
      "pathwayIds": [
       "fa_synthesis"
      ],
@@ -48027,7 +48077,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx72",
+     "reactionId": "rx71",
      "pathwayIds": [
       "fa_synthesis"
      ],
@@ -48051,12 +48101,12 @@ window.METABOLIC_COMPILED = {
     "fa_elongation"
    ],
    "reactionIds": [
-    "rx67",
-    "rx68"
+    "rx66",
+    "rx67"
    ],
    "occurrences": [
     {
-     "reactionId": "rx67",
+     "reactionId": "rx66",
      "pathwayIds": [
       "fa_elongation"
      ],
@@ -48068,7 +48118,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx68",
+     "reactionId": "rx67",
      "pathwayIds": [
       "fa_elongation"
      ],
@@ -48092,11 +48142,11 @@ window.METABOLIC_COMPILED = {
     "fa_elongation"
    ],
    "reactionIds": [
-    "rx68"
+    "rx67"
    ],
    "occurrences": [
     {
-     "reactionId": "rx68",
+     "reactionId": "rx67",
      "pathwayIds": [
       "fa_elongation"
      ],
@@ -48124,17 +48174,17 @@ window.METABOLIC_COMPILED = {
     "tca"
    ],
    "reactionIds": [
-    "rx69",
+    "rx68",
+    "rx145",
     "rx146",
     "rx147",
-    "rx148",
-    "rx307",
     "rx308",
-    "rx315"
+    "rx309",
+    "rx316"
    ],
    "occurrences": [
     {
-     "reactionId": "rx69",
+     "reactionId": "rx68",
      "pathwayIds": [
       "fa_synthesis"
      ],
@@ -48143,6 +48193,18 @@ window.METABOLIC_COMPILED = {
      "compartment": "细胞质",
      "entityIds": [
       "柠檬酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx145",
+     "pathwayIds": [
+      "glyoxylate"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "乙醛酸体",
+     "entityIds": [
+      "柠檬酸@glyoxysome"
      ]
     },
     {
@@ -48162,35 +48224,11 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "glyoxylate"
      ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "乙醛酸体",
-     "entityIds": [
-      "柠檬酸@glyoxysome"
-     ]
-    },
-    {
-     "reactionId": "rx148",
-     "pathwayIds": [
-      "glyoxylate"
-     ],
      "role": "substrate",
      "source": "endpoint",
      "compartment": "乙醛酸体",
      "entityIds": [
       "柠檬酸@glyoxysome"
-     ]
-    },
-    {
-     "reactionId": "rx307",
-     "pathwayIds": [
-      "tca"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "柠檬酸@mito-matrix"
      ]
     },
     {
@@ -48198,6 +48236,18 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "tca"
      ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "柠檬酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx309",
+     "pathwayIds": [
+      "tca"
+     ],
      "role": "substrate",
      "source": "endpoint",
      "compartment": "线粒体基质",
@@ -48206,7 +48256,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx315",
+     "reactionId": "rx316",
      "pathwayIds": [
       "tca"
      ],
@@ -48230,12 +48280,12 @@ window.METABOLIC_COMPILED = {
     "pyruvate_fates"
    ],
    "reactionIds": [
-    "rx70",
-    "rx91"
+    "rx69",
+    "rx90"
    ],
    "occurrences": [
     {
-     "reactionId": "rx70",
+     "reactionId": "rx69",
      "pathwayIds": [
       "fa_synthesis"
      ],
@@ -48245,7 +48295,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx91",
+     "reactionId": "rx90",
      "pathwayIds": [
       "gluconeogenesis",
       "pyruvate_fates"
@@ -48268,12 +48318,12 @@ window.METABOLIC_COMPILED = {
     "fa_synthesis"
    ],
    "reactionIds": [
-    "rx71",
-    "rx72"
+    "rx70",
+    "rx71"
    ],
    "occurrences": [
     {
-     "reactionId": "rx71",
+     "reactionId": "rx70",
      "pathwayIds": [
       "fa_synthesis"
      ],
@@ -48285,7 +48335,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx72",
+     "reactionId": "rx71",
      "pathwayIds": [
       "fa_synthesis"
      ],
@@ -48309,11 +48359,11 @@ window.METABOLIC_COMPILED = {
     "folate"
    ],
    "reactionIds": [
-    "rx73"
+    "rx72"
    ],
    "occurrences": [
     {
-     "reactionId": "rx73",
+     "reactionId": "rx72",
      "pathwayIds": [
       "folate"
      ],
@@ -48340,17 +48390,17 @@ window.METABOLIC_COMPILED = {
     "serine_glycine"
    ],
    "reactionIds": [
+    "rx72",
     "rx73",
-    "rx74",
-    "rx77",
-    "rx201",
-    "rx252",
-    "rx277",
-    "rx278"
+    "rx76",
+    "rx200",
+    "rx251",
+    "rx278",
+    "rx279"
    ],
    "occurrences": [
     {
-     "reactionId": "rx73",
+     "reactionId": "rx72",
      "pathwayIds": [
       "folate"
      ],
@@ -48362,7 +48412,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx74",
+     "reactionId": "rx73",
      "pathwayIds": [
       "folate"
      ],
@@ -48374,7 +48424,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx77",
+     "reactionId": "rx76",
      "pathwayIds": [
       "folate"
      ],
@@ -48386,7 +48436,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx201",
+     "reactionId": "rx200",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -48398,7 +48448,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx252",
+     "reactionId": "rx251",
      "pathwayIds": [
       "purine"
      ],
@@ -48410,7 +48460,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx277",
+     "reactionId": "rx278",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -48422,7 +48472,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx278",
+     "reactionId": "rx279",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -48448,21 +48498,33 @@ window.METABOLIC_COMPILED = {
     "serine_glycine"
    ],
    "reactionIds": [
+    "rx73",
     "rx74",
     "rx75",
-    "rx76",
-    "rx265",
-    "rx277",
+    "rx266",
     "rx278",
-    "rx279"
+    "rx279",
+    "rx280"
    ],
    "occurrences": [
+    {
+     "reactionId": "rx73",
+     "pathwayIds": [
+      "folate"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "5,10-亚甲基-THF@cytosol"
+     ]
+    },
     {
      "reactionId": "rx74",
      "pathwayIds": [
       "folate"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -48482,35 +48544,11 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx76",
-     "pathwayIds": [
-      "folate"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "5,10-亚甲基-THF@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx265",
+     "reactionId": "rx266",
      "pathwayIds": [
       "pyrimidine"
      ],
      "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "5,10-亚甲基-THF@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx277",
-     "pathwayIds": [
-      "serine_glycine"
-     ],
-     "role": "product",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
@@ -48523,7 +48561,7 @@ window.METABOLIC_COMPILED = {
       "serine_glycine"
      ],
      "role": "product",
-     "source": "endpoint",
+     "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
       "5,10-亚甲基-THF@cytosol"
@@ -48531,6 +48569,18 @@ window.METABOLIC_COMPILED = {
     },
     {
      "reactionId": "rx279",
+     "pathwayIds": [
+      "serine_glycine"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "5,10-亚甲基-THF@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx280",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -48559,16 +48609,16 @@ window.METABOLIC_COMPILED = {
     "serine_glycine"
    ],
    "reactionIds": [
-    "rx74",
-    "rx114",
-    "rx154",
-    "rx250",
-    "rx277",
-    "rx278"
+    "rx73",
+    "rx113",
+    "rx153",
+    "rx249",
+    "rx278",
+    "rx279"
    ],
    "occurrences": [
     {
-     "reactionId": "rx74",
+     "reactionId": "rx73",
      "pathwayIds": [
       "folate"
      ],
@@ -48580,7 +48630,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx114",
+     "reactionId": "rx113",
      "pathwayIds": [
       "glutathione"
      ],
@@ -48592,7 +48642,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx154",
+     "reactionId": "rx153",
      "pathwayIds": [
       "heme"
      ],
@@ -48604,7 +48654,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx250",
+     "reactionId": "rx249",
      "pathwayIds": [
       "purine"
      ],
@@ -48616,7 +48666,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx277",
+     "reactionId": "rx278",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -48628,7 +48678,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx278",
+     "reactionId": "rx279",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -48653,13 +48703,13 @@ window.METABOLIC_COMPILED = {
     "purine"
    ],
    "reactionIds": [
-    "rx75",
-    "rx78",
-    "rx252"
+    "rx74",
+    "rx77",
+    "rx251"
    ],
    "occurrences": [
     {
-     "reactionId": "rx75",
+     "reactionId": "rx74",
      "pathwayIds": [
       "folate"
      ],
@@ -48671,7 +48721,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx78",
+     "reactionId": "rx77",
      "pathwayIds": [
       "folate"
      ],
@@ -48683,7 +48733,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx252",
+     "reactionId": "rx251",
      "pathwayIds": [
       "purine"
      ],
@@ -48708,13 +48758,13 @@ window.METABOLIC_COMPILED = {
     "methionine_cysteine"
    ],
    "reactionIds": [
+    "rx75",
     "rx76",
-    "rx77",
-    "rx201"
+    "rx200"
    ],
    "occurrences": [
     {
-     "reactionId": "rx76",
+     "reactionId": "rx75",
      "pathwayIds": [
       "folate"
      ],
@@ -48726,7 +48776,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx77",
+     "reactionId": "rx76",
      "pathwayIds": [
       "folate"
      ],
@@ -48738,7 +48788,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx201",
+     "reactionId": "rx200",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -48763,13 +48813,13 @@ window.METABOLIC_COMPILED = {
     "methionine_cysteine"
    ],
    "reactionIds": [
-    "rx77",
-    "rx198",
-    "rx201"
+    "rx76",
+    "rx197",
+    "rx200"
    ],
    "occurrences": [
     {
-     "reactionId": "rx77",
+     "reactionId": "rx76",
      "pathwayIds": [
       "folate"
      ],
@@ -48781,7 +48831,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx198",
+     "reactionId": "rx197",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -48793,7 +48843,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx201",
+     "reactionId": "rx200",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -48818,14 +48868,14 @@ window.METABOLIC_COMPILED = {
     "methionine_cysteine"
    ],
    "reactionIds": [
-    "rx77",
+    "rx76",
+    "rx199",
     "rx200",
-    "rx201",
-    "rx202"
+    "rx201"
    ],
    "occurrences": [
     {
-     "reactionId": "rx77",
+     "reactionId": "rx76",
      "pathwayIds": [
       "folate"
      ],
@@ -48837,7 +48887,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx200",
+     "reactionId": "rx199",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -48849,7 +48899,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx201",
+     "reactionId": "rx200",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -48861,7 +48911,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx202",
+     "reactionId": "rx201",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -48885,11 +48935,11 @@ window.METABOLIC_COMPILED = {
     "folate"
    ],
    "reactionIds": [
-    "rx78"
+    "rx77"
    ],
    "occurrences": [
     {
-     "reactionId": "rx78",
+     "reactionId": "rx77",
      "pathwayIds": [
       "folate"
      ],
@@ -48911,11 +48961,11 @@ window.METABOLIC_COMPILED = {
     "folate"
    ],
    "reactionIds": [
-    "rx78"
+    "rx77"
    ],
    "occurrences": [
     {
-     "reactionId": "rx78",
+     "reactionId": "rx77",
      "pathwayIds": [
       "folate"
      ],
@@ -48935,11 +48985,11 @@ window.METABOLIC_COMPILED = {
     "folate"
    ],
    "reactionIds": [
-    "rx78"
+    "rx77"
    ],
    "occurrences": [
     {
-     "reactionId": "rx78",
+     "reactionId": "rx77",
      "pathwayIds": [
       "folate"
      ],
@@ -48962,11 +49012,23 @@ window.METABOLIC_COMPILED = {
     "polyol"
    ],
    "reactionIds": [
+    "rx78",
     "rx79",
-    "rx80",
-    "rx239"
+    "rx238"
    ],
    "occurrences": [
+    {
+     "reactionId": "rx78",
+     "pathwayIds": [
+      "fructose"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "果糖@cytosol"
+     ]
+    },
     {
      "reactionId": "rx79",
      "pathwayIds": [
@@ -48980,19 +49042,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx80",
-     "pathwayIds": [
-      "fructose"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "果糖@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx239",
+     "reactionId": "rx238",
      "pathwayIds": [
       "polyol"
      ],
@@ -49016,12 +49066,12 @@ window.METABOLIC_COMPILED = {
     "fructose"
    ],
    "reactionIds": [
-    "rx79",
-    "rx81"
+    "rx78",
+    "rx80"
    ],
    "occurrences": [
     {
-     "reactionId": "rx79",
+     "reactionId": "rx78",
      "pathwayIds": [
       "fructose"
      ],
@@ -49033,7 +49083,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx81",
+     "reactionId": "rx80",
      "pathwayIds": [
       "fructose"
      ],
@@ -49062,19 +49112,31 @@ window.METABOLIC_COMPILED = {
     "ppp"
    ],
    "reactionIds": [
-    "rx80",
+    "rx79",
+    "rx101",
     "rx102",
-    "rx103",
+    "rx132",
     "rx133",
-    "rx134",
-    "rx246",
-    "rx247"
+    "rx245",
+    "rx246"
    ],
    "occurrences": [
     {
-     "reactionId": "rx80",
+     "reactionId": "rx79",
      "pathwayIds": [
       "fructose"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "果糖-6-磷酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx101",
+     "pathwayIds": [
+      "gluconeogenesis"
      ],
      "role": "product",
      "source": "endpoint",
@@ -49088,7 +49150,7 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "gluconeogenesis"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -49096,11 +49158,11 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx103",
+     "reactionId": "rx132",
      "pathwayIds": [
-      "gluconeogenesis"
+      "glycolysis"
      ],
-     "role": "substrate",
+     "role": "product",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -49112,18 +49174,6 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "glycolysis"
      ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "果糖-6-磷酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx134",
-     "pathwayIds": [
-      "glycolysis"
-     ],
      "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
@@ -49132,7 +49182,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx246",
+     "reactionId": "rx245",
      "pathwayIds": [
       "ppp"
      ],
@@ -49144,7 +49194,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx247",
+     "reactionId": "rx246",
      "pathwayIds": [
       "ppp"
      ],
@@ -49177,26 +49227,38 @@ window.METABOLIC_COMPILED = {
     "transport"
    ],
    "reactionIds": [
-    "rx81",
+    "rx80",
+    "rx99",
     "rx100",
-    "rx101",
-    "rx108",
+    "rx107",
+    "rx118",
     "rx119",
-    "rx120",
+    "rx121",
     "rx122",
-    "rx123",
+    "rx134",
     "rx135",
-    "rx136",
-    "rx233",
-    "rx321",
+    "rx232",
     "rx322",
-    "rx323"
+    "rx323",
+    "rx324"
    ],
    "occurrences": [
     {
-     "reactionId": "rx81",
+     "reactionId": "rx80",
      "pathwayIds": [
       "fructose"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "磷酸二羟丙酮@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx99",
+     "pathwayIds": [
+      "gluconeogenesis"
      ],
      "role": "product",
      "source": "endpoint",
@@ -49210,18 +49272,6 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "gluconeogenesis"
      ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "磷酸二羟丙酮@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx101",
-     "pathwayIds": [
-      "gluconeogenesis"
-     ],
      "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
@@ -49230,11 +49280,23 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx108",
+     "reactionId": "rx107",
      "pathwayIds": [
       "gluconeogenesis"
      ],
      "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "磷酸二羟丙酮@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx118",
+     "pathwayIds": [
+      "glycerol_phosphate"
+     ],
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -49247,18 +49309,6 @@ window.METABOLIC_COMPILED = {
       "glycerol_phosphate"
      ],
      "role": "substrate",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "磷酸二羟丙酮@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx120",
-     "pathwayIds": [
-      "glycerol_phosphate"
-     ],
-     "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
@@ -49266,7 +49316,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx122",
+     "reactionId": "rx121",
      "pathwayIds": [
       "glycerol_phosphate"
      ],
@@ -49278,7 +49328,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx123",
+     "reactionId": "rx122",
      "pathwayIds": [
       "glycerol_phosphate"
      ],
@@ -49290,9 +49340,21 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx123",
+     "reactionId": "rx122",
      "pathwayIds": [
       "glycerol_phosphate"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "磷酸二羟丙酮@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx134",
+     "pathwayIds": [
+      "glycolysis"
      ],
      "role": "product",
      "source": "endpoint",
@@ -49306,18 +49368,6 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "glycolysis"
      ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "磷酸二羟丙酮@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx136",
-     "pathwayIds": [
-      "glycolysis"
-     ],
      "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
@@ -49326,7 +49376,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx233",
+     "reactionId": "rx232",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -49338,7 +49388,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx321",
+     "reactionId": "rx322",
      "pathwayIds": [
       "transport"
      ],
@@ -49350,7 +49400,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx322",
+     "reactionId": "rx323",
      "pathwayIds": [
       "transport"
      ],
@@ -49362,7 +49412,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx323",
+     "reactionId": "rx324",
      "pathwayIds": [
       "transport"
      ],
@@ -49386,12 +49436,12 @@ window.METABOLIC_COMPILED = {
     "fructose"
    ],
    "reactionIds": [
-    "rx81",
-    "rx82"
+    "rx80",
+    "rx81"
    ],
    "occurrences": [
     {
-     "reactionId": "rx81",
+     "reactionId": "rx80",
      "pathwayIds": [
       "fructose"
      ],
@@ -49403,7 +49453,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx82",
+     "reactionId": "rx81",
      "pathwayIds": [
       "fructose"
      ],
@@ -49432,22 +49482,34 @@ window.METABOLIC_COMPILED = {
     "ppp"
    ],
    "reactionIds": [
-    "rx82",
+    "rx81",
+    "rx98",
     "rx99",
     "rx100",
-    "rx101",
+    "rx134",
     "rx135",
     "rx136",
-    "rx137",
+    "rx244",
     "rx245",
-    "rx246",
-    "rx247"
+    "rx246"
    ],
    "occurrences": [
     {
-     "reactionId": "rx82",
+     "reactionId": "rx81",
      "pathwayIds": [
       "fructose"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "甘油醛-3-磷酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx98",
+     "pathwayIds": [
+      "gluconeogenesis"
      ],
      "role": "product",
      "source": "endpoint",
@@ -49461,7 +49523,7 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "gluconeogenesis"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -49481,12 +49543,12 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx101",
+     "reactionId": "rx134",
      "pathwayIds": [
-      "gluconeogenesis"
+      "glycolysis"
      ],
-     "role": "substrate",
-     "source": "endpoint",
+     "role": "product",
+     "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
       "甘油醛-3-磷酸@cytosol"
@@ -49498,7 +49560,7 @@ window.METABOLIC_COMPILED = {
       "glycolysis"
      ],
      "role": "product",
-     "source": "equation",
+     "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
       "甘油醛-3-磷酸@cytosol"
@@ -49509,7 +49571,7 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "glycolysis"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -49517,11 +49579,11 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx137",
+     "reactionId": "rx244",
      "pathwayIds": [
-      "glycolysis"
+      "ppp"
      ],
-     "role": "substrate",
+     "role": "product",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -49533,18 +49595,6 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "ppp"
      ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "甘油醛-3-磷酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx246",
-     "pathwayIds": [
-      "ppp"
-     ],
      "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
@@ -49553,7 +49603,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx247",
+     "reactionId": "rx246",
      "pathwayIds": [
       "ppp"
      ],
@@ -49577,11 +49627,11 @@ window.METABOLIC_COMPILED = {
     "galactose"
    ],
    "reactionIds": [
-    "rx83"
+    "rx82"
    ],
    "occurrences": [
     {
-     "reactionId": "rx83",
+     "reactionId": "rx82",
      "pathwayIds": [
       "galactose"
      ],
@@ -49605,12 +49655,12 @@ window.METABOLIC_COMPILED = {
     "galactose"
    ],
    "reactionIds": [
-    "rx83",
-    "rx84"
+    "rx82",
+    "rx83"
    ],
    "occurrences": [
     {
-     "reactionId": "rx83",
+     "reactionId": "rx82",
      "pathwayIds": [
       "galactose"
      ],
@@ -49622,7 +49672,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx84",
+     "reactionId": "rx83",
      "pathwayIds": [
       "galactose"
      ],
@@ -49646,12 +49696,12 @@ window.METABOLIC_COMPILED = {
     "galactose"
    ],
    "reactionIds": [
-    "rx84",
-    "rx85"
+    "rx83",
+    "rx84"
    ],
    "occurrences": [
     {
-     "reactionId": "rx84",
+     "reactionId": "rx83",
      "pathwayIds": [
       "galactose"
      ],
@@ -49663,7 +49713,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx85",
+     "reactionId": "rx84",
      "pathwayIds": [
       "galactose"
      ],
@@ -49682,8 +49732,7 @@ window.METABOLIC_COMPILED = {
    "aliases": [],
    "entityIds": [
     "UDP-葡萄糖@cytosol",
-    "UDP-葡萄糖@er-lumen",
-    "UDP-葡萄糖@rough-er"
+    "UDP-葡萄糖@er-lumen"
    ],
    "pathwayIds": [
     "galactose",
@@ -49692,18 +49741,17 @@ window.METABOLIC_COMPILED = {
     "uronic"
    ],
    "reactionIds": [
+    "rx83",
     "rx84",
     "rx85",
-    "rx86",
+    "rx126",
     "rx127",
-    "rx128",
-    "rx142",
-    "rx143",
-    "rx335"
+    "rx141",
+    "rx336"
    ],
    "occurrences": [
     {
-     "reactionId": "rx84",
+     "reactionId": "rx83",
      "pathwayIds": [
       "galactose"
      ],
@@ -49715,7 +49763,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx85",
+     "reactionId": "rx84",
      "pathwayIds": [
       "galactose"
      ],
@@ -49727,7 +49775,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx86",
+     "reactionId": "rx85",
      "pathwayIds": [
       "galactose"
      ],
@@ -49739,7 +49787,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx127",
+     "reactionId": "rx126",
      "pathwayIds": [
       "glycogenesis",
       "glycosylation"
@@ -49752,7 +49800,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx128",
+     "reactionId": "rx127",
      "pathwayIds": [
       "glycogenesis"
      ],
@@ -49764,7 +49812,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx142",
+     "reactionId": "rx141",
      "pathwayIds": [
       "glycosylation"
      ],
@@ -49776,7 +49824,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx142",
+     "reactionId": "rx141",
      "pathwayIds": [
       "glycosylation"
      ],
@@ -49788,19 +49836,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx143",
-     "pathwayIds": [
-      "glycosylation"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "粗面内质网",
-     "entityIds": [
-      "UDP-葡萄糖@rough-er"
-     ]
-    },
-    {
-     "reactionId": "rx335",
+     "reactionId": "rx336",
      "pathwayIds": [
       "uronic"
      ],
@@ -49829,18 +49865,18 @@ window.METABOLIC_COMPILED = {
     "starch"
    ],
    "reactionIds": [
-    "rx84",
-    "rx86",
+    "rx83",
+    "rx85",
+    "rx125",
     "rx126",
-    "rx127",
-    "rx129",
-    "rx131",
-    "rx286",
-    "rx289"
+    "rx128",
+    "rx130",
+    "rx287",
+    "rx290"
    ],
    "occurrences": [
     {
-     "reactionId": "rx84",
+     "reactionId": "rx83",
      "pathwayIds": [
       "galactose"
      ],
@@ -49852,7 +49888,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx86",
+     "reactionId": "rx85",
      "pathwayIds": [
       "galactose"
      ],
@@ -49864,7 +49900,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx126",
+     "reactionId": "rx125",
      "pathwayIds": [
       "glycogenesis"
      ],
@@ -49876,7 +49912,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx127",
+     "reactionId": "rx126",
      "pathwayIds": [
       "glycogenesis",
       "glycosylation"
@@ -49889,7 +49925,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx129",
+     "reactionId": "rx128",
      "pathwayIds": [
       "glycogenolysis"
      ],
@@ -49901,7 +49937,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx131",
+     "reactionId": "rx130",
      "pathwayIds": [
       "glycogenolysis"
      ],
@@ -49913,7 +49949,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx286",
+     "reactionId": "rx287",
      "pathwayIds": [
       "starch"
      ],
@@ -49925,7 +49961,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx289",
+     "reactionId": "rx290",
      "pathwayIds": [
       "starch"
      ],
@@ -49958,24 +49994,25 @@ window.METABOLIC_COMPILED = {
     "urea"
    ],
    "reactionIds": [
-    "rx86",
-    "rx127",
-    "rx194",
-    "rx198",
-    "rx227",
-    "rx254",
-    "rx261",
-    "rx267",
+    "rx85",
+    "rx126",
+    "rx193",
+    "rx197",
+    "rx226",
+    "rx253",
+    "rx260",
+    "rx265",
     "rx268",
     "rx269",
-    "rx286",
-    "rx296",
-    "rx328",
-    "rx329"
+    "rx270",
+    "rx287",
+    "rx297",
+    "rx329",
+    "rx330"
    ],
    "occurrences": [
     {
-     "reactionId": "rx86",
+     "reactionId": "rx85",
      "pathwayIds": [
       "galactose"
      ],
@@ -49985,7 +50022,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx127",
+     "reactionId": "rx126",
      "pathwayIds": [
       "glycogenesis",
       "glycosylation"
@@ -49996,7 +50033,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx194",
+     "reactionId": "rx193",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -50006,7 +50043,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx198",
+     "reactionId": "rx197",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -50016,7 +50053,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx227",
+     "reactionId": "rx226",
      "pathwayIds": [
       "phospholipid"
      ],
@@ -50026,7 +50063,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx254",
+     "reactionId": "rx253",
      "pathwayIds": [
       "purine"
      ],
@@ -50036,7 +50073,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx261",
+     "reactionId": "rx260",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -50046,9 +50083,9 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx267",
+     "reactionId": "rx265",
      "pathwayIds": [
-      "salvage"
+      "pyrimidine"
      ],
      "role": "product",
      "source": "equation",
@@ -50076,7 +50113,17 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx286",
+     "reactionId": "rx270",
+     "pathwayIds": [
+      "salvage"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx287",
      "pathwayIds": [
       "starch"
      ],
@@ -50086,7 +50133,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx296",
+     "reactionId": "rx297",
      "pathwayIds": [
       "sulfur"
      ],
@@ -50096,7 +50143,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx328",
+     "reactionId": "rx329",
      "pathwayIds": [
       "urea"
      ],
@@ -50106,7 +50153,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx329",
+     "reactionId": "rx330",
      "pathwayIds": [
       "urea"
      ],
@@ -50131,14 +50178,14 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "reactionIds": [
-    "rx86",
-    "rx127",
-    "rx262",
-    "rx263"
+    "rx85",
+    "rx126",
+    "rx261",
+    "rx262"
    ],
    "occurrences": [
     {
-     "reactionId": "rx86",
+     "reactionId": "rx85",
      "pathwayIds": [
       "galactose"
      ],
@@ -50150,7 +50197,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx127",
+     "reactionId": "rx126",
      "pathwayIds": [
       "glycogenesis",
       "glycosylation"
@@ -50163,7 +50210,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx262",
+     "reactionId": "rx261",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -50175,7 +50222,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx263",
+     "reactionId": "rx262",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -50202,13 +50249,13 @@ window.METABOLIC_COMPILED = {
     "pyruvate_fates"
    ],
    "reactionIds": [
-    "rx87",
-    "rx195",
-    "rx266"
+    "rx86",
+    "rx194",
+    "rx267"
    ],
    "occurrences": [
     {
-     "reactionId": "rx87",
+     "reactionId": "rx86",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -50220,7 +50267,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx195",
+     "reactionId": "rx194",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -50232,7 +50279,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx195",
+     "reactionId": "rx194",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -50244,7 +50291,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx266",
+     "reactionId": "rx267",
      "pathwayIds": [
       "pyruvate_fates"
      ],
@@ -50274,23 +50321,47 @@ window.METABOLIC_COMPILED = {
     "tca"
    ],
    "reactionIds": [
+    "rx91",
     "rx92",
     "rx93",
-    "rx94",
+    "rx150",
     "rx151",
     "rx152",
-    "rx153",
+    "rx180",
     "rx181",
     "rx182",
     "rx183",
     "rx184",
     "rx185",
-    "rx186",
-    "rx313",
     "rx314",
-    "rx320"
+    "rx315",
+    "rx321"
    ],
    "occurrences": [
+    {
+     "reactionId": "rx91",
+     "pathwayIds": [
+      "gluconeogenesis"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "苹果酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx92",
+     "pathwayIds": [
+      "gluconeogenesis"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "苹果酸@mito-matrix"
+     ]
+    },
     {
      "reactionId": "rx92",
      "pathwayIds": [
@@ -50298,9 +50369,9 @@ window.METABOLIC_COMPILED = {
      ],
      "role": "product",
      "source": "endpoint",
-     "compartment": "线粒体基质",
+     "compartment": "细胞质",
      "entityIds": [
-      "苹果酸@mito-matrix"
+      "苹果酸@cytosol"
      ]
     },
     {
@@ -50310,33 +50381,21 @@ window.METABOLIC_COMPILED = {
      ],
      "role": "substrate",
      "source": "endpoint",
-     "compartment": "线粒体基质",
+     "compartment": "细胞质",
      "entityIds": [
-      "苹果酸@mito-matrix"
+      "苹果酸@cytosol"
      ]
     },
     {
-     "reactionId": "rx93",
+     "reactionId": "rx150",
      "pathwayIds": [
-      "gluconeogenesis"
+      "glyoxylate"
      ],
      "role": "product",
      "source": "endpoint",
-     "compartment": "细胞质",
+     "compartment": "乙醛酸体",
      "entityIds": [
-      "苹果酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx94",
-     "pathwayIds": [
-      "gluconeogenesis"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "苹果酸@cytosol"
+      "苹果酸@glyoxysome"
      ]
     },
     {
@@ -50356,18 +50415,6 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "glyoxylate"
      ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "乙醛酸体",
-     "entityIds": [
-      "苹果酸@glyoxysome"
-     ]
-    },
-    {
-     "reactionId": "rx153",
-     "pathwayIds": [
-      "glyoxylate"
-     ],
      "role": "substrate",
      "source": "endpoint",
      "compartment": "乙醛酸体",
@@ -50376,12 +50423,37 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx181",
+     "reactionId": "rx180",
      "pathwayIds": [
       "malate_aspartate",
       "transport"
      ],
      "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "苹果酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx181",
+     "pathwayIds": [
+      "malate_aspartate"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "苹果酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx182",
+     "pathwayIds": [
+      "malate_aspartate",
+      "transport"
+     ],
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -50391,31 +50463,6 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx182",
      "pathwayIds": [
-      "malate_aspartate"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "苹果酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx183",
-     "pathwayIds": [
-      "malate_aspartate",
-      "transport"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "苹果酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx183",
-     "pathwayIds": [
       "malate_aspartate",
       "transport"
      ],
@@ -50427,7 +50474,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx184",
+     "reactionId": "rx183",
      "pathwayIds": [
       "malate_aspartate"
      ],
@@ -50439,12 +50486,25 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx184",
+     "reactionId": "rx183",
      "pathwayIds": [
       "malate_aspartate"
      ],
      "role": "product",
      "source": "equation",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "苹果酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx184",
+     "pathwayIds": [
+      "malate_aspartate",
+      "transport"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
      "compartment": "线粒体基质",
      "entityIds": [
       "苹果酸@mito-matrix"
@@ -50453,35 +50513,10 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx185",
      "pathwayIds": [
-      "malate_aspartate",
-      "transport"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "苹果酸@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx186",
-     "pathwayIds": [
       "malate_aspartate"
      ],
      "role": "substrate",
      "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "苹果酸@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx313",
-     "pathwayIds": [
-      "tca"
-     ],
-     "role": "product",
-     "source": "endpoint",
      "compartment": "线粒体基质",
      "entityIds": [
       "苹果酸@mito-matrix"
@@ -50492,6 +50527,18 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "tca"
      ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "苹果酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx315",
+     "pathwayIds": [
+      "tca"
+     ],
      "role": "substrate",
      "source": "endpoint",
      "compartment": "线粒体基质",
@@ -50500,7 +50547,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx320",
+     "reactionId": "rx321",
      "pathwayIds": [
       "transport"
      ],
@@ -50527,14 +50574,14 @@ window.METABOLIC_COMPILED = {
     "glycolysis"
    ],
    "reactionIds": [
+    "rx94",
     "rx95",
-    "rx96",
-    "rx140",
-    "rx141"
+    "rx139",
+    "rx140"
    ],
    "occurrences": [
     {
-     "reactionId": "rx95",
+     "reactionId": "rx94",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -50546,7 +50593,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx96",
+     "reactionId": "rx95",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -50558,7 +50605,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx140",
+     "reactionId": "rx139",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -50570,7 +50617,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx141",
+     "reactionId": "rx140",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -50596,14 +50643,14 @@ window.METABOLIC_COMPILED = {
     "tca"
    ],
    "reactionIds": [
-    "rx95",
-    "rx253",
-    "rx256",
-    "rx311"
+    "rx94",
+    "rx252",
+    "rx255",
+    "rx312"
    ],
    "occurrences": [
     {
-     "reactionId": "rx95",
+     "reactionId": "rx94",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -50615,7 +50662,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx253",
+     "reactionId": "rx252",
      "pathwayIds": [
       "purine"
      ],
@@ -50627,7 +50674,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx256",
+     "reactionId": "rx255",
      "pathwayIds": [
       "purine"
      ],
@@ -50639,7 +50686,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx311",
+     "reactionId": "rx312",
      "pathwayIds": [
       "tca"
      ],
@@ -50661,14 +50708,14 @@ window.METABOLIC_COMPILED = {
     "tca"
    ],
    "reactionIds": [
-    "rx95",
-    "rx253",
-    "rx256",
-    "rx311"
+    "rx94",
+    "rx252",
+    "rx255",
+    "rx312"
    ],
    "occurrences": [
     {
-     "reactionId": "rx95",
+     "reactionId": "rx94",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -50678,7 +50725,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx253",
+     "reactionId": "rx252",
      "pathwayIds": [
       "purine"
      ],
@@ -50688,7 +50735,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx256",
+     "reactionId": "rx255",
      "pathwayIds": [
       "purine"
      ],
@@ -50698,7 +50745,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx256",
+     "reactionId": "rx255",
      "pathwayIds": [
       "purine"
      ],
@@ -50708,7 +50755,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx311",
+     "reactionId": "rx312",
      "pathwayIds": [
       "tca"
      ],
@@ -50733,14 +50780,14 @@ window.METABOLIC_COMPILED = {
     "glycolysis"
    ],
    "reactionIds": [
+    "rx95",
     "rx96",
-    "rx97",
-    "rx139",
-    "rx140"
+    "rx138",
+    "rx139"
    ],
    "occurrences": [
     {
-     "reactionId": "rx96",
+     "reactionId": "rx95",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -50752,7 +50799,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx97",
+     "reactionId": "rx96",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -50764,7 +50811,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx139",
+     "reactionId": "rx138",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -50776,7 +50823,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx140",
+     "reactionId": "rx139",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -50803,14 +50850,14 @@ window.METABOLIC_COMPILED = {
     "glycolysis"
    ],
    "reactionIds": [
+    "rx97",
     "rx98",
-    "rx99",
-    "rx137",
-    "rx138"
+    "rx136",
+    "rx137"
    ],
    "occurrences": [
     {
-     "reactionId": "rx98",
+     "reactionId": "rx97",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -50822,7 +50869,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx99",
+     "reactionId": "rx98",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -50834,7 +50881,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx137",
+     "reactionId": "rx136",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -50846,7 +50893,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx138",
+     "reactionId": "rx137",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -50873,14 +50920,14 @@ window.METABOLIC_COMPILED = {
     "glycolysis"
    ],
    "reactionIds": [
+    "rx100",
     "rx101",
-    "rx102",
-    "rx134",
-    "rx135"
+    "rx133",
+    "rx134"
    ],
    "occurrences": [
     {
-     "reactionId": "rx101",
+     "reactionId": "rx100",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -50892,7 +50939,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx102",
+     "reactionId": "rx101",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -50904,7 +50951,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx134",
+     "reactionId": "rx133",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -50916,7 +50963,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx135",
+     "reactionId": "rx134",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -50947,19 +50994,19 @@ window.METABOLIC_COMPILED = {
     "ppp"
    ],
    "reactionIds": [
+    "rx102",
     "rx103",
     "rx104",
-    "rx105",
+    "rx124",
     "rx125",
-    "rx126",
+    "rx130",
     "rx131",
     "rx132",
-    "rx133",
-    "rx240"
+    "rx239"
    ],
    "occurrences": [
     {
-     "reactionId": "rx103",
+     "reactionId": "rx102",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -50971,7 +51018,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx104",
+     "reactionId": "rx103",
      "pathwayIds": [
       "gluconeogenesis",
       "glycogenolysis"
@@ -50984,7 +51031,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx104",
+     "reactionId": "rx103",
      "pathwayIds": [
       "gluconeogenesis",
       "glycogenolysis"
@@ -50997,7 +51044,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx105",
+     "reactionId": "rx104",
      "pathwayIds": [
       "gluconeogenesis",
       "glycogenolysis"
@@ -51007,6 +51054,18 @@ window.METABOLIC_COMPILED = {
      "compartment": "内质网腔",
      "entityIds": [
       "葡萄糖-6-磷酸@er-lumen"
+     ]
+    },
+    {
+     "reactionId": "rx124",
+     "pathwayIds": [
+      "glycogenesis"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "葡萄糖-6-磷酸@cytosol"
      ]
     },
     {
@@ -51014,7 +51073,7 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "glycogenesis"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -51022,11 +51081,11 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx126",
+     "reactionId": "rx130",
      "pathwayIds": [
-      "glycogenesis"
+      "glycogenolysis"
      ],
-     "role": "substrate",
+     "role": "product",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -51036,7 +51095,7 @@ window.METABOLIC_COMPILED = {
     {
      "reactionId": "rx131",
      "pathwayIds": [
-      "glycogenolysis"
+      "glycolysis"
      ],
      "role": "product",
      "source": "endpoint",
@@ -51050,18 +51109,6 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "glycolysis"
      ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "葡萄糖-6-磷酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx133",
-     "pathwayIds": [
-      "glycolysis"
-     ],
      "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
@@ -51070,7 +51117,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx240",
+     "reactionId": "rx239",
      "pathwayIds": [
       "ppp"
      ],
@@ -51103,18 +51150,18 @@ window.METABOLIC_COMPILED = {
     "starch"
    ],
    "reactionIds": [
+    "rx104",
     "rx105",
-    "rx106",
-    "rx125",
-    "rx130",
-    "rx132",
-    "rx191",
-    "rx238",
-    "rx290"
+    "rx124",
+    "rx129",
+    "rx131",
+    "rx190",
+    "rx237",
+    "rx291"
    ],
    "occurrences": [
     {
-     "reactionId": "rx105",
+     "reactionId": "rx104",
      "pathwayIds": [
       "gluconeogenesis",
       "glycogenolysis"
@@ -51127,7 +51174,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx106",
+     "reactionId": "rx105",
      "pathwayIds": [
       "gluconeogenesis",
       "glycogenolysis"
@@ -51140,7 +51187,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx106",
+     "reactionId": "rx105",
      "pathwayIds": [
       "gluconeogenesis",
       "glycogenolysis"
@@ -51153,7 +51200,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx125",
+     "reactionId": "rx124",
      "pathwayIds": [
       "glycogenesis"
      ],
@@ -51165,7 +51212,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx130",
+     "reactionId": "rx129",
      "pathwayIds": [
       "glycogenolysis"
      ],
@@ -51177,7 +51224,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx132",
+     "reactionId": "rx131",
      "pathwayIds": [
       "glycolysis"
      ],
@@ -51189,7 +51236,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx191",
+     "reactionId": "rx190",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -51201,7 +51248,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx191",
+     "reactionId": "rx190",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -51213,7 +51260,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx238",
+     "reactionId": "rx237",
      "pathwayIds": [
       "polyol"
      ],
@@ -51225,7 +51272,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx290",
+     "reactionId": "rx291",
      "pathwayIds": [
       "starch"
      ],
@@ -51253,15 +51300,15 @@ window.METABOLIC_COMPILED = {
     "tag"
    ],
    "reactionIds": [
-    "rx107",
+    "rx106",
+    "rx168",
     "rx169",
-    "rx170",
-    "rx179",
-    "rx306"
+    "rx178",
+    "rx307"
    ],
    "occurrences": [
     {
-     "reactionId": "rx107",
+     "reactionId": "rx106",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -51271,6 +51318,16 @@ window.METABOLIC_COMPILED = {
      "entityIds": [
       "甘油@cytosol"
      ]
+    },
+    {
+     "reactionId": "rx168",
+     "pathwayIds": [
+      "lipoprotein"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "胞外",
+     "entityIds": []
     },
     {
      "reactionId": "rx169",
@@ -51283,17 +51340,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx170",
-     "pathwayIds": [
-      "lipoprotein"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "胞外",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx179",
+     "reactionId": "rx178",
      "pathwayIds": [
       "lysosomal"
      ],
@@ -51303,7 +51350,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx306",
+     "reactionId": "rx307",
      "pathwayIds": [
       "tag"
      ],
@@ -51334,20 +51381,20 @@ window.METABOLIC_COMPILED = {
     "transport"
    ],
    "reactionIds": [
+    "rx106",
     "rx107",
-    "rx108",
+    "rx118",
     "rx119",
     "rx120",
     "rx121",
-    "rx122",
-    "rx301",
-    "rx321",
+    "rx302",
     "rx322",
-    "rx323"
+    "rx323",
+    "rx324"
    ],
    "occurrences": [
     {
-     "reactionId": "rx107",
+     "reactionId": "rx106",
      "pathwayIds": [
       "gluconeogenesis"
      ],
@@ -51359,11 +51406,23 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx108",
+     "reactionId": "rx107",
      "pathwayIds": [
       "gluconeogenesis"
      ],
      "role": "substrate",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "甘油-3-磷酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx118",
+     "pathwayIds": [
+      "glycerol_phosphate"
+     ],
+     "role": "product",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -51376,6 +51435,18 @@ window.METABOLIC_COMPILED = {
       "glycerol_phosphate"
      ],
      "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "甘油-3-磷酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx120",
+     "pathwayIds": [
+      "glycerol_phosphate"
+     ],
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -51388,30 +51459,6 @@ window.METABOLIC_COMPILED = {
       "glycerol_phosphate"
      ],
      "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "甘油-3-磷酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx121",
-     "pathwayIds": [
-      "glycerol_phosphate"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "甘油-3-磷酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx121",
-     "pathwayIds": [
-      "glycerol_phosphate"
-     ],
-     "role": "product",
      "source": "endpoint",
      "compartment": "线粒体膜间隙",
      "entityIds": [
@@ -51419,7 +51466,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx122",
+     "reactionId": "rx121",
      "pathwayIds": [
       "glycerol_phosphate"
      ],
@@ -51431,7 +51478,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx301",
+     "reactionId": "rx302",
      "pathwayIds": [
       "tag"
      ],
@@ -51440,18 +51487,6 @@ window.METABOLIC_COMPILED = {
      "compartment": "平滑内质网",
      "entityIds": [
       "甘油-3-磷酸@smooth-er"
-     ]
-    },
-    {
-     "reactionId": "rx321",
-     "pathwayIds": [
-      "transport"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "甘油-3-磷酸@cytosol"
      ]
     },
     {
@@ -51468,6 +51503,18 @@ window.METABOLIC_COMPILED = {
     },
     {
      "reactionId": "rx323",
+     "pathwayIds": [
+      "transport"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "甘油-3-磷酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx324",
      "pathwayIds": [
       "transport"
      ],
@@ -51491,12 +51538,12 @@ window.METABOLIC_COMPILED = {
     "glutathione"
    ],
    "reactionIds": [
-    "rx113",
-    "rx114"
+    "rx112",
+    "rx113"
    ],
    "occurrences": [
     {
-     "reactionId": "rx113",
+     "reactionId": "rx112",
      "pathwayIds": [
       "glutathione"
      ],
@@ -51508,7 +51555,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx114",
+     "reactionId": "rx113",
      "pathwayIds": [
       "glutathione"
      ],
@@ -51535,13 +51582,13 @@ window.METABOLIC_COMPILED = {
     "sulfur"
    ],
    "reactionIds": [
-    "rx113",
-    "rx203",
-    "rx299"
+    "rx112",
+    "rx202",
+    "rx300"
    ],
    "occurrences": [
     {
-     "reactionId": "rx113",
+     "reactionId": "rx112",
      "pathwayIds": [
       "glutathione"
      ],
@@ -51553,7 +51600,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx203",
+     "reactionId": "rx202",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -51565,7 +51612,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx299",
+     "reactionId": "rx300",
      "pathwayIds": [
       "sulfur"
      ],
@@ -51589,14 +51636,14 @@ window.METABOLIC_COMPILED = {
     "glutathione"
    ],
    "reactionIds": [
+    "rx113",
     "rx114",
     "rx115",
-    "rx116",
-    "rx118"
+    "rx117"
    ],
    "occurrences": [
     {
-     "reactionId": "rx114",
+     "reactionId": "rx113",
      "pathwayIds": [
       "glutathione"
      ],
@@ -51608,7 +51655,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx115",
+     "reactionId": "rx114",
      "pathwayIds": [
       "glutathione"
      ],
@@ -51620,7 +51667,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx116",
+     "reactionId": "rx115",
      "pathwayIds": [
       "glutathione"
      ],
@@ -51632,7 +51679,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx118",
+     "reactionId": "rx117",
      "pathwayIds": [
       "glutathione"
      ],
@@ -51656,13 +51703,13 @@ window.METABOLIC_COMPILED = {
     "glutathione"
    ],
    "reactionIds": [
+    "rx114",
     "rx115",
-    "rx116",
-    "rx118"
+    "rx117"
    ],
    "occurrences": [
     {
-     "reactionId": "rx115",
+     "reactionId": "rx114",
      "pathwayIds": [
       "glutathione"
      ],
@@ -51674,7 +51721,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx116",
+     "reactionId": "rx115",
      "pathwayIds": [
       "glutathione"
      ],
@@ -51686,7 +51733,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx118",
+     "reactionId": "rx117",
      "pathwayIds": [
       "glutathione"
      ],
@@ -51712,15 +51759,15 @@ window.METABOLIC_COMPILED = {
     "vlcfa"
    ],
    "reactionIds": [
-    "rx115",
-    "rx117",
+    "rx114",
+    "rx116",
+    "rx211",
     "rx212",
-    "rx213",
-    "rx339"
+    "rx340"
    ],
    "occurrences": [
     {
-     "reactionId": "rx115",
+     "reactionId": "rx114",
      "pathwayIds": [
       "glutathione"
      ],
@@ -51732,12 +51779,24 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx117",
+     "reactionId": "rx116",
      "pathwayIds": [
       "glutathione"
      ],
      "role": "substrate",
      "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "H₂O₂@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx211",
+     "pathwayIds": [
+      "nucleotide_degradation"
+     ],
+     "role": "product",
+     "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
       "H₂O₂@cytosol"
@@ -51756,19 +51815,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx213",
-     "pathwayIds": [
-      "nucleotide_degradation"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "H₂O₂@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx339",
+     "reactionId": "rx340",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -51790,11 +51837,11 @@ window.METABOLIC_COMPILED = {
     "glutathione"
    ],
    "reactionIds": [
-    "rx117"
+    "rx116"
    ],
    "occurrences": [
     {
-     "reactionId": "rx117",
+     "reactionId": "rx116",
      "pathwayIds": [
       "glutathione"
      ],
@@ -51818,11 +51865,11 @@ window.METABOLIC_COMPILED = {
     "glutathione"
    ],
    "reactionIds": [
-    "rx118"
+    "rx117"
    ],
    "occurrences": [
     {
-     "reactionId": "rx118",
+     "reactionId": "rx117",
      "pathwayIds": [
       "glutathione"
      ],
@@ -51846,11 +51893,11 @@ window.METABOLIC_COMPILED = {
     "glutathione"
    ],
    "reactionIds": [
-    "rx118"
+    "rx117"
    ],
    "occurrences": [
     {
-     "reactionId": "rx118",
+     "reactionId": "rx117",
      "pathwayIds": [
       "glutathione"
      ],
@@ -51875,13 +51922,13 @@ window.METABOLIC_COMPILED = {
     "glycogenolysis"
    ],
    "reactionIds": [
+    "rx127",
     "rx128",
-    "rx129",
-    "rx130"
+    "rx129"
    ],
    "occurrences": [
     {
-     "reactionId": "rx128",
+     "reactionId": "rx127",
      "pathwayIds": [
       "glycogenesis"
      ],
@@ -51893,7 +51940,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx128",
+     "reactionId": "rx127",
      "pathwayIds": [
       "glycogenesis"
      ],
@@ -51905,7 +51952,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx129",
+     "reactionId": "rx128",
      "pathwayIds": [
       "glycogenolysis"
      ],
@@ -51917,7 +51964,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx129",
+     "reactionId": "rx128",
      "pathwayIds": [
       "glycogenolysis"
      ],
@@ -51929,7 +51976,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx130",
+     "reactionId": "rx129",
      "pathwayIds": [
       "glycogenolysis"
      ],
@@ -51951,24 +51998,21 @@ window.METABOLIC_COMPILED = {
    ],
    "pathwayIds": [
     "glycogenesis",
-    "glycosylation",
     "heme",
     "pyrimidine",
     "sphingolipid",
     "uronic"
    ],
    "reactionIds": [
-    "rx128",
-    "rx143",
-    "rx145",
-    "rx161",
-    "rx264",
-    "rx285",
-    "rx336"
+    "rx127",
+    "rx160",
+    "rx263",
+    "rx286",
+    "rx337"
    ],
    "occurrences": [
     {
-     "reactionId": "rx128",
+     "reactionId": "rx127",
      "pathwayIds": [
       "glycogenesis"
      ],
@@ -51980,31 +52024,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx143",
-     "pathwayIds": [
-      "glycosylation"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "UDP@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx145",
-     "pathwayIds": [
-      "glycosylation"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "UDP@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx161",
+     "reactionId": "rx160",
      "pathwayIds": [
       "heme"
      ],
@@ -52014,7 +52034,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx264",
+     "reactionId": "rx263",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -52026,7 +52046,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx285",
+     "reactionId": "rx286",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -52036,7 +52056,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx336",
+     "reactionId": "rx337",
      "pathwayIds": [
       "uronic"
      ],
@@ -52058,11 +52078,11 @@ window.METABOLIC_COMPILED = {
     "glycogenolysis"
    ],
    "reactionIds": [
-    "rx130"
+    "rx129"
    ],
    "occurrences": [
     {
-     "reactionId": "rx130",
+     "reactionId": "rx129",
      "pathwayIds": [
       "glycogenolysis"
      ],
@@ -52082,11 +52102,11 @@ window.METABOLIC_COMPILED = {
     "glycogenolysis"
    ],
    "reactionIds": [
-    "rx130"
+    "rx129"
    ],
    "occurrences": [
     {
-     "reactionId": "rx130",
+     "reactionId": "rx129",
      "pathwayIds": [
       "glycogenolysis"
      ],
@@ -52098,23 +52118,75 @@ window.METABOLIC_COMPILED = {
    ]
   },
   {
-   "key": "糖基化蛋白",
-   "name": "糖基化蛋白",
+   "key": "多萜醇焦磷酸连接寡糖",
+   "name": "多萜醇焦磷酸连接寡糖",
    "aliases": [],
    "entityIds": [
-    "糖基化蛋白@rough-er",
-    "糖基化蛋白@golgi",
-    "糖基化蛋白@extracellular"
+    "多萜醇焦磷酸连接寡糖@rough-er"
    ],
    "pathwayIds": [
     "glycosylation"
    ],
    "reactionIds": [
-    "rx143",
-    "rx144",
-    "rx145"
+    "rx142"
    ],
    "occurrences": [
+    {
+     "reactionId": "rx142",
+     "pathwayIds": [
+      "glycosylation"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "粗面内质网",
+     "entityIds": [
+      "多萜醇焦磷酸连接寡糖@rough-er"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "N-糖基化蛋白",
+   "name": "N-糖基化蛋白",
+   "aliases": [],
+   "entityIds": [
+    "N-糖基化蛋白@rough-er",
+    "N-糖基化蛋白@golgi",
+    "N-糖基化蛋白@extracellular"
+   ],
+   "pathwayIds": [
+    "glycosylation"
+   ],
+   "reactionIds": [
+    "rx142",
+    "rx143",
+    "rx144"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx142",
+     "pathwayIds": [
+      "glycosylation"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "粗面内质网",
+     "entityIds": [
+      "N-糖基化蛋白@rough-er"
+     ]
+    },
+    {
+     "reactionId": "rx143",
+     "pathwayIds": [
+      "glycosylation"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "粗面内质网",
+     "entityIds": [
+      "N-糖基化蛋白@rough-er"
+     ]
+    },
     {
      "reactionId": "rx143",
      "pathwayIds": [
@@ -52122,9 +52194,9 @@ window.METABOLIC_COMPILED = {
      ],
      "role": "product",
      "source": "endpoint",
-     "compartment": "粗面内质网",
+     "compartment": "高尔基体",
      "entityIds": [
-      "糖基化蛋白@rough-er"
+      "N-糖基化蛋白@golgi"
      ]
     },
     {
@@ -52134,37 +52206,13 @@ window.METABOLIC_COMPILED = {
      ],
      "role": "substrate",
      "source": "endpoint",
-     "compartment": "粗面内质网",
+     "compartment": "高尔基体",
      "entityIds": [
-      "糖基化蛋白@rough-er"
+      "N-糖基化蛋白@golgi"
      ]
     },
     {
      "reactionId": "rx144",
-     "pathwayIds": [
-      "glycosylation"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "高尔基体",
-     "entityIds": [
-      "糖基化蛋白@golgi"
-     ]
-    },
-    {
-     "reactionId": "rx145",
-     "pathwayIds": [
-      "glycosylation"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "高尔基体",
-     "entityIds": [
-      "糖基化蛋白@golgi"
-     ]
-    },
-    {
-     "reactionId": "rx145",
      "pathwayIds": [
       "glycosylation"
      ],
@@ -52172,108 +52220,25 @@ window.METABOLIC_COMPILED = {
      "source": "endpoint",
      "compartment": "胞外",
      "entityIds": [
-      "糖基化蛋白@extracellular"
+      "N-糖基化蛋白@extracellular"
      ]
     }
    ]
   },
   {
-   "key": "UDP-糖",
-   "name": "UDP-糖",
-   "aliases": [],
-   "entityIds": [],
-   "pathwayIds": [
-    "glycosylation",
-    "sphingolipid"
-   ],
-   "reactionIds": [
-    "rx143",
-    "rx145",
-    "rx285"
-   ],
-   "occurrences": [
-    {
-     "reactionId": "rx143",
-     "pathwayIds": [
-      "glycosylation"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx145",
-     "pathwayIds": [
-      "glycosylation"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx285",
-     "pathwayIds": [
-      "sphingolipid"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "平滑内质网",
-     "entityIds": []
-    }
-   ]
-  },
-  {
-   "key": "蛋白质",
-   "name": "蛋白质",
-   "aliases": [],
-   "entityIds": [],
-   "pathwayIds": [
-    "glycosylation",
-    "lysosomal"
-   ],
-   "reactionIds": [
-    "rx143",
-    "rx177"
-   ],
-   "occurrences": [
-    {
-     "reactionId": "rx143",
-     "pathwayIds": [
-      "glycosylation"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx177",
-     "pathwayIds": [
-      "lysosomal"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "溶酶体",
-     "entityIds": []
-    }
-   ]
-  },
-  {
-   "key": "糖基化蛋白内质网",
-   "name": "糖基化蛋白内质网",
+   "key": "新生蛋白",
+   "name": "新生蛋白",
    "aliases": [],
    "entityIds": [],
    "pathwayIds": [
     "glycosylation"
    ],
    "reactionIds": [
-    "rx144"
+    "rx142"
    ],
    "occurrences": [
     {
-     "reactionId": "rx144",
+     "reactionId": "rx142",
      "pathwayIds": [
       "glycosylation"
      ],
@@ -52285,23 +52250,47 @@ window.METABOLIC_COMPILED = {
    ]
   },
   {
-   "key": "成熟糖蛋白",
-   "name": "成熟糖蛋白",
+   "key": "多萜醇焦磷酸",
+   "name": "多萜醇焦磷酸",
    "aliases": [],
    "entityIds": [],
    "pathwayIds": [
     "glycosylation"
    ],
    "reactionIds": [
-    "rx145"
+    "rx142"
    ],
    "occurrences": [
     {
-     "reactionId": "rx145",
+     "reactionId": "rx142",
      "pathwayIds": [
       "glycosylation"
      ],
      "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": []
+    }
+   ]
+  },
+  {
+   "key": "N-糖基化蛋白内质网",
+   "name": "N-糖基化蛋白内质网",
+   "aliases": [],
+   "entityIds": [],
+   "pathwayIds": [
+    "glycosylation"
+   ],
+   "reactionIds": [
+    "rx143"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx143",
+     "pathwayIds": [
+      "glycosylation"
+     ],
+     "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
@@ -52321,19 +52310,31 @@ window.METABOLIC_COMPILED = {
     "tca"
    ],
    "reactionIds": [
+    "rx147",
     "rx148",
     "rx149",
-    "rx150",
-    "rx308",
-    "rx309"
+    "rx309",
+    "rx310"
    ],
    "occurrences": [
+    {
+     "reactionId": "rx147",
+     "pathwayIds": [
+      "glyoxylate"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "乙醛酸体",
+     "entityIds": [
+      "异柠檬酸@glyoxysome"
+     ]
+    },
     {
      "reactionId": "rx148",
      "pathwayIds": [
       "glyoxylate"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "乙醛酸体",
      "entityIds": [
@@ -52353,19 +52354,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx150",
-     "pathwayIds": [
-      "glyoxylate"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "乙醛酸体",
-     "entityIds": [
-      "异柠檬酸@glyoxysome"
-     ]
-    },
-    {
-     "reactionId": "rx308",
+     "reactionId": "rx309",
      "pathwayIds": [
       "tca"
      ],
@@ -52377,7 +52366,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx309",
+     "reactionId": "rx310",
      "pathwayIds": [
       "tca"
      ],
@@ -52401,14 +52390,14 @@ window.METABOLIC_COMPILED = {
     "glyoxylate"
    ],
    "reactionIds": [
+    "rx148",
     "rx149",
     "rx150",
-    "rx151",
-    "rx152"
+    "rx151"
    ],
    "occurrences": [
     {
-     "reactionId": "rx149",
+     "reactionId": "rx148",
      "pathwayIds": [
       "glyoxylate"
      ],
@@ -52420,7 +52409,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx150",
+     "reactionId": "rx149",
      "pathwayIds": [
       "glyoxylate"
      ],
@@ -52432,7 +52421,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx151",
+     "reactionId": "rx150",
      "pathwayIds": [
       "glyoxylate"
      ],
@@ -52444,7 +52433,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx152",
+     "reactionId": "rx151",
      "pathwayIds": [
       "glyoxylate"
      ],
@@ -52468,12 +52457,12 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "reactionIds": [
-    "rx154",
-    "rx155"
+    "rx153",
+    "rx154"
    ],
    "occurrences": [
     {
-     "reactionId": "rx154",
+     "reactionId": "rx153",
      "pathwayIds": [
       "heme"
      ],
@@ -52485,7 +52474,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx155",
+     "reactionId": "rx154",
      "pathwayIds": [
       "heme"
      ],
@@ -52509,12 +52498,12 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "reactionIds": [
-    "rx155",
-    "rx156"
+    "rx154",
+    "rx155"
    ],
    "occurrences": [
     {
-     "reactionId": "rx155",
+     "reactionId": "rx154",
      "pathwayIds": [
       "heme"
      ],
@@ -52526,7 +52515,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx156",
+     "reactionId": "rx155",
      "pathwayIds": [
       "heme"
      ],
@@ -52550,12 +52539,12 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "reactionIds": [
-    "rx156",
-    "rx157"
+    "rx155",
+    "rx156"
    ],
    "occurrences": [
     {
-     "reactionId": "rx156",
+     "reactionId": "rx155",
      "pathwayIds": [
       "heme"
      ],
@@ -52567,7 +52556,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx157",
+     "reactionId": "rx156",
      "pathwayIds": [
       "heme"
      ],
@@ -52591,15 +52580,15 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "reactionIds": [
-    "rx156",
-    "rx203",
+    "rx155",
+    "rx202",
+    "rx212",
     "rx213",
-    "rx214",
-    "rx215"
+    "rx214"
    ],
    "occurrences": [
     {
-     "reactionId": "rx156",
+     "reactionId": "rx155",
      "pathwayIds": [
       "heme"
      ],
@@ -52609,9 +52598,19 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx203",
+     "reactionId": "rx202",
      "pathwayIds": [
       "methionine_cysteine"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx212",
+     "pathwayIds": [
+      "nucleotide_degradation"
      ],
      "role": "product",
      "source": "equation",
@@ -52637,16 +52636,6 @@ window.METABOLIC_COMPILED = {
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
-    },
-    {
-     "reactionId": "rx215",
-     "pathwayIds": [
-      "nucleotide_degradation"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
     }
    ]
   },
@@ -52661,12 +52650,12 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "reactionIds": [
-    "rx157",
-    "rx158"
+    "rx156",
+    "rx157"
    ],
    "occurrences": [
     {
-     "reactionId": "rx157",
+     "reactionId": "rx156",
      "pathwayIds": [
       "heme"
      ],
@@ -52678,7 +52667,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx158",
+     "reactionId": "rx157",
      "pathwayIds": [
       "heme"
      ],
@@ -52702,12 +52691,12 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "reactionIds": [
-    "rx158",
-    "rx159"
+    "rx157",
+    "rx158"
    ],
    "occurrences": [
     {
-     "reactionId": "rx158",
+     "reactionId": "rx157",
      "pathwayIds": [
       "heme"
      ],
@@ -52719,7 +52708,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx159",
+     "reactionId": "rx158",
      "pathwayIds": [
       "heme"
      ],
@@ -52741,12 +52730,12 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "reactionIds": [
-    "rx158",
-    "rx159"
+    "rx157",
+    "rx158"
    ],
    "occurrences": [
     {
-     "reactionId": "rx158",
+     "reactionId": "rx157",
      "pathwayIds": [
       "heme"
      ],
@@ -52756,7 +52745,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx159",
+     "reactionId": "rx158",
      "pathwayIds": [
       "heme"
      ],
@@ -52778,12 +52767,12 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "reactionIds": [
-    "rx159",
-    "rx160"
+    "rx158",
+    "rx159"
    ],
    "occurrences": [
     {
-     "reactionId": "rx159",
+     "reactionId": "rx158",
      "pathwayIds": [
       "heme"
      ],
@@ -52795,7 +52784,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx160",
+     "reactionId": "rx159",
      "pathwayIds": [
       "heme"
      ],
@@ -52817,11 +52806,11 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "reactionIds": [
-    "rx159"
+    "rx158"
    ],
    "occurrences": [
     {
-     "reactionId": "rx159",
+     "reactionId": "rx158",
      "pathwayIds": [
       "heme"
      ],
@@ -52844,12 +52833,12 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "reactionIds": [
-    "rx160",
-    "rx161"
+    "rx159",
+    "rx160"
    ],
    "occurrences": [
     {
-     "reactionId": "rx160",
+     "reactionId": "rx159",
      "pathwayIds": [
       "heme"
      ],
@@ -52861,7 +52850,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx161",
+     "reactionId": "rx160",
      "pathwayIds": [
       "heme"
      ],
@@ -52885,11 +52874,11 @@ window.METABOLIC_COMPILED = {
     "heme"
    ],
    "reactionIds": [
-    "rx161"
+    "rx160"
    ],
    "occurrences": [
     {
-     "reactionId": "rx161",
+     "reactionId": "rx160",
      "pathwayIds": [
       "heme"
      ],
@@ -52915,14 +52904,14 @@ window.METABOLIC_COMPILED = {
     "uronic"
    ],
    "reactionIds": [
-    "rx161",
-    "rx335",
+    "rx160",
     "rx336",
-    "rx338"
+    "rx337",
+    "rx339"
    ],
    "occurrences": [
     {
-     "reactionId": "rx161",
+     "reactionId": "rx160",
      "pathwayIds": [
       "heme"
      ],
@@ -52932,7 +52921,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx335",
+     "reactionId": "rx336",
      "pathwayIds": [
       "uronic"
      ],
@@ -52944,7 +52933,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx336",
+     "reactionId": "rx337",
      "pathwayIds": [
       "uronic"
      ],
@@ -52956,7 +52945,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx338",
+     "reactionId": "rx339",
      "pathwayIds": [
       "uronic"
      ],
@@ -52968,7 +52957,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx338",
+     "reactionId": "rx339",
      "pathwayIds": [
       "uronic"
      ],
@@ -52992,12 +52981,12 @@ window.METABOLIC_COMPILED = {
     "ketone"
    ],
    "reactionIds": [
-    "rx165",
-    "rx168"
+    "rx164",
+    "rx167"
    ],
    "occurrences": [
     {
-     "reactionId": "rx165",
+     "reactionId": "rx164",
      "pathwayIds": [
       "ketone"
      ],
@@ -53009,7 +52998,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx168",
+     "reactionId": "rx167",
      "pathwayIds": [
       "ketone"
      ],
@@ -53033,11 +53022,11 @@ window.METABOLIC_COMPILED = {
     "lipoprotein"
    ],
    "reactionIds": [
-    "rx169"
+    "rx168"
    ],
    "occurrences": [
     {
-     "reactionId": "rx169",
+     "reactionId": "rx168",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53061,11 +53050,11 @@ window.METABOLIC_COMPILED = {
     "lipoprotein"
    ],
    "reactionIds": [
-    "rx169"
+    "rx168"
    ],
    "occurrences": [
     {
-     "reactionId": "rx169",
+     "reactionId": "rx168",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53087,11 +53076,11 @@ window.METABOLIC_COMPILED = {
     "lipoprotein"
    ],
    "reactionIds": [
-    "rx169"
+    "rx168"
    ],
    "occurrences": [
     {
-     "reactionId": "rx169",
+     "reactionId": "rx168",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53113,11 +53102,11 @@ window.METABOLIC_COMPILED = {
     "lipoprotein"
    ],
    "reactionIds": [
-    "rx170"
+    "rx169"
    ],
    "occurrences": [
     {
-     "reactionId": "rx170",
+     "reactionId": "rx169",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53141,12 +53130,12 @@ window.METABOLIC_COMPILED = {
     "lipoprotein"
    ],
    "reactionIds": [
-    "rx170",
-    "rx171"
+    "rx169",
+    "rx170"
    ],
    "occurrences": [
     {
-     "reactionId": "rx170",
+     "reactionId": "rx169",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53158,7 +53147,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx171",
+     "reactionId": "rx170",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53180,11 +53169,11 @@ window.METABOLIC_COMPILED = {
     "lipoprotein"
    ],
    "reactionIds": [
-    "rx170"
+    "rx169"
    ],
    "occurrences": [
     {
-     "reactionId": "rx170",
+     "reactionId": "rx169",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53207,13 +53196,13 @@ window.METABOLIC_COMPILED = {
     "lipoprotein"
    ],
    "reactionIds": [
+    "rx170",
     "rx171",
-    "rx172",
-    "rx173"
+    "rx172"
    ],
    "occurrences": [
     {
-     "reactionId": "rx171",
+     "reactionId": "rx170",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53225,7 +53214,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx172",
+     "reactionId": "rx171",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53237,7 +53226,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx172",
+     "reactionId": "rx171",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53249,7 +53238,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx173",
+     "reactionId": "rx172",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53271,11 +53260,11 @@ window.METABOLIC_COMPILED = {
     "lipoprotein"
    ],
    "reactionIds": [
-    "rx171"
+    "rx170"
    ],
    "occurrences": [
     {
-     "reactionId": "rx171",
+     "reactionId": "rx170",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53295,11 +53284,11 @@ window.METABOLIC_COMPILED = {
     "lipoprotein"
    ],
    "reactionIds": [
-    "rx171"
+    "rx170"
    ],
    "occurrences": [
     {
-     "reactionId": "rx171",
+     "reactionId": "rx170",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53319,11 +53308,11 @@ window.METABOLIC_COMPILED = {
     "lipoprotein"
    ],
    "reactionIds": [
-    "rx171"
+    "rx170"
    ],
    "occurrences": [
     {
-     "reactionId": "rx171",
+     "reactionId": "rx170",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53343,11 +53332,11 @@ window.METABOLIC_COMPILED = {
     "lipoprotein"
    ],
    "reactionIds": [
-    "rx172"
+    "rx171"
    ],
    "occurrences": [
     {
-     "reactionId": "rx172",
+     "reactionId": "rx171",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53370,8 +53359,68 @@ window.METABOLIC_COMPILED = {
     "lysosomal"
    ],
    "reactionIds": [
-    "rx172",
-    "rx175"
+    "rx171",
+    "rx174"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx171",
+     "pathwayIds": [
+      "lipoprotein"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "胞外",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx174",
+     "pathwayIds": [
+      "lysosomal"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "内体",
+     "entityIds": [
+      "内吞货物@endosome"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "LDL胆固醇酯",
+   "name": "LDL 胆固醇酯",
+   "aliases": [],
+   "entityIds": [],
+   "pathwayIds": [
+    "lipoprotein"
+   ],
+   "reactionIds": [
+    "rx172"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx172",
+     "pathwayIds": [
+      "lipoprotein"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "胞外",
+     "entityIds": []
+    }
+   ]
+  },
+  {
+   "key": "溶酶体胆固醇→内质网膜胆固醇",
+   "name": "溶酶体胆固醇 → 内质网膜胆固醇",
+   "aliases": [],
+   "entityIds": [],
+   "pathwayIds": [
+    "lipoprotein"
+   ],
+   "reactionIds": [
+    "rx172"
    ],
    "occurrences": [
     {
@@ -53383,17 +53432,33 @@ window.METABOLIC_COMPILED = {
      "source": "equation",
      "compartment": "胞外",
      "entityIds": []
-    },
+    }
+   ]
+  },
+  {
+   "key": "HDL",
+   "name": "HDL",
+   "aliases": [],
+   "entityIds": [
+    "HDL@extracellular"
+   ],
+   "pathwayIds": [
+    "lipoprotein"
+   ],
+   "reactionIds": [
+    "rx173"
+   ],
+   "occurrences": [
     {
-     "reactionId": "rx175",
+     "reactionId": "rx173",
      "pathwayIds": [
-      "lysosomal"
+      "lipoprotein"
      ],
      "role": "substrate",
      "source": "endpoint",
-     "compartment": "内体",
+     "compartment": "胞外",
      "entityIds": [
-      "内吞货物@endosome"
+      "HDL@extracellular"
      ]
     }
    ]
@@ -53409,24 +53474,11 @@ window.METABOLIC_COMPILED = {
     "lipoprotein"
    ],
    "reactionIds": [
-    "rx173",
-    "rx174"
+    "rx173"
    ],
    "occurrences": [
     {
      "reactionId": "rx173",
-     "pathwayIds": [
-      "lipoprotein"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "胞外",
-     "entityIds": [
-      "胆固醇酯@extracellular"
-     ]
-    },
-    {
-     "reactionId": "rx174",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53440,34 +53492,6 @@ window.METABOLIC_COMPILED = {
    ]
   },
   {
-   "key": "HDL",
-   "name": "HDL",
-   "aliases": [],
-   "entityIds": [
-    "HDL@extracellular"
-   ],
-   "pathwayIds": [
-    "lipoprotein"
-   ],
-   "reactionIds": [
-    "rx174"
-   ],
-   "occurrences": [
-    {
-     "reactionId": "rx174",
-     "pathwayIds": [
-      "lipoprotein"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "胞外",
-     "entityIds": [
-      "HDL@extracellular"
-     ]
-    }
-   ]
-  },
-  {
    "key": "卵磷脂",
    "name": "卵磷脂",
    "aliases": [],
@@ -53476,11 +53500,11 @@ window.METABOLIC_COMPILED = {
     "lipoprotein"
    ],
    "reactionIds": [
-    "rx174"
+    "rx173"
    ],
    "occurrences": [
     {
-     "reactionId": "rx174",
+     "reactionId": "rx173",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53500,11 +53524,11 @@ window.METABOLIC_COMPILED = {
     "lipoprotein"
    ],
    "reactionIds": [
-    "rx174"
+    "rx173"
    ],
    "occurrences": [
     {
-     "reactionId": "rx174",
+     "reactionId": "rx173",
      "pathwayIds": [
       "lipoprotein"
      ],
@@ -53526,12 +53550,12 @@ window.METABOLIC_COMPILED = {
     "lysosomal"
    ],
    "reactionIds": [
-    "rx175",
-    "rx176"
+    "rx174",
+    "rx175"
    ],
    "occurrences": [
     {
-     "reactionId": "rx175",
+     "reactionId": "rx174",
      "pathwayIds": [
       "lysosomal"
      ],
@@ -53543,7 +53567,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx176",
+     "reactionId": "rx175",
      "pathwayIds": [
       "lysosomal"
      ],
@@ -53567,19 +53591,31 @@ window.METABOLIC_COMPILED = {
     "lysosomal"
    ],
    "reactionIds": [
+    "rx175",
     "rx176",
     "rx177",
     "rx178",
-    "rx179",
-    "rx180"
+    "rx179"
    ],
    "occurrences": [
+    {
+     "reactionId": "rx175",
+     "pathwayIds": [
+      "lysosomal"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "溶酶体",
+     "entityIds": [
+      "溶酶体货物@lysosome"
+     ]
+    },
     {
      "reactionId": "rx176",
      "pathwayIds": [
       "lysosomal"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "溶酶体",
      "entityIds": [
@@ -53621,24 +53657,60 @@ window.METABOLIC_COMPILED = {
      "entityIds": [
       "溶酶体货物@lysosome"
      ]
-    },
+    }
+   ]
+  },
+  {
+   "key": "蛋白质",
+   "name": "蛋白质",
+   "aliases": [],
+   "entityIds": [],
+   "pathwayIds": [
+    "lysosomal"
+   ],
+   "reactionIds": [
+    "rx176"
+   ],
+   "occurrences": [
     {
-     "reactionId": "rx180",
+     "reactionId": "rx176",
      "pathwayIds": [
       "lysosomal"
      ],
      "role": "substrate",
-     "source": "endpoint",
+     "source": "equation",
      "compartment": "溶酶体",
-     "entityIds": [
-      "溶酶体货物@lysosome"
-     ]
+     "entityIds": []
     }
    ]
   },
   {
    "key": "多糖",
    "name": "多糖",
+   "aliases": [],
+   "entityIds": [],
+   "pathwayIds": [
+    "lysosomal"
+   ],
+   "reactionIds": [
+    "rx177"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx177",
+     "pathwayIds": [
+      "lysosomal"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "溶酶体",
+     "entityIds": []
+    }
+   ]
+  },
+  {
+   "key": "脂质",
+   "name": "脂质",
    "aliases": [],
    "entityIds": [],
    "pathwayIds": [
@@ -53661,30 +53733,6 @@ window.METABOLIC_COMPILED = {
    ]
   },
   {
-   "key": "脂质",
-   "name": "脂质",
-   "aliases": [],
-   "entityIds": [],
-   "pathwayIds": [
-    "lysosomal"
-   ],
-   "reactionIds": [
-    "rx179"
-   ],
-   "occurrences": [
-    {
-     "reactionId": "rx179",
-     "pathwayIds": [
-      "lysosomal"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "溶酶体",
-     "entityIds": []
-    }
-   ]
-  },
-  {
    "key": "核苷",
    "name": "核苷",
    "aliases": [],
@@ -53696,13 +53744,13 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "reactionIds": [
-    "rx180",
-    "rx210",
-    "rx211"
+    "rx179",
+    "rx209",
+    "rx210"
    ],
    "occurrences": [
     {
-     "reactionId": "rx180",
+     "reactionId": "rx179",
      "pathwayIds": [
       "lysosomal"
      ],
@@ -53714,7 +53762,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx210",
+     "reactionId": "rx209",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -53726,7 +53774,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx211",
+     "reactionId": "rx210",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -53748,11 +53796,11 @@ window.METABOLIC_COMPILED = {
     "lysosomal"
    ],
    "reactionIds": [
-    "rx180"
+    "rx179"
    ],
    "occurrences": [
     {
-     "reactionId": "rx180",
+     "reactionId": "rx179",
      "pathwayIds": [
       "lysosomal"
      ],
@@ -53777,19 +53825,19 @@ window.METABOLIC_COMPILED = {
     "urea"
    ],
    "reactionIds": [
-    "rx194",
-    "rx248",
+    "rx193",
+    "rx247",
+    "rx252",
     "rx253",
     "rx254",
-    "rx255",
-    "rx267",
-    "rx270",
-    "rx328",
-    "rx329"
+    "rx268",
+    "rx271",
+    "rx329",
+    "rx330"
    ],
    "occurrences": [
     {
-     "reactionId": "rx194",
+     "reactionId": "rx193",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -53799,12 +53847,24 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx248",
+     "reactionId": "rx247",
      "pathwayIds": [
       "purine"
      ],
      "role": "product",
      "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "AMP@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx252",
+     "pathwayIds": [
+      "purine"
+     ],
+     "role": "product",
+     "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
       "AMP@cytosol"
@@ -53816,18 +53876,6 @@ window.METABOLIC_COMPILED = {
       "purine"
      ],
      "role": "product",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "AMP@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx254",
-     "pathwayIds": [
-      "purine"
-     ],
-     "role": "product",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
@@ -53835,7 +53883,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx255",
+     "reactionId": "rx254",
      "pathwayIds": [
       "purine"
      ],
@@ -53847,7 +53895,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx267",
+     "reactionId": "rx268",
      "pathwayIds": [
       "salvage"
      ],
@@ -53859,7 +53907,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx270",
+     "reactionId": "rx271",
      "pathwayIds": [
       "salvage"
      ],
@@ -53871,7 +53919,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx328",
+     "reactionId": "rx329",
      "pathwayIds": [
       "urea"
      ],
@@ -53881,7 +53929,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx329",
+     "reactionId": "rx330",
      "pathwayIds": [
       "urea"
      ],
@@ -53904,11 +53952,11 @@ window.METABOLIC_COMPILED = {
     "membrane_transport"
    ],
    "reactionIds": [
-    "rx197"
+    "rx196"
    ],
    "occurrences": [
     {
-     "reactionId": "rx197",
+     "reactionId": "rx196",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -53920,7 +53968,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx197",
+     "reactionId": "rx196",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -53942,11 +53990,11 @@ window.METABOLIC_COMPILED = {
     "membrane_transport"
    ],
    "reactionIds": [
-    "rx197"
+    "rx196"
    ],
    "occurrences": [
     {
-     "reactionId": "rx197",
+     "reactionId": "rx196",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -53956,7 +54004,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx197",
+     "reactionId": "rx196",
      "pathwayIds": [
       "membrane_transport"
      ],
@@ -53978,12 +54026,12 @@ window.METABOLIC_COMPILED = {
     "methionine_cysteine"
    ],
    "reactionIds": [
-    "rx198",
-    "rx199"
+    "rx197",
+    "rx198"
    ],
    "occurrences": [
     {
-     "reactionId": "rx198",
+     "reactionId": "rx197",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -53995,7 +54043,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx199",
+     "reactionId": "rx198",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -54019,12 +54067,12 @@ window.METABOLIC_COMPILED = {
     "methionine_cysteine"
    ],
    "reactionIds": [
-    "rx199",
-    "rx200"
+    "rx198",
+    "rx199"
    ],
    "occurrences": [
     {
-     "reactionId": "rx199",
+     "reactionId": "rx198",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -54036,7 +54084,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx200",
+     "reactionId": "rx199",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -54058,11 +54106,11 @@ window.METABOLIC_COMPILED = {
     "methionine_cysteine"
    ],
    "reactionIds": [
-    "rx199"
+    "rx198"
    ],
    "occurrences": [
     {
-     "reactionId": "rx199",
+     "reactionId": "rx198",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -54082,11 +54130,11 @@ window.METABOLIC_COMPILED = {
     "methionine_cysteine"
    ],
    "reactionIds": [
-    "rx199"
+    "rx198"
    ],
    "occurrences": [
     {
-     "reactionId": "rx199",
+     "reactionId": "rx198",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -54109,12 +54157,12 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "reactionIds": [
-    "rx200",
-    "rx270"
+    "rx199",
+    "rx271"
    ],
    "occurrences": [
     {
-     "reactionId": "rx200",
+     "reactionId": "rx199",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -54126,7 +54174,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx270",
+     "reactionId": "rx271",
      "pathwayIds": [
       "salvage"
      ],
@@ -54150,12 +54198,12 @@ window.METABOLIC_COMPILED = {
     "methionine_cysteine"
    ],
    "reactionIds": [
-    "rx202",
-    "rx203"
+    "rx201",
+    "rx202"
    ],
    "occurrences": [
     {
-     "reactionId": "rx202",
+     "reactionId": "rx201",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -54167,7 +54215,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx203",
+     "reactionId": "rx202",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -54189,11 +54237,11 @@ window.METABOLIC_COMPILED = {
     "methionine_cysteine"
    ],
    "reactionIds": [
-    "rx203"
+    "rx202"
    ],
    "occurrences": [
     {
-     "reactionId": "rx203",
+     "reactionId": "rx202",
      "pathwayIds": [
       "methionine_cysteine"
      ],
@@ -54215,11 +54263,11 @@ window.METABOLIC_COMPILED = {
     "nitrogen"
    ],
    "reactionIds": [
-    "rx204"
+    "rx203"
    ],
    "occurrences": [
     {
-     "reactionId": "rx204",
+     "reactionId": "rx203",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -54244,13 +54292,13 @@ window.METABOLIC_COMPILED = {
     "nitrogen"
    ],
    "reactionIds": [
+    "rx203",
     "rx204",
-    "rx205",
-    "rx206"
+    "rx205"
    ],
    "occurrences": [
     {
-     "reactionId": "rx204",
+     "reactionId": "rx203",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -54262,7 +54310,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx205",
+     "reactionId": "rx204",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -54274,7 +54322,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx205",
+     "reactionId": "rx204",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -54286,7 +54334,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx206",
+     "reactionId": "rx205",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -54308,11 +54356,11 @@ window.METABOLIC_COMPILED = {
     "nitrogen"
    ],
    "reactionIds": [
-    "rx204"
+    "rx203"
    ],
    "occurrences": [
     {
-     "reactionId": "rx204",
+     "reactionId": "rx203",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -54332,11 +54380,11 @@ window.METABOLIC_COMPILED = {
     "nitrogen"
    ],
    "reactionIds": [
-    "rx204"
+    "rx203"
    ],
    "occurrences": [
     {
-     "reactionId": "rx204",
+     "reactionId": "rx203",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -54356,11 +54404,31 @@ window.METABOLIC_COMPILED = {
     "nitrogen"
    ],
    "reactionIds": [
+    "rx203",
     "rx204",
-    "rx205",
-    "rx206"
+    "rx205"
    ],
    "occurrences": [
+    {
+     "reactionId": "rx203",
+     "pathwayIds": [
+      "nitrogen"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "质体",
+     "entityIds": []
+    },
+    {
+     "reactionId": "rx204",
+     "pathwayIds": [
+      "nitrogen"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": []
+    },
     {
      "reactionId": "rx204",
      "pathwayIds": [
@@ -54373,26 +54441,6 @@ window.METABOLIC_COMPILED = {
     },
     {
      "reactionId": "rx205",
-     "pathwayIds": [
-      "nitrogen"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx205",
-     "pathwayIds": [
-      "nitrogen"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "质体",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx206",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -54412,11 +54460,11 @@ window.METABOLIC_COMPILED = {
     "nitrogen"
    ],
    "reactionIds": [
-    "rx204"
+    "rx203"
    ],
    "occurrences": [
     {
-     "reactionId": "rx204",
+     "reactionId": "rx203",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -54436,11 +54484,11 @@ window.METABOLIC_COMPILED = {
     "nitrogen"
    ],
    "reactionIds": [
-    "rx206"
+    "rx205"
    ],
    "occurrences": [
     {
-     "reactionId": "rx206",
+     "reactionId": "rx205",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -54460,11 +54508,11 @@ window.METABOLIC_COMPILED = {
     "nitrogen"
    ],
    "reactionIds": [
-    "rx206"
+    "rx205"
    ],
    "occurrences": [
     {
-     "reactionId": "rx206",
+     "reactionId": "rx205",
      "pathwayIds": [
       "nitrogen"
      ],
@@ -54486,11 +54534,11 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "reactionIds": [
-    "rx210"
+    "rx209"
    ],
    "occurrences": [
     {
-     "reactionId": "rx210",
+     "reactionId": "rx209",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -54514,11 +54562,11 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "reactionIds": [
-    "rx211"
+    "rx210"
    ],
    "occurrences": [
     {
-     "reactionId": "rx211",
+     "reactionId": "rx210",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -54540,11 +54588,11 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "reactionIds": [
-    "rx211"
+    "rx210"
    ],
    "occurrences": [
     {
-     "reactionId": "rx211",
+     "reactionId": "rx210",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -54567,12 +54615,12 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "reactionIds": [
-    "rx212",
-    "rx268"
+    "rx211",
+    "rx269"
    ],
    "occurrences": [
     {
-     "reactionId": "rx212",
+     "reactionId": "rx211",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -54584,7 +54632,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx268",
+     "reactionId": "rx269",
      "pathwayIds": [
       "salvage"
      ],
@@ -54608,12 +54656,12 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "reactionIds": [
-    "rx212",
-    "rx213"
+    "rx211",
+    "rx212"
    ],
    "occurrences": [
     {
-     "reactionId": "rx212",
+     "reactionId": "rx211",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -54625,7 +54673,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx213",
+     "reactionId": "rx212",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -54650,12 +54698,12 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "reactionIds": [
-    "rx213",
-    "rx269"
+    "rx212",
+    "rx270"
    ],
    "occurrences": [
     {
-     "reactionId": "rx213",
+     "reactionId": "rx212",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -54667,7 +54715,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx269",
+     "reactionId": "rx270",
      "pathwayIds": [
       "salvage"
      ],
@@ -54691,11 +54739,11 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "reactionIds": [
-    "rx214"
+    "rx213"
    ],
    "occurrences": [
     {
-     "reactionId": "rx214",
+     "reactionId": "rx213",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -54719,11 +54767,11 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "reactionIds": [
-    "rx214"
+    "rx213"
    ],
    "occurrences": [
     {
-     "reactionId": "rx214",
+     "reactionId": "rx213",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -54747,11 +54795,11 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "reactionIds": [
-    "rx215"
+    "rx214"
    ],
    "occurrences": [
     {
-     "reactionId": "rx215",
+     "reactionId": "rx214",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -54775,11 +54823,11 @@ window.METABOLIC_COMPILED = {
     "nucleotide_degradation"
    ],
    "reactionIds": [
-    "rx215"
+    "rx214"
    ],
    "occurrences": [
     {
-     "reactionId": "rx215",
+     "reactionId": "rx214",
      "pathwayIds": [
       "nucleotide_degradation"
      ],
@@ -54788,6 +54836,47 @@ window.METABOLIC_COMPILED = {
      "compartment": "细胞质",
      "entityIds": [
       "β-氨基异丁酸@cytosol"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "ATP合酶",
+   "name": "ATP 合酶",
+   "aliases": [],
+   "entityIds": [
+    "ATP 合酶@mito-inner-membrane"
+   ],
+   "pathwayIds": [
+    "oxphos"
+   ],
+   "reactionIds": [
+    "rx215",
+    "rx216"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx215",
+     "pathwayIds": [
+      "oxphos"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "线粒体内膜",
+     "entityIds": [
+      "ATP 合酶@mito-inner-membrane"
+     ]
+    },
+    {
+     "reactionId": "rx216",
+     "pathwayIds": [
+      "oxphos"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "线粒体内膜",
+     "entityIds": [
+      "ATP 合酶@mito-inner-membrane"
      ]
     }
    ]
@@ -54804,13 +54893,13 @@ window.METABOLIC_COMPILED = {
     "tag"
    ],
    "reactionIds": [
-    "rx227",
-    "rx302",
-    "rx303"
+    "rx226",
+    "rx303",
+    "rx304"
    ],
    "occurrences": [
     {
-     "reactionId": "rx227",
+     "reactionId": "rx226",
      "pathwayIds": [
       "phospholipid"
      ],
@@ -54822,7 +54911,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx302",
+     "reactionId": "rx303",
      "pathwayIds": [
       "tag"
      ],
@@ -54834,7 +54923,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx303",
+     "reactionId": "rx304",
      "pathwayIds": [
       "tag"
      ],
@@ -54858,13 +54947,13 @@ window.METABOLIC_COMPILED = {
     "phospholipid"
    ],
    "reactionIds": [
+    "rx226",
     "rx227",
-    "rx228",
-    "rx232"
+    "rx231"
    ],
    "occurrences": [
     {
-     "reactionId": "rx227",
+     "reactionId": "rx226",
      "pathwayIds": [
       "phospholipid"
      ],
@@ -54876,7 +54965,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx228",
+     "reactionId": "rx227",
      "pathwayIds": [
       "phospholipid"
      ],
@@ -54888,7 +54977,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx232",
+     "reactionId": "rx231",
      "pathwayIds": [
       "phospholipid"
      ],
@@ -54913,12 +55002,12 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "reactionIds": [
-    "rx227",
-    "rx263"
+    "rx226",
+    "rx262"
    ],
    "occurrences": [
     {
-     "reactionId": "rx227",
+     "reactionId": "rx226",
      "pathwayIds": [
       "phospholipid"
      ],
@@ -54928,7 +55017,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx263",
+     "reactionId": "rx262",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -54952,11 +55041,11 @@ window.METABOLIC_COMPILED = {
     "phospholipid"
    ],
    "reactionIds": [
-    "rx228"
+    "rx227"
    ],
    "occurrences": [
     {
-     "reactionId": "rx228",
+     "reactionId": "rx227",
      "pathwayIds": [
       "phospholipid"
      ],
@@ -54978,11 +55067,11 @@ window.METABOLIC_COMPILED = {
     "phospholipid"
    ],
    "reactionIds": [
-    "rx228"
+    "rx227"
    ],
    "occurrences": [
     {
-     "reactionId": "rx228",
+     "reactionId": "rx227",
      "pathwayIds": [
       "phospholipid"
      ],
@@ -55005,13 +55094,23 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "reactionIds": [
+    "rx227",
     "rx228",
     "rx229",
-    "rx230",
-    "rx232",
-    "rx271"
+    "rx231",
+    "rx272"
    ],
    "occurrences": [
+    {
+     "reactionId": "rx227",
+     "pathwayIds": [
+      "phospholipid"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "平滑内质网",
+     "entityIds": []
+    },
     {
      "reactionId": "rx228",
      "pathwayIds": [
@@ -55033,7 +55132,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx230",
+     "reactionId": "rx231",
      "pathwayIds": [
       "phospholipid"
      ],
@@ -55043,17 +55142,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx232",
-     "pathwayIds": [
-      "phospholipid"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "平滑内质网",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx271",
+     "reactionId": "rx272",
      "pathwayIds": [
       "salvage"
      ],
@@ -55079,15 +55168,27 @@ window.METABOLIC_COMPILED = {
     "tag"
    ],
    "reactionIds": [
+    "rx228",
     "rx229",
-    "rx230",
-    "rx284",
-    "rx303",
+    "rx285",
     "rx304",
     "rx305",
-    "rx306"
+    "rx306",
+    "rx307"
    ],
    "occurrences": [
+    {
+     "reactionId": "rx228",
+     "pathwayIds": [
+      "phospholipid"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "平滑内质网",
+     "entityIds": [
+      "DAG@smooth-er"
+     ]
+    },
     {
      "reactionId": "rx229",
      "pathwayIds": [
@@ -55101,19 +55202,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx230",
-     "pathwayIds": [
-      "phospholipid"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "平滑内质网",
-     "entityIds": [
-      "DAG@smooth-er"
-     ]
-    },
-    {
-     "reactionId": "rx284",
+     "reactionId": "rx285",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -55125,23 +55214,11 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx303",
-     "pathwayIds": [
-      "tag"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "平滑内质网",
-     "entityIds": [
-      "DAG@smooth-er"
-     ]
-    },
-    {
      "reactionId": "rx304",
      "pathwayIds": [
       "tag"
      ],
-     "role": "substrate",
+     "role": "product",
      "source": "endpoint",
      "compartment": "平滑内质网",
      "entityIds": [
@@ -55153,6 +55230,18 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "tag"
      ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "平滑内质网",
+     "entityIds": [
+      "DAG@smooth-er"
+     ]
+    },
+    {
+     "reactionId": "rx306",
+     "pathwayIds": [
+      "tag"
+     ],
      "role": "product",
      "source": "equation",
      "compartment": "平滑内质网",
@@ -55161,7 +55250,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx306",
+     "reactionId": "rx307",
      "pathwayIds": [
       "tag"
      ],
@@ -55186,12 +55275,12 @@ window.METABOLIC_COMPILED = {
     "sphingolipid"
    ],
    "reactionIds": [
-    "rx229",
-    "rx284"
+    "rx228",
+    "rx285"
    ],
    "occurrences": [
     {
-     "reactionId": "rx229",
+     "reactionId": "rx228",
      "pathwayIds": [
       "phospholipid"
      ],
@@ -55203,7 +55292,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx284",
+     "reactionId": "rx285",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -55219,6 +55308,71 @@ window.METABOLIC_COMPILED = {
   {
    "key": "CDP-胆碱",
    "name": "CDP-胆碱",
+   "aliases": [],
+   "entityIds": [],
+   "pathwayIds": [
+    "phospholipid"
+   ],
+   "reactionIds": [
+    "rx228"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx228",
+     "pathwayIds": [
+      "phospholipid"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "平滑内质网",
+     "entityIds": []
+    }
+   ]
+  },
+  {
+   "key": "磷脂酰乙醇胺",
+   "name": "磷脂酰乙醇胺",
+   "aliases": [],
+   "entityIds": [
+    "磷脂酰乙醇胺@smooth-er"
+   ],
+   "pathwayIds": [
+    "phospholipid"
+   ],
+   "reactionIds": [
+    "rx229",
+    "rx230"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx229",
+     "pathwayIds": [
+      "phospholipid"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "平滑内质网",
+     "entityIds": [
+      "磷脂酰乙醇胺@smooth-er"
+     ]
+    },
+    {
+     "reactionId": "rx230",
+     "pathwayIds": [
+      "phospholipid"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "平滑内质网",
+     "entityIds": [
+      "磷脂酰乙醇胺@smooth-er"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "CDP-乙醇胺",
+   "name": "CDP-乙醇胺",
    "aliases": [],
    "entityIds": [],
    "pathwayIds": [
@@ -55241,71 +55395,6 @@ window.METABOLIC_COMPILED = {
    ]
   },
   {
-   "key": "磷脂酰乙醇胺",
-   "name": "磷脂酰乙醇胺",
-   "aliases": [],
-   "entityIds": [
-    "磷脂酰乙醇胺@smooth-er"
-   ],
-   "pathwayIds": [
-    "phospholipid"
-   ],
-   "reactionIds": [
-    "rx230",
-    "rx231"
-   ],
-   "occurrences": [
-    {
-     "reactionId": "rx230",
-     "pathwayIds": [
-      "phospholipid"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "平滑内质网",
-     "entityIds": [
-      "磷脂酰乙醇胺@smooth-er"
-     ]
-    },
-    {
-     "reactionId": "rx231",
-     "pathwayIds": [
-      "phospholipid"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "平滑内质网",
-     "entityIds": [
-      "磷脂酰乙醇胺@smooth-er"
-     ]
-    }
-   ]
-  },
-  {
-   "key": "CDP-乙醇胺",
-   "name": "CDP-乙醇胺",
-   "aliases": [],
-   "entityIds": [],
-   "pathwayIds": [
-    "phospholipid"
-   ],
-   "reactionIds": [
-    "rx230"
-   ],
-   "occurrences": [
-    {
-     "reactionId": "rx230",
-     "pathwayIds": [
-      "phospholipid"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "平滑内质网",
-     "entityIds": []
-    }
-   ]
-  },
-  {
    "key": "磷脂酰丝氨酸",
    "name": "磷脂酰丝氨酸",
    "aliases": [],
@@ -55316,11 +55405,11 @@ window.METABOLIC_COMPILED = {
     "phospholipid"
    ],
    "reactionIds": [
-    "rx231"
+    "rx230"
    ],
    "occurrences": [
     {
-     "reactionId": "rx231",
+     "reactionId": "rx230",
      "pathwayIds": [
       "phospholipid"
      ],
@@ -55344,11 +55433,11 @@ window.METABOLIC_COMPILED = {
     "phospholipid"
    ],
    "reactionIds": [
-    "rx232"
+    "rx231"
    ],
    "occurrences": [
     {
-     "reactionId": "rx232",
+     "reactionId": "rx231",
      "pathwayIds": [
       "phospholipid"
      ],
@@ -55372,11 +55461,11 @@ window.METABOLIC_COMPILED = {
     "phospholipid"
    ],
    "reactionIds": [
-    "rx232"
+    "rx231"
    ],
    "occurrences": [
     {
-     "reactionId": "rx232",
+     "reactionId": "rx231",
      "pathwayIds": [
       "phospholipid"
      ],
@@ -55400,12 +55489,12 @@ window.METABOLIC_COMPILED = {
     "plasmalogen"
    ],
    "reactionIds": [
-    "rx233",
-    "rx234"
+    "rx232",
+    "rx233"
    ],
    "occurrences": [
     {
-     "reactionId": "rx233",
+     "reactionId": "rx232",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -55417,7 +55506,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx234",
+     "reactionId": "rx233",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -55441,12 +55530,12 @@ window.METABOLIC_COMPILED = {
     "plasmalogen"
    ],
    "reactionIds": [
-    "rx234",
-    "rx235"
+    "rx233",
+    "rx234"
    ],
    "occurrences": [
     {
-     "reactionId": "rx234",
+     "reactionId": "rx233",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -55458,7 +55547,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx235",
+     "reactionId": "rx234",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -55480,11 +55569,11 @@ window.METABOLIC_COMPILED = {
     "plasmalogen"
    ],
    "reactionIds": [
-    "rx234"
+    "rx233"
    ],
    "occurrences": [
     {
-     "reactionId": "rx234",
+     "reactionId": "rx233",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -55507,13 +55596,13 @@ window.METABOLIC_COMPILED = {
     "plasmalogen"
    ],
    "reactionIds": [
+    "rx234",
     "rx235",
-    "rx236",
-    "rx237"
+    "rx236"
    ],
    "occurrences": [
     {
-     "reactionId": "rx235",
+     "reactionId": "rx234",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -55525,7 +55614,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx236",
+     "reactionId": "rx235",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -55537,7 +55626,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx236",
+     "reactionId": "rx235",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -55549,7 +55638,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx237",
+     "reactionId": "rx236",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -55571,11 +55660,11 @@ window.METABOLIC_COMPILED = {
     "plasmalogen"
    ],
    "reactionIds": [
-    "rx236"
+    "rx235"
    ],
    "occurrences": [
     {
-     "reactionId": "rx236",
+     "reactionId": "rx235",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -55597,11 +55686,11 @@ window.METABOLIC_COMPILED = {
     "plasmalogen"
    ],
    "reactionIds": [
-    "rx237"
+    "rx236"
    ],
    "occurrences": [
     {
-     "reactionId": "rx237",
+     "reactionId": "rx236",
      "pathwayIds": [
       "plasmalogen"
      ],
@@ -55625,12 +55714,12 @@ window.METABOLIC_COMPILED = {
     "polyol"
    ],
    "reactionIds": [
-    "rx238",
-    "rx239"
+    "rx237",
+    "rx238"
    ],
    "occurrences": [
     {
-     "reactionId": "rx238",
+     "reactionId": "rx237",
      "pathwayIds": [
       "polyol"
      ],
@@ -55642,7 +55731,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx239",
+     "reactionId": "rx238",
      "pathwayIds": [
       "polyol"
      ],
@@ -55666,12 +55755,12 @@ window.METABOLIC_COMPILED = {
     "ppp"
    ],
    "reactionIds": [
-    "rx240",
-    "rx241"
+    "rx239",
+    "rx240"
    ],
    "occurrences": [
     {
-     "reactionId": "rx240",
+     "reactionId": "rx239",
      "pathwayIds": [
       "ppp"
      ],
@@ -55683,7 +55772,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx241",
+     "reactionId": "rx240",
      "pathwayIds": [
       "ppp"
      ],
@@ -55707,12 +55796,12 @@ window.METABOLIC_COMPILED = {
     "ppp"
    ],
    "reactionIds": [
-    "rx241",
-    "rx242"
+    "rx240",
+    "rx241"
    ],
    "occurrences": [
     {
-     "reactionId": "rx241",
+     "reactionId": "rx240",
      "pathwayIds": [
       "ppp"
      ],
@@ -55724,7 +55813,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx242",
+     "reactionId": "rx241",
      "pathwayIds": [
       "ppp"
      ],
@@ -55748,13 +55837,13 @@ window.METABOLIC_COMPILED = {
     "ppp"
    ],
    "reactionIds": [
+    "rx241",
     "rx242",
-    "rx243",
-    "rx244"
+    "rx243"
    ],
    "occurrences": [
     {
-     "reactionId": "rx242",
+     "reactionId": "rx241",
      "pathwayIds": [
       "ppp"
      ],
@@ -55766,7 +55855,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx243",
+     "reactionId": "rx242",
      "pathwayIds": [
       "ppp"
      ],
@@ -55778,7 +55867,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx244",
+     "reactionId": "rx243",
      "pathwayIds": [
       "ppp"
      ],
@@ -55803,13 +55892,13 @@ window.METABOLIC_COMPILED = {
     "purine"
    ],
    "reactionIds": [
-    "rx243",
-    "rx245",
-    "rx248"
+    "rx242",
+    "rx244",
+    "rx247"
    ],
    "occurrences": [
     {
-     "reactionId": "rx243",
+     "reactionId": "rx242",
      "pathwayIds": [
       "ppp"
      ],
@@ -55821,7 +55910,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx245",
+     "reactionId": "rx244",
      "pathwayIds": [
       "ppp"
      ],
@@ -55833,7 +55922,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx248",
+     "reactionId": "rx247",
      "pathwayIds": [
       "purine"
      ],
@@ -55858,14 +55947,14 @@ window.METABOLIC_COMPILED = {
     "uronic"
    ],
    "reactionIds": [
+    "rx243",
     "rx244",
-    "rx245",
-    "rx247",
-    "rx337"
+    "rx246",
+    "rx338"
    ],
    "occurrences": [
     {
-     "reactionId": "rx244",
+     "reactionId": "rx243",
      "pathwayIds": [
       "ppp"
      ],
@@ -55877,7 +55966,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx245",
+     "reactionId": "rx244",
      "pathwayIds": [
       "ppp"
      ],
@@ -55889,7 +55978,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx247",
+     "reactionId": "rx246",
      "pathwayIds": [
       "ppp"
      ],
@@ -55901,7 +55990,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx337",
+     "reactionId": "rx338",
      "pathwayIds": [
       "uronic"
      ],
@@ -55925,12 +56014,12 @@ window.METABOLIC_COMPILED = {
     "ppp"
    ],
    "reactionIds": [
-    "rx245",
-    "rx246"
+    "rx244",
+    "rx245"
    ],
    "occurrences": [
     {
-     "reactionId": "rx245",
+     "reactionId": "rx244",
      "pathwayIds": [
       "ppp"
      ],
@@ -55942,7 +56031,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx246",
+     "reactionId": "rx245",
      "pathwayIds": [
       "ppp"
      ],
@@ -55966,12 +56055,12 @@ window.METABOLIC_COMPILED = {
     "ppp"
    ],
    "reactionIds": [
-    "rx246",
-    "rx247"
+    "rx245",
+    "rx246"
    ],
    "occurrences": [
     {
-     "reactionId": "rx246",
+     "reactionId": "rx245",
      "pathwayIds": [
       "ppp"
      ],
@@ -55983,7 +56072,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx247",
+     "reactionId": "rx246",
      "pathwayIds": [
       "ppp"
      ],
@@ -56009,16 +56098,16 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "reactionIds": [
+    "rx247",
     "rx248",
-    "rx249",
-    "rx261",
-    "rx267",
+    "rx260",
     "rx268",
-    "rx269"
+    "rx269",
+    "rx270"
    ],
    "occurrences": [
     {
-     "reactionId": "rx248",
+     "reactionId": "rx247",
      "pathwayIds": [
       "purine"
      ],
@@ -56030,7 +56119,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx249",
+     "reactionId": "rx248",
      "pathwayIds": [
       "purine"
      ],
@@ -56042,21 +56131,9 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx261",
+     "reactionId": "rx260",
      "pathwayIds": [
       "pyrimidine"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": [
-      "PRPP@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx267",
-     "pathwayIds": [
-      "salvage"
      ],
      "role": "substrate",
      "source": "equation",
@@ -56088,6 +56165,18 @@ window.METABOLIC_COMPILED = {
      "entityIds": [
       "PRPP@cytosol"
      ]
+    },
+    {
+     "reactionId": "rx270",
+     "pathwayIds": [
+      "salvage"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "PRPP@cytosol"
+     ]
     }
    ]
   },
@@ -56102,12 +56191,12 @@ window.METABOLIC_COMPILED = {
     "purine"
    ],
    "reactionIds": [
-    "rx249",
-    "rx250"
+    "rx248",
+    "rx249"
    ],
    "occurrences": [
     {
-     "reactionId": "rx249",
+     "reactionId": "rx248",
      "pathwayIds": [
       "purine"
      ],
@@ -56119,7 +56208,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx250",
+     "reactionId": "rx249",
      "pathwayIds": [
       "purine"
      ],
@@ -56143,12 +56232,12 @@ window.METABOLIC_COMPILED = {
     "purine"
    ],
    "reactionIds": [
-    "rx250",
-    "rx251"
+    "rx249",
+    "rx250"
    ],
    "occurrences": [
     {
-     "reactionId": "rx250",
+     "reactionId": "rx249",
      "pathwayIds": [
       "purine"
      ],
@@ -56160,7 +56249,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx251",
+     "reactionId": "rx250",
      "pathwayIds": [
       "purine"
      ],
@@ -56184,12 +56273,12 @@ window.METABOLIC_COMPILED = {
     "purine"
    ],
    "reactionIds": [
-    "rx251",
-    "rx252"
+    "rx250",
+    "rx251"
    ],
    "occurrences": [
     {
-     "reactionId": "rx251",
+     "reactionId": "rx250",
      "pathwayIds": [
       "purine"
      ],
@@ -56201,7 +56290,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx252",
+     "reactionId": "rx251",
      "pathwayIds": [
       "purine"
      ],
@@ -56226,18 +56315,30 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "reactionIds": [
+    "rx251",
     "rx252",
     "rx253",
-    "rx254",
-    "rx268"
+    "rx269"
    ],
    "occurrences": [
+    {
+     "reactionId": "rx251",
+     "pathwayIds": [
+      "purine"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "IMP@cytosol"
+     ]
+    },
     {
      "reactionId": "rx252",
      "pathwayIds": [
       "purine"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -56257,19 +56358,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx254",
-     "pathwayIds": [
-      "purine"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "IMP@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx268",
+     "reactionId": "rx269",
      "pathwayIds": [
       "salvage"
      ],
@@ -56294,13 +56383,13 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "reactionIds": [
-    "rx254",
-    "rx256",
-    "rx269"
+    "rx253",
+    "rx255",
+    "rx270"
    ],
    "occurrences": [
     {
-     "reactionId": "rx254",
+     "reactionId": "rx253",
      "pathwayIds": [
       "purine"
      ],
@@ -56312,7 +56401,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx256",
+     "reactionId": "rx255",
      "pathwayIds": [
       "purine"
      ],
@@ -56324,7 +56413,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx269",
+     "reactionId": "rx270",
      "pathwayIds": [
       "salvage"
      ],
@@ -56350,15 +56439,15 @@ window.METABOLIC_COMPILED = {
     "urea"
    ],
    "reactionIds": [
+    "rx256",
     "rx257",
-    "rx258",
-    "rx324",
     "rx325",
-    "rx326"
+    "rx326",
+    "rx327"
    ],
    "occurrences": [
     {
-     "reactionId": "rx257",
+     "reactionId": "rx256",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56370,7 +56459,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx258",
+     "reactionId": "rx257",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56379,18 +56468,6 @@ window.METABOLIC_COMPILED = {
      "compartment": "细胞质",
      "entityIds": [
       "氨甲酰磷酸@cytosol"
-     ]
-    },
-    {
-     "reactionId": "rx324",
-     "pathwayIds": [
-      "urea"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "氨甲酰磷酸@mito-matrix"
      ]
     },
     {
@@ -56398,7 +56475,7 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "urea"
      ],
-     "role": "substrate",
+     "role": "product",
      "source": "endpoint",
      "compartment": "线粒体基质",
      "entityIds": [
@@ -56407,6 +56484,18 @@ window.METABOLIC_COMPILED = {
     },
     {
      "reactionId": "rx326",
+     "pathwayIds": [
+      "urea"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "氨甲酰磷酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx327",
      "pathwayIds": [
       "urea"
      ],
@@ -56430,12 +56519,12 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "reactionIds": [
-    "rx258",
-    "rx259"
+    "rx257",
+    "rx258"
    ],
    "occurrences": [
     {
-     "reactionId": "rx258",
+     "reactionId": "rx257",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56447,7 +56536,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx259",
+     "reactionId": "rx258",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56471,12 +56560,12 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "reactionIds": [
-    "rx259",
-    "rx260"
+    "rx258",
+    "rx259"
    ],
    "occurrences": [
     {
-     "reactionId": "rx259",
+     "reactionId": "rx258",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56488,7 +56577,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx260",
+     "reactionId": "rx259",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56512,12 +56601,12 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "reactionIds": [
-    "rx260",
-    "rx261"
+    "rx259",
+    "rx260"
    ],
    "occurrences": [
     {
-     "reactionId": "rx260",
+     "reactionId": "rx259",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56529,7 +56618,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx261",
+     "reactionId": "rx260",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56553,12 +56642,12 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "reactionIds": [
-    "rx261",
-    "rx262"
+    "rx260",
+    "rx261"
    ],
    "occurrences": [
     {
-     "reactionId": "rx261",
+     "reactionId": "rx260",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56570,7 +56659,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx262",
+     "reactionId": "rx261",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56594,12 +56683,12 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "reactionIds": [
-    "rx264",
-    "rx265"
+    "rx263",
+    "rx264"
    ],
    "occurrences": [
     {
-     "reactionId": "rx264",
+     "reactionId": "rx263",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56611,7 +56700,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx265",
+     "reactionId": "rx264",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56633,11 +56722,11 @@ window.METABOLIC_COMPILED = {
     "pyrimidine"
    ],
    "reactionIds": [
-    "rx264"
+    "rx263"
    ],
    "occurrences": [
     {
-     "reactionId": "rx264",
+     "reactionId": "rx263",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56647,7 +56736,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx264",
+     "reactionId": "rx263",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56655,6 +56744,102 @@ window.METABOLIC_COMPILED = {
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": []
+    }
+   ]
+  },
+  {
+   "key": "DUTP",
+   "name": "dUTP",
+   "aliases": [],
+   "entityIds": [
+    "dUTP@cytosol"
+   ],
+   "pathwayIds": [
+    "pyrimidine"
+   ],
+   "reactionIds": [
+    "rx264",
+    "rx265"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx264",
+     "pathwayIds": [
+      "pyrimidine"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "dUTP@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx265",
+     "pathwayIds": [
+      "pyrimidine"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "dUTP@cytosol"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "DUMP",
+   "name": "dUMP",
+   "aliases": [],
+   "entityIds": [
+    "dUMP@cytosol"
+   ],
+   "pathwayIds": [
+    "pyrimidine",
+    "serine_glycine"
+   ],
+   "reactionIds": [
+    "rx265",
+    "rx266",
+    "rx280"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx265",
+     "pathwayIds": [
+      "pyrimidine"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "dUMP@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx266",
+     "pathwayIds": [
+      "pyrimidine"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "dUMP@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx280",
+     "pathwayIds": [
+      "serine_glycine"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "细胞质",
+     "entityIds": [
+      "dUMP@cytosol"
+     ]
     }
    ]
   },
@@ -56670,12 +56855,12 @@ window.METABOLIC_COMPILED = {
     "serine_glycine"
    ],
    "reactionIds": [
-    "rx265",
-    "rx279"
+    "rx266",
+    "rx280"
    ],
    "occurrences": [
     {
-     "reactionId": "rx265",
+     "reactionId": "rx266",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56687,7 +56872,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx279",
+     "reactionId": "rx280",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -56697,52 +56882,6 @@ window.METABOLIC_COMPILED = {
      "entityIds": [
       "dTMP@cytosol"
      ]
-    }
-   ]
-  },
-  {
-   "key": "DUMP",
-   "name": "dUMP",
-   "aliases": [],
-   "entityIds": [],
-   "pathwayIds": [
-    "pyrimidine",
-    "serine_glycine"
-   ],
-   "reactionIds": [
-    "rx265",
-    "rx279"
-   ],
-   "occurrences": [
-    {
-     "reactionId": "rx265",
-     "pathwayIds": [
-      "pyrimidine"
-     ],
-     "role": "product",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx265",
-     "pathwayIds": [
-      "pyrimidine"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
-    },
-    {
-     "reactionId": "rx279",
-     "pathwayIds": [
-      "serine_glycine"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "细胞质",
-     "entityIds": []
     }
    ]
   },
@@ -56756,12 +56895,12 @@ window.METABOLIC_COMPILED = {
     "serine_glycine"
    ],
    "reactionIds": [
-    "rx265",
-    "rx279"
+    "rx266",
+    "rx280"
    ],
    "occurrences": [
     {
-     "reactionId": "rx265",
+     "reactionId": "rx266",
      "pathwayIds": [
       "pyrimidine"
      ],
@@ -56771,7 +56910,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx279",
+     "reactionId": "rx280",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -56793,11 +56932,11 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "reactionIds": [
-    "rx267"
+    "rx268"
    ],
    "occurrences": [
     {
-     "reactionId": "rx267",
+     "reactionId": "rx268",
      "pathwayIds": [
       "salvage"
      ],
@@ -56821,11 +56960,11 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "reactionIds": [
-    "rx271"
+    "rx272"
    ],
    "occurrences": [
     {
-     "reactionId": "rx271",
+     "reactionId": "rx272",
      "pathwayIds": [
       "salvage"
      ],
@@ -56849,11 +56988,11 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "reactionIds": [
-    "rx272"
+    "rx273"
    ],
    "occurrences": [
     {
-     "reactionId": "rx272",
+     "reactionId": "rx273",
      "pathwayIds": [
       "salvage"
      ],
@@ -56877,12 +57016,12 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "reactionIds": [
-    "rx272",
-    "rx273"
+    "rx273",
+    "rx274"
    ],
    "occurrences": [
     {
-     "reactionId": "rx272",
+     "reactionId": "rx273",
      "pathwayIds": [
       "salvage"
      ],
@@ -56894,7 +57033,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx273",
+     "reactionId": "rx274",
      "pathwayIds": [
       "salvage"
      ],
@@ -56918,11 +57057,11 @@ window.METABOLIC_COMPILED = {
     "salvage"
    ],
    "reactionIds": [
-    "rx273"
+    "rx274"
    ],
    "occurrences": [
     {
-     "reactionId": "rx273",
+     "reactionId": "rx274",
      "pathwayIds": [
       "salvage"
      ],
@@ -56946,12 +57085,12 @@ window.METABOLIC_COMPILED = {
     "serine_glycine"
    ],
    "reactionIds": [
-    "rx274",
-    "rx275"
+    "rx275",
+    "rx276"
    ],
    "occurrences": [
     {
-     "reactionId": "rx274",
+     "reactionId": "rx275",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -56963,7 +57102,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx275",
+     "reactionId": "rx276",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -56987,12 +57126,12 @@ window.METABOLIC_COMPILED = {
     "serine_glycine"
    ],
    "reactionIds": [
-    "rx275",
-    "rx276"
+    "rx276",
+    "rx277"
    ],
    "occurrences": [
     {
-     "reactionId": "rx275",
+     "reactionId": "rx276",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -57004,7 +57143,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx276",
+     "reactionId": "rx277",
      "pathwayIds": [
       "serine_glycine"
      ],
@@ -57028,12 +57167,12 @@ window.METABOLIC_COMPILED = {
     "sphingolipid"
    ],
    "reactionIds": [
-    "rx280",
-    "rx281"
+    "rx281",
+    "rx282"
    ],
    "occurrences": [
     {
-     "reactionId": "rx280",
+     "reactionId": "rx281",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -57045,7 +57184,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx281",
+     "reactionId": "rx282",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -57069,12 +57208,12 @@ window.METABOLIC_COMPILED = {
     "sphingolipid"
    ],
    "reactionIds": [
-    "rx281",
-    "rx282"
+    "rx282",
+    "rx283"
    ],
    "occurrences": [
     {
-     "reactionId": "rx281",
+     "reactionId": "rx282",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -57086,7 +57225,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx282",
+     "reactionId": "rx283",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -57110,12 +57249,12 @@ window.METABOLIC_COMPILED = {
     "sphingolipid"
    ],
    "reactionIds": [
-    "rx282",
-    "rx283"
+    "rx283",
+    "rx284"
    ],
    "occurrences": [
     {
-     "reactionId": "rx282",
+     "reactionId": "rx283",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -57127,7 +57266,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx283",
+     "reactionId": "rx284",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -57151,13 +57290,13 @@ window.METABOLIC_COMPILED = {
     "sphingolipid"
    ],
    "reactionIds": [
-    "rx283",
     "rx284",
-    "rx285"
+    "rx285",
+    "rx286"
    ],
    "occurrences": [
     {
-     "reactionId": "rx283",
+     "reactionId": "rx284",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -57169,7 +57308,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx284",
+     "reactionId": "rx285",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -57181,7 +57320,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx285",
+     "reactionId": "rx286",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -57205,11 +57344,11 @@ window.METABOLIC_COMPILED = {
     "sphingolipid"
    ],
    "reactionIds": [
-    "rx284"
+    "rx285"
    ],
    "occurrences": [
     {
-     "reactionId": "rx284",
+     "reactionId": "rx285",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -57233,11 +57372,11 @@ window.METABOLIC_COMPILED = {
     "sphingolipid"
    ],
    "reactionIds": [
-    "rx285"
+    "rx286"
    ],
    "occurrences": [
     {
-     "reactionId": "rx285",
+     "reactionId": "rx286",
      "pathwayIds": [
       "sphingolipid"
      ],
@@ -57247,6 +57386,78 @@ window.METABOLIC_COMPILED = {
      "entityIds": [
       "糖鞘脂@golgi"
      ]
+    }
+   ]
+  },
+  {
+   "key": "神经酰胺内质网",
+   "name": "神经酰胺内质网",
+   "aliases": [],
+   "entityIds": [],
+   "pathwayIds": [
+    "sphingolipid"
+   ],
+   "reactionIds": [
+    "rx286"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx286",
+     "pathwayIds": [
+      "sphingolipid"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "平滑内质网",
+     "entityIds": []
+    }
+   ]
+  },
+  {
+   "key": "神经酰胺高尔基",
+   "name": "神经酰胺高尔基",
+   "aliases": [],
+   "entityIds": [],
+   "pathwayIds": [
+    "sphingolipid"
+   ],
+   "reactionIds": [
+    "rx286"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx286",
+     "pathwayIds": [
+      "sphingolipid"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "平滑内质网",
+     "entityIds": []
+    }
+   ]
+  },
+  {
+   "key": "UDP-糖",
+   "name": "UDP-糖",
+   "aliases": [],
+   "entityIds": [],
+   "pathwayIds": [
+    "sphingolipid"
+   ],
+   "reactionIds": [
+    "rx286"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx286",
+     "pathwayIds": [
+      "sphingolipid"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "平滑内质网",
+     "entityIds": []
     }
    ]
   },
@@ -57261,12 +57472,12 @@ window.METABOLIC_COMPILED = {
     "starch"
    ],
    "reactionIds": [
-    "rx286",
-    "rx287"
+    "rx287",
+    "rx288"
    ],
    "occurrences": [
     {
-     "reactionId": "rx286",
+     "reactionId": "rx287",
      "pathwayIds": [
       "starch"
      ],
@@ -57278,7 +57489,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx287",
+     "reactionId": "rx288",
      "pathwayIds": [
       "starch"
      ],
@@ -57302,13 +57513,13 @@ window.METABOLIC_COMPILED = {
     "starch"
    ],
    "reactionIds": [
-    "rx287",
     "rx288",
-    "rx289"
+    "rx289",
+    "rx290"
    ],
    "occurrences": [
     {
-     "reactionId": "rx287",
+     "reactionId": "rx288",
      "pathwayIds": [
       "starch"
      ],
@@ -57320,7 +57531,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx287",
+     "reactionId": "rx288",
      "pathwayIds": [
       "starch"
      ],
@@ -57332,18 +57543,6 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx288",
-     "pathwayIds": [
-      "starch"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "质体",
-     "entityIds": [
-      "淀粉@plastid"
-     ]
-    },
-    {
      "reactionId": "rx289",
      "pathwayIds": [
       "starch"
@@ -57356,7 +57555,19 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx289",
+     "reactionId": "rx290",
+     "pathwayIds": [
+      "starch"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "质体",
+     "entityIds": [
+      "淀粉@plastid"
+     ]
+    },
+    {
+     "reactionId": "rx290",
      "pathwayIds": [
       "starch"
      ],
@@ -57380,12 +57591,12 @@ window.METABOLIC_COMPILED = {
     "starch"
    ],
    "reactionIds": [
-    "rx288",
-    "rx290"
+    "rx289",
+    "rx291"
    ],
    "occurrences": [
     {
-     "reactionId": "rx288",
+     "reactionId": "rx289",
      "pathwayIds": [
       "starch"
      ],
@@ -57397,7 +57608,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx290",
+     "reactionId": "rx291",
      "pathwayIds": [
       "starch"
      ],
@@ -57421,12 +57632,12 @@ window.METABOLIC_COMPILED = {
     "steroid_bile"
    ],
    "reactionIds": [
-    "rx292",
-    "rx293"
+    "rx293",
+    "rx294"
    ],
    "occurrences": [
     {
-     "reactionId": "rx292",
+     "reactionId": "rx293",
      "pathwayIds": [
       "steroid_bile"
      ],
@@ -57438,7 +57649,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx293",
+     "reactionId": "rx294",
      "pathwayIds": [
       "steroid_bile"
      ],
@@ -57460,11 +57671,11 @@ window.METABOLIC_COMPILED = {
     "steroid_bile"
    ],
    "reactionIds": [
-    "rx292"
+    "rx293"
    ],
    "occurrences": [
     {
-     "reactionId": "rx292",
+     "reactionId": "rx293",
      "pathwayIds": [
       "steroid_bile"
      ],
@@ -57486,11 +57697,11 @@ window.METABOLIC_COMPILED = {
     "steroid_bile"
    ],
    "reactionIds": [
-    "rx293"
+    "rx294"
    ],
    "occurrences": [
     {
-     "reactionId": "rx293",
+     "reactionId": "rx294",
      "pathwayIds": [
       "steroid_bile"
      ],
@@ -57514,11 +57725,11 @@ window.METABOLIC_COMPILED = {
     "steroid_bile"
    ],
    "reactionIds": [
-    "rx294"
+    "rx295"
    ],
    "occurrences": [
     {
-     "reactionId": "rx294",
+     "reactionId": "rx295",
      "pathwayIds": [
       "steroid_bile"
      ],
@@ -57532,21 +57743,49 @@ window.METABOLIC_COMPILED = {
    ]
   },
   {
-   "key": "维生素D",
-   "name": "维生素D",
+   "key": "7-脱氢胆固醇",
+   "name": "7-脱氢胆固醇",
    "aliases": [],
    "entityIds": [
-    "维生素D@smooth-er"
+    "7-脱氢胆固醇@smooth-er"
    ],
    "pathwayIds": [
     "steroid_bile"
    ],
    "reactionIds": [
-    "rx295"
+    "rx296"
    ],
    "occurrences": [
     {
-     "reactionId": "rx295",
+     "reactionId": "rx296",
+     "pathwayIds": [
+      "steroid_bile"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "平滑内质网",
+     "entityIds": [
+      "7-脱氢胆固醇@smooth-er"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "维生素D3",
+   "name": "维生素D3",
+   "aliases": [],
+   "entityIds": [
+    "维生素D3@smooth-er"
+   ],
+   "pathwayIds": [
+    "steroid_bile"
+   ],
+   "reactionIds": [
+    "rx296"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx296",
      "pathwayIds": [
       "steroid_bile"
      ],
@@ -57554,29 +57793,29 @@ window.METABOLIC_COMPILED = {
      "source": "endpoint",
      "compartment": "平滑内质网",
      "entityIds": [
-      "维生素D@smooth-er"
+      "维生素D3@smooth-er"
      ]
     }
    ]
   },
   {
-   "key": "维生素D前体",
-   "name": "维生素D前体",
+   "key": "7-脱氢胆固醇--UV",
+   "name": "7-脱氢胆固醇 --UV",
    "aliases": [],
    "entityIds": [],
    "pathwayIds": [
     "steroid_bile"
    ],
    "reactionIds": [
-    "rx295"
+    "rx296"
    ],
    "occurrences": [
     {
-     "reactionId": "rx295",
+     "reactionId": "rx296",
      "pathwayIds": [
       "steroid_bile"
      ],
-     "role": "product",
+     "role": "substrate",
      "source": "equation",
      "compartment": "平滑内质网",
      "entityIds": []
@@ -57594,11 +57833,11 @@ window.METABOLIC_COMPILED = {
     "sulfur"
    ],
    "reactionIds": [
-    "rx296"
+    "rx297"
    ],
    "occurrences": [
     {
-     "reactionId": "rx296",
+     "reactionId": "rx297",
      "pathwayIds": [
       "sulfur"
      ],
@@ -57622,13 +57861,13 @@ window.METABOLIC_COMPILED = {
     "sulfur"
    ],
    "reactionIds": [
-    "rx296",
     "rx297",
-    "rx300"
+    "rx298",
+    "rx301"
    ],
    "occurrences": [
     {
-     "reactionId": "rx296",
+     "reactionId": "rx297",
      "pathwayIds": [
       "sulfur"
      ],
@@ -57640,7 +57879,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx297",
+     "reactionId": "rx298",
      "pathwayIds": [
       "sulfur"
      ],
@@ -57652,7 +57891,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx300",
+     "reactionId": "rx301",
      "pathwayIds": [
       "sulfur"
      ],
@@ -57668,71 +57907,6 @@ window.METABOLIC_COMPILED = {
   {
    "key": "SO₄²⁻",
    "name": "SO₄²⁻",
-   "aliases": [],
-   "entityIds": [],
-   "pathwayIds": [
-    "sulfur"
-   ],
-   "reactionIds": [
-    "rx296"
-   ],
-   "occurrences": [
-    {
-     "reactionId": "rx296",
-     "pathwayIds": [
-      "sulfur"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "质体",
-     "entityIds": []
-    }
-   ]
-  },
-  {
-   "key": "亚硫酸盐",
-   "name": "亚硫酸盐",
-   "aliases": [],
-   "entityIds": [
-    "亚硫酸盐@plastid"
-   ],
-   "pathwayIds": [
-    "sulfur"
-   ],
-   "reactionIds": [
-    "rx297",
-    "rx298"
-   ],
-   "occurrences": [
-    {
-     "reactionId": "rx297",
-     "pathwayIds": [
-      "sulfur"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "质体",
-     "entityIds": [
-      "亚硫酸盐@plastid"
-     ]
-    },
-    {
-     "reactionId": "rx298",
-     "pathwayIds": [
-      "sulfur"
-     ],
-     "role": "substrate",
-     "source": "endpoint",
-     "compartment": "质体",
-     "entityIds": [
-      "亚硫酸盐@plastid"
-     ]
-    }
-   ]
-  },
-  {
-   "key": "还原力",
-   "name": "还原力",
    "aliases": [],
    "entityIds": [],
    "pathwayIds": [
@@ -57755,6 +57929,71 @@ window.METABOLIC_COMPILED = {
    ]
   },
   {
+   "key": "亚硫酸盐",
+   "name": "亚硫酸盐",
+   "aliases": [],
+   "entityIds": [
+    "亚硫酸盐@plastid"
+   ],
+   "pathwayIds": [
+    "sulfur"
+   ],
+   "reactionIds": [
+    "rx298",
+    "rx299"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx298",
+     "pathwayIds": [
+      "sulfur"
+     ],
+     "role": "product",
+     "source": "endpoint",
+     "compartment": "质体",
+     "entityIds": [
+      "亚硫酸盐@plastid"
+     ]
+    },
+    {
+     "reactionId": "rx299",
+     "pathwayIds": [
+      "sulfur"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "质体",
+     "entityIds": [
+      "亚硫酸盐@plastid"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "还原力",
+   "name": "还原力",
+   "aliases": [],
+   "entityIds": [],
+   "pathwayIds": [
+    "sulfur"
+   ],
+   "reactionIds": [
+    "rx298"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx298",
+     "pathwayIds": [
+      "sulfur"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "质体",
+     "entityIds": []
+    }
+   ]
+  },
+  {
    "key": "SO₃²⁻",
    "name": "SO₃²⁻",
    "aliases": [],
@@ -57763,12 +58002,12 @@ window.METABOLIC_COMPILED = {
     "sulfur"
    ],
    "reactionIds": [
-    "rx297",
-    "rx298"
+    "rx298",
+    "rx299"
    ],
    "occurrences": [
     {
-     "reactionId": "rx297",
+     "reactionId": "rx298",
      "pathwayIds": [
       "sulfur"
      ],
@@ -57778,7 +58017,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx298",
+     "reactionId": "rx299",
      "pathwayIds": [
       "sulfur"
      ],
@@ -57800,12 +58039,12 @@ window.METABOLIC_COMPILED = {
     "sulfur"
    ],
    "reactionIds": [
-    "rx298",
-    "rx299"
+    "rx299",
+    "rx300"
    ],
    "occurrences": [
     {
-     "reactionId": "rx298",
+     "reactionId": "rx299",
      "pathwayIds": [
       "sulfur"
      ],
@@ -57817,7 +58056,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx299",
+     "reactionId": "rx300",
      "pathwayIds": [
       "sulfur"
      ],
@@ -57839,11 +58078,11 @@ window.METABOLIC_COMPILED = {
     "sulfur"
    ],
    "reactionIds": [
-    "rx298"
+    "rx299"
    ],
    "occurrences": [
     {
-     "reactionId": "rx298",
+     "reactionId": "rx299",
      "pathwayIds": [
       "sulfur"
      ],
@@ -57863,11 +58102,11 @@ window.METABOLIC_COMPILED = {
     "sulfur"
    ],
    "reactionIds": [
-    "rx299"
+    "rx300"
    ],
    "occurrences": [
     {
-     "reactionId": "rx299",
+     "reactionId": "rx300",
      "pathwayIds": [
       "sulfur"
      ],
@@ -57887,11 +58126,11 @@ window.METABOLIC_COMPILED = {
     "sulfur"
    ],
    "reactionIds": [
-    "rx299"
+    "rx300"
    ],
    "occurrences": [
     {
-     "reactionId": "rx299",
+     "reactionId": "rx300",
      "pathwayIds": [
       "sulfur"
      ],
@@ -57913,11 +58152,11 @@ window.METABOLIC_COMPILED = {
     "sulfur"
    ],
    "reactionIds": [
-    "rx300"
+    "rx301"
    ],
    "occurrences": [
     {
-     "reactionId": "rx300",
+     "reactionId": "rx301",
      "pathwayIds": [
       "sulfur"
      ],
@@ -57941,12 +58180,12 @@ window.METABOLIC_COMPILED = {
     "tag"
    ],
    "reactionIds": [
-    "rx301",
-    "rx302"
+    "rx302",
+    "rx303"
    ],
    "occurrences": [
     {
-     "reactionId": "rx301",
+     "reactionId": "rx302",
      "pathwayIds": [
       "tag"
      ],
@@ -57958,7 +58197,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx302",
+     "reactionId": "rx303",
      "pathwayIds": [
       "tag"
      ],
@@ -57982,13 +58221,13 @@ window.METABOLIC_COMPILED = {
     "tag"
    ],
    "reactionIds": [
-    "rx304",
     "rx305",
-    "rx306"
+    "rx306",
+    "rx307"
    ],
    "occurrences": [
     {
-     "reactionId": "rx304",
+     "reactionId": "rx305",
      "pathwayIds": [
       "tag"
      ],
@@ -58000,7 +58239,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx305",
+     "reactionId": "rx306",
      "pathwayIds": [
       "tag"
      ],
@@ -58012,7 +58251,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx306",
+     "reactionId": "rx307",
      "pathwayIds": [
       "tag"
      ],
@@ -58036,11 +58275,11 @@ window.METABOLIC_COMPILED = {
     "transamination"
    ],
    "reactionIds": [
-    "rx316"
+    "rx317"
    ],
    "occurrences": [
     {
-     "reactionId": "rx316",
+     "reactionId": "rx317",
      "pathwayIds": [
       "transamination"
      ],
@@ -58065,26 +58304,14 @@ window.METABOLIC_COMPILED = {
     "urea"
    ],
    "reactionIds": [
-    "rx325",
     "rx326",
     "rx327",
     "rx328",
     "rx329",
-    "rx334"
+    "rx330",
+    "rx335"
    ],
    "occurrences": [
-    {
-     "reactionId": "rx325",
-     "pathwayIds": [
-      "urea"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "瓜氨酸@mito-matrix"
-     ]
-    },
     {
      "reactionId": "rx326",
      "pathwayIds": [
@@ -58102,23 +58329,11 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "urea"
      ],
-     "role": "substrate",
+     "role": "product",
      "source": "endpoint",
      "compartment": "线粒体基质",
      "entityIds": [
       "瓜氨酸@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx327",
-     "pathwayIds": [
-      "urea"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "瓜氨酸@cytosol"
      ]
     },
     {
@@ -58127,6 +58342,18 @@ window.METABOLIC_COMPILED = {
       "urea"
      ],
      "role": "substrate",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "瓜氨酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx328",
+     "pathwayIds": [
+      "urea"
+     ],
+     "role": "product",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -58139,14 +58366,14 @@ window.METABOLIC_COMPILED = {
       "urea"
      ],
      "role": "substrate",
-     "source": "equation",
-     "compartment": "线粒体基质",
+     "source": "endpoint",
+     "compartment": "细胞质",
      "entityIds": [
-      "瓜氨酸@mito-matrix"
+      "瓜氨酸@cytosol"
      ]
     },
     {
-     "reactionId": "rx334",
+     "reactionId": "rx330",
      "pathwayIds": [
       "urea"
      ],
@@ -58158,7 +58385,19 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx334",
+     "reactionId": "rx335",
+     "pathwayIds": [
+      "urea"
+     ],
+     "role": "substrate",
+     "source": "equation",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "瓜氨酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx335",
      "pathwayIds": [
       "urea"
      ],
@@ -58183,33 +58422,21 @@ window.METABOLIC_COMPILED = {
     "urea"
    ],
    "reactionIds": [
-    "rx325",
     "rx326",
     "rx327",
-    "rx332",
+    "rx328",
     "rx333",
-    "rx334"
+    "rx334",
+    "rx335"
    ],
    "occurrences": [
-    {
-     "reactionId": "rx325",
-     "pathwayIds": [
-      "urea"
-     ],
-     "role": "substrate",
-     "source": "equation",
-     "compartment": "线粒体基质",
-     "entityIds": [
-      "鸟氨酸@mito-matrix"
-     ]
-    },
     {
      "reactionId": "rx326",
      "pathwayIds": [
       "urea"
      ],
      "role": "substrate",
-     "source": "endpoint",
+     "source": "equation",
      "compartment": "线粒体基质",
      "entityIds": [
       "鸟氨酸@mito-matrix"
@@ -58221,6 +58448,18 @@ window.METABOLIC_COMPILED = {
       "urea"
      ],
      "role": "substrate",
+     "source": "endpoint",
+     "compartment": "线粒体基质",
+     "entityIds": [
+      "鸟氨酸@mito-matrix"
+     ]
+    },
+    {
+     "reactionId": "rx328",
+     "pathwayIds": [
+      "urea"
+     ],
+     "role": "substrate",
      "source": "equation",
      "compartment": "细胞质",
      "entityIds": [
@@ -58228,7 +58467,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx327",
+     "reactionId": "rx328",
      "pathwayIds": [
       "urea"
      ],
@@ -58237,18 +58476,6 @@ window.METABOLIC_COMPILED = {
      "compartment": "线粒体基质",
      "entityIds": [
       "鸟氨酸@mito-matrix"
-     ]
-    },
-    {
-     "reactionId": "rx332",
-     "pathwayIds": [
-      "urea"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "鸟氨酸@cytosol"
      ]
     },
     {
@@ -58257,6 +58484,18 @@ window.METABOLIC_COMPILED = {
       "urea"
      ],
      "role": "product",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "鸟氨酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx334",
+     "pathwayIds": [
+      "urea"
+     ],
+     "role": "product",
      "source": "equation",
      "compartment": "线粒体基质",
      "entityIds": [
@@ -58264,7 +58503,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx334",
+     "reactionId": "rx335",
      "pathwayIds": [
       "urea"
      ],
@@ -58276,7 +58515,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx334",
+     "reactionId": "rx335",
      "pathwayIds": [
       "urea"
      ],
@@ -58300,24 +58539,12 @@ window.METABOLIC_COMPILED = {
     "urea"
    ],
    "reactionIds": [
-    "rx328",
     "rx329",
     "rx330",
-    "rx331"
+    "rx331",
+    "rx332"
    ],
    "occurrences": [
-    {
-     "reactionId": "rx328",
-     "pathwayIds": [
-      "urea"
-     ],
-     "role": "product",
-     "source": "endpoint",
-     "compartment": "细胞质",
-     "entityIds": [
-      "精氨代琥珀酸@cytosol"
-     ]
-    },
     {
      "reactionId": "rx329",
      "pathwayIds": [
@@ -58335,7 +58562,7 @@ window.METABOLIC_COMPILED = {
      "pathwayIds": [
       "urea"
      ],
-     "role": "substrate",
+     "role": "product",
      "source": "endpoint",
      "compartment": "细胞质",
      "entityIds": [
@@ -58344,6 +58571,18 @@ window.METABOLIC_COMPILED = {
     },
     {
      "reactionId": "rx331",
+     "pathwayIds": [
+      "urea"
+     ],
+     "role": "substrate",
+     "source": "endpoint",
+     "compartment": "细胞质",
+     "entityIds": [
+      "精氨代琥珀酸@cytosol"
+     ]
+    },
+    {
+     "reactionId": "rx332",
      "pathwayIds": [
       "urea"
      ],
@@ -58367,14 +58606,14 @@ window.METABOLIC_COMPILED = {
     "urea"
    ],
    "reactionIds": [
-    "rx330",
     "rx331",
     "rx332",
-    "rx333"
+    "rx333",
+    "rx334"
    ],
    "occurrences": [
     {
-     "reactionId": "rx330",
+     "reactionId": "rx331",
      "pathwayIds": [
       "urea"
      ],
@@ -58386,7 +58625,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx331",
+     "reactionId": "rx332",
      "pathwayIds": [
       "urea"
      ],
@@ -58396,7 +58635,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx332",
+     "reactionId": "rx333",
      "pathwayIds": [
       "urea"
      ],
@@ -58408,7 +58647,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx333",
+     "reactionId": "rx334",
      "pathwayIds": [
       "urea"
      ],
@@ -58432,12 +58671,12 @@ window.METABOLIC_COMPILED = {
     "urea"
    ],
    "reactionIds": [
-    "rx332",
-    "rx333"
+    "rx333",
+    "rx334"
    ],
    "occurrences": [
     {
-     "reactionId": "rx332",
+     "reactionId": "rx333",
      "pathwayIds": [
       "urea"
      ],
@@ -58447,7 +58686,7 @@ window.METABOLIC_COMPILED = {
      "entityIds": []
     },
     {
-     "reactionId": "rx333",
+     "reactionId": "rx334",
      "pathwayIds": [
       "urea"
      ],
@@ -58471,12 +58710,12 @@ window.METABOLIC_COMPILED = {
     "uronic"
    ],
    "reactionIds": [
-    "rx336",
-    "rx337"
+    "rx337",
+    "rx338"
    ],
    "occurrences": [
     {
-     "reactionId": "rx336",
+     "reactionId": "rx337",
      "pathwayIds": [
       "uronic"
      ],
@@ -58488,7 +58727,7 @@ window.METABOLIC_COMPILED = {
      ]
     },
     {
-     "reactionId": "rx337",
+     "reactionId": "rx338",
      "pathwayIds": [
       "uronic"
      ],
@@ -58512,11 +58751,11 @@ window.METABOLIC_COMPILED = {
     "vlcfa"
    ],
    "reactionIds": [
-    "rx339"
+    "rx340"
    ],
    "occurrences": [
     {
-     "reactionId": "rx339",
+     "reactionId": "rx340",
      "pathwayIds": [
       "vlcfa"
      ],
@@ -58526,6 +58765,30 @@ window.METABOLIC_COMPILED = {
      "entityIds": [
       "VLCFA-CoA@peroxisome"
      ]
+    }
+   ]
+  },
+  {
+   "key": "缩短酰基肉碱→缩短脂酰-COA",
+   "name": "缩短酰基肉碱 → 缩短脂酰-CoA",
+   "aliases": [],
+   "entityIds": [],
+   "pathwayIds": [
+    "vlcfa"
+   ],
+   "reactionIds": [
+    "rx344"
+   ],
+   "occurrences": [
+    {
+     "reactionId": "rx344",
+     "pathwayIds": [
+      "vlcfa"
+     ],
+     "role": "product",
+     "source": "equation",
+     "compartment": "过氧化物酶体",
+     "entityIds": []
     }
    ]
   }
@@ -58643,10 +58906,10 @@ window.METABOLIC_COMPILED = {
    }
   },
   "aa_carbon": {
-   "丙氨酸/丝氨酸/甘氨酸/半胱氨酸@cytosol": {
+   "丙氨酸/半胱氨酸/甘氨酸/丝氨酸/苏氨酸/色氨酸@cytosol": {
     "x": 220,
     "y": 400,
-    "labelSide": "left",
+    "labelSide": "below",
     "labelLocked": true
    },
    "丙酮酸@cytosol": {
@@ -58679,45 +58942,51 @@ window.METABOLIC_COMPILED = {
     "labelSide": "right",
     "labelLocked": true
    },
-   "亮氨酸/赖氨酸等@mito-matrix": {
-    "x": 420,
-    "y": 735,
+   "异亮氨酸/亮氨酸/苏氨酸/色氨酸@mito-matrix": {
+    "x": 450,
+    "y": 718,
     "labelSide": "left",
     "labelLocked": true
    },
    "乙酰辅酶 A@mito-matrix": {
-    "x": 650,
-    "y": 720,
+    "x": 690,
+    "y": 718,
     "labelSide": "right",
     "labelLocked": true
    },
+   "亮氨酸/赖氨酸/苯丙氨酸/酪氨酸/色氨酸@mito-matrix": {
+    "x": 450,
+    "y": 765,
+    "labelSide": "left",
+    "labelLocked": true
+   },
    "乙酰乙酰辅酶 A@mito-matrix": {
-    "x": 720,
-    "y": 775,
+    "x": 690,
+    "y": 765,
     "labelSide": "right",
     "labelLocked": true
    },
    "谷氨酸/谷氨酰胺/精氨酸/脯氨酸/组氨酸@mito-matrix": {
-    "x": 420,
-    "y": 810,
+    "x": 450,
+    "y": 812,
     "labelSide": "left",
     "labelLocked": true
    },
    "α-酮戊二酸@mito-matrix": {
-    "x": 650,
-    "y": 815,
+    "x": 690,
+    "y": 812,
     "labelSide": "right",
     "labelLocked": true
    },
    "缬氨酸/异亮氨酸/蛋氨酸/苏氨酸@mito-matrix": {
     "x": 500,
-    "y": 855,
+    "y": 857,
     "labelSide": "left",
     "labelLocked": true
    },
    "琥珀酰辅酶 A@mito-matrix": {
     "x": 720,
-    "y": 855,
+    "y": 857,
     "labelSide": "right",
     "labelLocked": true
    }
@@ -58753,7 +59022,7 @@ window.METABOLIC_COMPILED = {
     "y": 532,
     "labelSide": "left"
    },
-   "儿茶酚胺@cytosol": {
+   "多巴胺@cytosol": {
     "x": 612,
     "y": 470,
     "labelSide": "below"
@@ -59082,22 +59351,16 @@ window.METABOLIC_COMPILED = {
    }
   },
   "etc": {
-   "ADP@mito-matrix": {
-    "x": 475,
+   "NADH@mito-matrix": {
+    "x": 330,
     "y": 825,
     "labelSide": "above",
     "labelLocked": true
    },
-   "无机磷酸@mito-matrix": {
-    "x": 535,
-    "y": 885,
+   "琥珀酸@mito-matrix": {
+    "x": 430,
+    "y": 875,
     "labelSide": "below",
-    "labelLocked": true
-   },
-   "ATP@mito-matrix": {
-    "x": 855,
-    "y": 850,
-    "labelSide": "right",
     "labelLocked": true
    },
    "氧@mito-matrix": {
@@ -59110,12 +59373,6 @@ window.METABOLIC_COMPILED = {
     "x": 690,
     "y": 885,
     "labelSide": "right",
-    "labelLocked": true
-   },
-   "NADH@mito-matrix": {
-    "x": 330,
-    "y": 825,
-    "labelSide": "above",
     "labelLocked": true
    },
    "复合体 I@mito-inner-membrane": {
@@ -59148,22 +59405,16 @@ window.METABOLIC_COMPILED = {
     "labelSide": "above",
     "labelLocked": true
    },
-   "质子动力势@mito-inner-membrane": {
-    "x": 795,
-    "y": 730,
-    "labelSide": "below",
-    "labelLocked": true
-   },
-   "ATP 合酶@mito-inner-membrane": {
-    "x": 875,
-    "y": 730,
-    "labelSide": "above",
-    "labelLocked": true
-   },
    "复合体 IV@mito-inner-membrane": {
     "x": 715,
     "y": 730,
     "labelSide": "above",
+    "labelLocked": true
+   },
+   "质子动力势@mito-inner-membrane": {
+    "x": 795,
+    "y": 730,
+    "labelSide": "below",
     "labelLocked": true
    },
    "细胞色素 c@mito-ims": {
@@ -59663,22 +59914,22 @@ window.METABOLIC_COMPILED = {
     "y": 565,
     "labelSide": "above"
    },
-   "UDP-葡萄糖@rough-er": {
+   "多萜醇焦磷酸连接寡糖@rough-er": {
     "x": 1255,
     "y": 368,
     "labelSide": "right"
    },
-   "糖基化蛋白@rough-er": {
+   "N-糖基化蛋白@rough-er": {
     "x": 1255,
     "y": 542,
     "labelSide": "left"
    },
-   "糖基化蛋白@golgi": {
+   "N-糖基化蛋白@golgi": {
     "x": 1205,
     "y": 805,
     "labelSide": "right"
    },
-   "糖基化蛋白@extracellular": {
+   "N-糖基化蛋白@extracellular": {
     "x": 800,
     "y": 95,
     "labelSide": "above"
@@ -59903,10 +60154,10 @@ window.METABOLIC_COMPILED = {
     "y": 690,
     "labelSide": "right"
    },
-   "胆固醇@cytosol": {
-    "x": 420,
-    "y": 470,
-    "labelSide": "above"
+   "胆固醇@smooth-er": {
+    "x": 1390,
+    "y": 500,
+    "labelSide": "right"
    }
   },
   "lysosomal": {
@@ -60530,17 +60781,27 @@ window.METABOLIC_COMPILED = {
     "labelSide": "right"
    },
    "UDP@cytosol": {
-    "x": 420,
-    "y": 610,
-    "labelSide": "below"
-   },
-   "dUDP@cytosol": {
     "x": 540,
     "y": 610,
     "labelSide": "below"
    },
-   "dTMP@cytosol": {
+   "dUDP@cytosol": {
     "x": 660,
+    "y": 610,
+    "labelSide": "below"
+   },
+   "dUTP@cytosol": {
+    "x": 700,
+    "y": 590,
+    "labelSide": "right"
+   },
+   "dUMP@cytosol": {
+    "x": 310,
+    "y": 610,
+    "labelSide": "below"
+   },
+   "dTMP@cytosol": {
+    "x": 420,
     "y": 610,
     "labelSide": "below"
    }
@@ -60709,25 +60970,10 @@ window.METABOLIC_COMPILED = {
    }
   },
   "steroid_bile": {
-   "胆固醇@smooth-er": {
-    "x": 1347,
-    "y": 416,
-    "labelSide": "right"
-   },
-   "胆汁酸@smooth-er": {
-    "x": 1330,
-    "y": 576,
-    "labelSide": "left"
-   },
-   "维生素D@smooth-er": {
-    "x": 1370,
-    "y": 584,
-    "labelSide": "right"
-   },
-   "类固醇激素@smooth-er": {
-    "x": 1433,
-    "y": 500,
-    "labelSide": "right"
+   "胆固醇@cytosol": {
+    "x": 420,
+    "y": 470,
+    "labelSide": "above"
    },
    "胆固醇@mito-inner-membrane": {
     "x": 407,
@@ -60738,6 +60984,31 @@ window.METABOLIC_COMPILED = {
     "x": 733,
     "y": 720,
     "labelSide": "above"
+   },
+   "胆固醇@smooth-er": {
+    "x": 1348,
+    "y": 405,
+    "labelSide": "right"
+   },
+   "胆汁酸@smooth-er": {
+    "x": 1347,
+    "y": 488,
+    "labelSide": "left"
+   },
+   "7-脱氢胆固醇@smooth-er": {
+    "x": 1432,
+    "y": 405,
+    "labelSide": "right"
+   },
+   "维生素D3@smooth-er": {
+    "x": 1433,
+    "y": 488,
+    "labelSide": "left"
+   },
+   "类固醇激素@smooth-er": {
+    "x": 1347,
+    "y": 554,
+    "labelSide": "right"
    }
   },
   "sulfur": {

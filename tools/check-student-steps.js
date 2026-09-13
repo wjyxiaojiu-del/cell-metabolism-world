@@ -23,6 +23,18 @@ const result = resolver.auditPathways({
   routeGroups
 });
 
+function reactionGroups(reaction) {
+  if (Array.isArray(reaction.groups)) return reaction.groups;
+  return reaction.group ? [reaction.group] : [];
+}
+
+const etcOxphosLeaks = compiled.reactions.filter(reaction => {
+  if (!reactionGroups(reaction).includes('etc')) return false;
+  return /ATP\s*合酶/.test(reaction.enzyme || '')
+    || /^ATP@/.test(reaction.from || '')
+    || /^ATP@/.test(reaction.to || '');
+});
+
 console.log('=== 学习步骤链接检查 ===');
 console.log(`步骤 ${result.total}：代谢物 ${result.metabolite}，酶/载体 ${result.enzyme}，过程 ${result.process}`);
 if (result.missing.length) {
@@ -31,4 +43,14 @@ if (result.missing.length) {
   process.exitCode = 1;
 } else {
   console.log('无法交互: 0（全部步骤均链接到实体或反应）');
+}
+
+if (etcOxphosLeaks.length) {
+  console.log(`电子传递链边界泄漏 ${etcOxphosLeaks.length} 条（必须修）:`);
+  etcOxphosLeaks.forEach(reaction => {
+    console.log(`  ✗ ${reaction.id} ${reaction.from} → ${reaction.to} · ${reaction.enzyme}`);
+  });
+  process.exitCode = 1;
+} else {
+  console.log('电子传递链边界: 通过（ATP 合成仅归入氧化磷酸化）');
 }

@@ -38,7 +38,8 @@ test('all learning steps link to a metabolite or a representative reaction', asy
         if (rectBox.x < viewBox.x || rectBox.y < viewBox.y
           || rectBox.x + rectBox.width > viewBox.x + viewBox.width
           || rectBox.y + rectBox.height > viewBox.y + viewBox.height) {
-          failures.push(`${id}:节点:${node.getAttribute('aria-label')}`);
+          const identity = node.getAttribute('aria-label') || node.getAttribute('data-map-key') || '未命名节点';
+          failures.push(`${id}:节点:${identity}:${Math.round(rectBox.x)},${Math.round(rectBox.y)},${Math.round(rectBox.width)},${Math.round(rectBox.height)}`);
         }
       });
       return failures;

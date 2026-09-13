@@ -181,9 +181,10 @@ test('mechanism routes keep reaction, cofactor and transporter arrows visually d
   });
   expect(audit.main).toBeGreaterThan(0);
   expect(audit.cofactor).toBeGreaterThan(0);
-  expect(audit.transporter).toBe(0);
+  expect(audit.transporter).toBeGreaterThan(0);
   expect(audit.underlayCount).toBe(audit.main + audit.cofactor + audit.transporter);
   expect(audit.markerKinds).toEqual({ main: true, cofactor: true, transporter: true });
+  expect(audit.transporterDash).not.toBe('none');
   expect(audit.cofactorDash).not.toBe('none');
 });
 
@@ -265,10 +266,15 @@ test('level-4 step lists contain only the selected pathway own reactions', async
         const groups = Array.isArray(reaction.group) ? reaction.group : String(reaction.group || '').split(/[\s,]+/);
         return groups.includes(id);
       }).length;
-      return { rendered: steps.length, ownCount };
+      const represented = new Set(steps.flatMap(step => [
+        step.dataset.reaction,
+        ...String(step.dataset.reactionAliases || '').split(/\s+/)
+      ].filter(Boolean))).size;
+      return { rendered: steps.length, represented, ownCount };
     }, pathwayId);
     expect(audit.rendered).toBeGreaterThan(0);
-    expect(audit.rendered).toBe(audit.ownCount);
+    expect(audit.represented).toBe(audit.ownCount);
+    if (pathwayId === 'malate_aspartate') expect(audit.rendered).toBe(6);
     await page.locator('#sceneBack').click();
     await page.waitForTimeout(350);
   }
@@ -388,6 +394,9 @@ test('inner-membrane pathway points open only inside the inner-membrane layer', 
   await expect(page.locator('#sceneExpertOverlayLayer .overlay-schematic-etc')).toHaveCount(1);
   await expect(page.locator('#sceneExpertOverlayLayer')).toContainText('复合体 IV');
   await expect(page.locator('#sceneExpertOverlayLayer')).toContainText('O₂');
+  await expect(page.locator('#sceneExpertOverlayLayer')).toContainText('琥珀酸脱氢 · 酶内 FAD');
+  await expect(page.locator('#sceneExpertOverlayLayer')).not.toContainText('FADH₂ 入口');
+  await expect(page.locator('#sceneExpertOverlayLayer')).not.toContainText('ATP 合酶');
   await page.screenshot({ path: 'output/playwright/etc-premium-sample-v2-local.png' });
   expect(errors.consoleErrors).toEqual([]);
   expect(errors.pageErrors).toEqual([]);
@@ -443,7 +452,7 @@ test('pathway-first expert flow separates pathway overview, mechanism and single
   await page.setViewportSize({ width: 1194, height: 834 });
   await enterExpertMap(page);
 
-  await expect(page.locator('#pathNote')).toContainText('第 1 层');
+  await expect(page.locator('#pathNote')).toContainText('完整细胞');
   await expect(page.locator('body')).not.toHaveClass(/scene-open/);
   await page.locator('.path-filter[data-path="tca"]').click();
   await expect(page.locator('#expertPathPreview')).toBeVisible();
@@ -452,17 +461,16 @@ test('pathway-first expert flow separates pathway overview, mechanism and single
   await page.locator('#expertPathPreview').click();
 
   await expect(page.locator('#sceneDeck')).toHaveAttribute('data-scene-level', '3');
-  await expect(page.locator('#sceneLevelHint')).toContainText('第 3 层');
-  await expect(page.locator('#sceneSubtitle')).toContainText('第 3 层');
-  await expect(page.locator('#sceneSubtitle')).toContainText('通路机制图');
+  await expect(page.locator('#sceneLevelHint')).toContainText('通路机制');
+  await expect(page.locator('#sceneSubtitle')).toContainText('通路机制');
+  await expect(page.locator('#sceneSubtitle')).toContainText('线粒体基质');
   await expect(page.locator('#sceneTitle')).toHaveText('三羧酸循环');
   await expect(page.locator('#scopeExchange .scene-reaction-step').first()).toBeVisible();
   await expect(page.locator('#scopeTransport')).toContainText('查看区室结构');
 
   await page.locator('#scopeExchange .scene-reaction-step').first().click();
   await expect(page.locator('#sceneDeck')).toHaveAttribute('data-scene-level', '4');
-  await expect(page.locator('#sceneSubtitle')).toContainText('第 4 层');
-  await expect(page.locator('#sceneSubtitle')).toContainText('单步反应');
+  await expect(page.locator('#sceneSubtitle')).toHaveText('单步反应');
   await expect(page.locator('#inspector')).toHaveClass(/open/);
   await expect(page.locator('#sceneBack')).toContainText('返回通路机制图');
   const levelFourLayout = await page.evaluate(() => {
@@ -509,7 +517,7 @@ test('cyclic pathways use real closed reaction routes inside their scene image',
   expect(ureaState.schematic).toBe(true);
   expect(ureaState.routes).toBeGreaterThanOrEqual(10);
   expect(new Set(ureaState.nodes).size).toBeGreaterThan(6);
-  expect(ureaState.labels).toContain('CPS I');
+  expect(ureaState.labels).toContain('CPS1');
   expect(ureaState.labels).toContain('尿素');
   expect(ureaState.background).toMatch(/04-cytoplasm-mito-interface\.webp/);
   expect(ureaState.labels).toContain('ORNT1');
@@ -551,11 +559,15 @@ test('cyclic pathways use real closed reaction routes inside their scene image',
   const shuttleState = await page.locator('#sceneExpertOverlayLayer').evaluate(layer => ({
     routes: layer.querySelectorAll('.schematic-route').length,
     nodes: [...layer.querySelectorAll('.schematic-label')].map(node => node.textContent),
+    zones: [...layer.querySelectorAll('[data-mas-zone]')].map(node => node.getAttribute('data-mas-zone')),
+    reactionRows: document.querySelectorAll('#scopeExchange .scene-reaction-step').length,
     background: document.querySelector('#sceneBackground')?.getAttribute('src')
   }));
   expect(shuttleState.routes).toBeGreaterThanOrEqual(6);
-  expect(shuttleState.nodes.length).toBeGreaterThan(5);
-  expect(new Set(shuttleState.nodes)).toEqual(new Set(['草酰乙酸', '苹果酸', '天冬氨酸']));
+  expect(shuttleState.nodes.length).toBeGreaterThan(9);
+  expect(new Set(shuttleState.nodes)).toEqual(new Set(['草酰乙酸', '苹果酸', 'α-KG', '天冬氨酸', '谷氨酸']));
+  expect(shuttleState.zones).toEqual(['cytosol', 'transport', 'matrix', 'net']);
+  expect(shuttleState.reactionRows).toBe(6);
   expect(shuttleState.background).toMatch(/26-etc-complexes-detailed\.webp/);
   await page.screenshot({ path: 'output/playwright/malate-aspartate-premium-sample-v2-local.png' });
 
@@ -565,7 +577,8 @@ test('cyclic pathways use real closed reaction routes inside their scene image',
   await openScenePathway(page, 'glycerol_phosphate');
   await expect(page.locator('#sceneExpertOverlayLayer .overlay-schematic-glycerol_phosphate')).toHaveCount(1);
   await expect(page.locator('#sceneExpertOverlayLayer .overlay-schematic-malate_aspartate')).toHaveCount(0);
-  await expect(page.locator('#sceneExpertOverlayLayer')).toContainText('本穿梭不把 NADH 本身送入基质');
+  await expect(page.locator('#sceneExpertOverlayLayer')).toContainText('NADH 不跨膜 · 不生成基质 NADH');
+  await expect(page.locator('#sceneExpertOverlayLayer')).toContainText('绕过复合体 I · CoQH₂ → 复合体 III');
   await page.screenshot({ path: 'output/playwright/glycerol-phosphate-premium-sample-v2-local.png' });
   expect(errors.consoleErrors).toEqual([]);
   expect(errors.pageErrors).toEqual([]);
@@ -583,6 +596,9 @@ test('TCA pathway uses a dedicated textbook mechanism overlay on the matrix imag
   const tcaState = await page.locator('#sceneExpertOverlayLayer').evaluate(layer => ({
     schematic: Boolean(layer.querySelector('.overlay-schematic-tca')),
     nodeCount: layer.querySelectorAll('.overlay-schematic-tca .schematic-node').length,
+    zones: [...layer.querySelectorAll('.overlay-schematic-tca [data-tca-zone]')]
+      .map(node => node.getAttribute('data-tca-zone')),
+    reactionRows: document.querySelectorAll('#scopeExchange .scene-reaction-step').length,
     labels: layer.textContent,
     background: document.querySelector('#sceneBackground')?.getAttribute('src'),
     visibleLanes: [...document.querySelectorAll('.scene-route-lane')]
@@ -592,10 +608,13 @@ test('TCA pathway uses a dedicated textbook mechanism overlay on the matrix imag
 
   expect(tcaState.schematic).toBe(true);
   expect(tcaState.nodeCount).toBe(9);
+  expect(tcaState.zones).toEqual(['cycle', 'yield']);
+  expect(tcaState.reactionRows).toBe(8);
   expect(tcaState.labels).toContain('柠檬酸');
-  expect(tcaState.labels).toContain('α-KGDH');
-  expect(tcaState.labels).toContain('NADH');
-  expect(tcaState.labels).toContain('FADH₂');
+  expect(tcaState.labels).toContain('OGDH');
+  expect(tcaState.labels).toContain('3 NADH');
+  expect(tcaState.labels).toContain('酶内 FAD → CoQH₂');
+  expect(tcaState.labels).not.toContain('FADH₂');
   expect(tcaState.labels).toContain('GTP');
   expect(tcaState.background).toMatch(/25-mitochondrial-matrix-detailed\.webp/);
   expect(tcaState.visibleLanes).toBe(0);
@@ -604,7 +623,7 @@ test('TCA pathway uses a dedicated textbook mechanism overlay on the matrix imag
   expect(errors.pageErrors).toEqual([]);
 });
 
-test('PDH pathway shows E1-E2-E3 cofactor handoff on the matrix image', async ({ page }) => {
+test('PDH pathway shows membrane entry before the E1-E2-E3 cofactor handoff', async ({ page }) => {
   const errors = watchRuntimeErrors(page);
   await page.setViewportSize({ width: 1280, height: 900 });
   await enterExpertMap(page);
@@ -616,7 +635,8 @@ test('PDH pathway shows E1-E2-E3 cofactor handoff on the matrix image', async ({
   const pdhState = await page.locator('#sceneExpertOverlayLayer').evaluate(layer => ({
     schematic: Boolean(layer.querySelector('.overlay-schematic-pdh')),
     nodes: layer.querySelectorAll('.overlay-schematic-pdh .schematic-node').length,
-    enzymeNodes: layer.querySelectorAll('.overlay-schematic-pdh .schematic-enzyme-node').length,
+    zones: [...layer.querySelectorAll('.overlay-schematic-pdh [data-pdh-zone]')]
+      .map(node => node.getAttribute('data-pdh-zone')),
     labels: layer.textContent,
     background: document.querySelector('#sceneBackground')?.getAttribute('src'),
     genericCompartmentLabel: [...layer.querySelectorAll('.schematic-compartment-title')]
@@ -624,13 +644,16 @@ test('PDH pathway shows E1-E2-E3 cofactor handoff on the matrix image', async ({
   }));
 
   expect(pdhState.schematic).toBe(true);
-  expect(pdhState.nodes).toBe(4);
-  expect(pdhState.enzymeNodes).toBe(3);
-  expect(pdhState.labels).toContain('E1 · 脱羧酶');
-  expect(pdhState.labels).toContain('E2 · 转乙酰酶');
-  expect(pdhState.labels).toContain('E3 · 脱氢酶');
+  expect(pdhState.nodes).toBe(14);
+  expect(pdhState.zones).toEqual(['transport', 'complex']);
+  expect(pdhState.labels).toContain('VDAC');
+  expect(pdhState.labels).toContain('MPC1/2');
+  expect(pdhState.labels).toContain('E1 · TPP');
+  expect(pdhState.labels).toContain('E2 · 硫辛酰胺');
+  expect(pdhState.labels).toContain('E3 · FAD');
   expect(pdhState.labels).toContain('TPP');
-  expect(pdhState.labels).toContain('FAD → FADH₂');
+  expect(pdhState.labels).toContain('CoA-SH');
+  expect(pdhState.labels).toContain('NAD⁺');
   expect(pdhState.labels).toContain('NADH + H⁺');
   expect(pdhState.background).toMatch(/04-cytoplasm-mito-interface\.webp/);
   expect(pdhState.genericCompartmentLabel).toEqual([]);
@@ -656,15 +679,17 @@ test('beta oxidation shows the four textbook reactions and the two-carbon split'
   }));
 
   expect(betaState.schematic).toBe(true);
-  expect(betaState.nodes).toBe(6);
-  expect(betaState.routes).toBeGreaterThanOrEqual(6);
+  expect(betaState.nodes).toBeGreaterThanOrEqual(14);
+  expect(betaState.routes).toBeGreaterThanOrEqual(12);
   expect(betaState.labels).toContain('脂酰-CoA 脱氢酶');
   expect(betaState.labels).toContain('烯酰-CoA 水合酶');
   expect(betaState.labels).toContain('β-羟脂酰-CoA 脱氢酶');
   expect(betaState.labels).toContain('β-酮硫解酶');
-  expect(betaState.labels).toContain('FAD → FADH₂');
+  expect(betaState.labels).toContain('酶内 FAD → ETF → ETF:QO → CoQ');
   expect(betaState.labels).toContain('NAD⁺ → NADH + H⁺');
-  expect(betaState.labels).toContain('缩短 2C，进入下一轮');
+  expect(betaState.labels).toContain('缩短 2C，返回下一轮');
+  expect(betaState.labels).toContain('7 轮 → 8 乙酰-CoA + 7 NADH + 7 对电子进入 CoQ');
+  expect(betaState.labels).toContain('β-氧化本身不直接产生 ATP');
   expect(betaState.background).toMatch(/25-mitochondrial-matrix-detailed\.webp/);
   expect(errors.consoleErrors).toEqual([]);
   expect(errors.pageErrors).toEqual([]);
@@ -698,8 +723,14 @@ test('remaining core pathways each open their own bottom-image mechanism page', 
     }
     if (pathwayId === 'gluconeogenesis') {
       const g6pase = page.locator('.overlay-schematic-gluconeogenesis [data-role="g6pase-er"]');
-      await expect(g6pase).toHaveAttribute('cx', '27');
-      await expect(g6pase).toHaveAttribute('cy', '32');
+      await expect(g6pase).toContainText('葡萄糖-6-磷酸酶');
+      const g6paseInsideEr = await page.locator('.overlay-schematic-gluconeogenesis').evaluate(root => {
+        const zone = root.querySelector('[data-gluconeogenesis-zone="er"]').getBoundingClientRect();
+        const label = root.querySelector('[data-role="g6pase-er"]').getBoundingClientRect();
+        return label.left >= zone.left - 1 && label.right <= zone.right + 1
+          && label.top >= zone.top - 1 && label.bottom <= zone.bottom + 1;
+      });
+      expect(g6paseInsideEr).toBe(true);
       const titleInset = await page.locator('.overlay-schematic-gluconeogenesis').evaluate(root => {
         const overlay = root.ownerSVGElement.getBoundingClientRect();
         const title = root.querySelector('[data-role="er-title"]').getBoundingClientRect();
@@ -722,10 +753,12 @@ test('remaining core pathways each open their own bottom-image mechanism page', 
       expect(labelGap).toBeGreaterThanOrEqual(8);
     }
     if (pathwayId === 'fa_synthesis') {
-      const erElongation = page.locator('.overlay-schematic-fa_synthesis [data-role="er-elongation"]');
-      await expect(erElongation).toHaveAttribute('cx', '88');
-      await expect(erElongation).toHaveAttribute('cy', '68');
-      await expect(page.locator('.overlay-schematic-fa_synthesis')).toContainText('乙酰-CoA 引物');
+      const faSynthesis = page.locator('.overlay-schematic-fa_synthesis');
+      for (const zone of ['carbon-export', 'commitment', 'fas-cycle', 'ledger-downstream']) {
+        await expect(faSynthesis.locator(`[data-fa-synthesis-zone="${zone}"]`)).toHaveCount(1);
+      }
+      await expect(faSynthesis).toContainText('乙酰基引物');
+      await expect(faSynthesis).toContainText('ER · ELOVL / SCD');
       await page.screenshot({ path: 'output/playwright/fa_synthesis-premium-sample-v2-local.png' });
     }
     if (pathwayId === 'pyrimidine') {
@@ -761,11 +794,11 @@ test('remaining core pathways each open their own bottom-image mechanism page', 
 test('energy, lipid transport and amino-acid pathways use dedicated organelle mechanisms', async ({ page }) => {
   test.setTimeout(90_000);
   const cases = [
-    ['oxphos', 'mitochondria-inner-membrane', /26-etc-complexes-detailed\.webp/, ['ATP 合酶', 'H⁺回流', 'ANT']],
+    ['oxphos', 'mitochondria-inner-membrane', /19-inner-membrane-proteins\.webp/, ['ATP 合酶', 'H⁺回流', 'ANT']],
     ['carnitine', null, /23-mitochondrion-blueprint\.webp/, ['CPT1', 'CACT', 'CPT2', 'CoA 不跨内膜']],
     ['ketone', 'mitochondria-matrix', /25-mitochondrial-matrix-detailed\.webp/, ['HMG-CoA', '乙酰乙酸', 'SCOT']],
     ['aa_carbon', null, /04-cytoplasm-mito-interface\.webp/, ['7 类中央代谢入口', '乙酰乙酰-CoA', '草酰乙酸']],
-    ['transamination', null, /04-cytoplasm-mito-interface\.webp/, ['ALT / AST', '谷氨酸脱氢酶', 'NH₄⁺']]
+    ['transamination', null, /04-cytoplasm-mito-interface\.webp/, ['ALT / GPT', 'AST / GOT', '谷氨酸脱氢酶', 'NH₄⁺']]
   ];
   await page.setViewportSize({ width: 1280, height: 900 });
   await enterExpertMap(page);
@@ -781,19 +814,25 @@ test('energy, lipid transport and amino-acid pathways use dedicated organelle me
       const anchors = await page.locator('.overlay-schematic-oxphos [data-role]').evaluateAll(nodes => Object.fromEntries(
         nodes.map(node => [node.getAttribute('data-role'), Number(node.getAttribute('cx'))])
       ));
-      expect(anchors).toEqual({ 'atp-synthase': 90, ant: 80, 'phosphate-carrier': 70 });
+      expect(anchors).toEqual({ 'atp-synthase': 90, ant: 74, 'phosphate-carrier': 56 });
       // 叠加层 viewBox 为 0 0 100 100：节点一旦超过 96，居中标签就会被右缘裁掉。
       expect(Object.values(anchors).every(cx => cx >= 4 && cx <= 96)).toBe(true);
       expect(anchors['atp-synthase']).toBeGreaterThan(anchors.ant);
+      expect(anchors.ant - anchors['phosphate-carrier']).toBeGreaterThanOrEqual(14);
+      expect(anchors['atp-synthase'] - anchors.ant).toBeGreaterThanOrEqual(14);
       await page.screenshot({ path: 'output/playwright/oxphos-premium-sample-v2-local.png' });
     }
     if (pathwayId === 'carnitine') {
       const anchors = await page.locator('.overlay-schematic-carnitine [data-role]').evaluateAll(nodes => Object.fromEntries(
         nodes.map(node => [node.getAttribute('data-role'), [Number(node.getAttribute('cx')), Number(node.getAttribute('cy'))]])
       ));
-      expect(anchors).toEqual({ cpt1: [39, 40], cact: [59, 50], cpt2: [78, 58] });
-      expect(anchors.cpt1[0]).toBeLessThan(anchors.cact[0]);
-      expect(anchors.cact[0]).toBeLessThan(anchors.cpt2[0]);
+      expect(anchors.cpt1).toEqual([52, 18]);
+      expect(anchors.vdac).toEqual([50, 38]);
+      expect(anchors.cact).toEqual([50, 54]);
+      expect(anchors.cpt2).toEqual([48, 77]);
+      expect(anchors.cpt1[1]).toBeLessThan(anchors.vdac[1]);
+      expect(anchors.vdac[1]).toBeLessThan(anchors.cact[1]);
+      expect(anchors.cact[1]).toBeLessThan(anchors.cpt2[1]);
       await page.screenshot({ path: 'output/playwright/carnitine-premium-sample-v2-local.png' });
     }
     if (['aa_carbon', 'transamination'].includes(pathwayId)) {
@@ -801,7 +840,11 @@ test('energy, lipid transport and amino-acid pathways use dedicated organelle me
     }
     if (pathwayId === 'ketone') {
       const scot = page.locator('.overlay-schematic-ketone [data-role="scot"]');
-      await expect(scot).toHaveAttribute('cx', '57');
+      await expect(scot).toHaveCount(1);
+      await expect(page.locator('.overlay-schematic-ketone [data-ketone-zone="extrahepatic-ketolysis"]')).toHaveCount(1);
+      const scotY = await scot.getAttribute('cy');
+      expect(Number(scotY)).toBeGreaterThanOrEqual(61);
+      expect(Number(scotY)).toBeLessThanOrEqual(87);
       await expect(page.locator('.overlay-schematic-ketone')).toContainText('肝缺少 SCOT');
       await page.screenshot({ path: 'output/playwright/ketone-premium-sample-v2-local.png' });
     }

@@ -10,9 +10,15 @@
     "icons:build": "python tools/optimize-pathway-icons.py --write",
     "icons:check": "python tools/optimize-pathway-icons.py",
     "stats": "node tools/generate-stats.js --write",
+    "test:stats": "node tools/tests/generate-stats.test.js",
+    "audit:owner-signoff": "node tools/check-owner-signoff.js",
+    "audit:final-owner": "node tools/run-final-owner-audit.js",
+    "test:owner-signoff": "node tests/owner-signoff-audit.test.js",
+    "test:owner-signoff-packet": "node tests/owner-signoff-packet.test.js",
+    "test:final-owner-audit": "node tests/final-owner-audit.test.js",
     "test:data": "node tools/validate.js && node tools/selftest.js && node tools/layout.js && node tools/compile.js --check && node tools/check-cross-consistency.js && node tools/check-student-steps.js && node tools/check-expert-layout.js && python tools/optimize-pathway-icons.py && node tools/check-assets.js && node tools/review-helper.js --check && node tools/generate-stats.js --check",
     "test:ui": "playwright test",
-    "test": "npm run test:data && npm run test:ui"
+    "test": "npm run test:stats && npm run test:data && npm run test:ui"
   },
   "devDependencies": {
     "playwright": "1.62.0"

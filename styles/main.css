@@ -527,13 +527,244 @@ body.scene-open #viewport { opacity: 0; transform: scale(.985); pointer-events: 
 .overlay-schematic .schematic-exchange { fill: #224e77; font: 800 1.42px "Noto Sans SC", sans-serif; paint-order: stroke; stroke: rgba(255,255,255,.94); stroke-width: .48px; }
 .overlay-schematic .schematic-output { fill: #a45e2d; font: 700 1.8px "Noto Sans SC", sans-serif; paint-order: stroke; stroke: rgba(255,255,255,.9); stroke-width: .55px; }
 .overlay-schematic .schematic-note { fill: #45646d; font: 700 1.65px "Noto Sans SC", sans-serif; paint-order: stroke; stroke: rgba(255,255,255,.92); stroke-width: .5px; }
-/* 三羧酸循环的文字必须服务于底图中的真实环路：缩短辅酶标签，
-   把酶名和产物拆开，避免长句覆盖相邻代谢物节点。 */
-.overlay-schematic-tca .schematic-label { font-size: 1.95px; }
-.overlay-schematic-tca .schematic-title { font-size: 2.5px; }
-.overlay-schematic-tca .schematic-enzyme { font-size: 1.3px; }
-.overlay-schematic-tca .schematic-cofactor { font-size: 1.35px; }
-.overlay-schematic-tca .schematic-output { font-size: 1.45px; }
+/* TCA overlay: a compact eight-step cycle plus a separate balance sheet.
+   The photo gives location; these panels carry the readable scientific logic. */
+.overlay-schematic-tca .schematic-label { font-size: 1.7px; font-weight: 900; }
+.overlay-schematic-tca .schematic-title { font-size: 2.2px; }
+.overlay-schematic-tca .schematic-enzyme { font-size: 1.45px; font-weight: 900; }
+.overlay-schematic-tca .schematic-output { font-size: 1.7px; font-weight: 900; }
+.overlay-schematic-tca .schematic-tca-zone {
+  fill: rgba(251, 254, 255, .82);
+  stroke: rgba(54, 105, 122, .55);
+  stroke-width: .5;
+}
+.overlay-schematic-tca .schematic-tca-yield-zone {
+  fill: rgba(255, 249, 230, .9);
+  stroke: rgba(176, 127, 42, .72);
+}
+.overlay-schematic-malate_aspartate .schematic-title { font-size: 2.35px; }
+.overlay-schematic-malate_aspartate .schematic-label,
+.overlay-schematic-malate_aspartate .schematic-node-label { font-size: 2px; font-weight: 900; }
+.overlay-schematic-malate_aspartate .schematic-enzyme,
+.overlay-schematic-malate_aspartate .schematic-cofactor,
+.overlay-schematic-malate_aspartate .schematic-transporter,
+.overlay-schematic-malate_aspartate .schematic-exchange,
+.overlay-schematic-malate_aspartate .schematic-output,
+.overlay-schematic-malate_aspartate .schematic-note { font-size: 1.62px; font-weight: 900; }
+.overlay-schematic-malate_aspartate .schematic-compartment-title { font-size: 1.8px; font-weight: 900; }
+.overlay-schematic-malate_aspartate .schematic-mas-zone {
+  fill: rgba(250, 254, 255, .82);
+  stroke: rgba(49, 94, 138, .55);
+  stroke-width: .42;
+}
+.overlay-schematic-malate_aspartate .schematic-mas-transport-zone {
+  fill: rgba(231, 241, 255, .88);
+  stroke: rgba(49, 94, 138, .76);
+}
+.overlay-schematic-malate_aspartate .schematic-mas-matrix-zone {
+  fill: rgba(240, 250, 244, .86);
+  stroke: rgba(64, 128, 97, .62);
+}
+.overlay-schematic-malate_aspartate .schematic-mas-net-zone {
+  fill: rgba(255, 248, 226, .93);
+  stroke: rgba(175, 126, 34, .72);
+}
+.overlay-schematic-glycerol_phosphate .schematic-title { font-size: 2.3px; }
+.overlay-schematic-glycerol_phosphate .schematic-label,
+.overlay-schematic-glycerol_phosphate .schematic-node-label { font-size: 1.9px; font-weight: 900; }
+.overlay-schematic-glycerol_phosphate .schematic-enzyme,
+.overlay-schematic-glycerol_phosphate .schematic-cofactor,
+.overlay-schematic-glycerol_phosphate .schematic-transporter,
+.overlay-schematic-glycerol_phosphate .schematic-exchange,
+.overlay-schematic-glycerol_phosphate .schematic-output,
+.overlay-schematic-glycerol_phosphate .schematic-note { font-size: 1.55px; font-weight: 900; }
+.overlay-schematic-glycerol_phosphate .schematic-compartment-title { font-size: 1.72px; font-weight: 900; }
+.overlay-schematic-glycerol_phosphate .schematic-gp-zone {
+  fill: rgba(250, 254, 255, .84);
+  stroke: rgba(49, 94, 138, .54);
+  stroke-width: .42;
+}
+.overlay-schematic-glycerol_phosphate .schematic-gp-outer-zone {
+  fill: rgba(229, 239, 248, .9);
+  stroke: rgba(67, 105, 139, .7);
+}
+.overlay-schematic-glycerol_phosphate .schematic-gp-ims-zone {
+  fill: rgba(241, 249, 255, .88);
+  stroke: rgba(63, 121, 153, .68);
+}
+.overlay-schematic-glycerol_phosphate .schematic-gp-inner-zone {
+  fill: rgba(237, 240, 255, .9);
+  stroke: rgba(91, 94, 156, .7);
+}
+.overlay-schematic-glycerol_phosphate .schematic-gp-net-zone {
+  fill: rgba(255, 248, 226, .94);
+  stroke: rgba(175, 126, 34, .72);
+}
+.overlay-schematic-glycolysis .schematic-title { font-size: 2.35px; }
+.overlay-schematic-glycolysis .schematic-label,
+.overlay-schematic-glycolysis .schematic-node-label { font-size: 1.85px; font-weight: 900; }
+.overlay-schematic-glycolysis .schematic-enzyme,
+.overlay-schematic-glycolysis .schematic-cofactor,
+.overlay-schematic-glycolysis .schematic-output,
+.overlay-schematic-glycolysis .schematic-note { font-size: 1.48px; font-weight: 900; }
+.overlay-schematic-glycolysis .schematic-compartment-title { font-size: 1.55px; font-weight: 900; }
+.overlay-schematic-glycolysis .schematic-glycolysis-zone {
+  fill: rgba(250, 254, 255, .83);
+  stroke: rgba(54, 105, 122, .55);
+  stroke-width: .42;
+}
+.overlay-schematic-glycolysis .schematic-gly-investment-zone {
+  fill: rgba(255, 247, 228, .9);
+  stroke: rgba(190, 131, 43, .68);
+}
+.overlay-schematic-glycolysis .schematic-gly-cleavage-zone {
+  fill: rgba(248, 241, 255, .9);
+  stroke: rgba(119, 87, 157, .62);
+}
+.overlay-schematic-glycolysis .schematic-gly-payoff-zone {
+  fill: rgba(239, 250, 244, .88);
+  stroke: rgba(62, 128, 92, .64);
+}
+.overlay-schematic-glycolysis .schematic-gly-net-zone {
+  fill: rgba(255, 249, 226, .94);
+  stroke: rgba(175, 126, 34, .72);
+}
+.overlay-schematic-gluconeogenesis .schematic-title { font-size: 2.35px; }
+.overlay-schematic-gluconeogenesis .schematic-label,
+.overlay-schematic-gluconeogenesis .schematic-node-label { font-size: 1.72px; font-weight: 900; }
+.overlay-schematic-gluconeogenesis .schematic-enzyme,
+.overlay-schematic-gluconeogenesis .schematic-cofactor,
+.overlay-schematic-gluconeogenesis .schematic-transporter,
+.overlay-schematic-gluconeogenesis .schematic-output,
+.overlay-schematic-gluconeogenesis .schematic-note { font-size: 1.34px; font-weight: 900; }
+.overlay-schematic-gluconeogenesis .schematic-compartment-title { font-size: 1.48px; font-weight: 900; }
+.overlay-schematic-gluconeogenesis .schematic-gluconeogenesis-zone {
+  fill: rgba(250, 254, 255, .82);
+  stroke: rgba(54, 105, 122, .56);
+  stroke-width: .42;
+}
+.overlay-schematic-gluconeogenesis .schematic-gng-matrix-zone {
+  fill: rgba(255, 244, 229, .88);
+  stroke: rgba(190, 117, 47, .68);
+}
+.overlay-schematic-gluconeogenesis .schematic-gng-shuttle-zone {
+  fill: rgba(239, 244, 255, .88);
+  stroke: rgba(83, 104, 161, .65);
+}
+.overlay-schematic-gluconeogenesis .schematic-gng-cytosol-zone {
+  fill: rgba(239, 251, 246, .88);
+  stroke: rgba(64, 128, 91, .64);
+}
+.overlay-schematic-gluconeogenesis .schematic-gng-er-zone {
+  fill: rgba(245, 239, 255, .9);
+  stroke: rgba(120, 86, 158, .64);
+}
+.overlay-schematic-gluconeogenesis .schematic-gng-ledger-zone {
+  fill: rgba(255, 249, 225, .94);
+  stroke: rgba(177, 126, 33, .7);
+}
+.overlay-schematic-gluconeogenesis .schematic-gng-bypass {
+  fill: rgba(255, 238, 197, .95);
+  stroke: rgba(195, 111, 37, .88);
+  stroke-width: .35;
+}
+.overlay-schematic-glycogenesis .schematic-title { font-size: 2.35px; }
+.overlay-schematic-glycogenesis .schematic-label,
+.overlay-schematic-glycogenesis .schematic-node-label { font-size: 1.72px; font-weight: 900; }
+.overlay-schematic-glycogenesis .schematic-enzyme,
+.overlay-schematic-glycogenesis .schematic-cofactor,
+.overlay-schematic-glycogenesis .schematic-output,
+.overlay-schematic-glycogenesis .schematic-note { font-size: 1.32px; font-weight: 900; }
+.overlay-schematic-glycogenesis .schematic-compartment-title { font-size: 1.45px; font-weight: 900; }
+.overlay-schematic-glycogenesis .schematic-glycogenesis-zone {
+  fill: rgba(250, 254, 255, .86);
+  stroke: rgba(54, 105, 122, .58);
+  stroke-width: .42;
+}
+.overlay-schematic-glycogenesis .schematic-glycogenesis-activation-zone {
+  fill: rgba(239, 248, 255, .9);
+  stroke: rgba(70, 115, 156, .66);
+}
+.overlay-schematic-glycogenesis .schematic-glycogenesis-primer-zone {
+  fill: rgba(250, 242, 255, .9);
+  stroke: rgba(123, 83, 158, .64);
+}
+.overlay-schematic-glycogenesis .schematic-glycogenesis-elongation-zone {
+  fill: rgba(240, 251, 245, .9);
+  stroke: rgba(62, 128, 92, .64);
+}
+.overlay-schematic-glycogenesis .schematic-glycogenesis-branching-zone {
+  fill: rgba(255, 246, 231, .92);
+  stroke: rgba(190, 122, 45, .68);
+}
+.overlay-schematic-glycogenesis .schematic-glycogenesis-energy-zone {
+  fill: rgba(255, 250, 226, .95);
+  stroke: rgba(175, 126, 34, .72);
+}
+.overlay-schematic-glycogenolysis .schematic-title { font-size: 2.35px; }
+.overlay-schematic-glycogenolysis .schematic-label,
+.overlay-schematic-glycogenolysis .schematic-node-label { font-size: 1.7px; font-weight: 900; }
+.overlay-schematic-glycogenolysis .schematic-enzyme,
+.overlay-schematic-glycogenolysis .schematic-cofactor,
+.overlay-schematic-glycogenolysis .schematic-transporter,
+.overlay-schematic-glycogenolysis .schematic-output,
+.overlay-schematic-glycogenolysis .schematic-note { font-size: 1.3px; font-weight: 900; }
+.overlay-schematic-glycogenolysis .schematic-compartment-title { font-size: 1.44px; font-weight: 900; }
+.overlay-schematic-glycogenolysis .schematic-glycogenolysis-zone { fill: rgba(250,254,255,.87); stroke: rgba(54,105,122,.58); stroke-width: .42; }
+.overlay-schematic-glycogenolysis .schematic-ggl-chain-zone { fill: rgba(239,248,255,.9); stroke: rgba(70,115,156,.66); }
+.overlay-schematic-glycogenolysis .schematic-ggl-debranch-zone { fill: rgba(255,246,231,.92); stroke: rgba(190,122,45,.68); }
+.overlay-schematic-glycogenolysis .schematic-ggl-conversion-zone { fill: rgba(241,251,246,.9); stroke: rgba(62,128,92,.64); }
+.overlay-schematic-glycogenolysis .schematic-ggl-muscle-zone { fill: rgba(250,243,255,.9); stroke: rgba(123,83,158,.64); }
+.overlay-schematic-glycogenolysis .schematic-ggl-liver-zone { fill: rgba(255,250,226,.94); stroke: rgba(175,126,34,.72); }
+.overlay-schematic-ppp .schematic-title { font-size: 2.35px; }
+.overlay-schematic-ppp .schematic-label,
+.overlay-schematic-ppp .schematic-node-label { font-size: 1.7px; font-weight: 900; }
+.overlay-schematic-ppp .schematic-enzyme,
+.overlay-schematic-ppp .schematic-cofactor,
+.overlay-schematic-ppp .schematic-output,
+.overlay-schematic-ppp .schematic-note { font-size: 1.3px; font-weight: 900; }
+.overlay-schematic-ppp .schematic-compartment-title { font-size: 1.44px; font-weight: 900; }
+.overlay-schematic-ppp .schematic-ppp-zone {
+  fill: rgba(250, 254, 255, .87);
+  stroke: rgba(54, 105, 122, .58);
+  stroke-width: .42;
+}
+.overlay-schematic-ppp .schematic-ppp-oxidative-zone { fill: rgba(239,248,255,.91); stroke: rgba(70,115,156,.68); }
+.overlay-schematic-ppp .schematic-ppp-pentose-zone { fill: rgba(250,243,255,.91); stroke: rgba(123,83,158,.66); }
+.overlay-schematic-ppp .schematic-ppp-rearrangement-zone { fill: rgba(241,251,246,.91); stroke: rgba(62,128,92,.66); }
+.overlay-schematic-ppp .schematic-ppp-demand-zone { fill: rgba(255,250,226,.95); stroke: rgba(175,126,34,.74); }
+.overlay-schematic-fa_synthesis .schematic-title { font-size: 2.35px; }
+.overlay-schematic-fa_synthesis .schematic-label,
+.overlay-schematic-fa_synthesis .schematic-node-label { font-size: 1.7px; font-weight: 900; }
+.overlay-schematic-fa_synthesis .schematic-enzyme,
+.overlay-schematic-fa_synthesis .schematic-cofactor,
+.overlay-schematic-fa_synthesis .schematic-transporter,
+.overlay-schematic-fa_synthesis .schematic-output,
+.overlay-schematic-fa_synthesis .schematic-note { font-size: 1.3px; font-weight: 900; }
+.overlay-schematic-fa_synthesis .schematic-compartment-title { font-size: 1.44px; font-weight: 900; }
+.overlay-schematic-fa_synthesis .schematic-fa-zone {
+  fill: rgba(250,254,255,.88);
+  stroke: rgba(54,105,122,.6);
+  stroke-width: .42;
+}
+.overlay-schematic-fa_synthesis .schematic-fa-carbon-zone { fill: rgba(239,248,255,.92); stroke: rgba(70,115,156,.7); }
+.overlay-schematic-fa_synthesis .schematic-fa-commitment-zone { fill: rgba(255,246,231,.93); stroke: rgba(190,122,45,.7); }
+.overlay-schematic-fa_synthesis .schematic-fa-cycle-zone { fill: rgba(241,251,246,.92); stroke: rgba(62,128,92,.68); }
+.overlay-schematic-fa_synthesis .schematic-fa-ledger-zone { fill: rgba(250,243,255,.94); stroke: rgba(123,83,158,.7); }
+.overlay-schematic-fa_synthesis .schematic-inhibition-route { stroke: #9b4c4c; stroke-dasharray: 1.1 .8; }
+.overlay-schematic-fa_synthesis .schematic-cycle-route { stroke: #4c8061; stroke-dasharray: 1.4 .75; }
+.overlay-schematic-carnitine .schematic-carnitine-zone {
+  fill: rgba(250,254,255,.88);
+  stroke: rgba(54,105,122,.62);
+  stroke-width: .42;
+}
+.overlay-schematic-carnitine .schematic-carnitine-cytosol-zone { fill: rgba(239,248,255,.93); stroke: rgba(70,115,156,.72); }
+.overlay-schematic-carnitine .schematic-carnitine-outer-zone { fill: rgba(255,247,232,.94); stroke: rgba(190,122,45,.72); }
+.overlay-schematic-carnitine .schematic-carnitine-inner-zone { fill: rgba(241,251,246,.93); stroke: rgba(62,128,92,.7); }
+.overlay-schematic-carnitine .schematic-carnitine-matrix-zone { fill: rgba(250,243,255,.94); stroke: rgba(123,83,158,.7); }
+.overlay-schematic-carnitine .schematic-carnitine-net-zone { fill: rgba(255,252,235,.96); stroke: rgba(175,126,34,.75); }
+.overlay-schematic-carnitine .schematic-inhibition-route { stroke: #9b4c4c; stroke-dasharray: 1.1 .8; }
+.overlay-schematic-carnitine .schematic-carnitine-return-route { stroke: #6b6a9f; stroke-dasharray: 1.2 .7; }
 .overlay-schematic-pdh .schematic-label { font-size: 1.85px; }
 .overlay-schematic-pdh .schematic-title { font-size: 2.5px; }
 .overlay-schematic-pdh .schematic-enzyme { font-size: 1.35px; }
@@ -541,6 +772,19 @@ body.scene-open #viewport { opacity: 0; transform: scale(.985); pointer-events: 
 .overlay-schematic-pdh .schematic-output { font-size: 1.5px; }
 .overlay-schematic-pdh .schematic-enzyme-node { fill: rgba(231,122,102,.18); stroke: #a7524d; stroke-width: .55; }
 .overlay-schematic-pdh .schematic-cofactor-route { stroke: #6b8c34; stroke-dasharray: 1.35 .85; }
+.overlay-schematic-pdh .schematic-pdh-zone {
+  fill: rgba(251, 254, 255, .78);
+  stroke: rgba(54, 105, 122, .5);
+  stroke-width: .42;
+}
+.overlay-schematic-pdh .schematic-pdh-transport-zone {
+  fill: rgba(232, 245, 253, .82);
+  stroke: rgba(49, 94, 138, .66);
+}
+.overlay-schematic-pdh .schematic-pdh-complex-zone {
+  fill: rgba(255, 249, 236, .84);
+  stroke: rgba(167, 82, 77, .68);
+}
 .overlay-schematic-beta_oxidation .schematic-label { font-size: 1.8px; }
 .overlay-schematic-beta_oxidation .schematic-title { font-size: 2.5px; }
 .overlay-schematic-beta_oxidation .schematic-enzyme { font-size: 1.3px; }
@@ -5562,6 +5806,40 @@ body.student-mode .student-topic-pan .student-topic-lanes-toggle {
   white-space: nowrap;
 }
 
+/* 学习目录可读性：保持紧凑侧栏，但不再使用 9–11px 的正文。 */
+body.student-mode .student-sidebar-toggle-label,
+body.student-mode .student-topic-heading,
+body.student-mode .student-section-label {
+  font-size: 11px;
+  line-height: 1.35;
+}
+body.student-mode .student-topic-card {
+  min-height: 58px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+body.student-mode .student-topic-card strong,
+body.student-mode .lesson-card strong {
+  font-size: 14px;
+  line-height: 1.25;
+}
+body.student-mode .student-topic-card small,
+body.student-mode .lesson-card small {
+  margin-top: 3px;
+  font-size: 11px;
+  line-height: 1.35;
+}
+body.student-mode .student-topic-card b,
+body.student-mode .lesson-card b {
+  font-size: 12px;
+  line-height: 1.25;
+}
+body.student-mode .lesson-card {
+  min-height: 68px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 @media (min-width: 961px) {
   body.student-mode .student-layout.catalog-collapsed {
     grid-template-columns: 44px minmax(0, 1fr);
@@ -6598,6 +6876,1005 @@ body.student-mode .student-map-node.branch-node:focus-visible {
 body.student-mode .student-map-node .node-scene-badge,
 body.student-mode .student-map-node .node-scene-count { display: none !important; }
 body.student-mode .student-map-node:focus-visible rect { outline: none; }
+
+/* ETC learning map: preserve the biological boundary between electron transfer
+   and the ATP-synthase mechanism taught on the following map. */
+body.student-mode .student-map-scientific-frame.is-etc-cropped {
+  /* The source plate's rightmost 20% is ATP synthase.  ETC owns only the
+     electron-transfer section, so the frame uses the remaining 4/5 width. */
+  aspect-ratio: 160 / 117;
+  background: #f8fbff;
+}
+body.student-mode .student-map-scientific-frame.is-etc-cropped img {
+  width: 130%;
+  height: auto;
+  max-width: none;
+  object-fit: initial;
+}
+body.student-mode .student-pathway-map[data-map-layout="etc-electron-flow"] .etc-ims-band {
+  fill: rgba(230, 245, 255, .9);
+  stroke: #c5ddeb;
+}
+body.student-mode .student-pathway-map[data-map-layout="etc-electron-flow"] .etc-membrane-band {
+  fill: rgba(237, 240, 255, .86);
+  stroke: #c9d3ea;
+}
+body.student-mode .student-pathway-map[data-map-layout="etc-electron-flow"] .etc-matrix-band {
+  fill: rgba(255, 252, 243, .92);
+  stroke: #eadfca;
+}
+body.student-mode .student-pathway-map[data-map-layout="etc-electron-flow"] .student-map-edge.proton {
+  stroke: #ed785f;
+  stroke-width: 2.35;
+  stroke-dasharray: 6 5;
+}
+body.student-mode .student-pathway-map[data-map-layout="etc-electron-flow"] .student-map-edge.proton-output {
+  stroke: #d55e53;
+  stroke-width: 3;
+}
+body.student-mode .student-pathway-map[data-map-layout="etc-electron-flow"] .student-map-edge.substrate-input {
+  stroke: #6f83b8;
+  stroke-dasharray: 5 5;
+}
+body.student-mode .student-pathway-map[data-map-layout="etc-electron-flow"] .etc-output-node rect {
+  fill: #fff7e4;
+  stroke: #d7a63f;
+  stroke-width: 2.25;
+}
+body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] .pdh-cytosol-band {
+  fill: rgba(240, 248, 255, .92);
+  stroke: #c8deed;
+}
+body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] .pdh-outer-membrane-band {
+  fill: rgba(225, 235, 244, .94);
+  stroke: #b8cedd;
+}
+body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] .pdh-ims-band {
+  fill: rgba(230, 245, 255, .92);
+  stroke: #c5ddeb;
+}
+body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] .pdh-inner-membrane-band {
+  fill: rgba(237, 240, 255, .9);
+  stroke: #c9d3ea;
+}
+body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] .pdh-matrix-band {
+  fill: rgba(255, 252, 243, .94);
+  stroke: #eadfca;
+}
+body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] .student-map-edge.transport {
+  stroke: #315e8a;
+  stroke-width: 2.35;
+  stroke-dasharray: 6 4;
+}
+body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] .student-map-edge.pdh-cofactor-edge {
+  stroke: #7d9141;
+  stroke-width: 2.1;
+  stroke-dasharray: 5 4;
+}
+body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] .student-map-edge.pdh-product-edge {
+  stroke: #cf775d;
+  stroke-width: 2.5;
+}
+body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] .student-map-edge.pdh-regeneration-edge {
+  stroke: #6f8f62;
+  stroke-width: 2;
+  stroke-dasharray: 7 5;
+}
+body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] .pdh-carrier-node rect {
+  fill: #eef3ff;
+  stroke: #6278b4;
+  stroke-width: 2.1;
+}
+body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] .pdh-enzyme-node rect {
+  fill: #fff0ed;
+  stroke: #d06d62;
+  stroke-width: 2.1;
+}
+body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] .pdh-intermediate-node rect {
+  fill: #f8f2ff;
+  stroke: #8b70b3;
+}
+body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] .pdh-input-node rect {
+  fill: #eff9f5;
+  stroke: #5b9a85;
+}
+body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] .pdh-output-node rect {
+  fill: #fff7df;
+  stroke: #d7a63f;
+  stroke-width: 2;
+}
+body.student-mode .student-pathway-map[data-map-layout="tca-yield-cycle"] .tca-matrix-band {
+  fill: rgba(255, 252, 243, .95);
+  stroke: #eadfca;
+}
+body.student-mode .student-pathway-map[data-map-layout="tca-yield-cycle"] .tca-inner-membrane-band {
+  fill: rgba(235, 241, 255, .94);
+  stroke: #becce3;
+}
+body.student-mode .student-pathway-map[data-map-layout="tca-yield-cycle"] .student-map-edge.tca-carbon-entry {
+  stroke: #d99a27;
+  stroke-width: 2.7;
+}
+body.student-mode .student-pathway-map[data-map-layout="tca-yield-cycle"] .student-map-edge.tca-oxidation-edge {
+  stroke: #cf775d;
+  stroke-width: 2.55;
+}
+body.student-mode .student-pathway-map[data-map-layout="tca-yield-cycle"] .student-map-edge.tca-phosphorylation-edge {
+  stroke: #b78a2d;
+  stroke-width: 2.55;
+}
+body.student-mode .student-pathway-map[data-map-layout="tca-yield-cycle"] .student-map-edge.tca-sdh-edge {
+  stroke: #6177ad;
+  stroke-width: 2.8;
+}
+body.student-mode .student-pathway-map[data-map-layout="tca-yield-cycle"] .student-map-edge.tca-regeneration-edge {
+  stroke: #5f987b;
+  stroke-width: 2.4;
+  stroke-dasharray: 7 5;
+}
+body.student-mode .student-pathway-map[data-map-layout="tca-yield-cycle"] .tca-input-node rect {
+  fill: #fff7df;
+  stroke: #d7a63f;
+  stroke-width: 2.15;
+}
+body.student-mode .student-pathway-map[data-map-layout="tca-yield-cycle"] .tca-regenerated-node rect {
+  fill: #eff9f5;
+  stroke: #5b9a85;
+  stroke-width: 2.15;
+}
+body.student-mode .student-tca-enzyme {
+  fill: #744f31;
+  font-size: 12px;
+  font-weight: 850;
+  paint-order: stroke;
+  stroke: rgba(255,255,255,.95);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  cursor: pointer;
+}
+body.student-mode .student-tca-yield rect {
+  fill: #f3f8eb;
+  stroke: #7d9141;
+  stroke-width: 1.35;
+}
+body.student-mode .student-tca-yield text {
+  fill: #55712b;
+  font-size: 12px;
+  font-weight: 900;
+}
+body.student-mode .student-tca-yield.carbon-output rect {
+  fill: #fff1eb;
+  stroke: #cf775d;
+}
+body.student-mode .student-tca-yield.carbon-output text { fill: #a4523f; }
+body.student-mode .student-tca-yield.energy-output rect {
+  fill: #fff8dd;
+  stroke: #c79b2d;
+}
+body.student-mode .student-tca-yield.energy-output text { fill: #8a691c; }
+body.student-mode .student-tca-yield.membrane-output rect {
+  fill: #eef1ff;
+  stroke: #6476ae;
+  stroke-width: 1.8;
+}
+body.student-mode .student-tca-yield.membrane-output text { fill: #40598e; }
+body.student-mode .student-tca-summary rect {
+  fill: rgba(244, 250, 255, .97);
+  stroke: #91b8cf;
+  stroke-width: 1.8;
+  filter: drop-shadow(0 8px 16px rgba(35, 87, 124, .08));
+}
+body.student-mode .student-tca-summary .summary-kicker {
+  fill: #5d7d8f;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .14em;
+}
+body.student-mode .student-tca-summary .summary-main {
+  fill: #173f50;
+  font-size: 18px;
+  font-weight: 950;
+}
+body.student-mode .student-tca-summary .summary-note {
+  fill: #55717d;
+  font-size: 12px;
+  font-weight: 800;
+}
+body.student-mode .student-pathway-map[data-map-layout="tca-yield-cycle"] .tca-next-pathway rect {
+  fill: rgba(239, 248, 255, .98);
+  stroke: #80aec8;
+}
+body.student-mode .student-pathway-map[data-map-layout="malate-aspartate-cycle"] .mas-cytosol-band {
+  fill: rgba(245, 252, 255, .96);
+  stroke: #c5dde8;
+}
+body.student-mode .student-pathway-map[data-map-layout="malate-aspartate-cycle"] .mas-transport-band {
+  fill: rgba(236, 244, 255, .96);
+  stroke: #9ab7d5;
+  stroke-width: 1.7;
+}
+body.student-mode .student-pathway-map[data-map-layout="malate-aspartate-cycle"] .mas-matrix-band {
+  fill: rgba(246, 252, 248, .97);
+  stroke: #bfd8ca;
+}
+body.student-mode .student-pathway-map[data-map-layout="malate-aspartate-cycle"] .mas-net-band {
+  fill: rgba(255, 249, 231, .97);
+  stroke: #dfc881;
+}
+body.student-mode .student-pathway-map[data-map-layout="malate-aspartate-cycle"] .mas-edge {
+  stroke: #27849a;
+  stroke-width: 2.5;
+}
+body.student-mode .student-pathway-map[data-map-layout="malate-aspartate-cycle"] .mas-edge.transport {
+  stroke: #456aa1;
+  stroke-width: 2.7;
+}
+body.student-mode .student-pathway-map[data-map-layout="malate-aspartate-cycle"] .mas-redox-edge {
+  stroke: #7f9141;
+}
+body.student-mode .student-pathway-map[data-map-layout="malate-aspartate-cycle"] .mas-companion-edge,
+body.student-mode .student-pathway-map[data-map-layout="malate-aspartate-cycle"] .mas-exchange-edge {
+  stroke-dasharray: 7 5;
+}
+body.student-mode .student-pathway-map[data-map-layout="malate-aspartate-cycle"] .mas-carrier-node rect {
+  fill: #eef3ff;
+  stroke: #5e7eaf;
+  stroke-width: 2.2;
+}
+body.student-mode .student-pathway-map[data-map-layout="malate-aspartate-cycle"] .mas-redox-node rect {
+  fill: #f5f9ea;
+  stroke: #839c47;
+}
+body.student-mode .student-pathway-map[data-map-layout="malate-aspartate-cycle"] .mas-companion-node rect {
+  fill: #fff8e9;
+  stroke: #c69c47;
+}
+body.student-mode .student-mas-event {
+  fill: #1c6072;
+  font-size: 13px;
+  font-weight: 950;
+  paint-order: stroke;
+  stroke: rgba(255,255,255,.96);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  cursor: pointer;
+}
+body.student-mode .student-mas-redox-label,
+body.student-mode .student-mas-exchange-label {
+  fill: #66792f;
+  font-size: 12px;
+  font-weight: 900;
+  paint-order: stroke;
+  stroke: rgba(255,255,255,.96);
+  stroke-width: 4px;
+}
+body.student-mode .student-mas-exchange-label { fill: #405f91; }
+body.student-mode .student-mas-summary rect {
+  fill: rgba(255, 253, 244, .99);
+  stroke: #d0ad4f;
+  stroke-width: 1.8;
+  filter: drop-shadow(0 8px 16px rgba(99, 76, 24, .08));
+}
+body.student-mode .student-mas-summary .summary-main {
+  fill: #173f50;
+  font-size: 18px;
+  font-weight: 950;
+}
+body.student-mode .student-mas-summary .summary-note {
+  fill: #5a6d72;
+  font-size: 13px;
+  font-weight: 850;
+}
+body.student-mode .student-pathway-map[data-map-layout="malate-aspartate-cycle"] .mas-next-pathway rect {
+  fill: rgba(239, 248, 255, .99);
+  stroke: #80aec8;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-cytosol-band {
+  fill: rgba(245, 252, 255, .97);
+  stroke: #c5dde8;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-outer-band {
+  fill: rgba(232, 241, 249, .97);
+  stroke: #9fb9cf;
+  stroke-width: 1.7;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-ims-band {
+  fill: rgba(242, 250, 255, .98);
+  stroke: #b2d0df;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-inner-band {
+  fill: rgba(239, 241, 255, .97);
+  stroke: #aeb8dc;
+  stroke-width: 1.7;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-net-band {
+  fill: rgba(255, 249, 231, .98);
+  stroke: #dfc881;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-edge {
+  stroke: #2d8398;
+  stroke-width: 2.5;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-edge.transport {
+  stroke: #456aa1;
+  stroke-width: 2.7;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-redox-edge,
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-flavin-edge {
+  stroke: #768f3f;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-electron-edge {
+  stroke: #a96632;
+  stroke-width: 2.8;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-carrier-node rect {
+  fill: #edf3ff;
+  stroke: #5c7fac;
+  stroke-width: 2.2;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-enzyme-node rect {
+  fill: #f1f3ff;
+  stroke: #706cad;
+  stroke-width: 2.3;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-redox-node rect,
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-flavin-node rect {
+  fill: #f5f9ea;
+  stroke: #839c47;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-q-node rect {
+  fill: #fff4e9;
+  stroke: #bd7b45;
+}
+body.student-mode .student-gp-event {
+  fill: #1c6072;
+  font-size: 13px;
+  font-weight: 950;
+  paint-order: stroke;
+  stroke: rgba(255,255,255,.96);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  cursor: pointer;
+}
+body.student-mode .student-gp-redox-label,
+body.student-mode .student-gp-flavin-label,
+body.student-mode .student-gp-q-label {
+  fill: #66792f;
+  font-size: 12px;
+  font-weight: 900;
+  paint-order: stroke;
+  stroke: rgba(255,255,255,.96);
+  stroke-width: 4px;
+}
+body.student-mode .student-gp-q-label { fill: #9b5c2d; }
+body.student-mode .student-gp-summary rect {
+  fill: rgba(255, 253, 244, .99);
+  stroke: #d0ad4f;
+  stroke-width: 1.8;
+  filter: drop-shadow(0 8px 16px rgba(99, 76, 24, .08));
+}
+body.student-mode .student-gp-summary .summary-main {
+  fill: #173f50;
+  font-size: 18px;
+  font-weight: 950;
+}
+body.student-mode .student-gp-summary .summary-note {
+  fill: #5a6d72;
+  font-size: 13px;
+  font-weight: 850;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] .gp-next-pathway rect {
+  fill: rgba(239, 248, 255, .99);
+  stroke: #80aec8;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycolysis-ten-step"] .gly-investment-band {
+  fill: rgba(255, 249, 235, .98);
+  stroke: #e0c47d;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycolysis-ten-step"] .gly-cleavage-band {
+  fill: rgba(249, 244, 255, .98);
+  stroke: #cbb8df;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycolysis-ten-step"] .gly-payoff-band {
+  fill: rgba(242, 251, 246, .98);
+  stroke: #b8d8c4;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycolysis-ten-step"] .gly-net-band {
+  fill: rgba(255, 249, 231, .98);
+  stroke: #dfc881;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycolysis-ten-step"] .glycolysis-edge {
+  stroke: #2c879c;
+  stroke-width: 2.6;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycolysis-ten-step"] .glycolysis-edge.irreversible {
+  stroke: #cc7a2f;
+  stroke-width: 3.1;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycolysis-ten-step"] .gly-double-node rect {
+  fill: #f0faf4;
+  stroke: #5e9a76;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycolysis-ten-step"] .gly-product-node rect {
+  fill: #fff3e7;
+  stroke: #c77c3b;
+  stroke-width: 2.2;
+}
+body.student-mode .student-glycolysis-event {
+  fill: #226578;
+  font-size: 12.5px;
+  font-weight: 950;
+  paint-order: stroke;
+  stroke: rgba(255,255,255,.96);
+  stroke-width: 4px;
+  cursor: pointer;
+}
+body.student-mode .student-glycolysis-event.irreversible { fill: #a75d24; }
+body.student-mode .student-gly-energy-cost,
+body.student-mode .student-gly-energy-gain,
+body.student-mode .student-gly-double-label {
+  font-size: 12px;
+  font-weight: 900;
+  paint-order: stroke;
+  stroke: rgba(255,255,255,.96);
+  stroke-width: 4px;
+}
+body.student-mode .student-gly-energy-cost { fill: #b46b2e; }
+body.student-mode .student-gly-energy-gain { fill: #4e813f; }
+body.student-mode .student-gly-double-label { fill: #76518f; font-size: 14px; }
+body.student-mode .student-glycolysis-summary rect {
+  fill: rgba(255, 253, 244, .99);
+  stroke: #d0ad4f;
+  stroke-width: 1.8;
+  filter: drop-shadow(0 8px 16px rgba(99, 76, 24, .08));
+}
+body.student-mode .student-glycolysis-summary .summary-main {
+  fill: #173f50;
+  font-size: 18px;
+  font-weight: 950;
+}
+body.student-mode .student-glycolysis-summary .summary-note {
+  fill: #4f783f;
+  font-size: 14px;
+  font-weight: 950;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycolysis-ten-step"] .glycolysis-next-pathway rect {
+  fill: rgba(239, 248, 255, .99);
+  stroke: #80aec8;
+}
+body.student-mode .student-glycolysis-alt-exit rect {
+  fill: rgba(250, 244, 255, .99);
+  stroke: #b6a0cd;
+  stroke-width: 1.8;
+}
+body.student-mode .student-pathway-map[data-map-layout="gluconeogenesis-three-bypass"] .gng-inputs-band {
+  fill: rgba(250, 247, 255, .98);
+  stroke: #cbb9df;
+}
+body.student-mode .student-pathway-map[data-map-layout="gluconeogenesis-three-bypass"] .gng-matrix-band {
+  fill: rgba(255, 247, 235, .98);
+  stroke: #dfbd79;
+}
+body.student-mode .student-pathway-map[data-map-layout="gluconeogenesis-three-bypass"] .gng-shuttle-band {
+  fill: rgba(239, 246, 255, .98);
+  stroke: #9db6d7;
+}
+body.student-mode .student-pathway-map[data-map-layout="gluconeogenesis-three-bypass"] .gng-cytosol-band {
+  fill: rgba(241, 251, 246, .98);
+  stroke: #acd2bb;
+}
+body.student-mode .student-pathway-map[data-map-layout="gluconeogenesis-three-bypass"] .gng-er-band {
+  fill: rgba(250, 244, 255, .98);
+  stroke: #bfa8d5;
+}
+body.student-mode .student-pathway-map[data-map-layout="gluconeogenesis-three-bypass"] .gluconeogenesis-edge {
+  stroke: #2d8398;
+  stroke-width: 2.55;
+}
+body.student-mode .student-pathway-map[data-map-layout="gluconeogenesis-three-bypass"] .gluconeogenesis-edge.irreversible {
+  stroke: #cc7a2f;
+  stroke-width: 3.05;
+}
+body.student-mode .student-pathway-map[data-map-layout="gluconeogenesis-three-bypass"] .gluconeogenesis-node rect {
+  fill: #f9fdff;
+  stroke: #6fa4bd;
+  stroke-width: 1.9;
+}
+body.student-mode .student-gluconeogenesis-entry rect {
+  fill: rgba(255, 255, 255, .98);
+  stroke: #9b83b6;
+  stroke-width: 1.8;
+}
+body.student-mode .student-gluconeogenesis-entry .entry-title {
+  fill: #563d71;
+  font-size: 16px;
+  font-weight: 950;
+}
+body.student-mode .student-gluconeogenesis-entry .entry-route {
+  fill: #6d617a;
+  font-size: 12px;
+  font-weight: 800;
+}
+body.student-mode .student-gluconeogenesis-event {
+  fill: #1f6173;
+  font-size: 12.5px;
+  font-weight: 950;
+  paint-order: stroke;
+  stroke: rgba(255, 255, 255, .97);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  cursor: pointer;
+}
+body.student-mode .student-gluconeogenesis-bypass rect {
+  fill: rgba(255, 242, 209, .98);
+  stroke: #d58a35;
+  stroke-width: 1.8;
+}
+body.student-mode .student-gluconeogenesis-bypass text {
+  fill: #9a551d;
+  font-size: 14px;
+  font-weight: 950;
+}
+body.student-mode .student-gluconeogenesis-ledger rect {
+  fill: rgba(255, 251, 237, .99);
+  stroke: #d7aa45;
+  stroke-width: 2;
+}
+body.student-mode .student-gluconeogenesis-ledger .ledger-main {
+  fill: #244e61;
+  font-size: 17px;
+  font-weight: 950;
+}
+body.student-mode .student-gluconeogenesis-ledger .ledger-note {
+  fill: #647345;
+  font-size: 13px;
+  font-weight: 850;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycogenesis-branched-granule"] .ggs-activation-band {
+  fill: rgba(239, 248, 255, .98);
+  stroke: #a9c8df;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycogenesis-branched-granule"] .ggs-primer-band {
+  fill: rgba(250, 243, 255, .98);
+  stroke: #c9b0dc;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycogenesis-branched-granule"] .ggs-elongation-band {
+  fill: rgba(241, 251, 246, .98);
+  stroke: #afd2bc;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycogenesis-branched-granule"] .ggs-branching-band {
+  fill: rgba(255, 247, 232, .98);
+  stroke: #dfbf83;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycogenesis-branched-granule"] .glycogenesis-edge {
+  stroke: #2d8398;
+  stroke-width: 2.55;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycogenesis-branched-granule"] .glycogenesis-edge.irreversible {
+  stroke: #b46d32;
+  stroke-width: 3;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycogenesis-branched-granule"] .glycogenesis-node rect {
+  fill: #fbfeff;
+  stroke: #6c9fb6;
+  stroke-width: 1.9;
+}
+body.student-mode .student-glycogenesis-event {
+  fill: #1f6173;
+  font-size: 12.5px;
+  font-weight: 950;
+  paint-order: stroke;
+  stroke: rgba(255, 255, 255, .97);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  cursor: pointer;
+}
+body.student-mode .student-glycogenesis-drive,
+body.student-mode .student-glycogenesis-primer-note,
+body.student-mode .student-glycogenesis-end-note {
+  font-size: 13px;
+  font-weight: 950;
+  paint-order: stroke;
+  stroke: rgba(255, 255, 255, .97);
+  stroke-width: 4px;
+}
+body.student-mode .student-glycogenesis-drive { fill: #6d7734; }
+body.student-mode .student-glycogenesis-primer-note { fill: #74508c; }
+body.student-mode .student-glycogenesis-end-note { fill: #9a5a25; }
+body.student-mode .student-glycogenesis-energy rect {
+  fill: rgba(255, 252, 238, .99);
+  stroke: #d6af54;
+  stroke-width: 2;
+}
+body.student-mode .student-glycogenesis-energy .energy-main {
+  fill: #244e61;
+  font-size: 17px;
+  font-weight: 950;
+}
+body.student-mode .student-glycogenesis-energy .energy-note {
+  fill: #647345;
+  font-size: 13px;
+  font-weight: 850;
+}
+body.student-mode .student-pathway-map[data-map-layout="glycogenolysis-debranch-tissue-split"] .ggl-chain-band { fill: rgba(239,248,255,.98); stroke: #a9c8df; }
+body.student-mode .student-pathway-map[data-map-layout="glycogenolysis-debranch-tissue-split"] .ggl-debranch-band { fill: rgba(255,247,232,.98); stroke: #dfbf83; }
+body.student-mode .student-pathway-map[data-map-layout="glycogenolysis-debranch-tissue-split"] .ggl-conversion-band { fill: rgba(241,251,246,.98); stroke: #afd2bc; }
+body.student-mode .student-pathway-map[data-map-layout="glycogenolysis-debranch-tissue-split"] .ggl-fates-band { fill: rgba(250,243,255,.98); stroke: #c9b0dc; }
+body.student-mode .student-pathway-map[data-map-layout="glycogenolysis-debranch-tissue-split"] .glycogenolysis-edge { stroke: #2d8398; stroke-width: 2.55; }
+body.student-mode .student-pathway-map[data-map-layout="glycogenolysis-debranch-tissue-split"] .glycogenolysis-edge.irreversible { stroke: #ad6658; stroke-width: 3; }
+body.student-mode .student-pathway-map[data-map-layout="glycogenolysis-debranch-tissue-split"] .glycogenolysis-node rect { fill: #fbfeff; stroke: #6c9fb6; stroke-width: 1.9; }
+body.student-mode .student-glycogenolysis-event,
+body.student-mode .student-glycogenolysis-note { paint-order: stroke; stroke: rgba(255,255,255,.97); stroke-width: 4px; font-weight: 950; }
+body.student-mode .student-glycogenolysis-event { fill: #1f6173; font-size: 12.5px; }
+body.student-mode .student-glycogenolysis-note { fill: #8a572d; font-size: 13px; }
+body.student-mode .student-pathway-map[data-map-layout="ppp-demand-carbon-balance"] .ppp-oxidative-band { fill: rgba(239,248,255,.98); stroke: #a9c8df; }
+body.student-mode .student-pathway-map[data-map-layout="ppp-demand-carbon-balance"] .ppp-pentose-band { fill: rgba(250,243,255,.98); stroke: #c9b0dc; }
+body.student-mode .student-pathway-map[data-map-layout="ppp-demand-carbon-balance"] .ppp-rearrangement-band { fill: rgba(241,251,246,.98); stroke: #afd2bc; }
+body.student-mode .student-pathway-map[data-map-layout="ppp-demand-carbon-balance"] .ppp-demand-band { fill: rgba(255,250,226,.98); stroke: #d8bf78; }
+body.student-mode .student-pathway-map[data-map-layout="ppp-demand-carbon-balance"] .ppp-edge { stroke: #2d8398; stroke-width: 2.55; }
+body.student-mode .student-pathway-map[data-map-layout="ppp-demand-carbon-balance"] .ppp-edge.irreversible { stroke: #ad6658; stroke-width: 3; }
+body.student-mode .student-pathway-map[data-map-layout="ppp-demand-carbon-balance"] .ppp-edge.reversible { stroke: #62894f; stroke-dasharray: 8 5; }
+body.student-mode .student-pathway-map[data-map-layout="ppp-demand-carbon-balance"] .ppp-node rect { fill: #fbfeff; stroke: #6c9fb6; stroke-width: 1.9; }
+body.student-mode .student-ppp-event,
+body.student-mode .student-ppp-net,
+body.student-mode .student-ppp-balance { paint-order: stroke; stroke: rgba(255,255,255,.97); stroke-width: 4px; font-weight: 950; }
+body.student-mode .student-ppp-event { fill: #1f6173; font-size: 12.5px; cursor: pointer; }
+body.student-mode .student-ppp-net { fill: #8a572d; font-size: 15px; }
+body.student-mode .student-ppp-balance { fill: #38744f; font-size: 16px; }
+body.student-mode .student-ppp-demand-card rect { fill: rgba(255,253,243,.99); stroke: #c4a85d; stroke-width: 1.8; }
+body.student-mode .student-ppp-demand-card .demand-title { fill: #244e61; font-size: 16px; font-weight: 950; }
+body.student-mode .student-ppp-demand-card .demand-note { fill: #6a6f43; font-size: 12.5px; font-weight: 850; }
+body.student-mode .student-pathway-map[data-map-layout="fa-synthesis-citrate-fas-cycle"] .fa-carbon-band { fill: rgba(239,248,255,.98); stroke: #a9c8df; }
+body.student-mode .student-pathway-map[data-map-layout="fa-synthesis-citrate-fas-cycle"] .fa-commitment-band { fill: rgba(255,247,232,.98); stroke: #dfbf83; }
+body.student-mode .student-pathway-map[data-map-layout="fa-synthesis-citrate-fas-cycle"] .fa-cycle-band { fill: rgba(241,251,246,.98); stroke: #afd2bc; }
+body.student-mode .student-pathway-map[data-map-layout="fa-synthesis-citrate-fas-cycle"] .fa-ledger-band { fill: rgba(250,243,255,.98); stroke: #c9b0dc; }
+body.student-mode .student-pathway-map[data-map-layout="fa-synthesis-citrate-fas-cycle"] .fa-synthesis-edge { stroke: #2d8398; stroke-width: 2.55; }
+body.student-mode .student-pathway-map[data-map-layout="fa-synthesis-citrate-fas-cycle"] .fa-synthesis-edge.transport { stroke: #577e9d; stroke-dasharray: 9 5; }
+body.student-mode .student-pathway-map[data-map-layout="fa-synthesis-citrate-fas-cycle"] .fa-synthesis-edge.inhibition { stroke: #a85757; stroke-dasharray: 5 5; }
+body.student-mode .student-pathway-map[data-map-layout="fa-synthesis-citrate-fas-cycle"] .fa-synthesis-edge.cycle-return { stroke: #4f8664; stroke-dasharray: 9 5; }
+body.student-mode .student-pathway-map[data-map-layout="fa-synthesis-citrate-fas-cycle"] .fa-synthesis-node rect { fill: #fbfeff; stroke: #6c9fb6; stroke-width: 1.9; }
+body.student-mode .student-fa-synthesis-event,
+body.student-mode .student-fa-synthesis-commitment,
+body.student-mode .student-fa-synthesis-regulation,
+body.student-mode .student-fa-synthesis-cycle-ledger { paint-order: stroke; stroke: rgba(255,255,255,.97); stroke-width: 4px; font-weight: 950; }
+body.student-mode .student-fa-synthesis-event { fill: #1f6173; font-size: 12.5px; cursor: pointer; }
+body.student-mode .student-fa-synthesis-commitment { fill: #a26331; font-size: 14px; }
+body.student-mode .student-fa-synthesis-regulation { fill: #8d4f55; font-size: 13px; }
+body.student-mode .student-fa-synthesis-cycle-ledger { fill: #38744f; font-size: 15px; }
+body.student-mode .student-fa-synthesis-ledger-card rect { fill: rgba(255,253,247,.99); stroke: #b8a465; stroke-width: 1.8; }
+body.student-mode .student-fa-synthesis-ledger-card .ledger-title { fill: #244e61; font-size: 16px; font-weight: 950; }
+body.student-mode .student-fa-synthesis-ledger-card .ledger-line { fill: #5b516d; font-size: 13px; font-weight: 900; }
+body.student-mode .student-fa-synthesis-ledger-card .ledger-note { fill: #6a6f43; font-size: 12px; font-weight: 850; }
+body.student-mode .student-pathway-map[data-map-layout="carnitine-double-membrane-antiport"] .carnitine-cytosol-band { fill: rgba(239,248,255,.98); stroke: #a9c8df; }
+body.student-mode .student-pathway-map[data-map-layout="carnitine-double-membrane-antiport"] .carnitine-outer-band { fill: rgba(255,247,232,.98); stroke: #dfbf83; }
+body.student-mode .student-pathway-map[data-map-layout="carnitine-double-membrane-antiport"] .carnitine-inner-band { fill: rgba(241,251,246,.98); stroke: #afd2bc; }
+body.student-mode .student-pathway-map[data-map-layout="carnitine-double-membrane-antiport"] .carnitine-matrix-band { fill: rgba(250,243,255,.98); stroke: #c9b0dc; }
+body.student-mode .student-pathway-map[data-map-layout="carnitine-double-membrane-antiport"] .carnitine-net-band { fill: rgba(255,252,235,.98); stroke: #d8bf78; }
+body.student-mode .student-pathway-map[data-map-layout="carnitine-double-membrane-antiport"] .carnitine-edge { stroke: #2d8398; stroke-width: 2.55; }
+body.student-mode .student-pathway-map[data-map-layout="carnitine-double-membrane-antiport"] .carnitine-edge.transport,
+body.student-mode .student-pathway-map[data-map-layout="carnitine-double-membrane-antiport"] .carnitine-edge.antiport-in { stroke: #527e9c; stroke-dasharray: 9 5; }
+body.student-mode .student-pathway-map[data-map-layout="carnitine-double-membrane-antiport"] .carnitine-edge.antiport-out { stroke: #6d68a0; stroke-dasharray: 9 5; }
+body.student-mode .student-pathway-map[data-map-layout="carnitine-double-membrane-antiport"] .carnitine-edge.inhibition { stroke: #a85757; stroke-dasharray: 5 5; }
+body.student-mode .student-pathway-map[data-map-layout="carnitine-double-membrane-antiport"] .carnitine-node rect { fill: #fbfeff; stroke: #6c9fb6; stroke-width: 1.9; }
+body.student-mode .student-carnitine-event,
+body.student-mode .student-carnitine-regulation,
+body.student-mode .student-carnitine-inflow,
+body.student-mode .student-carnitine-outflow { paint-order: stroke; stroke: rgba(255,255,255,.97); stroke-width: 4px; font-weight: 950; }
+body.student-mode .student-carnitine-event { fill: #1f6173; font-size: 13px; cursor: pointer; }
+body.student-mode .student-carnitine-regulation { fill: #9a4f57; font-size: 13px; }
+body.student-mode .student-carnitine-inflow { fill: #2f7187; font-size: 15px; }
+body.student-mode .student-carnitine-outflow { fill: #66639a; font-size: 15px; }
+body.student-mode .student-carnitine-net-card rect { fill: rgba(255,253,247,.99); stroke: #b8a465; stroke-width: 1.8; }
+body.student-mode .student-carnitine-net-card .net-title { fill: #244e61; font-size: 16px; font-weight: 950; }
+body.student-mode .student-carnitine-net-card .net-line { fill: #5b516d; font-size: 13px; font-weight: 900; }
+body.student-mode .student-carnitine-net-card .net-note { fill: #6a6f43; font-size: 12px; font-weight: 850; }
+body.student-mode .student-pathway-map[data-map-layout="beta-oxidation-four-step-spiral"] .beta-entry-band { fill: rgba(239,248,255,.98); stroke: #a9c8df; }
+body.student-mode .student-pathway-map[data-map-layout="beta-oxidation-four-step-spiral"] .beta-cycle-band { fill: rgba(241,251,246,.98); stroke: #afd2bc; }
+body.student-mode .student-pathway-map[data-map-layout="beta-oxidation-four-step-spiral"] .beta-ledger-band { fill: rgba(255,247,232,.98); stroke: #dfbf83; }
+body.student-mode .student-pathway-map[data-map-layout="beta-oxidation-four-step-spiral"] .beta-output-band { fill: rgba(250,243,255,.98); stroke: #c9b0dc; }
+body.student-mode .student-pathway-map[data-map-layout="beta-oxidation-four-step-spiral"] .beta-oxidation-edge { stroke: #2d8398; stroke-width: 2.55; }
+body.student-mode .student-pathway-map[data-map-layout="beta-oxidation-four-step-spiral"] .beta-oxidation-edge.boundary { stroke: #527e9c; stroke-dasharray: 9 5; }
+body.student-mode .student-pathway-map[data-map-layout="beta-oxidation-four-step-spiral"] .beta-oxidation-edge.cycle-return { stroke: #4f8664; stroke-dasharray: 9 5; }
+body.student-mode .student-pathway-map[data-map-layout="beta-oxidation-four-step-spiral"] .beta-oxidation-node rect { fill: #fbfeff; stroke: #6c9fb6; stroke-width: 1.9; }
+body.student-mode .student-beta-oxidation-event,
+body.student-mode .student-beta-oxidation-electron,
+body.student-mode .student-beta-oxidation-cofactor,
+body.student-mode .student-beta-oxidation-return,
+body.student-mode .student-beta-oxidation-boundary,
+body.student-mode .student-beta-oxidation-atp { paint-order: stroke; stroke: rgba(255,255,255,.97); stroke-width: 4px; font-weight: 950; }
+body.student-mode .student-beta-oxidation-event { fill: #1f6173; font-size: 14px; cursor: pointer; }
+body.student-mode .student-beta-oxidation-electron { fill: #62783e; font-size: 13px; }
+body.student-mode .student-beta-oxidation-cofactor { fill: #7b6c35; font-size: 13px; }
+body.student-mode .student-beta-oxidation-return { fill: #38744f; font-size: 14px; }
+body.student-mode .student-beta-oxidation-boundary { fill: #57718a; font-size: 13px; }
+body.student-mode .student-beta-oxidation-atp { fill: #8d4f55; font-size: 16px; }
+body.student-mode .student-beta-oxidation-ledger-card rect { fill: rgba(255,253,247,.99); stroke: #b8a465; stroke-width: 1.8; }
+body.student-mode .student-beta-oxidation-ledger-card .ledger-title { fill: #244e61; font-size: 16px; font-weight: 950; }
+body.student-mode .student-beta-oxidation-ledger-card .ledger-line { fill: #5b516d; font-size: 13px; font-weight: 900; }
+body.student-mode .student-beta-oxidation-ledger-card .ledger-note { fill: #6a6f43; font-size: 12px; font-weight: 850; }
+body.student-mode .student-pathway-map[data-map-layout="ketone-liver-blood-periphery"] .ketone-liver-band { fill: rgba(255,247,232,.98); stroke: #dfbf83; }
+body.student-mode .student-pathway-map[data-map-layout="ketone-liver-blood-periphery"] .ketone-blood-band { fill: rgba(239,248,255,.98); stroke: #a9c8df; }
+body.student-mode .student-pathway-map[data-map-layout="ketone-liver-blood-periphery"] .ketone-periphery-band { fill: rgba(241,251,246,.98); stroke: #afd2bc; }
+body.student-mode .student-pathway-map[data-map-layout="ketone-liver-blood-periphery"] .ketone-boundary-band { fill: rgba(250,243,255,.98); stroke: #c9b0dc; }
+body.student-mode .student-pathway-map[data-map-layout="ketone-liver-blood-periphery"] .ketone-edge { stroke: #2d8398; stroke-width: 2.55; }
+body.student-mode .student-pathway-map[data-map-layout="ketone-liver-blood-periphery"] .ketone-edge.upstream { stroke: #6d7f46; stroke-dasharray: 8 5; }
+body.student-mode .student-pathway-map[data-map-layout="ketone-liver-blood-periphery"] .ketone-edge.transport { stroke: #527e9c; stroke-dasharray: 9 5; }
+body.student-mode .student-pathway-map[data-map-layout="ketone-liver-blood-periphery"] .ketone-edge.minor { stroke: #9a6c52; stroke-dasharray: 5 5; }
+body.student-mode .student-pathway-map[data-map-layout="ketone-liver-blood-periphery"] .ketone-node rect { fill: #fbfeff; stroke: #6c9fb6; stroke-width: 1.9; }
+body.student-mode .student-ketone-event,
+body.student-mode .student-ketone-ledger,
+body.student-mode .student-ketone-redox,
+body.student-mode .student-ketone-minor,
+body.student-mode .student-ketone-transport,
+body.student-mode .student-ketone-scot,
+body.student-mode .student-ketone-chemistry { paint-order: stroke; stroke: rgba(255,255,255,.97); stroke-width: 4px; font-weight: 950; }
+body.student-mode .student-ketone-event { fill: #1f6173; font-size: 12.5px; cursor: pointer; }
+body.student-mode .student-ketone-ledger { fill: #8a572d; font-size: 13px; }
+body.student-mode .student-ketone-redox { fill: #62783e; font-size: 12.5px; }
+body.student-mode .student-ketone-minor { fill: #926448; font-size: 11.5px; }
+body.student-mode .student-ketone-transport { fill: #315e8a; font-size: 16px; }
+body.student-mode .student-ketone-scot { fill: #4e704c; font-size: 12.5px; }
+body.student-mode .student-ketone-chemistry { fill: #66527f; font-size: 14px; }
+body.student-mode .student-ketone-boundary-card rect { fill: rgba(255,253,247,.99); stroke: #b8a465; stroke-width: 1.8; }
+body.student-mode .student-ketone-boundary-card .boundary-title { fill: #244e61; font-size: 16px; font-weight: 950; }
+body.student-mode .student-ketone-boundary-card .boundary-line { fill: #5b516d; font-size: 13px; font-weight: 900; }
+body.student-mode .student-pathway-map[data-map-layout="transamination-nitrogen-funnel"] .transamination-transfer-band { fill: rgba(239,248,255,.98); stroke: #a9c8df; }
+body.student-mode .student-pathway-map[data-map-layout="transamination-nitrogen-funnel"] .transamination-membrane-band { fill: rgba(245,241,255,.98); stroke: #c2b2dc; }
+body.student-mode .student-pathway-map[data-map-layout="transamination-nitrogen-funnel"] .transamination-matrix-band { fill: rgba(255,247,232,.98); stroke: #dfbf83; }
+body.student-mode .student-pathway-map[data-map-layout="transamination-nitrogen-funnel"] .transamination-handoff-band { fill: rgba(241,251,246,.98); stroke: #afd2bc; }
+body.student-mode .student-pathway-map[data-map-layout="transamination-nitrogen-funnel"] .transamination-edge { stroke: #2d8398; stroke-width: 2.55; }
+body.student-mode .student-pathway-map[data-map-layout="transamination-nitrogen-funnel"] .transamination-edge.transport { stroke: #527e9c; stroke-dasharray: 9 5; }
+body.student-mode .student-pathway-map[data-map-layout="transamination-nitrogen-funnel"] .transamination-edge.handoff { stroke: #6d68a0; stroke-dasharray: 8 5; }
+body.student-mode .student-pathway-map[data-map-layout="transamination-nitrogen-funnel"] .transamination-edge.carbon-return { stroke: #4f8664; stroke-dasharray: 8 5; }
+body.student-mode .student-pathway-map[data-map-layout="transamination-nitrogen-funnel"] .transamination-node rect { fill: #fbfeff; stroke: #6c9fb6; stroke-width: 1.9; }
+body.student-mode .student-transamination-event,
+body.student-mode .student-transamination-equation,
+body.student-mode .student-transamination-plp,
+body.student-mode .student-transamination-warning,
+body.student-mode .student-transamination-gdh,
+body.student-mode .student-transamination-regulation,
+body.student-mode .student-transamination-first-n,
+body.student-mode .student-transamination-second-n,
+body.student-mode .student-transamination-carbon { paint-order: stroke; stroke: rgba(255,255,255,.97); stroke-width: 4px; font-weight: 950; }
+body.student-mode .student-transamination-event { fill: #1f6173; font-size: 12.5px; cursor: pointer; }
+body.student-mode .student-transamination-equation { fill: #2f6177; font-size: 15px; }
+body.student-mode .student-transamination-plp { fill: #6b608d; font-size: 12.5px; }
+body.student-mode .student-transamination-warning { fill: #a05252; font-size: 13px; }
+body.student-mode .student-transamination-gdh { fill: #6a5e3a; font-size: 12.5px; }
+body.student-mode .student-transamination-regulation { fill: #8a4d56; font-size: 12px; }
+body.student-mode .student-transamination-first-n,
+body.student-mode .student-transamination-second-n { fill: #6b5687; font-size: 13px; }
+body.student-mode .student-transamination-carbon { fill: #4b765b; font-size: 13px; }
+body.student-mode .student-transamination-example-card rect { fill: rgba(255,253,247,.99); stroke: #b8a465; stroke-width: 1.8; }
+body.student-mode .student-transamination-example-card .example-title { fill: #244e61; font-size: 16px; font-weight: 950; }
+body.student-mode .student-transamination-example-card .example-equation { fill: #5b516d; font-size: 13px; font-weight: 900; }
+body.student-mode .student-transamination-example-card .example-note { fill: #6a6f43; font-size: 11.5px; font-weight: 850; }
+.overlay-schematic-transamination .schematic-transamination-zone { stroke-width: .25; }
+.overlay-schematic-transamination .schematic-transamination-transfer-zone { fill: rgba(224,242,252,.74); stroke: rgba(83,139,170,.64); }
+.overlay-schematic-transamination .schematic-transamination-membrane-zone { fill: rgba(238,232,251,.76); stroke: rgba(110,91,156,.62); }
+.overlay-schematic-transamination .schematic-transamination-matrix-zone { fill: rgba(255,239,211,.76); stroke: rgba(175,117,62,.62); }
+.overlay-schematic-transamination .schematic-transamination-handoff-zone { fill: rgba(231,247,237,.76); stroke: rgba(78,134,94,.62); }
+body.student-mode .student-pathway-map[data-map-layout="urea-two-compartment-cycle"] .urea-matrix-band { fill: rgba(255,247,232,.98); stroke: #dfbf83; }
+body.student-mode .student-pathway-map[data-map-layout="urea-two-compartment-cycle"] .urea-membrane-band { fill: rgba(245,241,255,.98); stroke: #c2b2dc; }
+body.student-mode .student-pathway-map[data-map-layout="urea-two-compartment-cycle"] .urea-cytosol-band { fill: rgba(239,248,255,.98); stroke: #a9c8df; }
+body.student-mode .student-pathway-map[data-map-layout="urea-two-compartment-cycle"] .urea-ledger-band { fill: rgba(241,251,246,.98); stroke: #afd2bc; }
+body.student-mode .student-pathway-map[data-map-layout="urea-two-compartment-cycle"] .urea-edge { stroke: #2d8398; stroke-width: 2.55; }
+body.student-mode .student-pathway-map[data-map-layout="urea-two-compartment-cycle"] .urea-edge.transport { stroke: #527e9c; stroke-dasharray: 9 5; }
+body.student-mode .student-pathway-map[data-map-layout="urea-two-compartment-cycle"] .urea-edge.activation { stroke: #865d9a; stroke-dasharray: 5 5; }
+body.student-mode .student-pathway-map[data-map-layout="urea-two-compartment-cycle"] .urea-node rect { fill: #fbfeff; stroke: #6c9fb6; stroke-width: 1.9; }
+body.student-mode .student-urea-event,
+body.student-mode .student-urea-equation,
+body.student-mode .student-urea-activation,
+body.student-mode .student-urea-transport,
+body.student-mode .student-urea-exchange,
+body.student-mode .student-urea-energy,
+body.student-mode .student-urea-regeneration { paint-order: stroke; stroke: rgba(255,255,255,.97); stroke-width: 4px; font-weight: 950; }
+body.student-mode .student-urea-event { fill: #1f6173; font-size: 12.5px; cursor: pointer; }
+body.student-mode .student-urea-equation { fill: #2f6177; font-size: 14px; }
+body.student-mode .student-urea-activation { fill: #76528d; font-size: 12.5px; }
+body.student-mode .student-urea-transport { fill: #315e8a; font-size: 13px; }
+body.student-mode .student-urea-exchange { fill: #5c6b91; font-size: 11.5px; }
+body.student-mode .student-urea-energy { fill: #8a572d; font-size: 12.5px; }
+body.student-mode .student-urea-regeneration { fill: #4e704c; font-size: 12.5px; }
+body.student-mode .student-urea-ledger-card rect { fill: rgba(255,253,247,.99); stroke: #b8a465; stroke-width: 1.8; }
+body.student-mode .student-urea-ledger-card .ledger-title { fill: #244e61; font-size: 14px; font-weight: 950; }
+body.student-mode .student-urea-ledger-card .ledger-note { fill: #5b516d; font-size: 11.5px; font-weight: 850; }
+.overlay-schematic-urea .schematic-urea-zone { stroke-width: .25; }
+.overlay-schematic-urea .schematic-urea-matrix-zone { fill: rgba(255,239,211,.78); stroke: rgba(175,117,62,.66); }
+.overlay-schematic-urea .schematic-urea-membrane-zone { fill: rgba(238,232,251,.8); stroke: rgba(110,91,156,.66); }
+.overlay-schematic-urea .schematic-urea-cytosol-zone { fill: rgba(224,242,252,.78); stroke: rgba(83,139,170,.66); }
+.overlay-schematic-urea .schematic-urea-ledger-zone { fill: rgba(231,247,237,.8); stroke: rgba(78,134,94,.66); }
+body.student-mode .student-pathway-map[data-map-layout="aa-carbon-seven-gateways"] .aa-carbon-nitrogen-band { fill: rgba(245,241,255,.98); stroke: #c4b4dd; }
+body.student-mode .student-pathway-map[data-map-layout="aa-carbon-seven-gateways"] .aa-carbon-gateway-band { fill: rgba(247,252,249,.98); stroke: #aed0b9; }
+body.student-mode .student-pathway-map[data-map-layout="aa-carbon-seven-gateways"] .aa-carbon-fate-band { fill: rgba(239,248,255,.98); stroke: #a9c8df; }
+body.student-mode .student-pathway-map[data-map-layout="aa-carbon-seven-gateways"] .aa-carbon-ledger-band { fill: rgba(255,248,235,.98); stroke: #dfbf83; }
+body.student-mode .student-pathway-map[data-map-layout="aa-carbon-seven-gateways"] .aa-carbon-edge { fill: none; stroke: #668a78; stroke-width: 2.2; opacity: .72; }
+body.student-mode .student-pathway-map[data-map-layout="aa-carbon-seven-gateways"] .aa-carbon-edge.nitrogen-route { stroke: #7a68a0; }
+body.student-mode .student-pathway-map[data-map-layout="aa-carbon-seven-gateways"] .aa-carbon-edge.glucogenic-route { stroke: #3f7897; }
+body.student-mode .student-pathway-map[data-map-layout="aa-carbon-seven-gateways"] .aa-carbon-edge.ketogenic-route { stroke: #a76d3f; }
+body.student-mode .student-pathway-map[data-map-layout="aa-carbon-seven-gateways"] .aa-carbon-edge.oxidative-route { stroke: #68845f; stroke-dasharray: 8 5; opacity: .38; }
+body.student-mode .student-pathway-map[data-map-layout="aa-carbon-seven-gateways"] .aa-carbon-node rect { fill: rgba(255,255,255,.98); stroke: #7c9d8b; stroke-width: 1.9; }
+body.student-mode .student-pathway-map[data-map-layout="aa-carbon-seven-gateways"] .aa-carbon-node.is-glucogenic rect { fill: #f1f9fd; stroke: #5f96b2; }
+body.student-mode .student-pathway-map[data-map-layout="aa-carbon-seven-gateways"] .aa-carbon-node.is-ketogenic rect { fill: #fff5e9; stroke: #c28755; }
+body.student-mode .student-pathway-map[data-map-layout="aa-carbon-seven-gateways"] .aa-carbon-node.is-dual rect { fill: #f8f2ff; stroke: #9675b4; }
+body.student-mode .student-pathway-map[data-map-layout="aa-carbon-seven-gateways"] .aa-carbon-node.is-oxidative rect { fill: #f1f8ee; stroke: #7f9e70; }
+body.student-mode .student-aa-carbon-boundary { fill: #5f536b; font-size: 13.5px; font-weight: 950; paint-order: stroke; stroke: rgba(255,255,255,.98); stroke-width: 4px; }
+body.student-mode .aa-carbon-ledger-card rect { fill: rgba(255,253,247,.99); stroke: #b8a465; stroke-width: 1.8; }
+body.student-mode .aa-carbon-ledger-card .ledger-title { fill: #244e61; font-size: 14px; font-weight: 950; }
+body.student-mode .aa-carbon-ledger-card .ledger-note { fill: #5b516d; font-size: 11.5px; font-weight: 850; }
+.overlay-schematic-aa_carbon .schematic-aa-carbon-zone { stroke-width: .25; }
+.overlay-schematic-aa_carbon .schematic-aa-carbon-nitrogen-zone { fill: rgba(238,232,251,.8); stroke: rgba(110,91,156,.66); }
+.overlay-schematic-aa_carbon .schematic-aa-carbon-gateway-zone { fill: rgba(231,247,237,.8); stroke: rgba(78,134,94,.66); }
+.overlay-schematic-aa_carbon .schematic-aa-carbon-fate-zone { fill: rgba(224,242,252,.8); stroke: rgba(83,139,170,.66); }
+.overlay-schematic-aa_carbon .schematic-aa-carbon-ledger-zone { fill: rgba(255,239,211,.8); stroke: rgba(175,117,62,.66); }
+.overlay-schematic-aa_carbon .schematic-aa-carbon-card { stroke-width: .22; }
+.overlay-schematic-aa_carbon .schematic-aa-carbon-card.is-glucogenic { fill: rgba(230,246,253,.76); stroke: rgba(73,130,157,.62); }
+.overlay-schematic-aa_carbon .schematic-aa-carbon-card.is-ketogenic { fill: rgba(255,239,219,.8); stroke: rgba(178,108,54,.66); }
+.overlay-schematic-aa_carbon .schematic-aa-carbon-card.is-dual { fill: rgba(245,234,255,.8); stroke: rgba(126,86,157,.66); }
+body.student-mode .student-pathway-map[data-map-layout="purine-imp-two-branch"] .purine-entry-band { fill: rgba(245,241,255,.98); stroke: #c4b4dd; }
+body.student-mode .student-pathway-map[data-map-layout="purine-imp-two-branch"] .purine-assembly-band { fill: rgba(239,248,255,.98); stroke: #a9c8df; }
+body.student-mode .student-pathway-map[data-map-layout="purine-imp-two-branch"] .purine-branch-band { fill: rgba(241,251,246,.98); stroke: #afd2bc; }
+body.student-mode .student-pathway-map[data-map-layout="purine-imp-two-branch"] .purine-ledger-band { fill: rgba(255,248,235,.98); stroke: #dfbf83; }
+body.student-mode .student-pathway-map[data-map-layout="purine-imp-two-branch"] .purine-edge { fill: none; stroke: #447f9f; stroke-width: 2.4; opacity: .82; }
+body.student-mode .student-pathway-map[data-map-layout="purine-imp-two-branch"] .purine-edge.commitment { stroke: #755b98; stroke-width: 2.8; }
+body.student-mode .student-pathway-map[data-map-layout="purine-imp-two-branch"] .purine-edge.amp-route { stroke: #7b689f; }
+body.student-mode .student-pathway-map[data-map-layout="purine-imp-two-branch"] .purine-edge.gmp-route { stroke: #548979; }
+body.student-mode .student-pathway-map[data-map-layout="purine-imp-two-branch"] .purine-node rect { fill: rgba(255,255,255,.98); stroke: #6994ad; stroke-width: 1.9; }
+body.student-mode .student-pathway-map[data-map-layout="purine-imp-two-branch"] .purine-node.is-amp rect { fill: #f7f1ff; stroke: #9073aa; }
+body.student-mode .student-pathway-map[data-map-layout="purine-imp-two-branch"] .purine-node.is-gmp rect { fill: #eef9f2; stroke: #639578; }
+body.student-mode .purine-ledger-card rect { fill: rgba(255,253,247,.99); stroke: #b8a465; stroke-width: 1.8; }
+body.student-mode .purine-ledger-card .ledger-title { fill: #244e61; font-size: 14px; font-weight: 950; }
+body.student-mode .purine-ledger-card .ledger-note { fill: #5b516d; font-size: 11.5px; font-weight: 850; }
+body.student-mode .purine-regulation-card rect { fill: rgba(248,245,255,.99); stroke: #a997bd; stroke-width: 1.8; }
+body.student-mode .purine-regulation-card .reg-title { fill: #4f466d; font-size: 14px; font-weight: 950; }
+body.student-mode .purine-regulation-card .reg-note { fill: #6a6079; font-size: 11.5px; font-weight: 850; }
+body.student-mode .student-purine-salvage { fill: #674f78; font-size: 13.5px; font-weight: 950; paint-order: stroke; stroke: rgba(255,255,255,.98); stroke-width: 4px; }
+.overlay-schematic-purine .schematic-purine-zone { stroke-width: .25; }
+.overlay-schematic-purine .schematic-purine-entry-zone { fill: rgba(238,232,251,.8); stroke: rgba(110,91,156,.66); }
+.overlay-schematic-purine .schematic-purine-assembly-zone { fill: rgba(224,242,252,.8); stroke: rgba(83,139,170,.66); }
+.overlay-schematic-purine .schematic-purine-branch-zone { fill: rgba(231,247,237,.8); stroke: rgba(78,134,94,.66); }
+.overlay-schematic-purine .schematic-purine-ledger-zone { fill: rgba(255,239,211,.8); stroke: rgba(175,117,62,.66); }
+.overlay-schematic-pyrimidine .schematic-pyrimidine-zone { stroke-width: .25; }
+.overlay-schematic-pyrimidine .schematic-pyrimidine-cad-zone { fill: rgba(235,244,255,.88); stroke: rgba(76,126,172,.72); }
+.overlay-schematic-pyrimidine .schematic-pyrimidine-dhodh-zone { fill: rgba(255,239,219,.88); stroke: rgba(181,115,54,.72); }
+.overlay-schematic-pyrimidine .schematic-pyrimidine-umps-zone { fill: rgba(237,247,238,.88); stroke: rgba(75,137,95,.72); }
+.overlay-schematic-pyrimidine .schematic-pyrimidine-branch-zone { fill: rgba(231,242,252,.88); stroke: rgba(72,128,165,.72); }
+.overlay-schematic-pyrimidine .schematic-pyrimidine-ledger-zone { fill: rgba(255,241,215,.9); stroke: rgba(177,119,59,.72); }
+.overlay-schematic-nucleotide_degradation .schematic-nucleotide-degradation-zone { stroke-width: .25; }
+.overlay-schematic-nucleotide_degradation .schematic-ndg-release-zone { fill: rgba(235,244,255,.88); stroke: rgba(76,126,172,.72); }
+.overlay-schematic-nucleotide_degradation .schematic-ndg-cleavage-zone { fill: rgba(237,247,238,.88); stroke: rgba(75,137,95,.72); }
+.overlay-schematic-nucleotide_degradation .schematic-ndg-purine-zone { fill: rgba(255,239,219,.88); stroke: rgba(181,115,54,.72); }
+.overlay-schematic-nucleotide_degradation .schematic-ndg-pyrimidine-zone { fill: rgba(231,242,252,.88); stroke: rgba(72,128,165,.72); }
+.overlay-schematic-nucleotide_degradation .schematic-ndg-salvage-zone { fill: rgba(255,241,215,.9); stroke: rgba(177,119,59,.72); }
+body.student-mode .student-glycolysis-alt-exit .exit-label {
+  fill: #614777;
+  font-size: 13px;
+  font-weight: 950;
+}
+body.student-mode .student-glycolysis-alt-exit .exit-note {
+  fill: #70617c;
+  font-size: 11px;
+  font-weight: 800;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .ox-cytosol-band {
+  fill: rgba(240, 248, 255, .92);
+  stroke: #c8deed;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .ox-outer-membrane-band {
+  fill: rgba(225, 235, 244, .94);
+  stroke: #b8cedd;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .ox-ims-band {
+  fill: rgba(230, 245, 255, .92);
+  stroke: #c5ddeb;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .ox-inner-membrane-band {
+  fill: rgba(237, 240, 255, .9);
+  stroke: #c9d3ea;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .ox-matrix-band {
+  fill: rgba(255, 252, 243, .94);
+  stroke: #eadfca;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .student-map-edge.proton {
+  stroke: #ed785f;
+  stroke-width: 2.8;
+  stroke-dasharray: 7 5;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .student-map-edge.synthesis-input {
+  stroke: #c68b28;
+  stroke-width: 2.15;
+  stroke-dasharray: 5 4;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .student-map-edge.synthesis-output {
+  stroke: #d99a27;
+  stroke-width: 3;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .student-map-edge.nucleotide-transport {
+  stroke: #6d69b4;
+  stroke-width: 2.35;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .student-map-edge.phosphate-transport {
+  stroke: #2f9b80;
+  stroke-width: 2.35;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .student-map-edge.outer-transport {
+  stroke: #7f97a6;
+  stroke-width: 1.8;
+  stroke-dasharray: 5 4;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .ox-carrier-node rect {
+  fill: #f1f0ff;
+  stroke: #7771bd;
+  stroke-width: 2.15;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .ox-proton-node rect {
+  fill: #fff1ec;
+  stroke: #e77962;
+  stroke-width: 2;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .ox-input-node rect {
+  fill: #eff9f5;
+  stroke: #5b9a85;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .ox-product-node rect {
+  fill: #fff7df;
+  stroke: #d7a63f;
+  stroke-width: 2.15;
+}
+body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] .oxphos-previous-pathway rect {
+  fill: rgba(239, 248, 255, .98);
+  stroke: #91bed7;
+}
+body.student-mode .student-map-next-pathway {
+  cursor: pointer;
+  outline: none;
+}
+body.student-mode .student-map-next-pathway rect {
+  fill: #fff8e7;
+  stroke: #d7a63f;
+  stroke-width: 1.7;
+}
+body.student-mode .student-map-next-pathway .next-label {
+  fill: #8b6d2b;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-anchor: middle;
+}
+body.student-mode .student-map-next-pathway .next-name {
+  fill: #2e596d;
+  font-size: 15px;
+  font-weight: 900;
+  text-anchor: middle;
+}
+body.student-mode .student-map-next-pathway:hover rect,
+body.student-mode .student-map-next-pathway:focus-visible rect {
+  fill: #fff1c9;
+  stroke: #b98216;
+  stroke-width: 2.5;
+}
+body.student-mode .student-map-pan-hint {
+  fill: #587385;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+}
+@media (max-width: 760px) {
+  body.student-mode .student-pathway-map[data-map-layout="pdh-entry-handoff"] { min-width: 980px; }
+  body.student-mode .student-pathway-map[data-map-layout="tca-yield-cycle"] { min-width: 980px; }
+  body.student-mode .student-pathway-map[data-map-layout="malate-aspartate-cycle"] { min-width: 1020px; }
+  body.student-mode .student-pathway-map[data-map-layout="glycerol-phosphate-cycle"] { min-width: 1020px; }
+  body.student-mode .student-pathway-map[data-map-layout="glycolysis-ten-step"] { min-width: 1180px; }
+  body.student-mode .student-pathway-map[data-map-layout="gluconeogenesis-three-bypass"] { min-width: 1380px; }
+  body.student-mode .student-pathway-map[data-map-layout="glycogenesis-branched-granule"] { min-width: 1260px; }
+  body.student-mode .student-pathway-map[data-map-layout="glycogenolysis-debranch-tissue-split"] { min-width: 1260px; }
+  body.student-mode .student-pathway-map[data-map-layout="ppp-demand-carbon-balance"] { min-width: 1260px; }
+  body.student-mode .student-pathway-map[data-map-layout="etc-electron-flow"] { min-width: 760px; }
+  body.student-mode .student-pathway-map[data-map-layout="oxphos-coupling"] { min-width: 820px; }
+  body.student-mode .student-map-scientific-frame.is-etc-cropped { min-width: 660px; }
+  body.student-mode .student-map-visual:has(.is-etc-cropped) { overflow-x: auto; }
+}
 body.student-mode .student-destination-stage {
   border-color: #dbe8f1;
   border-radius: 16px;
@@ -7227,18 +8504,281 @@ body.scene-open:has(.scene-deck.pathway-reaction-active) .inspector h2 { font-si
   .scene-deck.pathway-visual-active .scene-background { padding-left: 278px; }
   .scene-deck.pathway-reaction-active .scene-background { padding-right: 318px; padding-left: 20px; }
 }
+@media (min-width: 761px) and (max-width: 900px) {
+  body.expert-map .overlay-schematic-urea .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-urea .schematic-label,
+  body.expert-map .overlay-schematic-urea .schematic-node-label,
+  body.expert-map .overlay-schematic-urea .schematic-compartment-title,
+  body.expert-map .overlay-schematic-urea .schematic-enzyme,
+  body.expert-map .overlay-schematic-urea .schematic-cofactor,
+  body.expert-map .overlay-schematic-urea .schematic-transporter,
+  body.expert-map .overlay-schematic-urea .schematic-exchange,
+  body.expert-map .overlay-schematic-urea .schematic-output,
+  body.expert-map .overlay-schematic-urea .schematic-note { font-size: 2.85px; }
+  body.expert-map .overlay-schematic-transamination .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-transamination .schematic-label,
+  body.expert-map .overlay-schematic-transamination .schematic-node-label,
+  body.expert-map .overlay-schematic-transamination .schematic-compartment-title,
+  body.expert-map .overlay-schematic-transamination .schematic-enzyme,
+  body.expert-map .overlay-schematic-transamination .schematic-cofactor,
+  body.expert-map .overlay-schematic-transamination .schematic-transporter,
+  body.expert-map .overlay-schematic-transamination .schematic-output,
+  body.expert-map .overlay-schematic-transamination .schematic-note { font-size: 2.85px; }
+  body.expert-map .overlay-schematic-glycolysis .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-glycolysis .schematic-label,
+  body.expert-map .overlay-schematic-glycolysis .schematic-node-label,
+  body.expert-map .overlay-schematic-glycolysis .schematic-enzyme,
+  body.expert-map .overlay-schematic-glycolysis .schematic-cofactor,
+  body.expert-map .overlay-schematic-glycolysis .schematic-output,
+  body.expert-map .overlay-schematic-glycolysis .schematic-note,
+  body.expert-map .overlay-schematic-glycolysis .schematic-compartment-title { font-size: 2.8px; }
+  body.expert-map .overlay-schematic-gluconeogenesis .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-gluconeogenesis .schematic-label,
+  body.expert-map .overlay-schematic-gluconeogenesis .schematic-node-label,
+  body.expert-map .overlay-schematic-gluconeogenesis .schematic-enzyme,
+  body.expert-map .overlay-schematic-gluconeogenesis .schematic-cofactor,
+  body.expert-map .overlay-schematic-gluconeogenesis .schematic-transporter,
+  body.expert-map .overlay-schematic-gluconeogenesis .schematic-output,
+  body.expert-map .overlay-schematic-gluconeogenesis .schematic-note,
+  body.expert-map .overlay-schematic-gluconeogenesis .schematic-compartment-title { font-size: 2.9px; }
+  body.expert-map .overlay-schematic-glycogenesis .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-glycogenesis .schematic-label,
+  body.expert-map .overlay-schematic-glycogenesis .schematic-node-label,
+  body.expert-map .overlay-schematic-glycogenesis .schematic-enzyme,
+  body.expert-map .overlay-schematic-glycogenesis .schematic-cofactor,
+  body.expert-map .overlay-schematic-glycogenesis .schematic-output,
+  body.expert-map .overlay-schematic-glycogenesis .schematic-note,
+  body.expert-map .overlay-schematic-glycogenesis .schematic-compartment-title { font-size: 2.85px; }
+  body.expert-map .overlay-schematic-glycogenolysis .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-glycogenolysis .schematic-label,
+  body.expert-map .overlay-schematic-glycogenolysis .schematic-node-label,
+  body.expert-map .overlay-schematic-glycogenolysis .schematic-enzyme,
+  body.expert-map .overlay-schematic-glycogenolysis .schematic-cofactor,
+  body.expert-map .overlay-schematic-glycogenolysis .schematic-transporter,
+  body.expert-map .overlay-schematic-glycogenolysis .schematic-output,
+  body.expert-map .overlay-schematic-glycogenolysis .schematic-note,
+  body.expert-map .overlay-schematic-glycogenolysis .schematic-compartment-title { font-size: 2.85px; }
+  body.expert-map .overlay-schematic-ppp .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-ppp .schematic-label,
+  body.expert-map .overlay-schematic-ppp .schematic-node-label,
+  body.expert-map .overlay-schematic-ppp .schematic-enzyme,
+  body.expert-map .overlay-schematic-ppp .schematic-cofactor,
+  body.expert-map .overlay-schematic-ppp .schematic-output,
+  body.expert-map .overlay-schematic-ppp .schematic-note,
+  body.expert-map .overlay-schematic-ppp .schematic-compartment-title { font-size: 2.85px; }
+  body.expert-map .overlay-schematic-fa_synthesis .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-fa_synthesis .schematic-label,
+  body.expert-map .overlay-schematic-fa_synthesis .schematic-node-label,
+  body.expert-map .overlay-schematic-fa_synthesis .schematic-enzyme,
+  body.expert-map .overlay-schematic-fa_synthesis .schematic-cofactor,
+  body.expert-map .overlay-schematic-fa_synthesis .schematic-transporter,
+  body.expert-map .overlay-schematic-fa_synthesis .schematic-output,
+  body.expert-map .overlay-schematic-fa_synthesis .schematic-note,
+  body.expert-map .overlay-schematic-fa_synthesis .schematic-compartment-title { font-size: 2.85px; }
+  body.expert-map .overlay-schematic-carnitine .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-carnitine .schematic-label,
+  body.expert-map .overlay-schematic-carnitine .schematic-node-label,
+  body.expert-map .overlay-schematic-carnitine .schematic-enzyme,
+  body.expert-map .overlay-schematic-carnitine .schematic-cofactor,
+  body.expert-map .overlay-schematic-carnitine .schematic-transporter,
+  body.expert-map .overlay-schematic-carnitine .schematic-output,
+  body.expert-map .overlay-schematic-carnitine .schematic-note,
+  body.expert-map .overlay-schematic-carnitine .schematic-compartment-title { font-size: 2.85px; }
+  body.expert-map .overlay-schematic-beta_oxidation .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-beta_oxidation .schematic-label,
+  body.expert-map .overlay-schematic-beta_oxidation .schematic-node-label,
+  body.expert-map .overlay-schematic-beta_oxidation .schematic-enzyme,
+  body.expert-map .overlay-schematic-beta_oxidation .schematic-cofactor,
+  body.expert-map .overlay-schematic-beta_oxidation .schematic-output,
+  body.expert-map .overlay-schematic-beta_oxidation .schematic-note,
+  body.expert-map .overlay-schematic-beta_oxidation .schematic-compartment-title { font-size: 2.85px; }
+  body.expert-map .overlay-schematic-ketone .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-ketone .schematic-label,
+  body.expert-map .overlay-schematic-ketone .schematic-node-label,
+  body.expert-map .overlay-schematic-ketone .schematic-enzyme,
+  body.expert-map .overlay-schematic-ketone .schematic-cofactor,
+  body.expert-map .overlay-schematic-ketone .schematic-transporter,
+  body.expert-map .overlay-schematic-ketone .schematic-output,
+  body.expert-map .overlay-schematic-ketone .schematic-note,
+  body.expert-map .overlay-schematic-ketone .schematic-compartment-title { font-size: 2.85px; }
+  body.expert-map .overlay-schematic-malate_aspartate .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-malate_aspartate .schematic-label,
+  body.expert-map .overlay-schematic-malate_aspartate .schematic-node-label,
+  body.expert-map .overlay-schematic-malate_aspartate .schematic-enzyme,
+  body.expert-map .overlay-schematic-malate_aspartate .schematic-cofactor,
+  body.expert-map .overlay-schematic-malate_aspartate .schematic-transporter,
+  body.expert-map .overlay-schematic-malate_aspartate .schematic-exchange,
+  body.expert-map .overlay-schematic-malate_aspartate .schematic-output,
+  body.expert-map .overlay-schematic-malate_aspartate .schematic-note,
+  body.expert-map .overlay-schematic-malate_aspartate .schematic-compartment-title { font-size: 2.65px; }
+  body.expert-map .overlay-schematic-glycerol_phosphate .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-glycerol_phosphate .schematic-label,
+  body.expert-map .overlay-schematic-glycerol_phosphate .schematic-node-label,
+  body.expert-map .overlay-schematic-glycerol_phosphate .schematic-enzyme,
+  body.expert-map .overlay-schematic-glycerol_phosphate .schematic-cofactor,
+  body.expert-map .overlay-schematic-glycerol_phosphate .schematic-transporter,
+  body.expert-map .overlay-schematic-glycerol_phosphate .schematic-exchange,
+  body.expert-map .overlay-schematic-glycerol_phosphate .schematic-output,
+  body.expert-map .overlay-schematic-glycerol_phosphate .schematic-note,
+  body.expert-map .overlay-schematic-glycerol_phosphate .schematic-compartment-title { font-size: 2.55px; }
+  body.expert-map .overlay-schematic-tca .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-tca .schematic-label,
+  body.expert-map .overlay-schematic-tca .schematic-node-label,
+  body.expert-map .overlay-schematic-tca .schematic-enzyme,
+  body.expert-map .overlay-schematic-tca .schematic-output { font-size: 2.55px; }
+  body.expert-map .overlay-schematic-pdh .schematic-title { font-size: 3px; }
+  body.expert-map .overlay-schematic-pdh .schematic-label,
+  body.expert-map .overlay-schematic-pdh .schematic-node-label,
+  body.expert-map .overlay-schematic-pdh .schematic-enzyme,
+  body.expert-map .overlay-schematic-pdh .schematic-cofactor,
+  body.expert-map .overlay-schematic-pdh .schematic-transporter,
+  body.expert-map .overlay-schematic-pdh .schematic-exchange,
+  body.expert-map .overlay-schematic-pdh .schematic-output { font-size: 2.7px; }
+  body.expert-map .overlay-schematic-oxphos .schematic-title { font-size: 2.7px; }
+  body.expert-map .overlay-schematic-oxphos .schematic-label,
+  body.expert-map .overlay-schematic-oxphos .schematic-node-label,
+  body.expert-map .overlay-schematic-oxphos .schematic-enzyme,
+  body.expert-map .overlay-schematic-oxphos .schematic-cofactor,
+  body.expert-map .overlay-schematic-oxphos .schematic-transporter,
+  body.expert-map .overlay-schematic-oxphos .schematic-exchange,
+  body.expert-map .overlay-schematic-oxphos .schematic-output { font-size: 2.4px; }
+}
 @media (max-width: 760px) {
   .scene-deck.pathway-visual-active .scene-background {
-    padding: 116px 8px calc(100vh - 462px) 8px;
+    /* Keep the mechanism canvas below the two-row scene navigator.  The old
+       116px top inset placed the first third of every mechanism underneath it. */
+    padding: 241px 8px calc(100vh - 462px) 8px;
     object-position: center;
   }
-  .scene-deck.pathway-reaction-active .scene-background { padding: 116px 8px calc(100vh - 462px) 8px; }
+  .scene-deck.pathway-reaction-active .scene-background { padding: 241px 8px calc(100vh - 462px) 8px; }
 }
 [data-visual-zoom], .student-topic-structure-visual img,
 .scene-deck.pathway-visual-active [data-scene-visual-zoom] { cursor: zoom-in; }
 [data-visual-zoom]:focus-visible, .student-topic-structure-visual img:focus-visible {
   outline: 3px solid rgba(0,135,235,.42);
   outline-offset: 3px;
+}
+
+/* Public Beta mobile touch contract: primary expert controls keep a 44px hit area. */
+@media (max-width: 500px) {
+  body.expert-map #learnBtn {
+    min-height: 44px;
+    height: 44px;
+  }
+  body.expert-map .topbar-collapse-toggle {
+    bottom: -22px;
+    width: 44px;
+    height: 44px;
+  }
+  body.expert-map .zoom-tools button {
+    width: 44px;
+    height: 44px;
+  }
+  body.expert-map .inspector-close {
+    width: 44px;
+    height: 44px;
+  }
+  body.expert-map .pathbar {
+    height: 170px;
+    min-height: 170px;
+    max-height: 170px;
+  }
+  body.expert-map .path-filters {
+    grid-template-rows: repeat(2, 44px);
+  }
+  body.expert-map .path-filter {
+    min-height: 44px;
+    height: 44px;
+  }
+  body.expert-map .zoom-tools,
+  body.expert-map .hud-controls { bottom: 194px; }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic .schematic-title {
+    font-size: 3.6px;
+  }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic .schematic-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic .schematic-node-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic .schematic-enzyme,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic .schematic-transporter,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic .schematic-output {
+    font-size: 3.6px;
+  }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic .schematic-compartment-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic .schematic-cofactor,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic .schematic-note,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic .schematic-exchange {
+    font-size: 3.6px;
+  }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-urea .schematic-title { font-size: 3.4px; }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-urea .schematic-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-urea .schematic-node-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-urea .schematic-compartment-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-urea .schematic-enzyme,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-urea .schematic-cofactor,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-urea .schematic-transporter,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-urea .schematic-output,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-urea .schematic-note,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-urea .schematic-exchange { font-size: 3.4px; }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ppp .schematic-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ppp .schematic-node-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ppp .schematic-compartment-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ppp .schematic-enzyme,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ppp .schematic-cofactor,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ppp .schematic-output,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ppp .schematic-note {
+    font-size: 3.2px;
+  }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-fa_synthesis .schematic-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-fa_synthesis .schematic-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-fa_synthesis .schematic-node-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-fa_synthesis .schematic-compartment-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-fa_synthesis .schematic-enzyme,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-fa_synthesis .schematic-cofactor,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-fa_synthesis .schematic-transporter,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-fa_synthesis .schematic-output,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-fa_synthesis .schematic-note {
+    font-size: 3.4px;
+  }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-carnitine .schematic-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-carnitine .schematic-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-carnitine .schematic-node-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-carnitine .schematic-compartment-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-carnitine .schematic-enzyme,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-carnitine .schematic-cofactor,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-carnitine .schematic-transporter,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-carnitine .schematic-output,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-carnitine .schematic-note {
+    font-size: 3.4px;
+  }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-beta_oxidation .schematic-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-beta_oxidation .schematic-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-beta_oxidation .schematic-node-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-beta_oxidation .schematic-compartment-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-beta_oxidation .schematic-enzyme,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-beta_oxidation .schematic-cofactor,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-beta_oxidation .schematic-output,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-beta_oxidation .schematic-note {
+    font-size: 3.4px;
+  }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ketone .schematic-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ketone .schematic-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ketone .schematic-node-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ketone .schematic-compartment-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ketone .schematic-enzyme,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ketone .schematic-cofactor,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ketone .schematic-transporter,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ketone .schematic-output,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-ketone .schematic-note {
+    font-size: 3.4px;
+  }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-glycogenolysis .schematic-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-glycogenolysis .schematic-node-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-glycogenolysis .schematic-compartment-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-glycogenolysis .schematic-enzyme,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-glycogenolysis .schematic-transporter,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-glycogenolysis .schematic-output,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-glycogenolysis .schematic-note {
+    font-size: 3.2px;
+  }
 }
 .pathway-visual-dialog {
   width: min(1180px, calc(100vw - 36px));
@@ -7256,10 +8796,15 @@ body.scene-open:has(.scene-deck.pathway-reaction-active) .inspector h2 { font-si
 .pathway-visual-dialog::backdrop { background: rgba(9,34,52,.68); backdrop-filter: blur(8px); }
 .pathway-visual-dialog[open] { display: grid; }
 .pathway-visual-dialog figure { display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 12px; min-height: 0; margin: 0; }
+.pathway-visual-dialog-stage { min-width: 0; min-height: 0; overflow: auto; overscroll-behavior: contain; }
+.pathway-visual-dialog-canvas { position: relative; width: 100%; height: 100%; }
+.pathway-visual-dialog.has-mechanism .pathway-visual-dialog-canvas { width: max(100%, 1000px); height: auto; }
+.pathway-visual-dialog.has-mechanism .pathway-visual-dialog-canvas > img { display: block; height: auto; }
+.pathway-visual-dialog-canvas > svg { position: absolute; inset: 0; pointer-events: none; }
 .pathway-visual-dialog img { width: 100%; height: 100%; min-height: 0; object-fit: contain; border-radius: 15px; background: #eaf5fa; }
 .pathway-visual-dialog figcaption { padding: 0 44px 2px 4px; color: #456b7c; font-size: 12px; line-height: 1.55; }
 .pathway-visual-dialog-close {
-  position: absolute; z-index: 2; top: 14px; right: 14px; width: 40px; height: 40px;
+  position: absolute; z-index: 10; top: 14px; right: 14px; width: 44px; height: 44px;
   border: 1px solid rgba(95,148,177,.3); border-radius: 50%; color: #254f67; background: rgba(255,255,255,.9);
   box-shadow: 0 8px 22px rgba(31,76,104,.14); font-size: 24px; line-height: 1;
 }
@@ -7307,4 +8852,51 @@ body.expert-map .path-filter .path-filter-icon {
   .scene-landmark-label {
     display: block; max-width: 126px; padding: 5px 7px; font-size: 8px; line-height: 1.25;
   }
+}
+.overlay-schematic-aa_carbon .schematic-title { font-size: 2.8px; }
+.overlay-schematic-aa_carbon .schematic-label,
+.overlay-schematic-aa_carbon .schematic-node-label,
+.overlay-schematic-aa_carbon .schematic-compartment-title,
+.overlay-schematic-aa_carbon .schematic-enzyme,
+.overlay-schematic-aa_carbon .schematic-cofactor,
+.overlay-schematic-aa_carbon .schematic-transporter,
+.overlay-schematic-aa_carbon .schematic-output,
+.overlay-schematic-aa_carbon .schematic-note { font-size: 2.25px; }
+@media (max-width: 900px) {
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-aa_carbon .schematic-title { font-size: 3.8px; }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-aa_carbon .schematic-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-aa_carbon .schematic-node-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-aa_carbon .schematic-compartment-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-aa_carbon .schematic-enzyme,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-aa_carbon .schematic-cofactor,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-aa_carbon .schematic-transporter,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-aa_carbon .schematic-output,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-aa_carbon .schematic-note { font-size: 3.4px; }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-purine .schematic-title { font-size: 3.55px; }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-purine .schematic-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-purine .schematic-node-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-purine .schematic-compartment-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-purine .schematic-enzyme,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-purine .schematic-cofactor,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-purine .schematic-transporter,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-purine .schematic-output,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-purine .schematic-note { font-size: 3.4px; }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-pyrimidine .schematic-title { font-size: 3.1px; }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-pyrimidine .schematic-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-pyrimidine .schematic-node-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-pyrimidine .schematic-compartment-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-pyrimidine .schematic-enzyme,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-pyrimidine .schematic-cofactor,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-pyrimidine .schematic-transporter,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-pyrimidine .schematic-output,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-pyrimidine .schematic-note { font-size: 3.1px; }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-nucleotide_degradation .schematic-title { font-size: 3.1px; }
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-nucleotide_degradation .schematic-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-nucleotide_degradation .schematic-node-label,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-nucleotide_degradation .schematic-compartment-title,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-nucleotide_degradation .schematic-enzyme,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-nucleotide_degradation .schematic-cofactor,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-nucleotide_degradation .schematic-transporter,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-nucleotide_degradation .schematic-output,
+  body.expert-map .scene-deck.pathway-visual-active .overlay-schematic-nucleotide_degradation .schematic-note { font-size: 3.1px; }
 }

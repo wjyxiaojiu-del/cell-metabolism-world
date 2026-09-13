@@ -392,19 +392,20 @@ function applyCuratedOverrides(pathwayId, layout, entities) {
   // 在椭圆边缘压成一串。这里按胞质与基质两组展开。
   if (pathwayId === 'aa_carbon') {
     const curated = [
-      ['丙氨酸/丝氨酸/甘氨酸/半胱氨酸', '细胞质', 220, 400, 'left'],
+      ['丙氨酸/半胱氨酸/甘氨酸/丝氨酸/苏氨酸/色氨酸', '细胞质', 220, 400, 'below'],
       ['丙酮酸', '细胞质', 430, 400, 'right'],
       ['苯丙氨酸/酪氨酸', '细胞质', 220, 485, 'left'],
       ['延胡索酸', '细胞质', 430, 485, 'right'],
       ['天冬氨酸/天冬酰胺', '细胞质', 220, 555, 'left'],
       ['草酰乙酸', '细胞质', 430, 555, 'right'],
-      ['亮氨酸/赖氨酸等', '线粒体基质', 420, 735, 'left'],
-      ['乙酰辅酶 A', '线粒体基质', 650, 720, 'right'],
-      ['乙酰乙酰辅酶 A', '线粒体基质', 720, 775, 'right'],
-      ['谷氨酸/谷氨酰胺/精氨酸/脯氨酸/组氨酸', '线粒体基质', 420, 810, 'left'],
-      ['α-酮戊二酸', '线粒体基质', 650, 815, 'right'],
-      ['缬氨酸/异亮氨酸/蛋氨酸/苏氨酸', '线粒体基质', 500, 855, 'left'],
-      ['琥珀酰辅酶 A', '线粒体基质', 720, 855, 'right']
+      ['异亮氨酸/亮氨酸/苏氨酸/色氨酸', '线粒体基质', 450, 718, 'left'],
+      ['乙酰辅酶 A', '线粒体基质', 690, 718, 'right'],
+      ['亮氨酸/赖氨酸/苯丙氨酸/酪氨酸/色氨酸', '线粒体基质', 450, 765, 'left'],
+      ['乙酰乙酰辅酶 A', '线粒体基质', 690, 765, 'right'],
+      ['谷氨酸/谷氨酰胺/精氨酸/脯氨酸/组氨酸', '线粒体基质', 450, 812, 'left'],
+      ['α-酮戊二酸', '线粒体基质', 690, 812, 'right'],
+      ['缬氨酸/异亮氨酸/蛋氨酸/苏氨酸', '线粒体基质', 500, 857, 'left'],
+      ['琥珀酰辅酶 A', '线粒体基质', 720, 857, 'right']
     ];
     curated.forEach(([name, compartment, x, y, labelSide]) => {
       const id = entityIdFor(entities, name, compartment);
@@ -453,7 +454,8 @@ function applyCuratedOverrides(pathwayId, layout, entities) {
       // 两个端点放在内膜上方的胞质侧，并由酶标签明确膜锚定。
       ['二氢乳清酸', 660, 555, 'above'], ['乳清酸', 790, 555, 'right'],
       ['UMP', 900, 555, 'right'], ['UTP', 790, 610, 'below'], ['CTP', 900, 610, 'right'],
-      ['UDP', 420, 610, 'below'], ['dUDP', 540, 610, 'below'], ['dTMP', 660, 610, 'below']
+      ['dUMP', 310, 610, 'below'], ['dTMP', 420, 610, 'below'],
+      ['UDP', 540, 610, 'below'], ['dUDP', 660, 610, 'below'], ['dUTP', 700, 590, 'right']
     ];
     curated.forEach(([name, x, y, labelSide]) => {
       const id = entityIdFor(entities, name, '细胞质');
@@ -607,6 +609,7 @@ function applyCuratedOverrides(pathwayId, layout, entities) {
     ['质子动力势', '线粒体内膜', 795, 730, 'below'],
     ['ATP 合酶', '线粒体内膜', 875, 730, 'above'],
     ['NADH', '线粒体基质', 330, 825, 'above'],
+    ['琥珀酸', '线粒体基质', 430, 875, 'below'],
     ['ADP', '线粒体基质', 475, 825, 'above'],
     ['无机磷酸', '线粒体基质', 535, 885, 'below'],
     ['氧', '线粒体基质', 690, 825, 'right'],

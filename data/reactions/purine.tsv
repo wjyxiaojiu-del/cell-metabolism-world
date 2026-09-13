@@ -5,7 +5,7 @@
 核糖-5-磷酸	PRPP	PRPP 合成酶	否	核糖-5-磷酸 + ATP → PRPP + AMP	已终审	嘌呤合成入口
 PRPP	5-磷酸核糖胺	谷氨酰胺-PRPP 酰胺转移酶	否	PRPP + 谷氨酰胺 → 5-磷酸核糖胺 + 谷氨酸	已终审	限速步骤
 5-磷酸核糖胺	GAR	GAR synthetase (GART)	否	5-磷酸核糖胺 + 甘氨酸 + ATP → GAR + ADP + Pi	已终审	单酶步骤，氮源为甘氨酸而非谷氨酰胺；KEGG:R04144；RHEA:17456
-GAR	AICAR	多酶复合体	否	GAR → AICAR	待审校	合并 GAR→FGAR→FGAM→AIR→CAIR→SAICAR→AICAR，多种底物、ATP 及中间体缺失
+GAR	AICAR	多酶复合体	否	GAR → AICAR	已终审	多步示意边：合并 GAR→FGAR→FGAM→AIR→CAIR→SAICAR→AICAR；谷氨酰胺、ATP、CO₂、天冬氨酸和中间体未写入当前方程；R-HSA-73817
 AICAR	IMP	AICAR 转化酶/IMP 环水解酶 (ATIC)	否	AICAR + 10-甲酰-THF → IMP + THF + H₂O	已终审	双功能酶 ATIC 的两步净反应；KEGG:R04560、KEGG:R01127；RHEA:22195、RHEA:18448
 IMP	AMP	腺苷酸琥珀酸合成/裂解酶系	否	IMP + 天冬氨酸 + GTP → AMP + 延胡索酸 + GDP + Pi	已终审	腺苷酸琥珀酸合成与裂解两步净反应；RHEA:15753、RHEA:23922
 IMP	GMP	IMP 脱氢酶/GMP 合成酶	否	IMP + NAD⁺ + 2 H₂O + ATP + 谷氨酰胺 → GMP + NADH + H⁺ + AMP + PPi + 谷氨酸	已终审	IMPDH 与 GMPS 两步净反应；RHEA:11708、RHEA:11680

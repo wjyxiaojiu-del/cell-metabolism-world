@@ -10,4 +10,6 @@
 UMP	UTP	核苷酸激酶系	是	UMP + 2 ATP ⇌ UTP + 2 ADP	已终审	嘧啶核苷酸池
 UTP	CTP	CTP 合成酶	否	UTP + 谷氨酰胺 + ATP → CTP + 谷氨酸 + ADP	已终审	胞嘧啶核苷酸分支
 UDP	dUDP	核糖核苷酸还原酶	否	UDP + thioredoxin(red) → dUDP + thioredoxin(ox) + H₂O	已终审	核糖核苷酸还原酶（EC 1.17.4.2）硫氧还蛋白依赖机制；RHEA:28028
-dUDP	dTMP	胸苷酸合成酶	否	dUDP + H₂O → dUMP + Pi；dUMP + 5,10-亚甲基-THF → dTMP + DHF	待审校	合并 dUDP 去磷酸化与 TYMS 反应，酶名只覆盖第二步且第一步酶未指定
+dUDP	dUTP	核苷二磷酸激酶 NDPK	是	dUDP + ATP ⇌ dUTP + ADP	已终审	脱氧核苷二磷酸激酶接力；为 dUTPase 提供底物
+dUTP	dUMP	dUTPase DUT	否	dUTP + H₂O → dUMP + PPi	已终审	DUT 水解 dUTP 形成 dUMP，并限制尿嘧啶错误掺入 DNA
+dUMP	dTMP	胸苷酸合成酶 TYMS	否	dUMP + 5,10-亚甲基-THF → dTMP + DHF	已终审	TYMS 催化的胞质单步反应；删除原先未指定酶的 dUDP→dUMP 合并步骤；R-HSA-73605；RHEA:12105

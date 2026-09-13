@@ -8,6 +8,9 @@ tmp-pdh.png
 # 原始场景 PNG 约 335MB；运行时仅使用根目录优化封面与 optimized/ 下的 WebP/SVG。
 cell-metabolism-assets/*.png
 
+# 验收证据截图约 268MB（126 张 final + 过程截图），只保存在本地磁盘供负责人签核。
+docs/map-polish/evidence/
+
 # 个人与无关文件，禁止入库
 *.docx
 *.exe
