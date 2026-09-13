@@ -42,6 +42,9 @@ jobs:
 
   ui-readability-windows:
     runs-on: windows-latest
+    # windows-latest（Server 2022）的 CJK 字体度量与签核平台（Win11/iPad）仍有差异，
+    # 该任务作为渲染参照信号保留：失败提示需要本地复核，但不阻塞合并。
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

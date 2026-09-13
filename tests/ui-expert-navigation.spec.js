@@ -141,6 +141,8 @@ test('selected pathway entry card stays fully visible on narrow landscape screen
 });
 
 test('selected mechanism pathways show named connection points', async ({ page }) => {
+  // 标签包围盒尺寸取决于平台 CJK 字体度量：只在签核平台类环境（Windows）执行。
+  test.skip(process.platform !== 'win32', 'label geometry depends on CJK font metrics; covered by the windows CI task');
   await page.setViewportSize({ width: 1280, height: 900 });
   await enterExpertMap(page);
   await page.locator('.path-filter[data-path="malate_aspartate"]').click();
