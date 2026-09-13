@@ -1,0 +1,5 @@
+#!/bin/sh
+# 运行时文件变化时自动递增 index.html 缓存版本并入栈，防止 30 天 immutable 缓存返回旧资源。
+node tools/bump-cache-versions.js || exit 1
+if git diff --quiet -- index.html; then exit 0; fi
+git add index.html
