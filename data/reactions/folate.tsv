@@ -2,7 +2,7 @@
 #	默认区室: 细胞质
 #	来源: PDF 一碳单位区
 底物	产物	酶	可逆	反应式	审校	备注
-叶酸	THF	二氢叶酸还原酶 DHFR	否	叶酸 + 2 NADPH + 2 H⁺ → THF + 2 NADP⁺	已终审	合并 DHF 中间体的两次还原
+叶酸	THF	二氢叶酸还原酶 DHFR	否	叶酸 + 2 NADPH + 2 H⁺ → THF + 2 NADP⁺	已终审	合并 DHF 中间体的两次还原；KEGG:R02236（叶酸 ⇌ DHF）与 KEGG:R00939（DHF ⇌ THF），同一 EC 1.5.1.3；KEGG 平衡式书写方向相反。
 THF	5,10-亚甲基-THF	丝氨酸羟甲基转移酶 SHMT	是	THF + 丝氨酸 ⇌ 5,10-亚甲基-THF + 甘氨酸 + H₂O	已终审	连接丝氨酸/甘氨酸；KEGG:R00945（与 serine_glycine.tsv 同反应同引用，本表写另一方向；生理方向与区室另审）
 5,10-亚甲基-THF	10-甲酰-THF	亚甲基-THF 脱氢酶/环水解酶	是	5,10-亚甲基-THF + NADP⁺ + H₂O ⇌ 10-甲酰-THF + NADPH + H⁺	已终审	MTHFD1 脱氢酶与环水解酶两步净反应；KEGG:R01220、KEGG:R01655；RHEA:22815、RHEA:23703
 5,10-亚甲基-THF	5-甲基-THF	亚甲基-THF 还原酶 MTHFR	否	5,10-亚甲基-THF + NADPH + H⁺ → 5-甲基-THF + NADP⁺	已终审	蛋氨酸循环供体；KEGG:R01224（反应/酶对应；KEGG 平衡式书写方向相反；生理方向与区室另审）

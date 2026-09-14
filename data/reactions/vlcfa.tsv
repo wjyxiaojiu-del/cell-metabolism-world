@@ -3,7 +3,7 @@
 #	来源: PDF 脂肪酸降解区与区室校对
 #	说明: 过氧化物酶体先缩短极长链，产生的过氧化氢由抗氧化系统处理，缩短脂酰-CoA再转交线粒体。
 底物	产物	酶	可逆	反应式	审校	备注
-VLCFA-CoA	烯酰-CoA	酰基-CoA 氧化酶	否	VLCFA-CoA + O₂ → 烯酰-CoA + H₂O₂	已终审	过氧化物酶体入口；产生 H₂O₂
+VLCFA-CoA	烯酰-CoA	酰基-CoA 氧化酶	否	VLCFA-CoA + O₂ → 烯酰-CoA + H₂O₂	已终审	过氧化物酶体入口；产生 H₂O₂；KEGG:R00388（脂酰-CoA + O₂ → 反式-2,3-脱氢脂酰-CoA + H₂O₂；EC 1.3.3.6）。
 烯酰-CoA	β-羟脂酰-CoA	烯酰-CoA 水合酶	是	烯酰-CoA + H₂O ⇌ β-羟脂酰-CoA	已终审	过氧化物酶体 β-氧化；KEGG:R02685（通用脂酰链反应；与 beta_oxidation.tsv 同引用；生理方向与区室另审）；与 beta_oxidation.tsv 同引用；生理方向与区室另审）
 β-羟脂酰-CoA	β-酮脂酰-CoA	β-羟脂酰-CoA 脱氢酶	否	β-羟脂酰-CoA + NAD⁺ → β-酮脂酰-CoA + NADH + H⁺	已终审	过氧化物酶体 β-氧化；KEGG:R01778（通用脂酰链反应；与 beta_oxidation.tsv 同引用；生理方向与区室另审）；与 beta_oxidation.tsv 同引用；生理方向与区室另审）
 β-酮脂酰-CoA	缩短脂酰-CoA	β-酮硫解酶	否	β-酮脂酰-CoA + CoA-SH → 乙酰-CoA + 缩短脂酰-CoA	已终审	硫解；乙酰-CoA 也可作为产物；KEGG:R00238（以 C4 最短链对应通用模板；与 beta_oxidation.tsv 同引用；生理方向与区室另审）；与 beta_oxidation.tsv 同引用；生理方向与区室另审）
