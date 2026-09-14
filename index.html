@@ -12,9 +12,9 @@
   <link rel="preload" as="image" href="cell-metabolism-assets/optimized/01-home-cell-cover.webp" fetchpriority="high">
   <link rel="stylesheet" href="styles/main.css?v=20260913-1">
   <script defer src="scene-data.js?v=20260913-1"></script>
-  <script defer src="data-compiled.js?v=20260913-3"></script>
+  <script defer src="data-compiled.js?v=20260914-2"></script>
   <script defer src="student-step-resolver.js?v=20260913-1"></script>
-  <script defer src="scripts/app.js?v=20260913-1"></script>
+  <script defer src="scripts/app.js?v=20260914-2"></script>
 </head>
 <body class="student-mode cover-visible">
   <section class="cell-cover" id="cellCover" aria-label="细胞代谢世界地图入口">
@@ -94,7 +94,7 @@
           <div class="scope-rule"></div>
           <section class="scope-section scope-pathways">
             <h3>区室线路 <span id="sceneRouteLaneCount">0</span></h3>
-            <div class="scene-route-lanes" id="sceneRouteLanes" aria-label="当前细胞器内的通路线路"></div>
+            <div class="scene-route-lanes" id="sceneRouteLanes" role="group" aria-label="当前细胞器内的通路线路"></div>
           </section>
           <section class="scope-section">
             <h3><span id="scopeLocalLabel">本区室内</span><span id="scopeLocalCount">0</span></h3>
@@ -359,9 +359,9 @@
         <div class="brand-mark" aria-hidden="true">✦</div>
         <div><strong>细胞代谢世界地图</strong><small id="brandVersion">代谢网络交互图 · 第 8.3 版</small></div>
       </div>
-      <label class="search" aria-label="搜索代谢知识实体">
-        <span class="search-hint">回车</span>
-        <input id="search" autocomplete="off" aria-describedby="searchStatus" placeholder="搜索物质、酶、反应或通路…">
+      <label class="search">
+        <span class="search-hint" aria-hidden="true">回车</span>
+        <input id="search" autocomplete="off" aria-label="搜索代谢知识实体" aria-describedby="searchStatus" placeholder="搜索物质、酶、反应或通路…">
         <span class="search-status" id="searchStatus" role="status" aria-live="polite" aria-atomic="true"></span>
       </label>
       <div class="top-actions">
@@ -430,7 +430,7 @@
       </figure>
     </dialog>
 
-    <a class="deerflow" href="https://deerflow.tech" target="_blank" rel="noreferrer" title="由 Deerflow 创建">由 Deerflow 创建</a>
+    <footer aria-label="站点信息"><a class="deerflow" href="https://deerflow.tech" target="_blank" rel="noreferrer" title="由 Deerflow 创建">由 Deerflow 创建</a></footer>
   </div>
 </body>
 </html>

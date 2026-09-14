@@ -10112,6 +10112,7 @@
           );
           if (studentTopicHit) {
             renderStudentTopic(studentTopicHit[0]);
+            updateSearchStatus(`已定位到专题：${studentTopicHit[1].label}`);
             return;
           }
           const participantHit = preferredSearchMatch(
@@ -10132,6 +10133,7 @@
             const reaction = occurrence ? reactionById[occurrence.reactionId] : null;
             if (reaction) renderStudentReactionDetail(reaction, currentPathwayId, studentReactionsFor(currentPathwayId).indexOf(reaction));
             renderStudentSceneLinks(subject, currentPathwayId, { focus: 'panel' });
+            updateSearchStatus(`已定位到：${participantHit.name}`);
             return;
           }
           const studentPathwayHit = preferredSearchMatch(
@@ -10141,17 +10143,18 @@
           );
           if (studentPathwayHit) {
             renderStudentPathway(studentPathwayHit[0]);
+            updateSearchStatus(`已定位到通路：${studentPathwayHit[1].name}`);
             return;
           }
         }
         const exactEnzyme = reactions.find(r => r.enzyme && r.enzyme.toLowerCase() === query);
-        if (exactEnzyme) { if (currentSceneId) closeScene(); setStudentMode(false); openReaction(exactEnzyme); focusReaction(exactEnzyme); return; }
+        if (exactEnzyme) { if (currentSceneId) closeScene(); setStudentMode(false); openReaction(exactEnzyme); focusReaction(exactEnzyme); updateSearchStatus(`已定位到酶：${exactEnzyme.enzyme}`); return; }
         const entity = preferredSearchMatch(
           entities, query,
           e => [e.name, e.latin, e.label, e.id],
           e => `${e.name} ${e.latin} ${e.label} ${e.id}`
         );
-        if (entity) { if (currentSceneId) closeScene(); setStudentMode(false); openEntity(entity); focusEntity(entity); return; }
+        if (entity) { if (currentSceneId) closeScene(); setStudentMode(false); openEntity(entity); focusEntity(entity); updateSearchStatus(`已定位到：${entity.name}`); return; }
         const participantHit = preferredSearchMatch(
           participantCatalog, query,
           entry => [entry.name, entry.key, ...(entry.aliases || [])],
@@ -10162,11 +10165,11 @@
           const participantReaction = participantHit.reactionIds.map(id => reactionById[id]).find(Boolean);
           if (currentSceneId) closeScene();
           setStudentMode(false);
-          if (participantEntity) { openEntity(participantEntity); focusEntity(participantEntity); return; }
-          if (participantReaction) { openReaction(participantReaction); focusReaction(participantReaction); return; }
+          if (participantEntity) { openEntity(participantEntity); focusEntity(participantEntity); updateSearchStatus(`已定位到：${participantEntity.name}`); return; }
+          if (participantReaction) { openReaction(participantReaction); focusReaction(participantReaction); updateSearchStatus(`已定位到反应：${participantReaction.enzyme || participantReaction.equation || ''}`); return; }
         }
         const reaction = reactions.find(r => `${r.equation} ${r.enzyme}`.toLowerCase().includes(query));
-        if (reaction) { if (currentSceneId) closeScene(); setStudentMode(false); openReaction(reaction); focusReaction(reaction); return; }
+        if (reaction) { if (currentSceneId) closeScene(); setStudentMode(false); openReaction(reaction); focusReaction(reaction); updateSearchStatus(`已定位到反应：${reaction.enzyme || reaction.equation || ''}`); return; }
         const atlasEntries = coreStudyPathwayIds.map(pathwayId => [pathwayId, atlas.pathways[pathwayId]]).filter(([, pathway]) => pathway);
         // 拉丁文查询必须对齐词首：裸子串匹配会让 "SAM" 命中 "tranSAMination"，
         // 把 S-腺苷蛋氨酸抢到转氨通路去。前缀搜索（glyco → Glycolysis）仍然有效；
@@ -10180,15 +10183,17 @@
           atlasEntries.find(([, p]) => p.name.toLowerCase() === query || p.english.toLowerCase() === query) ||
           atlasEntries.find(([, p]) => looseHit(`${p.name} ${p.english}`)) ||
           atlasEntries.find(([, p]) => `${p.group} ${p.compartment} ${p.steps.join(' ')}`.toLowerCase().includes(query));
-        if (atlasPath) { setStudentMode(false, { buildExpert: false }); openScene(atlasPath[1].scene); openPathway(atlasPath[0]); return; }
+        if (atlasPath) { setStudentMode(false, { buildExpert: false }); openScene(atlasPath[1].scene); openPathway(atlasPath[0]); updateSearchStatus(`已定位到通路：${atlasPath[1].name}`); return; }
         const organelle = organelles.find(o => `${o.name} ${o.sub}`.toLowerCase().includes(query));
-        if (organelle?.sceneId) { openScene(organelle.sceneId); return; }
+        if (organelle?.sceneId) { openScene(organelle.sceneId); updateSearchStatus(`已定位到细胞器：${organelle.name}`); return; }
         const atlasScene = Object.entries(atlas.scenes).find(([, s]) => `${s.title} ${s.subtitle} ${s.description}`.toLowerCase().includes(query));
-        if (atlasScene) { openScene(atlasScene[0]); return; }
+        if (atlasScene) { openScene(atlasScene[0]); updateSearchStatus(`已定位到场景：${atlasScene[1].title}`); return; }
         const path = coreStudyPathwayIds.map(pathwayId => [pathwayId, pathwayMeta[pathwayId]]).find(([, m]) => m && `${m.label} ${m.english}`.toLowerCase().includes(query));
-        if (path) { if (currentSceneId) closeScene(); setStudentMode(false); document.querySelector(`[data-path="${path[0]}"]`)?.click(); return; }
+        if (path) { if (currentSceneId) closeScene(); setStudentMode(false); document.querySelector(`[data-path="${path[0]}"]`)?.click(); updateSearchStatus(`已定位到通路：${path[1].label}`); return; }
         updateSearchStatus(`未找到“${rawQuery}”。`, true);
-        searchInput.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-5px)' }, { transform: 'translateX(5px)' }, { transform: 'translateX(0)' }], { duration: 250 });
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          searchInput.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-5px)' }, { transform: 'translateX(5px)' }, { transform: 'translateX(0)' }], { duration: 250 });
+        }
       }
 
       svg.addEventListener('wheel', queueWheelZoom, { passive: false });
