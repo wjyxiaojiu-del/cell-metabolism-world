@@ -169,7 +169,11 @@ test('electron transport primer makes purpose, inputs, outputs, and location exp
   await expect(page.locator('#studentPathwayMapVisual')).toBeVisible();
   await expect(betaPlate).toHaveAttribute('src', /pathway-learning\/optimized\/beta_oxidation-v2\.webp/);
   await expect(betaPlate).not.toHaveAttribute('src', /40-fatty-acid-beta-oxidation-mechanism\.svg/);
-  await expect(page.locator('#studentPathwayMapVisualCaption')).toContainText('每轮释放乙酰-CoA');
+  await expect(page.locator('#studentPrimer')).toContainText('饱和偶数碳链');
+  await expect(page.locator('#studentPrimer')).toContainText('末轮 C4 会切下 2 个');
+  await expect(page.locator('#studentPrimer')).toContainText('酶内 FAD');
+  await expect(page.locator('#studentPathwayMapVisualCaption')).toContainText('通常每轮释放 1 个乙酰-CoA');
+  await expect(page.locator('#studentPathwayMapVisualCaption')).toContainText('末轮 C4 释放 2 个');
   await betaPlate.screenshot({ path: 'output/playwright/beta-oxidation-textbook-plate.png' });
 });
 
@@ -994,7 +998,7 @@ test('pyrimidine learning map builds the ring before PRPP and keeps the RNA DNA 
     'UDP', 'UTP', 'CTPS · Gln + ATP', 'CTP',
     'RNR · thioredoxin(red)', 'dUDP', 'NDPK', 'dUTP', 'DUT · dUTPase', 'dUMP',
     'TYMS · 5,10-亚甲基-THF', 'DHF', 'dTMP', 'dTTP',
-    'dCTP 分支：CDP 经 RNR', 'dCMP 脱氨也可形成 dUMP',
+    'dCTP 分支：CDP→dCDP 经 RNR', 'dCMP 脱氨也可形成 dUMP',
     'N3：谷氨酰胺', 'C2：HCO₃⁻', 'N1/C4/C5/C6：天冬氨酸',
     '形成 UMP：CAD/CPS II 直接消耗 2 ATP', 'PRPP 的活化成本另计',
     'UTP抑制 CAD/CPS II · PRPP激活',
@@ -1045,6 +1049,8 @@ test('pathway overview restores structural images and expands opaque abbreviatio
 
   await selectPathway('fa_synthesis');
   await expect(page.locator('#studentPrimer')).toContainText('乙酰辅酶 A 羧化酶');
+  await expect(page.locator('#studentPrimer')).toContainText('先以柠檬酸形式送到细胞质');
+  await expect(page.locator('#studentPrimer')).not.toContainText('乙酰辅酶 A 被搬到细胞质');
   await expect(page.locator('#studentPathwayMapVisual')).toBeVisible();
   await expect(page.locator('#studentPathwayMapVisualImage')).toHaveAttribute('src', /pathway-learning\/optimized\/fa_synthesis-v4\.png/);
   await expect(page.locator('#studentPathwayMapScientificOverlayLayer .overlay-schematic')).toHaveCount(0);
@@ -1086,6 +1092,30 @@ test('high-risk learning pathways use the corrected textbook mechanism plates', 
   await selectPathway('nucleotide_degradation');
   await expect(page.locator('#studentPrimer')).toContainText('主要在细胞质');
   await expect(page.locator('#studentPrimer')).not.toContainText('溶酶体');
+});
+
+test('second-round quantitative primers keep nucleotide and urea ledgers explicit', async ({ page }) => {
+  await enterLearning(page);
+  const selectPathway = pathwayId => page.locator('#studentPathwaySelect').evaluate((select, value) => {
+    select.value = value;
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+  }, pathwayId);
+
+  await selectPathway('urea');
+  await expect(page.locator('#studentPrimer')).toContainText('直接消耗 3 ATP');
+  await expect(page.locator('#studentPrimer')).toContainText('4 个高能磷酸键');
+  await expect(page.locator('#studentPrimer')).toContainText('ASS1 的 ATP→AMP + PPi');
+
+  await selectPathway('purine');
+  await expect(page.locator('#studentPrimer')).toContainText('5 个 ATP 分子');
+  await expect(page.locator('#studentPrimer')).toContainText('6 个高能磷酸键等价物');
+  await expect(page.locator('#studentPrimer')).toContainText('AMP 分支消耗 GTP，GMP 分支经 XMP 消耗 ATP');
+
+  await selectPathway('pyrimidine');
+  await expect(page.locator('#studentPrimer')).toContainText('必须经过 UDP/CDP');
+  await expect(page.locator('#studentPrimer')).toContainText('只还原 UDP/CDP');
+  await expect(page.locator('#studentPrimer')).toContainText('dUDP 经 dUTP→dUMP→dTMP→dTTP');
+  await expect(page.locator('#studentPrimer')).toContainText('dCDP 经 dCTP 支路');
 });
 
 test('every core pathway exposes a complete beginner primer', async ({ page }) => {

@@ -5,6 +5,12 @@
 ## 阶段〇：现在就能做（零视觉风险，不碰运行时像素）
 
 > **执行状态（2026-09-13 当日）**：0.1 已推送且 CI 全绿（data-gates + ubuntu UI 阻塞 + windows 可读性信息项）；0.2 证据覆盖 327→334/368（90.8%），已终审带证据 276/308，Reactome 通道已建成；0.3 钩子已建并加 versions --check；0.4 完成。另完成两件计划外项：发布构建管线（terser 最小化，126/126 对产物全绿，解析字节 -17%）与 pre-commit 自动 bump 缓存版本（关闭 30 天旧缓存缺口）。1.1 签核包工具、1.2 flaky 修复（5 连绿）、1.3 版本号脚本均已完成。
+>
+> **0.2 收尾（2026-09-14）**：证据覆盖 334→366/368（99.5%）；已终审 306/308；核心证据清单 171/171 行有引用（原 147 行待补清零）。新增 31 个唯一引用（KEGG/Reactome/UniProt），303/303 在线验证通过；`check-citations.js` 收紧“格式可疑”判定（正文提及 KEGG 一词不再误报，仅带冒号的引用写法参与格式校验）。剩余 2 行为显式政策留空：`fa_elongation` 后续去饱和（多同工酶）、`membrane_transport` Na⁺ 通用行（不指定单一分子）。台账、REVIEW_PROGRESS、核心清单与 STATS 已同步。
+>
+> **0.2 加固（2026-09-14 下午）**：`check-citations.js` 区分政策留空与真缺口（`--strict` 只拦截真缺口，CI data-gates 与 pre-push 钩子已接入 `--strict`）；签核包生成器修正证据链接为 POSIX 路径、新增“实机操作入口”段，并为 15 条待确认通路重新生成签核包与 `signoff-packets/index.md`（修复索引内嵌套链接）。工具链测试与 `test:data` 通过。
+>
+> **UX/a11y 零像素修复（2026-09-14 晚）**：axe 基线审计后修复 5 项不触碰运行时像素的问题——`#search` 直接挂 `aria-label`（原包装 label 的 aria-label 不生效）、`#sceneRouteLanes` 补 `role="group"`（aria-prohibited-attr）、`.deerflow` 包进 `<footer>`（region）、搜索命中后 `#searchStatus` 播报“已定位到 …”（原命中无任何反馈）、搜索未命中抖动动画尊重 `prefers-reduced-motion`。复验：封面 serious 归零、命中播报生效；专家侧剩 2 处 color-contrast（`.scene-pathway-view`、`#learnBtn`，属视觉改动，锁定在阶段二）；学习侧简介混入内部审校用语（251/368 行）同样锁定在阶段二或走签核退回。缓存版本已 bump，全量 `npm test` 126/126 通过。
 
 ### 0.1 推送仓库并确认 CI 首跑
 - 做法：`git push origin codex/map-polish`；打开 GitHub Actions 看 `gates` 两个 job（data-gates 约 3 分钟、ui-regression 约 12 分钟）。

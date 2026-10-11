@@ -1417,6 +1417,29 @@ body.student-mode .student-pathway-nav {
   justify-content: space-between;
   gap: 18px;
 }
+body.student-mode .student-pathway-copy {
+  min-height: 34px;
+  padding: 0 11px;
+  border: 1px solid #c7dde9;
+  border-radius: 10px;
+  color: #35718f;
+  background: rgba(255, 255, 255, .72);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+body.student-mode .student-pathway-copy:hover,
+body.student-mode .student-pathway-copy:focus-visible {
+  border-color: #2b8fc7;
+  color: #0b568c;
+  outline: 3px solid rgba(255, 206, 72, .28);
+}
+body.student-mode .student-pathway-copy[data-copy-state="copied"] {
+  border-color: #79b99f;
+  color: #287253;
+  background: #f3fbf5;
+}
 
 /* Zero-beginner lesson layer: concept first, pathway canvas second. */
 body.student-mode .student-primer {
@@ -1646,6 +1669,7 @@ body.student-mode .student-lesson-body-heading p {
   body.student-mode .student-course-home-note { align-items: stretch; flex-direction: column; }
   body.student-mode .student-course-start { width: 100%; }
   body.student-mode .student-pathway-nav { align-items: flex-start; flex-direction: column; gap: 6px; }
+  body.student-mode .student-pathway-copy { align-self: flex-start; }
   body.student-mode .student-primer { margin-top: 22px; padding-bottom: 24px; }
   body.student-mode .student-primer-topline { align-items: flex-start; flex-direction: column; gap: 4px; }
   body.student-mode .student-primer h3 { font-size: 25px; }

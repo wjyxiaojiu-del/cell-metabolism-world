@@ -3,3 +3,4 @@
 # 启用：git config core.hooksPath hooks
 node tools/validate.js || exit 1
 node tools/compile.js --check || exit 1
+node tools/check-citations.js --strict || exit 1

@@ -128,6 +128,7 @@
       const studentCourseHome = document.getElementById('studentCourseHome');
       const studentCourseTopics = document.getElementById('studentCourseTopics');
       const studentCourseBack = document.getElementById('studentCourseBack');
+      const studentPathwayCopy = document.getElementById('studentPathwayCopy');
       const flowKicker = document.getElementById('flowKicker');
       const flowTitle = document.getElementById('flowTitle');
       const flowCompartment = document.getElementById('flowCompartment');
@@ -989,7 +990,7 @@
         { match: /乳酸脱氢酶/, structure: '同源或异源四聚体脱氢酶', factors: 'NAD⁺ / NADH' },
         { match: /β-羟丁酸脱氢酶/, structure: '线粒体内膜相关脱氢酶', factors: 'NAD⁺ / NADH' },
         { match: /β-羟脂酰-CoA 脱氢酶/, structure: '同源二聚体或线粒体三功能蛋白中的脱氢酶结构域', factors: 'NAD⁺' },
-        { match: /脂酰-CoA 脱氢酶/, structure: '链长特异的二聚体或四聚体黄素酶', factors: 'FAD' },
+        { match: /脂酰-CoA 脱氢酶/, structure: '链长特异的二聚体或四聚体黄素酶', factors: '酶内 FAD；电子经 ETF / ETF:QO 进入辅酶 Q' },
         { match: /异柠檬酸脱氢酶/, structure: 'NAD⁺ 依赖型异源四聚体', factors: 'NAD⁺、Mg²⁺ / Mn²⁺' },
         { match: /己糖激酶/, structure: '单链双结构域激酶', factors: 'Mg²⁺' },
         { match: /磷酸果糖激酶-1/, structure: '同源四聚体激酶', factors: 'Mg²⁺' },
@@ -1806,7 +1807,7 @@
           scope: '转氨、尿素循环、氨基酸碳骨架',
           summary: '氨基酸分解后需要同时处理两部分：含氮基团集中后排出，碳骨架则重新接回中央代谢。',
           structureTitle: '氮和碳骨架分开处理',
-          structure: [['汇总氨基', '转氨把不同氨基酸的氮集中到谷氨酸'], ['安全排氮', '尿素循环把有毒氨转成尿素'], ['碳骨架回流', '剩余部分进入丙酮酸、乙酰辅酶 A 或三羧酸循环']],
+          structure: [['汇总氨基', '转氨把许多氨基酸的氮集中到谷氨酸'], ['安全排氮', '尿素循环把有毒氨转成尿素'], ['碳骨架回流', '剩余部分进入丙酮酸、乙酰辅酶 A 或三羧酸循环']],
           pathways: ['transamination', 'urea', 'aa_carbon'],
           links: [['transamination', 'urea'], ['transamination', 'aa_carbon']]
         },
@@ -1859,11 +1860,11 @@
         fa_synthesis: '柠檬酸把乙酰基带到胞质，ACC 生成丙二酰-CoA，脂肪酸合酶反复缩合、还原、脱水和再还原。',
         carnitine: 'CPT1、CACT 和 CPT2 跨越线粒体两层膜接力运输长链脂酰基，CoA 本身不跨内膜。',
         ketone: '肝线粒体把乙酰-CoA 汇入 HMG-CoA，再生成乙酰乙酸和 β-羟丁酸供外周组织利用。',
-        transamination: 'ALT、AST 把不同氨基酸的氮集中到谷氨酸，再由谷氨酸脱氢酶释放铵离子。',
-        urea: '线粒体基质与细胞质共同完成尿素循环，鸟氨酸和瓜氨酸通过 ORNT1 跨膜衔接两侧反应。',
+        transamination: 'ALT、AST 把许多氨基酸的氮集中到谷氨酸，再由谷氨酸脱氢酶释放铵离子。',
+        urea: '线粒体基质与细胞质共同完成尿素循环；每合成 1 个尿素直接消耗 3 ATP，折算为 4 个高能磷酸键，鸟氨酸和瓜氨酸通过 ORNT1 衔接两侧反应。',
         aa_carbon: '去除氨基后的碳骨架分别进入丙酮酸、乙酰-CoA、乙酰乙酰-CoA或三羧酸循环中间体。',
-        purine: '嘌呤环在 PRPP 核糖骨架上逐步组装成 IMP，再分流形成 AMP 和 GMP。',
-        pyrimidine: 'CAD 在胞质完成早期反应，DHODH 在线粒体内膜生成乳清酸，随后形成 UMP、CTP 与 dTMP。',
+        purine: '嘌呤环在 PRPP 核糖骨架上十步组装成 IMP；按本图从 R5P 到 IMP 直接计数为 5 个 ATP 分子、6 个高能磷酸键等价物，AMP/GMP 分支再分别使用 GTP/ATP。',
+        pyrimidine: 'CAD 在胞质用 2 ATP 完成早期造环，DHODH 在线粒体内膜生成乳清酸；UMP 先到 UDP/CDP，再由 RNR 进入 dTTP/dCTP 分支。',
         nucleotide_degradation: '胞质核苷酸先去磷酸形成核苷和碱基；可补救回收的部分重新进入核苷酸池，其余继续降解。'
       };
       Object.assign(studentPathwayScientificCaptions, {
@@ -1872,7 +1873,7 @@
         etc: '复合体 I–IV 逐级传递电子，并由 I、III、IV 将质子泵到膜间隙；参考图中的 FADH₂ 是复合体 II 酶内电子中继，真实底物入口为琥珀酸。',
         oxphos: '质子经 ATP 合酶回流并驱动旋转，ANT 与磷酸载体再完成 ADP、Pi 和 ATP 的跨膜交换。',
         glycolysis: '能量投资阶段消耗 2 ATP，六碳中间体裂成两条三碳通路，最终净得 2 ATP、2 NADH 和 2 个丙酮酸。',
-        beta_oxidation: '脂酰-CoA 在基质中依次完成脱氢、水合、再脱氢和硫解，每轮释放乙酰-CoA并缩短 2 个碳。'
+        beta_oxidation: '以饱和偶数碳链为例，脂酰-CoA 在基质中依次完成脱氢、水合、再脱氢和硫解；通常每轮释放 1 个乙酰-CoA，末轮 C4 释放 2 个。'
       });
       const studentPathwayMapVisuals = Object.fromEntries(
         coreStudyPathwayIds.map(pathwayId => {
@@ -1893,25 +1894,25 @@
       };
       const studentBeginnerLessons = {
         pdh: { topic: '生物氧化', lesson: '第 1 课 · 把糖的产物送进线粒体', title: '丙酮酸为什么要进入线粒体？', question: '葡萄糖已经在细胞质变成丙酮酸，但这还不是高效供能的终点。', goal: '把丙酮酸变成乙酰辅酶 A', problem: '把糖酵解留下的 3 碳丙酮酸，接到线粒体的供能主线。', input: '丙酮酸、辅酶 A、NAD⁺', output: '乙酰辅酶 A、CO₂、NADH', location: '线粒体基质', purpose: '乙酰辅酶 A 才能进入三羧酸循环；NADH 会把电子交给呼吸链。', terms: [['脱羧', '去掉一个碳，并以 CO₂ 释放'], ['乙酰辅酶 A', '携带 2 个碳进入三羧酸循环'], ['NADH', '携带高能电子的还原当量']], story: [['丙酮酸到达线粒体', '先通过外膜通道，再由内膜载体进入基质。'], ['去掉一个碳', '丙酮酸脱羧，释放 CO₂，剩下 2 个碳。'], ['接上辅酶 A', '形成乙酰辅酶 A，同时 NAD⁺ 被还原成 NADH。']] },
-        tca: { topic: '生物氧化', lesson: '第 2 课 · 循环拆出电子', title: '三羧酸循环到底在循环什么？', question: '它不是只为了“绕一圈”，而是逐步氧化乙酰基：电子装进 NADH，或经琥珀酸脱氢酶的酶内 FAD 直接交给 CoQ。', goal: '把乙酰辅酶 A 的碳氧化成 CO₂', problem: '彻底氧化乙酰基，同时收集能交给呼吸链的电子。', input: '乙酰辅酶 A、NAD⁺、GDP + Pi、CoQ', output: 'CO₂、NADH、GTP、CoQH₂', location: '主要在线粒体基质；琥珀酸脱氢酶是内膜复合体 II', purpose: '为电子传递链持续提供 NADH，并把一对电子直接送入 CoQ 池。', terms: [['乙酰基', '乙酰辅酶 A 中真正被氧化的 2 个碳'], ['还原当量', 'NADH 或 CoQH₂携带、可交给呼吸链的高能电子'], ['补充反应', '补回被抽走的循环中间体']], story: [['2 个碳进入循环', '乙酰辅酶 A 与草酰乙酸结合，形成柠檬酸。'], ['碳以 CO₂ 离开', '连续氧化和脱羧，把乙酰基的碳释放出来。'], ['电子被收集', '每一圈生成 3 NADH；复合体 II 的酶内 FAD 再把一对电子交给 CoQ，同时形成 1 GTP。']] },
+        tca: { topic: '生物氧化', lesson: '第 2 课 · 循环拆出电子', title: '三羧酸循环到底在循环什么？', question: '它不是只为了“绕一圈”，而是逐步氧化乙酰基：电子装进 NADH，或经琥珀酸脱氢酶的酶内 FAD 直接交给 CoQ。', goal: '把乙酰辅酶 A 的碳氧化成 CO₂', problem: '彻底氧化乙酰基，同时收集能交给呼吸链的电子。', input: '乙酰辅酶 A、NAD⁺、GDP + Pi、CoQ', output: 'CO₂、NADH、GTP、CoQH₂', location: '主要在线粒体基质；琥珀酸脱氢酶是内膜复合体 II', purpose: '为电子传递链持续提供 NADH，并把一对电子直接送入 CoQ 池。', terms: [['乙酰基', '乙酰辅酶 A 中真正被氧化的 2 个碳'], ['还原当量', 'NADH 或 CoQH₂携带、可交给呼吸链的高能电子'], ['补充反应', '补回被抽走的循环中间体']], story: [['2 个碳进入循环', '乙酰辅酶 A 与草酰乙酸结合，形成柠檬酸。'], ['脱羧释放 CO₂', '循环中的脱羧步骤释放 CO₂；乙酰基碳要经过连续多轮才完成氧化。'], ['电子被收集', '每一圈生成 3 NADH；复合体 II 的酶内 FAD 再把一对电子交给 CoQ，同时形成 1 GTP。']] },
         malate_aspartate: { topic: '生物氧化', lesson: '第 3 课 · 把胞质电子送入线粒体', title: 'NADH 进不了内膜，电子怎么办？', question: 'NADH 分子不能直接穿过线粒体内膜，细胞用穿梭反应把还原当量转交进去。', goal: '把胞质 NADH 的电子交给线粒体基质', problem: '解决 NADH 不能直接穿过内膜的空间限制。', input: '胞质 NADH + H⁺、基质 NAD⁺；OAA/苹果酸与谷氨酸/α-KG/天冬氨酸循环', output: '胞质 NAD⁺、基质 NADH + H⁺；循环中间体再生', location: '细胞质、线粒体内膜与基质', purpose: '把糖酵解等产生的胞质还原当量接到基质 NADH，再送入呼吸链复合体 I。', terms: [['穿梭', '不搬运 NADH 本身，而是借代谢物转交它的电子'], ['两台交换器', 'SLC25A11 交换苹果酸/α-KG；SLC25A12/13 交换天冬氨酸/谷氨酸 + H⁺'], ['转氨', 'GOT1/2 让 OAA 与天冬氨酸在两侧互换并闭合循环']], story: [['胞质 MDH1 接电子', 'OAA 消耗胞质 NADH + H⁺还原成苹果酸，同时再生胞质 NAD⁺。'], ['两台载体跨内膜交换', '苹果酸与 α-KG 反向交换；天冬氨酸输出与谷氨酸 + H⁺输入配对。'], ['基质 MDH2 重新生成 NADH', '苹果酸在基质被氧化为 OAA，基质 NAD⁺得到电子形成 NADH + H⁺并进入复合体 I。']] },
         glycerol_phosphate: { topic: '生物氧化', lesson: '第 4 课 · 另一条电子入口', title: '为什么同样是胞质 NADH，会有两种穿梭？', question: '甘油-3-磷酸穿梭不把 NADH 搬进基质，而是用代谢物与酶内辅基把电子直接交给 CoQ。', goal: '把胞质 NADH 的还原当量交给 CoQ 池', problem: '在 NADH 不能穿过内膜的前提下再生胞质 NAD⁺，并让电子进入呼吸链。', input: '胞质 NADH + H⁺、DHAP、CoQ', output: '胞质 NAD⁺、CoQH₂；DHAP 与甘油-3-磷酸循环再生', location: '细胞质、线粒体外膜/膜间隙与线粒体内膜', purpose: '电子由 CoQH₂接到复合体 III，绕过复合体 I；不生成基质 NADH。', terms: [['GPD1', '胞质酶，用 NADH 把 DHAP 还原为甘油-3-磷酸'], ['VDAC', '外膜通道，让甘油-3-磷酸和 DHAP 在胞质与膜间隙之间往返'], ['GPD2', '内膜酶，活性位点朝膜间隙；酶内 FAD 接电子后再还原 CoQ']], story: [['胞质 GPD1 先接电子', 'DHAP 消耗胞质 NADH + H⁺变成甘油-3-磷酸，同时再生胞质 NAD⁺。'], ['两种三碳磷酸经 VDAC 往返', '甘油-3-磷酸到膜间隙侧交出电子；形成的 DHAP 再返回胞质闭环。'], ['GPD2 把电子送入 CoQ 池', 'GPD2 的酶内 FAD/FADH₂完成接力，形成 CoQH₂并从复合体 III继续；NADH 本身不跨膜。']] },
         etc: { topic: '生物氧化', lesson: '第 5 课 · 电子流如何变成梯度', title: '呼吸链怎样把电子流变成“可用的力”？', question: 'NADH 和琥珀酸带来的电子，沿着内膜上的复合体逐级传递；复合体 II 先用酶内 FAD 接力，再把电子交给 CoQ，能量被用来泵出质子。', goal: '建立质子动力势，准备合成 ATP', problem: '把分散在 NADH 和琥珀酸里的电子能量，转换成跨内膜的质子梯度。', input: 'NADH、琥珀酸、氧气', output: 'NAD⁺、延胡索酸、CoQH₂、水、质子动力势', location: '线粒体内膜；质子积在膜间隙一侧', purpose: '建立 ATP 合酶可以利用的电化学梯度。', terms: [['电子载体', '在复合体之间接力传递电子的分子或复合体'], ['质子梯度', '内膜两侧 H⁺ 数量和电荷的差异'], ['末端电子受体', '氧气接收电子和质子，最终形成水']], story: [['电子开始接力', 'NADH 把电子交给复合体 I；琥珀酸在复合体 II 内由酶内 FAD 接收电子，再交给 CoQ。'], ['质子被泵出', '复合体 I、III、IV 利用电子能量，把 H⁺ 推到膜间隙。'], ['氧气收尾', '复合体 IV 让氧气接收电子和质子，形成水。']] },
         oxphos: { topic: '生物氧化', lesson: '第 6 课 · 梯度驱动 ATP', title: 'ATP 合酶为什么能制造 ATP？', question: '质子想回到基质，ATP 合酶把这股回流变成旋转，再推动 ADP 和 Pi 合成 ATP。', goal: '把质子动力势保存为 ATP', problem: '把线粒体内膜两侧的质子梯度转换成细胞可以直接使用的 ATP。', input: 'ADP、无机磷酸、质子动力势', output: 'ATP、水', location: '线粒体内膜与基质侧', purpose: 'ATP 是细胞最常用的即时能量货币。', terms: [['ATP', '可被细胞直接用来做功的能量货币'], ['ATP 合酶', '利用质子回流催化 ATP 形成的分子机器'], ['化学渗透', '用跨膜离子梯度驱动化学反应']], story: [['质子寻找回路', '膜间隙中的 H⁺ 不能自由穿过疏水的内膜。'], ['ATP 合酶转动', 'H⁺ 通过 ATP 合酶的通道，带动分子机器发生构象变化。'], ['ADP 变成 ATP', 'ADP 和 Pi 在基质侧结合，形成 ATP 供细胞使用。']] },
-        glycolysis: { topic: '糖代谢', lesson: '糖代谢第 1 课 · 葡萄糖先变成丙酮酸', title: '一分子葡萄糖能先得到什么？', question: '糖酵解把 6 个碳的葡萄糖分成两份 3 个碳的丙酮酸，并直接得到少量 ATP。', goal: '看懂葡萄糖到丙酮酸的主干', problem: '快速取得 ATP，并把碳流送到乳酸、乙酰辅酶 A 或其他代谢方向。', input: '葡萄糖、ADP、Pi、NAD⁺', output: '丙酮酸、净 ATP、NADH', location: '细胞质', purpose: '不依赖线粒体也能供能，是所有细胞都重要的中央入口。', terms: [['底物水平磷酸化', '反应本身直接把磷酸基转给 ADP'], ['承诺步骤', '把中间体推向本通路的关键控制点'], ['丙酮酸', '糖酵解的 3 碳出口，可继续多种去路']], story: [['先投入能量', '前几步消耗 ATP，把葡萄糖变成更容易裂解的中间体。'], ['六碳裂成两条三碳', '果糖-1,6-二磷酸分成两个三碳分子。'], ['收回并赚取能量', '后半段生成 ATP 和 NADH，最后形成两个丙酮酸。']] },
-        gluconeogenesis: { topic: '糖代谢', lesson: '糖代谢第 2 课 · 没有进食也要维持血糖', title: '糖异生是在“倒放”糖酵解吗？', question: '大部分步骤可以借用，但糖酵解的三个不可逆关卡需要绕路。', goal: '理解乳酸和氨基酸怎样回到葡萄糖', problem: '在空腹时为脑和红细胞维持血糖。', input: '乳酸、甘油、生糖氨基酸、ATP/GTP', output: '葡萄糖、ADP/GDP、NAD⁺', location: '线粒体、细胞质和内质网协作', purpose: '避免血糖降到影响中枢神经和红细胞供能的程度。', terms: [['不可逆关卡', '热力学上很难直接倒回去的步骤'], ['生糖原料', '能够转成葡萄糖的乳酸、甘油或氨基酸'], ['空腹', '进食间隔中需要维持血糖的状态']], story: [['碳骨架先汇合', '乳酸和生糖氨基酸先进入丙酮酸或草酰乙酸。'], ['绕开三个关卡', '用另一组酶消耗能量，绕过糖酵解的不可逆步骤。'], ['恢复六碳结构', '中间体回到葡萄糖-6-磷酸，最后释放葡萄糖。']] },
+        glycolysis: { topic: '糖代谢', lesson: '糖代谢第 1 课 · 葡萄糖先变成丙酮酸', title: '一分子葡萄糖能先得到什么？', question: '糖酵解把 6 个碳的葡萄糖分成两份 3 个碳的丙酮酸，并直接得到少量 ATP。', goal: '看懂葡萄糖到丙酮酸的主干', problem: '快速取得 ATP，并把碳流送到乳酸、乙酰辅酶 A 或其他代谢方向。', input: '葡萄糖；先投入 2 ATP，再使用 ADP、Pi 和 NAD⁺', output: '2 个丙酮酸、净得 2 ATP、2 NADH', location: '细胞质', purpose: '不依赖线粒体也能供能，是所有细胞都重要的中央入口。', terms: [['底物水平磷酸化', '反应本身直接把磷酸基转给 ADP'], ['承诺步骤', '把中间体推向本通路的关键控制点'], ['丙酮酸', '糖酵解的 3 碳出口，可继续多种去路']], story: [['先投入能量', '前几步消耗 ATP，把葡萄糖变成更容易裂解的中间体。'], ['六碳裂成两条三碳', '果糖-1,6-二磷酸分成两个三碳分子。'], ['收回并赚取能量', '后半段生成 ATP 和 NADH，最后形成两个丙酮酸。']] },
+        gluconeogenesis: { topic: '糖代谢', lesson: '糖代谢第 2 课 · 没有进食也要维持血糖', title: '糖异生是在“倒放”糖酵解吗？', question: '大部分步骤可以借用，但糖酵解的三个不可逆关卡需要绕路。', goal: '理解乳酸和氨基酸怎样回到葡萄糖', problem: '在空腹时为脑和红细胞维持血糖。', input: '乳酸、甘油、生糖氨基酸；还需 ATP/GTP 和 NADH', output: '葡萄糖、ADP/GDP、NAD⁺', location: '线粒体、细胞质和内质网协作', purpose: '避免血糖降到影响中枢神经和红细胞供能的程度。', terms: [['不可逆关卡', '热力学上很难直接倒回去的步骤'], ['生糖原料', '能够转成葡萄糖的乳酸、甘油或氨基酸'], ['空腹', '进食间隔中需要维持血糖的状态']], story: [['碳骨架先汇合', '乳酸和生糖氨基酸先进入丙酮酸或草酰乙酸。'], ['绕开三个关卡', '用另一组酶消耗能量和还原力，绕过糖酵解的不可逆步骤。'], ['恢复六碳结构', '中间体回到葡萄糖-6-磷酸，最后释放葡萄糖。']] },
         glycogenesis: { topic: '糖代谢', lesson: '糖代谢第 3 课 · 把多余葡萄糖存起来', title: '葡萄糖怎样变成糖原？', question: '吃饱后，细胞把葡萄糖活化成 UDP-葡萄糖，再接到糖原链上。', goal: '理解糖原是可快速取用的短期储备', problem: '把暂时用不完的葡萄糖存成紧凑、可分支的糖原。', input: '葡萄糖-6-磷酸、UTP、糖原引物', output: '糖原、UDP', location: '细胞质；肝和肌肉最重要', purpose: '肝脏帮助维持血糖，肌肉为自身收缩储备燃料。', terms: [['活化糖', '先和核苷酸结合，变成更容易转移的糖基'], ['糖原引物', '糖原合成开始时必须先有的一小段链'], ['分支', '让糖原同时拥有多个添加和释放葡萄糖的末端']], story: [['葡萄糖先改造', '葡萄糖-6-磷酸变成葡萄糖-1-磷酸。'], ['准备可转移的糖基', 'UDP-葡萄糖把葡萄糖暂时“装载”起来。'], ['延长并分支', '糖原合酶延长主链，分支酶让储备更易调用。']] },
         glycogenolysis: { topic: '糖代谢', lesson: '糖代谢第 4 课 · 需要时拆糖原', title: '糖原怎样快速提供葡萄糖？', question: '糖原磷酸化酶从末端逐个释放葡萄糖-1-磷酸，而不是先拆成游离葡萄糖。', goal: '看懂糖原储备怎样接回中央代谢', problem: '运动或空腹时快速动员已储存的葡萄糖。', input: '糖原、无机磷酸', output: '葡萄糖-1-磷酸；肝脏还可释放葡萄糖', location: '细胞质；肝和肌肉的处理结果不同', purpose: '肌肉就地供能，肝脏则帮助其他组织维持血糖。', terms: [['磷酸解', '用 Pi 切断糖苷键，释放带磷酸的糖'], ['去分支', '处理分支点，让主酶继续向前拆解'], ['组织分工', '肝能释放血糖，肌肉主要为自己使用']], story: [['从末端开始', '糖原磷酸化酶沿着非还原端释放葡萄糖-1-磷酸。'], ['遇到分支就换手', '去分支酶处理分支点，再把链交回主酶。'], ['接回糖酵解', '葡萄糖-1-磷酸变成葡萄糖-6-磷酸，进入供能路线。']] },
         ppp: { topic: '糖代谢', lesson: '糖代谢第 5 课 · 同一个葡萄糖的另一种用法', title: '细胞什么时候更需要 NADPH 而不是 ATP？', question: '磷酸戊糖途径把葡萄糖-6-磷酸分流，用来造还原力和核糖。', goal: '区分“供能”和“供还原力/原料”', problem: '为抗氧化、脂肪酸合成和核苷酸合成提供 NADPH 与核糖。', input: '葡萄糖-6-磷酸、NADP⁺', output: 'NADPH、核糖-5-磷酸、CO₂', location: '细胞质', purpose: 'NADPH 支持还原合成和谷胱甘肽再生，核糖用于造核苷酸。', terms: [['NADPH', '偏向合成和抗氧化使用的还原力'], ['核糖-5-磷酸', '制造核苷酸骨架的五碳原料'], ['分流', '同一个中间体根据需要进入不同路线']], story: [['氧化支路先产 NADPH', '葡萄糖-6-磷酸氧化并释放 CO₂。'], ['碳骨架变成核糖', '剩余五碳糖可以用于核苷酸合成。'], ['不需要核糖时回流', '非氧化阶段把碳骨架接回糖酵解中间体。']] },
-        fa_synthesis: { topic: '脂代谢', lesson: '脂代谢第 1 课 · 把多余碳储成脂肪酸', title: '细胞怎样把碳和还原力做成脂肪酸？', question: '能量充足时，乙酰辅酶 A 被搬到细胞质，先变成丙二酰辅酶 A，再逐轮加长。', goal: '理解脂肪酸合成是“加长 + 还原”', problem: '把多余的碳和 NADPH 保存成高能量密度的脂肪酸。', input: '乙酰辅酶 A、丙二酰辅酶 A、NADPH', output: '棕榈酸等脂肪酸', location: '细胞质；乙酰辅酶 A 由柠檬酸间接输出', purpose: '长期储能，并为膜脂和信号分子提供原料。', terms: [['丙二酰辅酶 A', '每一轮提供两个碳的延长单元'], ['乙酰辅酶 A 羧化酶', '脂肪酸合成的承诺和主要调控步骤'], ['NADPH', '为还原步骤提供电子']], story: [['准备两碳单元', '乙酰辅酶 A 被羧化成丙二酰辅酶 A。'], ['反复缩合', '每一轮把两个碳加到脂肪酸链上。'], ['两次还原并脱水', '消耗 NADPH，把中间体还原成更长的饱和链。']] },
+        fa_synthesis: { topic: '脂代谢', lesson: '脂代谢第 1 课 · 把多余碳储成脂肪酸', title: '细胞怎样把碳和还原力做成脂肪酸？', question: '能量充足时，线粒体的乙酰辅酶 A 先以柠檬酸形式送到细胞质，再由 ATP-柠檬酸裂解酶释放乙酰辅酶 A，随后生成丙二酰辅酶 A 并逐轮加长。', goal: '理解脂肪酸合成是“加长 + 还原”', problem: '把多余的碳和 NADPH 保存成高能量密度的脂肪酸。', input: '细胞质乙酰辅酶 A、丙二酰辅酶 A、NADPH', output: '棕榈酸等脂肪酸', location: '细胞质；乙酰辅酶 A 由柠檬酸间接输出', purpose: '长期储能，并为膜脂和信号分子提供原料。', terms: [['丙二酰辅酶 A', '每一轮提供两个碳的延长单元'], ['乙酰辅酶 A 羧化酶', '脂肪酸合成的承诺和主要调控步骤'], ['NADPH', '为还原步骤提供电子']], story: [['先把碳送到细胞质', '线粒体乙酰辅酶 A 以柠檬酸形式输出，再由 ATP-柠檬酸裂解酶释放乙酰辅酶 A。'], ['准备两碳单元', '胞质乙酰辅酶 A 被羧化成丙二酰辅酶 A。'], ['反复缩合并还原', '脂肪酸合酶逐轮加入两个碳，并消耗 NADPH 完成还原。']] },
         carnitine: { topic: '脂代谢', lesson: '长链脂肪酸进入线粒体', title: '脂肪酸为什么需要肉碱穿梭？', question: '长链脂酰辅酶 A 不能直接穿过线粒体内膜，肉碱负责临时接力。', goal: '看懂脂肪酸进入 β-氧化现场的路线', problem: '把长链脂肪酸安全、定向地送进线粒体基质。', input: '长链脂酰辅酶 A、肉碱', output: '基质侧长链脂酰辅酶 A、游离肉碱', location: '线粒体外膜、膜间隙和内膜', purpose: '把脂肪酸供给 β-氧化，同时控制脂肪酸进入速度。', terms: [['脂酰基', '脂肪酸连接到辅酶 A 后的形式'], ['脂酰肉碱', '脂酰基暂时连接肉碱后形成的跨膜运输形式'], ['限速入口', '决定后续脂肪酸氧化速度的运输关卡']], story: [['外膜完成第一次转接', 'CPT-I 把脂酰基从 CoA 转给肉碱，形成脂酰肉碱。'], ['跨内膜完成交换', 'CACT 把脂酰肉碱送入基质侧，同时把游离肉碱送出。'], ['基质侧交还辅酶 A', 'CPT-II 把脂酰基交还给 CoA，重新形成脂酰辅酶 A。']] },
-        beta_oxidation: { topic: '脂代谢', lesson: '脂代谢第 3 课 · 脂肪酸每轮缩短两个碳', title: 'β-氧化怎样把脂肪酸拆开？', question: '进入基质后，每一轮严格按“脱氢→水合→再脱氢→硫解”进行，切下一个乙酰-CoA。', goal: '从脂酰-CoA的四步循环推导 ATP 产能', problem: '把长链脂肪酸拆成可进入三羧酸循环的乙酰-CoA，同时把电子交给呼吸链。', input: '脂酰-CoA、FAD、NAD⁺、H₂O、CoA-SH', output: '乙酰-CoA、NADH、FADH₂、缩短两个碳的脂酰-CoA', location: '线粒体基质；极长链脂肪酸先在过氧化物酶体缩短', purpose: '每轮产生 1 个乙酰-CoA、1 个 NADH 和 1 个 FADH₂；乙酰-CoA进 TCA，还原当量进呼吸链。', terms: [['肉碱穿梭', 'CPT1–CACT–CPT2把长链脂酰基送入基质'], ['β-碳', '从羰基碳数起的第二个碳，第三步在这里发生氧化'], ['硫解', 'β-酮硫解酶用 CoA-SH 切下两个碳的乙酰-CoA']], story: [['先准备底物', '脂肪酸先由 ACSL 活化；长链脂酰基经 CPT1、CACT 和 CPT2 进入基质。'], ['完成四步循环', '脂酰-CoA脱氢形成双键，水合成羟基，再脱氢成β-酮基。'], ['切下并回收电子', '硫解切下乙酰-CoA；缩短的脂酰-CoA继续下一轮，直到链被拆完。']] },
+        beta_oxidation: { topic: '脂代谢', lesson: '脂代谢第 3 课 · 脂肪酸每轮缩短两个碳', title: 'β-氧化怎样把脂肪酸拆开？', question: '以饱和偶数碳链为例，进入基质后依次完成“脱氢→水合→再脱氢→硫解”；通常每轮切下 1 个乙酰-CoA，末轮 C4 会切下 2 个。', goal: '从脂酰-CoA的四步循环推导 ATP 产能', problem: '把长链脂肪酸拆成可进入三羧酸循环的乙酰-CoA，同时把电子交给呼吸链。', input: '脂酰-CoA、酶内 FAD、NAD⁺、H₂O、CoA-SH', output: '乙酰-CoA、NADH、酶内 FADH₂；缩短两个碳的脂酰-CoA', location: '线粒体基质；极长链脂肪酸先在过氧化物酶体缩短', purpose: '以 C16 为例，7 轮得到 8 个乙酰-CoA、7 个 NADH，FAD 电子经 ETF/ETF:QO 进入 CoQ；β-氧化本身不直接产生 ATP。', terms: [['肉碱穿梭', 'CPT1–CACT–CPT2把长链脂酰基送入基质'], ['β-碳', '从羰基碳数起的第二个碳，第三步在这里发生氧化'], ['硫解', 'β-酮硫解酶用 CoA-SH 切下两个碳的乙酰-CoA']], story: [['先准备底物', '脂肪酸先由 ACSL 活化；长链脂酰基经 CPT1、CACT 和 CPT2 进入基质。'], ['完成四步循环', '脂酰-CoA 在酶内 FAD、ETF/ETF:QO 和 NAD⁺的接力下完成两次脱氢，中间经过水合。'], ['切下并继续循环', '硫解切下乙酰-CoA；C16 的末轮 C4 释放 2 个乙酰-CoA，其他缩短脂酰-CoA继续下一轮。']] },
         ketone: { topic: '脂代谢', lesson: '脂代谢第 4 课 · 肝脏把脂肪做成备用燃料', title: '酮体为什么要在肝脏产生、别的组织使用？', question: '空腹时肝脏把过多乙酰辅酶 A 转成可运输的酮体，供心肌和脑等组织使用。', goal: '理解脂肪供能如何跨组织分配', problem: '当草酰乙酸优先用于糖异生时，给乙酰辅酶 A 找到出口。', input: '乙酰辅酶 A', output: '乙酰乙酸、β-羟丁酸、丙酮；外周组织再变回乙酰辅酶 A', location: '肝线粒体合成；肝外组织线粒体利用', purpose: '把肝脏的脂肪氧化能力变成全身可运输的燃料。', terms: [['酮体', '可在血液中运输的乙酰辅酶 A 替代燃料'], ['生酮', '把乙酰辅酶 A 合成为酮体'], ['肝脏例外', '肝脏制造酮体但缺少利用酮体的关键酶']], story: [['乙酰辅酶 A 堵在入口', '空腹时草酰乙酸被抽去做糖异生，TCA 处理能力下降。'], ['肝脏合成酮体', '两个乙酰辅酶 A 先合并，再形成乙酰乙酸等酮体。'], ['外周组织重新利用', '心肌、骨骼肌和脑把酮体变回乙酰辅酶 A。']] },
-        transamination: { topic: '氨基酸与氮', lesson: '氨基酸第 1 课 · 氨基先集中到谷氨酸', title: '不同氨基酸的氨基怎样汇总处理？', question: '转氨反应把氨基从一种氨基酸转给 α-酮戊二酸，形成谷氨酸。', goal: '理解氨基转移和碳骨架分开处理', problem: '集中收集氨基，避免每种氨基酸都走一套完全不同的排氮路线。', input: '氨基酸、α-酮戊二酸', output: '对应 α-酮酸、谷氨酸', location: '细胞质与线粒体；依酶和组织而不同', purpose: '谷氨酸既能继续释放氨，也能把氮转给尿素循环。', terms: [['转氨酶', '搬运氨基而不直接释放游离氨的酶'], ['α-酮酸', '失去氨基后的碳骨架'], ['PLP', '转氨酶使用的维生素 B₆ 衍生辅酶']], story: [['氨基先交给酶', 'PLP 暂时接住氨基，形成可转移的中间状态。'], ['换给 α-酮戊二酸', '氨基转移后生成谷氨酸。'], ['两条路分开', '碳骨架回到中央代谢，氮则进入排氮处理。']] },
-        urea: { topic: '氨基酸与氮', lesson: '氨基酸第 2 课 · 把有毒氨变成尿素', title: '尿素循环解决的核心问题是什么？', question: '氨对神经系统有毒，肝脏把它和另一份氮装进尿素，交给肾脏排出。', goal: '看懂两个区室接力完成的排氮路线', problem: '安全地清除氨基酸分解产生的氨。', input: '氨、碳酸氢根、天冬氨酸、ATP', output: '尿素、延胡索酸', location: '肝细胞线粒体基质与细胞质', purpose: '把有毒氨转成可溶、可排出的尿素。', terms: [['氨毒性', '游离氨升高会干扰脑能量和神经功能'], ['尿素', '哺乳动物主要的含氮排泄形式'], ['鸟氨酸', '循环中的载体，反应后被再生']], story: [['在线粒体装入第一份氮', '氨和碳酸氢根先形成氨甲酰磷酸。'], ['鸟氨酸接过氮', '瓜氨酸离开线粒体，在细胞质继续反应。'], ['尿素释放并再生载体', '第二份氮来自天冬氨酸，形成尿素后鸟氨酸回到循环。']] },
-        aa_carbon: { topic: '氨基酸与氮', lesson: '氨基酸第 3 课 · 氨基酸的碳最后去哪儿', title: '去掉氨基后，氨基酸还剩什么？', question: '剩下的碳骨架会汇入糖酵解、乙酰辅酶 A 或三羧酸循环。', goal: '区分生糖氨基酸和生酮氨基酸', problem: '把氨基酸的碳资源重新接回供能、产糖或产酮体路线。', input: '去氨基后的 α-酮酸和其他碳骨架', output: '丙酮酸、乙酰辅酶 A、TCA 中间体', location: '细胞质与线粒体', purpose: '氨基酸不只是造蛋白质，也能在需要时补充能量和葡萄糖原料。', terms: [['生糖', '碳骨架可以净生成葡萄糖'], ['生酮', '碳骨架生成乙酰辅酶 A 或酮体'], ['补充循环', '把中间体补回 TCA 以维持循环']], story: [['氮先被移走', '转氨或脱氨让碳骨架与氮分开。'], ['找到中央入口', '不同碳骨架进入丙酮酸、乙酰辅酶 A 或 TCA 不同位置。'], ['按身体需要分配', '空腹偏向供糖，能量需求高时偏向氧化供能。']] },
-        purine: { topic: '核苷酸代谢', lesson: '核苷酸第 1 课 · 从头搭建嘌呤', title: '嘌呤环是一次性造出来的吗？', question: '不是。细胞把氨基酸、一碳单位和 CO₂ 等小片段逐步装到核糖骨架上。', goal: '理解 IMP 是 AMP 和 GMP 的共同分叉点', problem: '从简单原料合成 DNA/RNA 和能量分子需要的嘌呤核苷酸。', input: 'PRPP、甘氨酸、谷氨酰胺、天冬氨酸、一碳单位', output: 'IMP，再分成 AMP 或 GMP', location: '细胞质', purpose: '提供 ATP、GTP 以及核酸合成所需的嘌呤骨架。', terms: [['PRPP', '被活化的核糖磷酸骨架'], ['IMP', '嘌呤从头合成的第一个共同分叉点'], ['一碳单位', '由叶酸携带、用于搭建环结构的小片段']], story: [['先活化核糖', 'PRPP 提供带能量的核糖骨架。'], ['逐片拼环', '甘氨酸、谷氨酰胺、天冬氨酸和一碳单位依次加入。'], ['在 IMP 分叉', 'IMP 继续分别走向 AMP 或 GMP。']] },
-        pyrimidine: { topic: '核苷酸代谢', lesson: '核苷酸第 2 课 · 先造环，再接到核糖上', title: '嘧啶和嘌呤的搭建顺序有什么不同？', question: '嘧啶环先在核糖外组装好，再接到 PRPP 上形成核苷酸。', goal: '掌握 UMP 是嘧啶合成的入口', problem: '合成 UTP、CTP 以及 DNA 前体 dTTP 所需的嘧啶核苷酸。', input: '谷氨酰胺、CO₂、天冬氨酸、PRPP', output: 'UMP，再形成 UDP/UTP/CTP 和 dNTP', location: '细胞质；DHODH 这一步在线粒体内膜', purpose: '提供 RNA 和 DNA 合成所需的嘧啶原料。', terms: [['氨甲酰磷酸', '嘧啶环组装的含氮起始原料'], ['UMP', '嘧啶从头合成的第一个核苷酸产物'], ['RNR', '把核糖核苷酸还原成脱氧核苷酸的酶']], story: [['先拼出嘧啶环', '氨甲酰磷酸和天冬氨酸先形成环状前体。'], ['接上核糖', '乳清酸接到 PRPP 上，生成 OMP 后脱羧成 UMP。'], ['继续磷酸化和还原', 'UMP 变成 UTP/CTP，或经 RNR 进入 DNA 前体池。']] },
+        transamination: { topic: '氨基酸与氮', lesson: '氨基酸第 1 课 · 氨基先集中到谷氨酸', title: '许多氨基酸的氨基怎样汇总处理？', question: '许多氨基酸可以把氨基转给 α-酮戊二酸，形成谷氨酸；具体去路依氨基酸、酶和组织而不同。', goal: '理解氨基转移和碳骨架分开处理', problem: '集中收集氨基，避免每种氨基酸都走一套完全不同的排氮路线。', input: '可转氨的氨基酸、α-酮戊二酸', output: '对应 α-酮酸、谷氨酸', location: '细胞质与线粒体；依酶和组织而不同', purpose: '谷氨酸既能继续释放氨，也能把氮转给尿素循环。', terms: [['转氨酶', '搬运氨基而不直接释放游离氨的酶'], ['α-酮酸', '失去氨基后的碳骨架'], ['PLP', '转氨酶使用的维生素 B₆ 衍生辅酶']], story: [['氨基先交给酶', 'PLP 暂时接住氨基，形成可转移的中间状态。'], ['换给 α-酮戊二酸', '氨基转移后生成谷氨酸。'], ['两条路分开', '碳骨架回到中央代谢，氮则进入排氮处理。']] },
+        urea: { topic: '氨基酸与氮', lesson: '氨基酸第 2 课 · 把有毒氨变成尿素', title: '尿素循环解决的核心问题是什么？', question: '氨对神经系统有毒；肝脏把 NH₄⁺ 和天冬氨酸提供的两份氮装进尿素。', goal: '看懂两个区室接力完成的排氮路线', problem: '安全地清除氨基酸分解产生的氨。', input: 'NH₄⁺、HCO₃⁻、天冬氨酸；直接消耗 3 ATP', output: '尿素、延胡索酸；4 个高能磷酸键等价物', location: '肝细胞线粒体基质与细胞质', purpose: '把有毒氨转成可溶、可排出的尿素；ASS1 的 ATP→AMP + PPi 使 3 个 ATP 折算为 4 个高能磷酸键。', terms: [['两份氮', '第一份来自 NH₄⁺，第二份随天冬氨酸进入'], ['ATP→AMP', 'ASS1 这一步消耗 ATP 并生成 AMP + PPi'], ['鸟氨酸', '循环中的载体，反应后被再生']], story: [['在线粒体装入第一份氮', 'CPS1 用 2 ATP 把 NH₄⁺ 和 HCO₃⁻装入氨甲酰磷酸。'], ['接入第二份氮', 'ASS1 把天冬氨酸接到瓜氨酸上，同时 ATP→AMP + PPi。'], ['尿素释放并再生载体', 'ARG1 释放尿素，鸟氨酸回到线粒体；直接用了 3 个 ATP，但能量账是 4 个高能磷酸键。']] },
+        aa_carbon: { topic: '氨基酸与氮', lesson: '氨基酸第 3 课 · 氨基酸的碳最后去哪儿', title: '去掉氨基后，氨基酸还剩什么？', question: '剩下的碳骨架会汇入丙酮酸、乙酰辅酶 A、乙酰乙酰-CoA 或三羧酸循环中间体。', goal: '区分生糖氨基酸和生酮氨基酸', problem: '把氨基酸的碳资源重新接回供能、产糖或产酮体路线。', input: '去氨基后的 α-酮酸和其他碳骨架', output: '丙酮酸、乙酰辅酶 A、乙酰乙酰-CoA、TCA 中间体', location: '细胞质与线粒体', purpose: '氨基酸不只是造蛋白质，也能在需要时补充能量和葡萄糖原料。', terms: [['生糖', '碳骨架可以净生成葡萄糖'], ['生酮', '碳骨架生成乙酰辅酶 A、乙酰乙酰-CoA 或酮体'], ['补充循环', '把中间体补回 TCA 以维持循环']], story: [['氮先被移走', '转氨或脱氨让碳骨架与氮分开。'], ['找到中央入口', '不同碳骨架进入丙酮酸、乙酰辅酶 A、乙酰乙酰-CoA 或 TCA 不同位置。'], ['按身体需要分配', '空腹偏向供糖，能量需求高时偏向氧化供能。']] },
+        purine: { topic: '核苷酸代谢', lesson: '核苷酸第 1 课 · 从头搭建嘌呤', title: '嘌呤环是一次性造出来的吗？', question: '不是。细胞把氨基酸、一碳单位和 CO₂ 等小片段逐步装到核糖骨架上，先形成 IMP，再分到 AMP/GMP。', goal: '理解 IMP 是 AMP 和 GMP 的共同分叉点', problem: '从简单原料合成 DNA/RNA 和能量分子需要的嘌呤核苷酸。', input: '核糖-5-磷酸、ATP、甘氨酸、谷氨酰胺、天冬氨酸、10-甲酰-THF', output: 'IMP；AMP 分支用 GTP，GMP 分支用 ATP', location: '细胞质', purpose: '按本图从 R5P 到 IMP 直接计数需要 5 个 ATP 分子；PRPP 的 ATP→AMP 使能量账为 6 个高能磷酸键等价物。', terms: [['PRPP', '被活化的核糖磷酸骨架'], ['IMP', '嘌呤从头合成的第一个共同分叉点'], ['能量账', '5 个 ATP 分子中含 1 次 ATP→AMP，折算 6 个高能磷酸键']], story: [['先活化核糖', 'PRPP 合成酶用 ATP 把核糖-5-磷酸活化成 PRPP，同时释放 AMP。'], ['逐片拼环', '甘氨酸、谷氨酰胺、天冬氨酸、一碳单位和 CO₂依次加入；其中四步还要消耗 ATP。'], ['在 IMP 分叉', 'AMP 分支消耗 GTP，GMP 分支经 XMP 消耗 ATP；补救合成另有自己的计量。']] },
+        pyrimidine: { topic: '核苷酸代谢', lesson: '核苷酸第 2 课 · 先造环，再接到核糖上', title: '从 UMP 到 DNA 前体，RNA 分支和 dNTP 分支怎样接上？', question: '嘧啶环先在核糖外组装好，再接到 PRPP 上形成 UMP；之后必须经过 UDP/CDP，才能进入 DNA 前体分支。', goal: '掌握 UMP 是嘧啶合成的入口', problem: '合成 UTP、CTP 以及 DNA 前体 dTTP、dCTP 所需的嘧啶核苷酸。', input: '谷氨酰胺、CO₂、天冬氨酸、PRPP、ATP；硫氧还蛋白和 5,10-亚甲基-THF', output: 'UMP、UTP、CTP；dTTP 和 dCTP', location: '细胞质；DHODH 这一步在线粒体内膜', purpose: 'CAD 造环阶段直接消耗 2 ATP；RNR 只还原 UDP/CDP 等二磷酸核苷酸，再分别进入 dTTP/dCTP 分支。', terms: [['UMP', '嘧啶从头合成的第一个核苷酸产物'], ['RNR', '把 UDP/CDP 等核糖核苷二磷酸还原成 dUDP/dCDP'], ['dTMP', 'TYMS 用 5,10-亚甲基-THF 把 dUMP 甲基化']], story: [['先拼出嘧啶环', 'CAD 用谷氨酰胺、CO₂、天冬氨酸和 2 ATP 形成环状前体。'], ['接上核糖并走 RNA 分支', '乳清酸接到 PRPP 上，生成 OMP 后脱羧成 UMP；UMP→UDP→UTP，CTP 合成酶再生成 CTP。'], ['进入 DNA 前体分支', 'RNR 把 UDP 或 CDP 还原为 dUDP/dCDP；dUDP 经 dUTP→dUMP→dTMP→dTTP，dCDP 经 dCTP 支路供 DNA。']] },
         nucleotide_degradation: { topic: '核苷酸代谢', lesson: '核苷酸第 3 课 · 用完的核苷酸去哪儿', title: '核苷酸分解后，细胞怎样处理它们？', question: '核苷酸和碱基不会凭空消失：有的回收，有的继续分解成尿酸或其他小分子。', goal: '看懂回收与降解是两种选择', problem: '处理细胞核苷酸池周转产生的核苷、碱基和含氮产物。', input: 'AMP、GMP、UMP、TMP 等核苷酸', output: '可回收碱基、尿酸、β-丙氨酸、β-氨基异丁酸', location: '主要在细胞质；终产物再由相应组织处理或排出', purpose: '回收有用原料，同时把不能回收的含氮部分安全处理。', terms: [['补救合成', '直接回收碱基或核苷，节省从头合成能量'], ['尿酸', '人类嘌呤分解的主要终产物'], ['周转', '核苷酸池不断消耗、降解和补充的动态过程']], story: [['先去掉磷酸', '核苷酸酶把 AMP、GMP 等变成相应核苷。'], ['优先回收', '有用的碱基和核苷可以走补救合成。'], ['多余部分继续降解', '嘌呤形成尿酸，嘧啶形成可进一步代谢的小分子。']] }
       };
       const studentStepAliases = window.STUDENT_STEP_RESOLVER?.aliasesByShortName || {};
@@ -6199,7 +6200,7 @@
           ['energy', '形成 UMP：CAD/CPS II 直接消耗 2 ATP', 'PRPP 的活化成本另计', 1040, 900, 390, 'pyrimidine-regulation-card'],
           ['regulation', 'UTP抑制 CAD/CPS II · PRPP激活', '入口按嘧啶池需求调节', 1400, 900, 300, 'pyrimidine-regulation-card'],
           ['dhodh-boundary', 'DHODH锚定线粒体内膜外侧 · 不需要专用转运体', '胞质底物和产物可接近催化域', 260, 992, 450, 'pyrimidine-boundary-card'],
-          ['dctp-boundary', 'dCTP 分支：CDP 经 RNR', '与 UDP 还原遵循同类逻辑', 655, 992, 300, 'pyrimidine-boundary-card'],
+          ['dctp-boundary', 'dCTP 分支：CDP→dCDP 经 RNR', '与 UDP 还原遵循同类逻辑', 655, 992, 300, 'pyrimidine-boundary-card'],
           ['dcmp-boundary', 'dCMP 脱氨也可形成 dUMP', '本图主线采用 dUTPase 路径', 970, 992, 300, 'pyrimidine-boundary-card'],
           ['folate-boundary', '5,10-亚甲基-THF → DHF', 'DHFR / SHMT 负责一碳循环补充', 1305, 992, 330, 'pyrimidine-folate-card']
         ].forEach(([key, label, meta, x, y, width, className]) => addNode({ key, label, meta, x, y, width, height: 72, className }));
@@ -7446,6 +7447,61 @@
           document.body.classList.remove('cover-transitioning');
           studentWorkspace.focus({ preventScroll: true });
         }, reducedMotion ? 0 : 900);
+      }
+
+      function studentPathwayIdFromHash() {
+        const match = window.location.hash.match(/^#learn=([^&]+)$/i);
+        if (!match) return null;
+        let pathwayId = '';
+        try { pathwayId = decodeURIComponent(match[1]); } catch (_) { return null; }
+        return coreStudyPathwaySet.has(pathwayId) ? pathwayId : null;
+      }
+
+      function openStudentPathwayFromHash(pathwayId = studentPathwayIdFromHash()) {
+        if (!pathwayId) return false;
+        setStudentMode(true);
+        revealApplication();
+        document.body.classList.remove('cover-visible', 'cover-transitioning');
+        cellCover.classList.remove('is-exiting');
+        cellCover.hidden = true;
+        cellCover.setAttribute('inert', '');
+        cellCover.setAttribute('aria-hidden', 'true');
+        renderStudentPathway(pathwayId, { returnToPrimer: false });
+        syncAccessibilityState();
+        studentWorkspace.focus({ preventScroll: true });
+        return true;
+      }
+
+      async function copyStudentPathwayLink() {
+        const pathwayId = activeStudentPathway;
+        if (!pathwayId || !studentPathwayCopy) return;
+        const url = new URL(window.location.href);
+        url.hash = `learn=${encodeURIComponent(pathwayId)}`;
+        let copied = false;
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(url.href);
+            copied = true;
+          }
+        } catch (_) {}
+        if (!copied) {
+          const field = document.createElement('textarea');
+          field.value = url.href;
+          field.setAttribute('readonly', '');
+          field.style.position = 'fixed';
+          field.style.opacity = '0';
+          document.body.appendChild(field);
+          field.select();
+          try { copied = document.execCommand('copy'); } catch (_) { copied = false; }
+          field.remove();
+        }
+        studentPathwayCopy.textContent = copied ? '已复制链接' : '复制失败，请重试';
+        studentPathwayCopy.dataset.copyState = copied ? 'copied' : 'failed';
+        window.setTimeout(() => {
+          if (!studentPathwayCopy) return;
+          studentPathwayCopy.textContent = '复制通路链接';
+          delete studentPathwayCopy.dataset.copyState;
+        }, 2200);
       }
 
       function applyView(options = {}) {
@@ -9429,7 +9485,7 @@
               [69, 87, 'C6 · CO₂', 'atom-carbon'], [88, 87, 'N1 · Asp', 'atom-asp']
             ].forEach(([x, y, value, role]) => namedNode(x, y, value, role));
             stackedLabel(25, 92, [
-              'R5P→IMP · 5 ATP分子',
+              'R5P→IMP · 5 ATP分子 · 6高能键',
               'AMP用GTP · GMP用ATP',
               'AMP⊣ADSS · GMP⊣IMPDH'
             ], 'schematic-output', 2.75);
@@ -9504,7 +9560,7 @@
             namedNode(...branch.dump, 'dUMP', 'dump'); namedNode(...branch.dtmp, 'dTMP', 'dtmp'); namedNode(...branch.dttp, 'dTTP', 'dttp');
             routePath('M 24 61 C 24 65, 24 69, 24 73', false, 'schematic-route');
             line(...branch.dudp, ...branch.dutp); line(...branch.dutp, ...branch.dump); line(...branch.dump, ...branch.dtmp); line(...branch.dtmp, ...branch.dttp);
-            label(24, 79, 'RNR', 'schematic-enzyme'); label(24, 84, 'thioredoxin(red)', 'schematic-cofactor');
+            label(24, 79, 'RNR · NDP→dNDP', 'schematic-enzyme'); label(24, 84, 'thioredoxin(red)', 'schematic-cofactor');
             label(40, 79, 'NDPK', 'schematic-enzyme'); label(56, 79, 'DUT', 'schematic-enzyme');
             label(72, 77, 'TYMS', 'schematic-enzyme'); label(88, 77, 'TMPK / NDPK', 'schematic-enzyme');
             label(78, 82, '5,10-亚甲基-THF → DHF', 'schematic-cofactor');
@@ -9512,7 +9568,7 @@
             namedNode(12, 90, 'N3 · Gln', 'atom-gln'); namedNode(32, 93, 'C2 · HCO₃⁻', 'atom-carbon'); namedNode(53, 90, 'N1/C4/C5/C6 · Asp', 'atom-aspartate');
             label(19, 97, 'CAD/CPS II · 2 ATP', 'schematic-output');
             label(50, 97, 'UTP⊣CAD · PRPP→CAD', 'schematic-output');
-            label(88, 87.5, 'dCTP：CDP 经 RNR', 'schematic-note');
+            label(88, 87.5, 'dCTP：CDP→dCDP 经 RNR', 'schematic-note');
             label(88, 93, 'dCMP deaminase → dUMP', 'schematic-note');
             label(88, 98.5, '不虚构 DHODH 专用转运体', 'schematic-note');
           } else if (pathwayId === 'nucleotide_degradation') {
@@ -10240,6 +10296,11 @@
       document.getElementById('upstreamBtn').addEventListener('click', () => { if (!selected || selectedType !== 'entity') return; const upstream = reactions.filter(r => r.to === selected.id).map(r => entityById[r.from]); if (upstream[0]) { openEntity(upstream[0]); focusEntity(upstream[0]); } });
       learnBtn.addEventListener('click', () => setStudentMode(!document.body.classList.contains('student-mode')));
       enterLearningBtn.addEventListener('click', enterLearningFromCover);
+      studentPathwayCopy?.addEventListener('click', copyStudentPathwayLink);
+      window.addEventListener('hashchange', () => {
+        const pathwayId = studentPathwayIdFromHash();
+        if (pathwayId) openStudentPathwayFromHash(pathwayId);
+      });
       studentTopicHomeBack?.addEventListener('click', () => showStudentCourseHome({ scroll: true }));
       studentCourseBack?.addEventListener('click', () => {
         const topicId = studentTopicIdForPathway(activeStudentPathway);
@@ -10305,16 +10366,18 @@
       if (statPath) statPath.textContent = pathwayCount;
       const coverMetaPrimary = document.getElementById('coverMetaPrimary');
       const coverMetaSecondary = document.getElementById('coverMetaSecondary');
-      if (coverMetaPrimary) coverMetaPrimary.textContent = `${pathwayCount} 条必考主线 · ${Object.keys(coreStudyModules).length} 个重点专题`;
+      if (coverMetaPrimary) coverMetaPrimary.textContent = `${pathwayCount} 条核心主线 · ${Object.keys(coreStudyModules).length} 个重点专题`;
       if (coverMetaSecondary) coverMetaSecondary.textContent = '从专题进入任意代谢通路';
 
       const statusSummary = document.getElementById('statusSummary');
       if (statusSummary) {
-        statusSummary.textContent = `${pathwayCount} 条必考主线 · ${Object.keys(coreStudyModules).length} 个重点专题 · 完整数据保留在底层`;
+        statusSummary.textContent = `${pathwayCount} 条核心主线 · ${Object.keys(coreStudyModules).length} 个重点专题 · 完整数据保留在底层`;
       }
 
       const brandVersion = document.getElementById('brandVersion');
       if (brandVersion && atlas.version) {
         brandVersion.textContent = `${brandVersion.textContent.trim()} · 数据 ${atlas.version}`;
       }
+
+      openStudentPathwayFromHash();
     })();

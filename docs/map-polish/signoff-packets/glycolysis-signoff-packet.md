@@ -3,13 +3,18 @@
 台账状态：负责人 待确认（学习 待确认 / 专家 待确认）· 确认日期 —
 评分：学习 95/25 · 专家 94/25 · P0/P1 0/0
 
+## 实机操作入口
+
+- 本机预览：`npm run preview` 后打开 <http://127.0.0.1:8000/index.html>（浏览器设备模式切换 390 / 768 / 1440）。
+- 每档都要进入学习图与专家图、阅读主线、打开详情、返回并切换相邻出口，不能只看截图。
+
 ## 证据核对（3 档 × 2 模式）
 
 | 档位 | 学习图 | 专家图 |
 |---|---|---|
-| 390 | [2026-08-31-final-390-map-core.png](docs\map-polish\evidence\learning\glycolysis\2026-08-31-final-390-map-core.png) 71KB | [2026-08-31-final-390-deck.png](docs\map-polish\evidence\expert\glycolysis\2026-08-31-final-390-deck.png) 174KB |
-| 768 | [2026-08-31-final-768-map-viewport.png](docs\map-polish\evidence\learning\glycolysis\2026-08-31-final-768-map-viewport.png) 230KB | [2026-08-31-final-768-deck.png](docs\map-polish\evidence\expert\glycolysis\2026-08-31-final-768-deck.png) 355KB |
-| 1440 | [2026-08-31-final-1440-map-viewport.png](docs\map-polish\evidence\learning\glycolysis\2026-08-31-final-1440-map-viewport.png) 196KB | [2026-08-31-final-1440-deck.png](docs\map-polish\evidence\expert\glycolysis\2026-08-31-final-1440-deck.png) 879KB |
+| 390 | [2026-08-31-final-390-map-core.png](docs/map-polish/evidence/learning/glycolysis/2026-08-31-final-390-map-core.png) 71KB | [2026-08-31-final-390-deck.png](docs/map-polish/evidence/expert/glycolysis/2026-08-31-final-390-deck.png) 174KB |
+| 768 | [2026-08-31-final-768-map-viewport.png](docs/map-polish/evidence/learning/glycolysis/2026-08-31-final-768-map-viewport.png) 230KB | [2026-08-31-final-768-deck.png](docs/map-polish/evidence/expert/glycolysis/2026-08-31-final-768-deck.png) 355KB |
+| 1440 | [2026-08-31-final-1440-map-viewport.png](docs/map-polish/evidence/learning/glycolysis/2026-08-31-final-1440-map-viewport.png) 196KB | [2026-08-31-final-1440-deck.png](docs/map-polish/evidence/expert/glycolysis/2026-08-31-final-1440-deck.png) 879KB |
 
 其余过程截图：学习 6 张 · 专家 4 张（同目录）。
 

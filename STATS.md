@@ -18,8 +18,8 @@
 
 - 学习主线步骤：294 个，全部链接到实体或代表性反应
 - 运行时图片：32 个唯一引用，共 8.82MB
-- 浏览器回归：18 个 spec，126 个测试
+- 浏览器回归：19 个 spec，130 个测试
 
 ## 构建指纹
 
-- `data-compiled.js` SHA-256：`FC18F53BE3B64B122475BE46B6D6D6EE9C4E79D4FDED33353C47FB5036752561`
+- `data-compiled.js` SHA-256：`C8CA27EB91E8FDE67566E5E9419AA02D923EFCB9E0CB07152E3521836438A2EE`

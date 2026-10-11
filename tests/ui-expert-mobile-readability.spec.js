@@ -2,7 +2,9 @@ const { test, expect } = require('playwright/test');
 
 // 度量口径说明：本文件的字号断言按签核平台（Windows/iPad 原生 CJK 字体）的文本包围盒高度校准；
 // 字体度量随平台变化，因此该 spec 只在 CI 的 windows 任务中执行（见 .github/workflows/ci.yml）。
-
+// 容差说明：10px 设计字号在 Windows CJK 字体度量下包围盒可能取整为 9.99976（误差 < 0.01px），
+// 属于浮点测量噪声而非可读性回归；下界按 9.99 断言，仍会拦截真实小于 9.99px 的标签。
+const MIN_LABEL_HEIGHT = 9.99;
 
 const URL = '/index.html?v=expert-mobile-readability';
 
@@ -121,7 +123,7 @@ test('TCA mechanism separates the eight-step cycle from its yield and inner-memb
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -181,7 +183,7 @@ test('malate aspartate mechanism separates both half-cycles, two exchangers and 
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -240,7 +242,7 @@ test('glycerol phosphate mechanism separates cytosolic GPD1, VDAC, intermembrane
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -288,7 +290,7 @@ test('glycolysis expert mechanism exposes all ten steps, three irreversible gate
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
   }
@@ -337,7 +339,7 @@ test('gluconeogenesis expert mechanism separates the three bypasses across matri
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
   }
@@ -385,7 +387,7 @@ test('glycogenesis expert mechanism separates activation, glycogenin priming, el
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
   }
@@ -437,7 +439,7 @@ test('glycogenolysis expert mechanism separates the limit dextrin, two debranchi
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -491,7 +493,7 @@ test('PPP expert mechanism separates oxidative yield, carbon balance and cellula
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -548,7 +550,7 @@ test('fatty acid synthesis expert mechanism separates citrate export, ACC commit
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -603,7 +605,7 @@ test('carnitine shuttle expert mechanism separates both membranes, CACT antiport
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -659,7 +661,7 @@ test('beta oxidation expert mechanism separates the four-step spiral, ETF electr
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -715,7 +717,7 @@ test('ketone expert mechanism separates liver production, circulation and extrah
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -773,7 +775,7 @@ test('transamination expert mechanism separates PLP transfer, glutamate transpor
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -832,7 +834,7 @@ test('urea expert mechanism separates five reactions, two carriers, atom origins
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -891,7 +893,7 @@ test('amino acid carbon expert mechanism resolves seven gateways without inventi
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -918,7 +920,7 @@ test('purine expert mechanism exposes the ten-step IMP assembly, atom ledger and
     'ADSS · Asp + GTP', 'ADSL · AMP + fumarate',
     'IMPDH · NAD⁺ → NADH', 'XMP', 'GMPS · Gln + ATP → AMP + PPi',
     'N3/N9 · Gln', 'C4/C5/N7 · Gly', 'C2/C8 · 10-formyl-THF', 'C6 · CO₂', 'N1 · Asp',
-    'R5P→IMP · 5 ATP分子', 'AMP用GTP · GMP用ATP',
+    'R5P→IMP · 5 ATP分子 · 6高能键', 'AMP用GTP · GMP用ATP',
     'AMP⊣ADSS · GMP⊣IMPDH', 'APRT / HGPRT · salvage uses PRPP',
     'salvage不属于十步从头主干'
   ]) {
@@ -952,7 +954,7 @@ test('purine expert mechanism exposes the ten-step IMP assembly, atom ledger and
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -979,7 +981,7 @@ test('pyrimidine expert mechanism keeps six-step UMP synthesis and both nucleoti
     'UDP', 'UTP', 'CTPS · Gln + ATP', 'CTP',
     'RNR', 'thioredoxin(red)', 'dUDP', 'NDPK', 'dUTP', 'DUT', 'dUMP',
     'TYMS', '5,10-亚甲基-THF → DHF', 'dTMP', 'dTTP',
-    'dCTP：CDP 经 RNR', 'dCMP deaminase → dUMP',
+    'dCTP：CDP→dCDP 经 RNR', 'dCMP deaminase → dUMP',
     'N3 · Gln', 'C2 · HCO₃⁻', 'N1/C4/C5/C6 · Asp',
     'CAD/CPS II · 2 ATP', 'UTP⊣CAD · PRPP→CAD', '不虚构 DHODH 专用转运体'
   ]) {
@@ -1013,7 +1015,7 @@ test('pyrimidine expert mechanism keeps six-step UMP synthesis and both nucleoti
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight, JSON.stringify(metrics)).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.clipped).toEqual([]);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
@@ -1073,7 +1075,7 @@ test('OxPhos mechanism separates ATP synthase, ANT and phosphate carrier on mobi
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
   }
@@ -1121,7 +1123,7 @@ test('PDH mechanism separates membrane entry from E1 E2 E3 handoff on mobile and
         pageOverflow: document.documentElement.scrollWidth - innerWidth
       };
     });
-    expect(metrics.minHeight).toBeGreaterThanOrEqual(10);
+    expect(metrics.minHeight).toBeGreaterThanOrEqual(MIN_LABEL_HEIGHT);
     expect(metrics.collisions).toEqual([]);
     expect(metrics.pageOverflow).toBeLessThanOrEqual(1);
   }
@@ -1138,7 +1140,7 @@ test('pyrimidine mobile mechanism separates the RNA and DNA precursor branches',
 
   await expect(schematic.getByText('dUDP', { exact: true })).toHaveCount(1);
   await expect(schematic.getByText('RNR → dUMP', { exact: true })).toHaveCount(0);
-  await expect(schematic.getByText('RNR', { exact: true })).toHaveCount(1);
+  await expect(schematic.getByText(/RNR · NDP→dNDP/)).toHaveCount(1);
   await expect(schematic.getByText('TYMS', { exact: true })).toHaveCount(1);
 
   const overlaps = await schematic.evaluate(group => {

@@ -20,8 +20,21 @@ const arg = (prefix, fallback) => {
 
 const pathwayArg = arg('--pathway=', null);
 const all = process.argv.includes('--all');
+const help = process.argv.includes('--help') || process.argv.includes('-h');
 const outDir = path.resolve(ROOT, arg('--out=', OUT_DEFAULT));
 const TOKEN = /\b(?:RHEA:\d+|KEGG:R\d{5}|R-HSA-\d+|PMID:\d{7,8}|(?:UniProt:)?[OPQ][0-9][A-Z0-9]{3}[0-9])\b/;
+
+function printHelp() {
+  console.log([
+    '用法：',
+    '  node tools/generate-signoff-packet.js --pathway=<id> [--out=<dir>]',
+    '  node tools/generate-signoff-packet.js --all [--out=<dir>]',
+    '',
+    '默认输出到 docs/map-polish/signoff-packets/。',
+    '--all 只生成负责人状态为“待确认”的通路对，并同步生成 index.md。',
+    '--help / -h 显示此帮助。'
+  ].join('\n'));
+}
 
 function loadSignoffRows() {
   const lines = fs.readFileSync(SIGNOFF, 'utf8').split(/\r?\n/);
@@ -56,7 +69,7 @@ function evidenceFiles(mode, id) {
     .sort()
     .map(f => {
       const full = path.join(dir, f);
-      return { file: f, kb: Math.round(fs.statSync(full).size / 1024), rel: path.relative(ROOT, full) };
+      return { file: f, kb: Math.round(fs.statSync(full).size / 1024), rel: path.relative(ROOT, full).split(path.sep).join('/') };
     });
 }
 
@@ -87,6 +100,11 @@ function packet(row) {
   lines.push(`评分：学习 ${row.learningScore} · 专家 ${row.expertScore} · P0/P1 ${row.p0p1}`);
   if (row.remark && row.remark !== '—') lines.push(`台账备注：${row.remark}`);
   lines.push('');
+  lines.push('## 实机操作入口');
+  lines.push('');
+  lines.push('- 本机预览：`npm run preview` 后打开 <http://127.0.0.1:8000/index.html>（浏览器设备模式切换 390 / 768 / 1440）。');
+  lines.push('- 每档都要进入学习图与专家图、阅读主线、打开详情、返回并切换相邻出口，不能只看截图。');
+  lines.push('');
   lines.push('## 证据核对（3 档 × 2 模式）');
   lines.push('');
   lines.push('| 档位 | 学习图 | 专家图 |');
@@ -97,7 +115,7 @@ function packet(row) {
     lines.push(`| ${vp} | ${l ? `[${l.file}](${l.rel}) ${l.kb}KB` : '**缺失**'} | ${e ? `[${e.file}](${e.rel}) ${e.kb}KB` : '**缺失**'} |`);
   }
   lines.push('');
-  lines.push(`其余过程截图：学习 ${learning.length - 3} 张 · 专家 ${expert.length - 3} 张（同目录）。`);
+  lines.push(`其余过程截图：学习 ${Math.max(0, learning.length - 3)} 张 · 专家 ${Math.max(0, expert.length - 3)} 张（同目录）。`);
   lines.push('');
   lines.push('## 科学快照');
   lines.push('');
@@ -122,6 +140,20 @@ function packet(row) {
 }
 
 function main() {
+  if (help) {
+    printHelp();
+    return;
+  }
+  if (all && pathwayArg) {
+    console.error('--all 与 --pathway 不能同时使用');
+    process.exitCode = 1;
+    return;
+  }
+  if (!all && !pathwayArg) {
+    printHelp();
+    process.exitCode = 1;
+    return;
+  }
   const rows = loadSignoffRows();
   if (!rows.length) {
     console.error('owner-signoff.md 未解析到行');
@@ -142,7 +174,7 @@ function main() {
     const index = ['# 待确认签核包索引', '',
       `生成时间：${new Date().toISOString().slice(0, 10)} · 待确认 ${targets.length} 对`, '',
       '| # | 通路 | 状态 | 清单 |', '|---:|---|---|---|',
-      ...targets.map(r => `| ${r.no} | ${r.id} ${r.title} | ${r.ownerStatus} | [${r.id}-signoff-packet.md](${path.basename(outDir)}/${r.id}-signoff-packet.md) |`)
+      ...targets.map(r => `| ${r.no} | ${r.id} ${r.title} | ${r.ownerStatus} | [${r.id}-signoff-packet.md](${r.id}-signoff-packet.md) |`)
     ].join('\n');
     fs.writeFileSync(path.join(outDir, 'index.md'), index);
     console.log('已生成', path.relative(ROOT, path.join(outDir, 'index.md')));

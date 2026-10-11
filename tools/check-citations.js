@@ -38,8 +38,10 @@ function loadRows() {
   return rows;
 }
 
+// 只把“看起来像引用写法”的片段算作可疑：前缀后必须带（半角或全角）冒号，如 KEGG:R1234、RHEA:280、PMID：123。
+// 备注正文里单纯提到 “KEGG”“KEGG find” 等说明文字不算格式错误。
 function malformedTokens(text) {
-  const tokens = String(text || '').match(/(?:RHEA|Rhea|KEGG|PMID)\s*:?[A-Za-z0-9-]*/g) || [];
+  const tokens = String(text || '').match(/(?:RHEA|Rhea|KEGG|PMID)\s*[:：][A-Za-z0-9-]*/g) || [];
   return tokens.filter(token => citations(token).length === 0);
 }
 
@@ -153,12 +155,26 @@ async function mapWithConcurrency(items, concurrency, mapper) {
   const sourceWithRefs = records.slice(0, sourceRows.length).filter(record => record.refs.length > 0);
   const finalRows = records.slice(0, sourceRows.length).filter(record => record.row['审校'] === '已终审');
   const finalWithoutRefs = finalRows.filter(record => record.refs.length === 0);
+  // 显式政策留空（备注写明理由）不算欠账；严格模式只拦截没有说明的真缺口。
+  const isPolicyBlank = record => /政策性留空/.test(String(record.row['备注'] || ''));
+  const finalPolicyBlanks = finalWithoutRefs.filter(isPolicyBlank);
+  const finalMissing = finalWithoutRefs.filter(record => !isPolicyBlank(record));
   const malformed = records.flatMap(record => record.malformed.map(token => `${record.file}: ${token}`));
   const uniqueRefs = [...new Map(records.flatMap(record => record.refs).map(ref => [`${ref.type}:${ref.id}`, ref])).values()];
 
   console.log('=== 引用检查 ===');
   console.log(`反应行 ${sourceRows.length}，带机器可识别引用 ${sourceWithRefs.length} 行`);
-  console.log(`已终审 ${finalRows.length} 行，其中 ${finalWithoutRefs.length} 行尚未在备注中补入机器可识别引用`);
+  console.log(`已终审 ${finalRows.length} 行，其中 ${finalMissing.length} 行尚未在备注中补入机器可识别引用`
+    + (finalPolicyBlanks.length ? `（另有 ${finalPolicyBlanks.length} 行显式政策留空，不计欠账）` : ''));
+  if (finalMissing.length) {
+    console.log('待补清单:');
+    finalMissing.slice(0, 20).forEach(record => console.log(`  ${record.file} ${record.row['底物'] || ''} → ${record.row['产物'] || ''}`));
+    if (finalMissing.length > 20) console.log(`  …另有 ${finalMissing.length - 20} 行`);
+  }
+  if (finalPolicyBlanks.length) {
+    console.log('政策留空:');
+    finalPolicyBlanks.forEach(record => console.log(`  ${record.file} ${record.row['底物'] || ''} → ${record.row['产物'] || ''}`));
+  }
   console.log(`唯一引用 ${uniqueRefs.length} 个：` + [...new Set(uniqueRefs.map(ref => ref.type))].join('、'));
   if (malformed.length) {
     console.log('格式可疑:');
@@ -181,7 +197,7 @@ async function mapWithConcurrency(items, concurrency, mapper) {
     console.log('当前只检查格式；使用 --online 通过官方接口验证 ID');
   }
 
-  if (malformed.length || onlineFailures.length || (STRICT && finalWithoutRefs.length)) process.exitCode = 1;
+  if (malformed.length || onlineFailures.length || (STRICT && finalMissing.length)) process.exitCode = 1;
 })().catch(error => {
   console.error(error.stack || error.message);
   process.exitCode = 1;

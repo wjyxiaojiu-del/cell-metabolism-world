@@ -19,6 +19,9 @@ jobs:
       - run: pip install -r requirements-assets.txt
       - run: npm ci
       - run: npm run test:data
+      # 引用格式门禁（离线）：格式可疑或 --strict 下的真缺口会让 CI 变红；
+      # 显式政策留空不计欠账。在线核验仍由 `node tools/check-citations.js --online` 手动执行。
+      - run: node tools/check-citations.js --strict
 
   ui-regression:
     runs-on: ubuntu-latest

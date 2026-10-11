@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const assert = require('assert/strict');
+const { spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -19,4 +20,19 @@ assert.match(packet, /`退回`/);
 assert.match(packet, /npm run audit:owner-signoff/);
 assert.match(packet, /仅本通路对/);
 for (const pathway of pathways) assert.match(packet, new RegExp(`\\b${pathway}\\b`));
+
+const generator = path.join(__dirname, '..', 'tools', 'generate-signoff-packet.js');
+const help = spawnSync(process.execPath, [generator, '--help'], { encoding: 'utf8' });
+assert.equal(help.status, 0, help.stderr);
+assert.match(help.stdout, /--pathway=<id>/);
+assert.match(help.stdout, /--all/);
+
+const noArgs = spawnSync(process.execPath, [generator], { encoding: 'utf8' });
+assert.notEqual(noArgs.status, 0);
+assert.match(noArgs.stdout, /用法/);
+
+const conflictingArgs = spawnSync(process.execPath, [generator, '--all', '--pathway=glycolysis'], { encoding: 'utf8' });
+assert.notEqual(conflictingArgs.status, 0);
+assert.match(conflictingArgs.stderr, /不能同时使用/);
+
 console.log('owner signoff packet checks passed');
