@@ -54,6 +54,20 @@
       const sceneViews = document.getElementById('sceneViews');
       const sceneHotspots = document.getElementById('sceneHotspots');
       const sceneSource = document.getElementById('sceneSource');
+      // 状态行双层语义：idle 是当前视角/加载状态；hint 是悬停目标的「点击进入」去向提示。
+      let sceneSourceIdleText = '知识关系：代谢总图人工核对 · 图像仅作空间底图';
+      function setSceneSourceIdle(text) {
+        sceneSourceIdleText = text;
+        if (!sceneSource) return;
+        delete sceneSource.dataset.hint;
+        sceneSource.textContent = text;
+      }
+      function setSceneSourceHint(text) {
+        if (!sceneSource) return;
+        if (!text) { delete sceneSource.dataset.hint; sceneSource.textContent = sceneSourceIdleText; return; }
+        sceneSource.dataset.hint = '1';
+        sceneSource.textContent = text;
+      }
       const sceneScope = document.getElementById('sceneScope');
       const sceneScopeTitle = document.getElementById('sceneScopeTitle');
       const sceneScopeBoundary = document.getElementById('sceneScopeBoundary');
@@ -238,7 +252,7 @@
       let wheelZoomEndTimer = null;
       let zoomContextTier = '';
       function visualDialogCaptionFor(imageElement) {
-        if (imageElement === sceneBackground) return sceneSource?.textContent || imageElement.alt || '当前通路图';
+        if (imageElement === sceneBackground) return sceneSourceIdleText || imageElement.alt || '当前通路图';
         const figure = imageElement.closest('figure');
         const caption = figure?.querySelector('figcaption');
         return caption?.innerText?.trim() || imageElement.alt || '通路结构图';
@@ -1719,7 +1733,7 @@
           expertPathPreviewImage.src = source;
           expertPathPreviewImage.alt = `${displayText(pathway.name)}通路总览`;
           expertPathPreviewTitle.textContent = displayText(pathway.name);
-          expertPathPreviewCaption.textContent = `${displayText(scene.title || '所属场景')} · 点击进入通路机制图`;
+          expertPathPreviewCaption.textContent = `${displayText(scene.title || '所属场景')} · 点这里进入机制图 →`;
           expertPathPreview.setAttribute('aria-label', `进入${displayText(pathway.name)}的通路机制图`);
           const routeGroup = routeGroupForPathway(pathwayId, pathway) || pathwayId;
           const pathwayReactions = reactions.filter(reaction => groupsFor(reaction).includes(pathwayId) || groupsFor(reaction).includes(routeGroup));
@@ -8274,9 +8288,16 @@
           const lane = document.createElement('button');
           lane.type = 'button'; lane.className = 'scene-route-lane'; lane.style.setProperty('--tone', tone);
           lane.dataset.pathway = pathwayId;
-          lane.setAttribute('aria-label', `查看${pathway.name}线路`);
           const childScene = atlas.scenes[pathway.scene];
           const entersChild = childScene?.parent === scene.id;
+          lane.setAttribute('aria-label', entersChild ? `进入${displayText(childScene.title)}` : `进入${displayText(pathway.name)}机制图`);
+          const laneDestination = entersChild
+            ? `点击进入：${displayText(childScene.title)}（子区室）`
+            : `点击进入：${displayText(pathway.name)} 机制图`;
+          lane.addEventListener('mouseenter', () => setSceneSourceHint(laneDestination));
+          lane.addEventListener('focus', () => setSceneSourceHint(laneDestination));
+          lane.addEventListener('mouseleave', () => setSceneSourceHint(null));
+          lane.addEventListener('blur', () => setSceneSourceHint(null));
           lane.addEventListener('click', event => {
             event.stopPropagation();
             if (entersChild) openScene(childScene.id, { preservePathway: true });
@@ -8308,8 +8329,8 @@
           });
           const caption = document.createElement('small'); caption.className = 'scene-route-caption';
           caption.textContent = entersChild
-              ? `${displayText(childScene.title)} · 进入子区室`
-            : `${displayText(pathway.compartment || scene.title || '')} · 点击查看通路详情`;
+              ? `${displayText(childScene.title)} · 点击进入子区室`
+            : `${displayText(pathway.compartment || scene.title || '')} · 点击进入${displayText(pathway.name)}机制图`;
           lane.append(head, line, caption);
           sceneRouteLanes.appendChild(lane);
         });
@@ -8447,7 +8468,7 @@
         const request = ++sceneImageRequest;
         sceneDeck.classList.add('loading');
         if (!immediate) sceneDeck.classList.add('switching');
-        sceneSource.textContent = '图像加载中 · 知识关系仍来自代谢总图人工核对';
+        setSceneSourceIdle('图像加载中 · 知识关系仍来自代谢总图人工核对');
         let settled = false;
         const finish = async () => {
           if (settled) return;
@@ -8457,7 +8478,7 @@
           sceneBackground.alt = `${scene.title} · ${label}`;
           syncSceneExpertOverlayGeometry();
           requestAnimationFrame(() => sceneDeck.classList.remove('loading', 'switching'));
-          sceneSource.textContent = `当前视角：${label} · 知识关系：代谢总图人工核对`;
+          setSceneSourceIdle(`当前视角：${label} · 知识关系：代谢总图人工核对`);
         };
         sceneBackground.onload = finish;
         sceneBackground.onerror = () => {
@@ -8465,7 +8486,7 @@
           settled = true;
           if (request !== sceneImageRequest) return;
           sceneDeck.classList.remove('loading', 'switching');
-          sceneSource.textContent = '当前场景图片未加载 · 通路入口仍可使用';
+          setSceneSourceIdle('当前场景图片未加载 · 通路入口仍可使用');
         };
         sceneBackground.src = src;
         if (sceneBackground.complete && sceneBackground.naturalWidth > 0) finish();
@@ -10064,6 +10085,11 @@
             button.addEventListener('mouseenter', () => activateAnnotation(button, annotation));
             button.addEventListener('focus', () => activateAnnotation(button, annotation));
             button.addEventListener('click', event => { event.stopPropagation(); activateAnnotation(button, annotation); });
+            // 地标是就地讲解，不跳转：去向提示明确说「查看讲解」，与带 ↗ 的跳转目标区分。
+            button.addEventListener('mouseenter', () => setSceneSourceHint(`查看讲解：${displayText(annotation.label)}（不跳转）`));
+            button.addEventListener('focus', () => setSceneSourceHint(`查看讲解：${displayText(annotation.label)}（不跳转）`));
+            button.addEventListener('mouseleave', () => setSceneSourceHint(null));
+            button.addEventListener('blur', () => setSceneSourceHint(null));
             sceneHotspots.appendChild(button);
             if (index === 0) activateAnnotation(button, annotation);
           });
@@ -10089,7 +10115,14 @@
           button.style.setProperty('--tone', expertPathwayToneById[hotspot.pathway] || hotspot.tone || scene.tone || '#338ca3');
           if (hotspot.target) button.dataset.target = hotspot.target;
           if (hotspot.pathway) button.dataset.pathway = hotspot.pathway;
-          button.setAttribute('aria-label', hotspot.target ? `进入${button.textContent}` : `查看通路：${button.textContent}`);
+          button.setAttribute('aria-label', hotspot.target ? `进入${button.textContent}` : `进入${button.textContent}机制图`);
+          const hotspotDestination = hotspot.target
+            ? `点击进入：${displayText(atlas.scenes[hotspot.target]?.title) || button.textContent}`
+            : `点击进入：${displayText(pathway?.name) || button.textContent} 机制图`;
+          button.addEventListener('mouseenter', () => setSceneSourceHint(hotspotDestination));
+          button.addEventListener('focus', () => setSceneSourceHint(hotspotDestination));
+          button.addEventListener('mouseleave', () => setSceneSourceHint(null));
+          button.addEventListener('blur', () => setSceneSourceHint(null));
           button.addEventListener('click', event => {
             event.stopPropagation();
             if (hotspot.target) openScene(hotspot.target);
@@ -10133,6 +10166,13 @@
           pathwayButton.dataset.pathwayView = pathwayId;
           pathwayButton.textContent = '当前通路图 · 放大 ⤢';
           pathwayButton.title = `${pathwayVisual[0]} · 再点一次放大`;
+          const pathwayViewHint = () => pathwayButton.classList.contains('active')
+            ? `再点一次放大：${pathwayVisual[0]} 大图`
+            : `点击进入：${pathwayVisual[0]}`;
+          pathwayButton.addEventListener('mouseenter', () => setSceneSourceHint(pathwayViewHint()));
+          pathwayButton.addEventListener('focus', () => setSceneSourceHint(pathwayViewHint()));
+          pathwayButton.addEventListener('mouseleave', () => setSceneSourceHint(null));
+          pathwayButton.addEventListener('blur', () => setSceneSourceHint(null));
           pathwayButton.addEventListener('click', event => {
             event.stopPropagation();
             if (pathwayButton.classList.contains('active')) openPathwayVisualDialog(sceneBackground);
@@ -10149,6 +10189,13 @@
             stationButton.dataset.stationView = String(index);
             stationButton.textContent = station.label;
             stationButton.title = `${station.label} · 再点一次放大`;
+            const stationHint = () => stationButton.classList.contains('active')
+              ? `再点一次放大：${station.label} 2K 图`
+              : `点击查看：${station.label}`;
+            stationButton.addEventListener('mouseenter', () => setSceneSourceHint(stationHint()));
+            stationButton.addEventListener('focus', () => setSceneSourceHint(stationHint()));
+            stationButton.addEventListener('mouseleave', () => setSceneSourceHint(null));
+            stationButton.addEventListener('blur', () => setSceneSourceHint(null));
             stationButton.addEventListener('click', event => {
               event.stopPropagation();
               if (stationButton.classList.contains('active')) openPathwayVisualDialog(sceneBackground);
@@ -10165,6 +10212,10 @@
           button.dataset.sceneView = String(index);
           button.textContent = label;
           button.addEventListener('click', event => { event.stopPropagation(); setSceneView(index); });
+          button.addEventListener('mouseenter', () => setSceneSourceHint(`切换视角：${label}`));
+          button.addEventListener('focus', () => setSceneSourceHint(`切换视角：${label}`));
+          button.addEventListener('mouseleave', () => setSceneSourceHint(null));
+          button.addEventListener('blur', () => setSceneSourceHint(null));
           sceneViews.appendChild(button);
         });
         if (!setScenePathwayVisual(pathwayId, true)) setSceneView(viewIndex, true);
