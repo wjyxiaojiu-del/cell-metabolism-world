@@ -2,8 +2,9 @@
 
 > 本文档替代 HANDOVER.md 中全部过期数字与结论，作为 2026-08-17 的权威交接快照。
 > 数据来源：工作台 `.cluster/20260815-cmw-refactor/` 八轮收敛记录（`DELIVERY/代码收敛报告.html`、subagent_01~10、plan.md、各轮 fix 脚本与 ui-*.log）+ 2026-08-16 对项目文件的逐项实测。
-> 项目位置：`D:/wangjunyi/Documents/cell Metabolism world/`（Git 已建立，当前基线 `6fd39f2`）
+> 项目位置：`E:/Project coding/cell Metabolism world/`（Git master；2026-10-24 起已配置 GitHub 私有远端备份）
 > 本地预览：`npm run preview` → `http://127.0.0.1:8000`
+> 2026-10-24 更新：项目从 D 盘迁移至 E 盘；补录第 23 轮（2026-09-06 提交 `8e7c7ac`，ETC 五站机制图与精讲全覆盖）；刷新 §1.1/§1.4/§4.3 实测数字。
 
 ---
 
@@ -13,12 +14,12 @@
 
 | 文件 | 规模 | 备注 |
 |---|---|---|
-| `index.html` | **14,515 行 / 841,274 字节（821.6 KB）** | UTF-8 **无 BOM**、行尾**纯 LF（0 个 CRLF，实测）** |
+| `index.html` | **14,980 行 / 861,403 字节（841.2 KB）** | UTF-8 **无 BOM**、行尾**纯 LF（2026-10-24 复测：git ls-files --eol 双侧 LF，0 个 CRLF）** |
 | `scene-data.js` | 533 行 / 70,099 字节 | **55 个通路定义** + 20 个场景条目（cell-atlas + 19 子场景） |
-| `data-compiled.js` | 1,288,645 字节 | 编译产物，勿手改 |
+| `data-compiled.js` | 1,299,278 字节 | 编译产物，勿手改；SHA-256 与 §1.2 记录一致 |
 | `student-step-resolver.js` | 15,660 字节 | 学习步骤解析器 |
-| `student-reaction-notes.js` | 45,945 字节 | 反应白话说明 |
-| `tests/` | **17 个 Playwright spec + helpers.js** | 72 个浏览器用例 |
+| `student-reaction-notes.js` | 65,394 字节 | 反应白话说明（第 23 轮扩至 21 通路精讲全覆盖） |
+| `tests/` | **17 个 Playwright spec + helpers.js** | 73 个浏览器用例 |
 
 ### 1.2 数据状态（与 STATS.md 一致，`generate-stats --check` 通过）
 
@@ -48,7 +49,7 @@ npm run test:data   全绿（validate → selftest → layout → compile --chec
                     → cross-consistency → student-steps → student-notes
                     → course-data（归档路径，引擎冒烟 18/18 API）
                     → expert-layout（55/55 通路）→ assets → review-helper → stats --check）
-npm run test:ui     72/72 通过（17 个 spec，约 5.5 分钟）
+npm run test:ui     73/73 通过（17 个 spec，约 6.7 分钟；2026-10-24 复测）
 npm test            通过
 ```
 
@@ -247,6 +248,14 @@ npm test            通过
 - **测试同步**：更新专家导航、布局与缺失端点容错合同；桌面、移动端、iPad、双击场景、21 通路标签、酶细节、无障碍均覆盖。
 - **验证**：`npm run test:data` 全绿（专家几何 55/55）；`npm run test:ui` **72/72** 全绿；`git diff --check` 通过。
 
+### 第 23 轮：ETC 五站机制图 + 人工精讲全覆盖（2026-09-06 提交 `8e7c7ac`，2026-10-24 补录）
+
+- 本轮为 2026-08-17 之后完成、09-06 补提交的工作，此前未列入轮次记录，交接接收时补录。
+- **ETC 五站机制图**：为呼吸链 5 个关键阶段（复合体 I → Q 与复合体 III → 细胞色素 c 与复合体 IV → H⁺ 电化学梯度 → ATP 合酶）生成统一机位的 2K 机制图（`etc-step-1..5-*.webp`，规格见根目录 `ETC-2K-图片生成说明.md`），接入 `student-reaction-notes.js` 的 etc 通路反应精讲并由 index.html 渲染；设计 QA 记录见根目录 `design-qa.md`。
+- **人工精讲全覆盖**：`student-reaction-notes.js` 精讲覆盖 113 → 172（21 条核心通路全覆盖），`tools/check-student-notes.js` 门禁从 14 条硬编码清单改为全部 21 条 `corePathways`，覆盖下限改为动态 total。
+- **测试同步**：新增「ETC lesson reveals the respiratory chain in five causal stations」用例，浏览器回归 72 → 73；`.gitignore` 同步扩充再生目录。
+- 验证：`npm run test:ui` **73/73** 全绿（2026-10-24 复测）。
+
 ---
 
 ## 3. 关键架构决策与约束（必须遵守）
@@ -329,8 +338,7 @@ npm test            通过
 
 ### 4.3 再生目录清理约定
 
-- `.playwright-cli/`（当前约 54 项，浏览器自动化每次运行再生）、`output/`（36MB 测试产物）、`test-results/` 会持续再生。
-- 建议：扩充 .gitignore（当前只覆盖 5 项）+ 定期清理约定，否则状态回归。
+- `.playwright-cli/`、`output/`（测试产物）、`test-results/` 会持续再生；`.gitignore` 已于第 23 轮（2026-09-06）扩充覆盖三者（另含 node_modules、日志、大资产备份目录）。
 
 ### 4.4 工程债
 
@@ -379,7 +387,7 @@ C:\Users\wangjunyi\.openclaw-autoclaw\workspace\.cluster\20260815-cmw-refactor\
 - 学习模式仍能从专题进入通路，再进入反应详情 ✓
 - 专家地图没有隐藏原始细胞器语境 ✓
 - 单通路布局问题没有污染全局总览布局 ✓
-- `npm run test:data` 与 `npm run test:ui` 全绿 ✓（72/72）
+- `npm run test:data` 与 `npm run test:ui` 全绿 ✓（73/73；2026-10-24 复测）
 - 新增科学内容有数据来源或明确的待审校状态 ✓
 
-**一句话结论**：封面与学习模式保持稳定，专家地图已重构为“完整细胞图片 + 空间锚点 + 分组通路索引 + 单通路聚焦”的工作流；数据、55 条专家几何和 72 个浏览器测试全部通过，当前主要遗留是 54 条科学审校记录与再生目录清理约定。
+**一句话结论**：封面与学习模式保持稳定，专家地图已重构为“完整细胞图片 + 空间锚点 + 分组通路索引 + 单通路聚焦”的工作流，etc 通路另有五站机制图精讲；数据、55 条专家几何和 73 个浏览器测试全部通过，当前主要遗留是 54 条科学审校记录。
