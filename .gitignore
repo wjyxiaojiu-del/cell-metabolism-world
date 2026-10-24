@@ -25,3 +25,8 @@ cell-metabolism-assets/pathway-icons/pilots/
 cell-metabolism-assets/pathway-icons/rejected/
 cell-metabolism-assets/pathway-icons/replacements/
 cell-metabolism-assets/pathway-learning/source/
+
+# 历史备份与验收旧截图：只保存在本地磁盘，不入库（与原 E 盘工作副本约定一致）
+delivery/backups/
+delivery/staging/
+docs/archive/

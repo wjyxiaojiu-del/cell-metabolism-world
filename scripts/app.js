@@ -247,7 +247,7 @@
         const stage = pathwayVisualDialog.querySelector('.pathway-visual-dialog-stage');
         canvas.querySelector('svg')?.remove();
         const sourceOverlay = imageElement === sceneBackground
-          ? (sceneDeck.classList.contains('pathway-visual-active') ? sceneExpertOverlay : null)
+          ? (sceneDeck.classList.contains('pathway-visual-active') && !sceneDeck.classList.contains('pathway-station-active') ? sceneExpertOverlay : null)
           : imageElement.closest('figure')?.querySelector('svg:not([hidden])');
         const hasOverlay = Boolean(sourceOverlay && !sourceOverlay.hidden && sourceOverlay.querySelector('text'));
         pathwayVisualDialog.classList.toggle('has-mechanism', hasOverlay);
@@ -1689,6 +1689,17 @@
           })
           .filter(Boolean)
       );
+      // ETC 五站机制图（2K 无文字图版，生成规格见 docs/etc-station-plates-2k.md）：
+      // 呼吸链按因果顺序分五步讲解，在机制页视角条内切换，再点一次放大。
+      const expertPathwayStationPlates = {
+        etc: [
+          { label: '站 1 · 复合体 I', src: 'cell-metabolism-assets/optimized/etc-step-1-complex-i.webp', caption: 'NADH 在基质侧把两个电子交给复合体 I，电子沿复合体传向膜内辅酶 Q，同时 4 个 H⁺ 被泵到膜间隙侧。' },
+          { label: '站 2 · 复合体 III', src: 'cell-metabolism-assets/optimized/etc-step-2-complex-iii.webp', caption: '还原型辅酶 Q 把电子送入复合体 III，经 Q 循环分流后交给膜间隙侧的细胞色素 c，净转移 4 个 H⁺ 到膜间隙。' },
+          { label: '站 3 · 复合体 IV', src: 'cell-metabolism-assets/optimized/etc-step-3-complex-iv.webp', caption: '细胞色素 c 携带电子靠近复合体 IV，电子汇合后交给氧，氧结合基质侧质子生成水，同时泵出 2 个 H⁺。' },
+          { label: '站 4 · H⁺ 梯度', src: 'cell-metabolism-assets/optimized/etc-step-4-proton-gradient.webp', caption: '膜间隙侧聚集更多质子，浓度差与电位差共同构成跨内膜电化学梯度，储存呼吸链释出的能量。' },
+          { label: '站 5 · ATP 合酶', src: 'cell-metabolism-assets/optimized/etc-step-5-atp-synthase.webp', caption: 'H⁺ 经 F₀ 通道回流基质侧，F₁ 利用质子动力势把 ADP 与 Pi 合成 ATP。' }
+        ]
+      };
 
       function updateExpertPathPreview(pathwayId) {
         if (!expertPathPreview || !expertPathPreviewImage) return;
@@ -8495,7 +8506,8 @@
       function setSceneView(index, immediate = false) {
         const scene = atlas.scenes[currentSceneId];
         if (!scene || !scene.views?.length) return;
-        sceneDeck.classList.remove('pathway-visual-active', 'pathway-reaction-active');
+        sceneDeck.classList.remove('pathway-visual-active', 'pathway-reaction-active', 'pathway-station-active');
+        delete sceneDeck.dataset.station;
         sceneDeck.dataset.sceneLevel = 'explore';
         delete sceneDeck.dataset.pathway;
         delete sceneDeck.dataset.reaction;
@@ -8517,7 +8529,8 @@
         const scene = atlas.scenes[currentSceneId];
         const pathway = atlas.pathways[pathwayId];
         if (!scene || !pathway || !pathwayBelongsToScene(pathwayId, currentSceneId)) return false;
-        sceneDeck.classList.remove('pathway-reaction-active');
+        sceneDeck.classList.remove('pathway-reaction-active', 'pathway-station-active');
+        delete sceneDeck.dataset.station;
         sceneDeck.dataset.sceneLevel = '3';
         sceneDeck.dataset.pathway = pathwayId;
         delete sceneDeck.dataset.reaction;
@@ -8541,9 +8554,40 @@
         return true;
       }
 
+      // 五站机制图：在通路机制页内切换独立 2K 图版；反应叠加与热点由 CSS 隐藏，图版自明。
+      function setSceneStationVisual(index) {
+        const scene = atlas.scenes[currentSceneId];
+        const pathwayId = sceneDeck.dataset.pathway;
+        const stations = pathwayId ? expertPathwayStationPlates[pathwayId] : null;
+        const station = Array.isArray(stations) ? stations[index] : null;
+        if (!scene || !station) return false;
+        sceneDeck.classList.remove('pathway-reaction-active');
+        sceneDeck.classList.add('pathway-visual-active', 'pathway-station-active');
+        sceneDeck.dataset.sceneLevel = '3';
+        sceneDeck.dataset.station = String(index);
+        if (sceneLevelHint) sceneLevelHint.textContent = `五站机制图 · ${station.label}`;
+        sceneTitle.textContent = station.label;
+        const compartment = displayText(atlas.pathways[pathwayId]?.compartment || scene.title || '');
+        sceneSubtitle.textContent = compartment ? `通路机制 · ${compartment}` : '通路机制';
+        sceneDescription.textContent = station.caption;
+        sceneViews.querySelectorAll('.scene-view').forEach(button => {
+          button.classList.toggle('active', button.dataset.stationView === String(index));
+        });
+        sceneBackground.tabIndex = 0;
+        sceneBackground.setAttribute('role', 'button');
+        sceneBackground.setAttribute('aria-label', `放大查看${station.label}机制图`);
+        loadSceneVisual(scene, station.label, station.src);
+        return true;
+      }
+
       function updateSceneBackLabel() {
         if (!sceneBack) return;
         if (sceneDeck.classList.contains('pathway-reaction-active')) {
+          sceneBack.textContent = '← 返回通路机制图';
+          sceneBack.setAttribute('aria-label', '返回当前通路的机制图');
+          return;
+        }
+        if (sceneDeck.classList.contains('pathway-station-active')) {
           sceneBack.textContent = '← 返回通路机制图';
           sceneBack.setAttribute('aria-label', '返回当前通路的机制图');
           return;
@@ -10078,6 +10122,23 @@
           });
           sceneViews.appendChild(pathwayButton);
         }
+        const stationPlates = pathwayVisual ? expertPathwayStationPlates[pathwayId] : null;
+        if (stationPlates) {
+          stationPlates.forEach((station, index) => {
+            const stationButton = document.createElement('button');
+            stationButton.className = 'scene-view scene-station-view';
+            stationButton.type = 'button';
+            stationButton.dataset.stationView = String(index);
+            stationButton.textContent = station.label;
+            stationButton.title = `${station.label} · 再点一次放大`;
+            stationButton.addEventListener('click', event => {
+              event.stopPropagation();
+              if (stationButton.classList.contains('active')) openPathwayVisualDialog(sceneBackground);
+              else setSceneStationVisual(index);
+            });
+            sceneViews.appendChild(stationButton);
+          });
+        }
         scene.views.forEach((entry, index) => {
           const { label } = sceneViewEntry(scene, index);
           const button = document.createElement('button');
@@ -10130,6 +10191,13 @@
         if (sceneDeck.classList.contains('pathway-reaction-active')) {
           closeSceneReactionDetail();
           return;
+        }
+        if (sceneDeck.classList.contains('pathway-station-active')) {
+          const stationPathwayId = sceneDeck.dataset.pathway;
+          if (stationPathwayId && setScenePathwayVisual(stationPathwayId)) {
+            updateSceneBackLabel();
+            return;
+          }
         }
         // 通路机制图返回第 2 层通路总览；区室结构只通过明确的自由探索入口进入。
         if (sceneDeck.classList.contains('pathway-visual-active')) {
