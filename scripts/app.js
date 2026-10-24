@@ -190,6 +190,10 @@
       const enzymeProfileKind = document.getElementById('enzymeProfileKind');
       const enzymeProfileSummary = document.getElementById('enzymeProfileSummary');
       const enzymeProfileMeta = document.getElementById('enzymeProfileMeta');
+      const reactionNotePanel = document.getElementById('inspectorReactionNote');
+      const reactionNoteDoing = document.getElementById('reactionNoteDoing');
+      const reactionNoteWhy = document.getElementById('reactionNoteWhy');
+      const reactionNoteHook = document.getElementById('reactionNoteHook');
       const expertMapRegions = [
         svg,
         ...document.querySelectorAll('.overview-hud, .context, .status, .zoom-tools, .pathbar')
@@ -7866,6 +7870,7 @@
 
       function clearSelection() {
         selected = null; selectedType = null; inspector.classList.remove('open');
+        if (reactionNotePanel) reactionNotePanel.hidden = true;
         setRegionHidden(inspector, true);
         document.body.classList.remove('enzyme-visible', 'selection-active', 'inspector-open', 'entity-focus', 'reaction-focus', 'organelle-focus', 'pathway-focus');
         document.querySelectorAll('.route.active,.route-aura.active,.entity.active,.enzyme.active,.organelle-hit.active,.scene-hotspot.active').forEach(el => el.classList.remove('active'));
@@ -8013,6 +8018,18 @@
         const secondary = item.compartment || (/[㐀-鿿]/.test(item.latin || '') ? item.latin : '');
         document.getElementById('inspectorLatin').textContent = displayText(secondary);
         document.getElementById('inspectorInfo').textContent = displayText(item.info || '');
+        // 反应白话精讲：按「通路|起点>终点」指纹查表，仅反应详情展示；无精讲时整块隐藏。
+        const reactionNote = selectedType === 'reaction' && item.pathwayId && item.from && item.to
+          ? (window.STUDENT_REACTION_NOTES || {})[`${item.pathwayId}|${item.from}>${item.to}`]
+          : null;
+        if (reactionNotePanel) {
+          reactionNotePanel.hidden = !reactionNote;
+          if (reactionNote) {
+            reactionNoteDoing.textContent = displayText(reactionNote.doing || '');
+            reactionNoteWhy.textContent = displayText(reactionNote.why || '');
+            reactionNoteHook.textContent = displayText(reactionNote.hook || '');
+          }
+        }
         const previewScene = selectedType === 'pathway' && item.sceneId ? atlas.scenes[item.sceneId] : null;
         const previewView = previewScene?.views?.[0] || null;
         const pathwayOverride = item.pathwayId ? expertPathwayVisualOverrides[item.pathwayId] : null;
@@ -8377,6 +8394,7 @@
         sceneDeck.classList.remove('pathway-reaction-active');
         delete sceneDeck.dataset.reaction;
         sceneDeck.dataset.sceneLevel = '3';
+        if (reactionNotePanel) reactionNotePanel.hidden = true;
         inspector.classList.remove('open');
         document.body.classList.remove('inspector-open', 'reaction-focus', 'entity-focus', 'enzyme-visible');
         setRegionHidden(inspector, true);

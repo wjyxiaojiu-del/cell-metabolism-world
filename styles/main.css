@@ -8928,3 +8928,12 @@ body.expert-map .path-filter .path-filter-icon {
 /* ── ETC 五站机制图：站视图展示独立 2K 图版，反应叠加与热点按 CSS 隐藏防止错位；保留布局占位不影响几何同步 ── */
 .scene-deck.pathway-station-active .scene-expert-overlay,
 .scene-deck.pathway-station-active .scene-map { opacity: 0; pointer-events: none; }
+
+/* ── 反应详情白话精讲块：与酶简介卡同级、同语言；三条行式布局 ── */
+.reaction-note { margin-top: 15px; padding: 12px 13px; border: 1px solid #e3e2d4; border-left: 3px solid #b0954f; border-radius: 9px; background: #fdfbf4; }
+.reaction-note[hidden] { display: none; }
+.reaction-note-head span { color: #a8863d; font-size: 9px; font-weight: 900; letter-spacing: .12em; }
+.reaction-note-row { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 8px; margin: 0; font-size: 11px; line-height: 1.65; }
+.reaction-note-row + .reaction-note-row { margin-top: 7px; }
+.reaction-note-row strong { color: #a8863d; font-weight: 750; }
+.reaction-note-row span { color: #4d5a4f; }
